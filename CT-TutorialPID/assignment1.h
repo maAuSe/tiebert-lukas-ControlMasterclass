@@ -15,11 +15,8 @@
 class Robot : public MECOtron {
   private:
     // Class variables
-    float x[2];
-    float eA[2];   // We can, for example, remember the last two velocities of wheel A in a vector (float array) x
-    float eB[2];
-    float uA[2];
-    float uB[2];
+    unsigned long startTime;
+
   public:
     // Constructor
     Robot() { }

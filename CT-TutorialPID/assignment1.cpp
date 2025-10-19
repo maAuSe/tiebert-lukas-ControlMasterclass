@@ -30,26 +30,25 @@ void Robot::control() {
   if(controlEnabled()) {
     // Fill your control law here to conditionally update the motor voltage...
     unsigned long elapsed = millis() - startTime;
-    unsigned long cycleTime = 14000;  // Total cycle time: 14 seconds
-    unsigned long timeInCycle = elapsed % cycleTime;  // Position within current cycle
+    unsigned long cycleTime = elapsed % 14000;  // 14 second cycle that repeats
     float voltage = 0.0;
     
-    if (timeInCycle < 2000) {
-      voltage = 4.0;  // 0-2s: 4V
-    } else if (timeInCycle < 3000) {
-      voltage = 0.0;  // 2-3s: 0V
-    } else if (timeInCycle < 5000) {
-      voltage = 2.0;  // 3-5s: 2V
-    } else if (timeInCycle < 7000) {
-      voltage = 0.0;  // 5-7s: 0V
-    } else if (timeInCycle < 9000) {
-      voltage = -4.0; // 7-9s: -4V
-    } else if (timeInCycle < 10000) {
-      voltage = 0.0;  // 9-10s: 0V
-    } else if (timeInCycle < 12000) {
-      voltage = -2.0; // 10-12s: -2V
+    if (cycleTime < 2000) {
+      voltage = 4.0;   // 0-2s: +4V
+    } else if (cycleTime < 3000) {
+      voltage = 0.0;   // 2-3s: 0V
+    } else if (cycleTime < 5000) {
+      voltage = 2.0;   // 3-5s: +2V
+    } else if (cycleTime < 7000) {
+      voltage = 0.0;   // 5-7s: 0V
+    } else if (cycleTime < 9000) {
+      voltage = -4.0;  // 7-9s: -4V
+    } else if (cycleTime < 10000) {
+      voltage = 0.0;   // 9-10s: 0V
+    } else if (cycleTime < 12000) {
+      voltage = -2.0;  // 10-12s: -2V
     } else {
-      voltage = 0.0;  // 12-14s: 0V (2 second wait before restart)
+      voltage = 0.0;   // 12-14s: 0V (2s wait before cycle restarts)
     }
 
     LED1(ON);

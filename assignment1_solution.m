@@ -3,41 +3,50 @@ close all
 clear global
 clc
 
-m = 3;  % [kg]
-c = 12; % [Ns/m] 
-k = 300; % [N/m]
-sys_c = tf(1,[m c k]);
+%m = 3;  % [kg]
+%c = 12; % [Ns/m] 
+%k = 300; % [N/m]
+%sys_c = tf(1,[m c k]);
 
 % % alternative way to construct transfer function
 % s = tf('s');
 % sys_c = 1/(m*s^2 + c*s + k);
 
-p = pole(sys_c)
-fs = ceil(20*imag(p(1)/(2*pi)));
-Ts = 1/fs;
-sys_d = c2d(sys_c,Ts,'zoh');
+%p = pole(sys_c)
+%fs = ceil(20*imag(p(1)/(2*pi)));
+%Ts = 1/fs;
+%sys_d = c2d(sys_c,Ts,'zoh');
 
 %% 2.1.2 Loading, plotting and noise detection
 % -------------------------------------------
 
 % plot time domain data
-load time_data_2024 % F_t, x_t, t and num_periods
-N = length(x_t);
+load assignment1_data 
+N = length(timeVector);
+fs = 100; % sampling frequency [Hz]
+Ts = 1/fs; % sampling period [s]
+timePeriod = 14; % time period of cycle [s]
 
-points_per_period = N/num_periods;
+points_per_period = timePeriod/Ts;
+num_periods = N/points_per_period;
 
 figure(1),hold on
 sgtitle('Measured data in time domain')
-subplot(2,1,1),plot(t, x_t, 'LineWidth', 1)
+subplot(2,1,1),plot(timeVector, omegaA, 'LineWidth', 1)
 grid on
 axis tight
 xlabel('t [s]')
-ylabel('x [m]')
-subplot(2,1,2), plot(t, F_t, 'LineWidth', 1)
+ylabel('omegaA [rad/s]')
+subplot(2,1,2),plot(timeVector, omegaB, 'LineWidth', 1)
 grid on
 axis tight
 xlabel('t [s]')
-ylabel('F [N]')
+ylabel('omegaB [rad/s]')
+subplot(2,1,3), plot(timeVector, voltage, 'LineWidth', 1)
+grid on
+axis tight
+xlabel('t [s]')
+ylabel('voltage [V]')
 
 
 %% overlap the plot for different periods to appreciate the noise

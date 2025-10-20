@@ -3,19 +3,6 @@ close all
 clear global
 clc
 
-%m = 3;  % [kg]
-%c = 12; % [Ns/m] 
-%k = 300; % [N/m]
-%sys_c = tf(1,[m c k]);
-
-% % alternative way to construct transfer function
-% s = tf('s');
-% sys_c = 1/(m*s^2 + c*s + k);
-
-%p = pole(sys_c)
-%fs = ceil(20*imag(p(1)/(2*pi)));
-%Ts = 1/fs;
-%sys_d = c2d(sys_c,Ts,'zoh');
 
 %% 2.1.2 Loading, plotting and noise detection
 % -------------------------------------------
@@ -30,6 +17,9 @@ timePeriod = 14; % time period of cycle [s]
 points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 1: input voltage plotted over time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1),hold on
 sgtitle('Measured input data in time domain')
 plot(timeVector, voltage, 'LineWidth', 1)
@@ -39,6 +29,9 @@ xlabel('t [s]')
 ylabel('voltage [V]')
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 2: outputs omegaA,omegaB plotted over time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(2),hold on
 sgtitle('Measured output data in time domain')
 
@@ -73,8 +66,13 @@ domegaB_matrix = omegaB_matrix - repmat(omegaB_mean,1,num_periods);
 dvoltage_matrix = voltage_matrix - repmat(voltage_mean,1,num_periods);
 
 % plotting some interesting comparisons
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 3: omegaA,omegaB,voltage noise plotted over 1 period 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(3),hold on
 sgtitle('Comparison across periods to assess noise')
+
 subplot(2,3,1),plot(timeVector(1:points_per_period), omegaA_matrix, 'LineWidth', 1) 
 grid on
 axis tight
@@ -122,23 +120,28 @@ b = omegaA(3:end);
 A = [-omegaA(2:end-1), -omegaA(1:end-2), voltage(2:end-1), voltage(1:end-2)];
 
 % perform the fit to get the desired parameters
-theta = A\b;
+theta = A\b
 % theta = [a1 a2 b1 b2]'
 
 % build the identified model
-Num1 = [0, theta(3), theta(4)];
-Den1 = [1, theta(1) theta(2)];
-sys_d1 = tf(Num1, Den1, Ts);
+%Num1 = [0, theta(3), theta(4)];
+%Den1 = [1, theta(1) theta(2)];
+%sys_d1 = tf(Num1, Den1, Ts)
 
 % % alternative way to construct transfer function
-% z = tf('z', Ts);
-% sys_d1 = (theta(3)*z + theta(4))/(z^3 + theta(1)*z^2 + theta(2)*z);
+z = tf('z', Ts);
+sys_d1 = (theta(3)*z + theta(4))/(z^3 + theta(1)*z^2 + theta(2)*z);
 
 % plot the results
-omegaA_model = lsim(sys_d1,omegaA,timeVector);
 
-timeVectorToPlot = 1:4200;
+timeVectorToPlot = 0.01:0.01:42; % IN SECONDS (total time period = 42 s --- sampling period = 0.01 s)
 
+omegaA_model = lsim(sys_d1,voltage,timeVectorToPlot);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 4: omegaA experiments vs. model %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(4), hold on
 sgtitle('LLS without low-pass filtering')
 
@@ -152,7 +155,7 @@ axis tight
 subplot(2,1,2),plot(timeVectorToPlot,omegaA-omegaA_model)
 legend('error')
 xlabel('time [s]')
-ylabel('omegaA [rad/s]')
+ylabel('omegaA-error [rad/s]')
 axis tight
 
 % analyse step response of model in detail: calculate from model and
@@ -164,75 +167,97 @@ axis tight
 
 % transform model back to CT
 sys_c1 = d2c(sys_d1);
-pc1 = pole(sys_c1);
-wd1 = abs(imag(pc1(1)));
+pc1 = pole(sys_c1); % poles of the CT system 
+wd1 = abs(imag(pc1(1))); 
 
 [wn1,zeta1] = damp(sys_c1);
-figure(103)
-step(sys_d1), grid
 
-figure(1003)
-plot(timeVectorToPlot(1:points_per_period),omegaA_mean)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 5: step response of the CT system %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(5)
+step(sys_d1), grid  
+xlabel('time')
+ylabel('step response [-]')
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 6: omegaA averaged over the periods %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(6) 
+plot(timeVectorToPlot(1:points_per_period),omegaA_mean) 
 xlabel('time [s]')
-ylabel('omegaA [rad/s]')
+ylabel('omegaA-mean [rad/s]')
 grid
 
 % relative peak value: value of response at peak/steady state value
-y_peak = 0.00439/0.00334; %obtained from figure(103)
-Mp1 = y_peak-1
-Mp1_model = exp(-pi*zeta1(1)/sqrt(1-zeta1(1)^2)) %formula slide 10, C6
-Mp1_measurement = 0.005081/0.003351 - 1  %obtained from figure(1003)
+%y_peak = 0.00439/0.00334;     % obtained from figure(5)
+%Mp1 = y_peak-1
+Mp1_model = exp(-pi*zeta1(1)/sqrt(1-zeta1(1)^2)); % formula slide 10, C6
+%Mp1_measurement = 0.005081/0.003351 - 1  % obtained from figure(6)
 
 % peak time
-tp1 = 0.312 %obtained from figure(103)
-tp1_model = pi/wd1 %formula slide 9, C6
-tp1_measurement = 8.125 - 7.813
- %obtained from figure(1003)
+%tp1 = 0.312    % obtained from figure(5)
+tp1_model = pi/wd1;      % formula slide 9, C6
+%tp1_measurement = 8.125 - 7.813   % obtained from figure(6)
 
 % steady state value
 [Numc1, Denc1] = tfdata(sys_c1);
 Numc1 = Numc1{1};
 Denc1 = Denc1{1};
-y_ss1_model = Numc1(end)/Denc1(end) %DC gain of CT model (evaluating transfer function at s=0) 
-y_ss1 = 0.00334 %obtained from figure(103)
-y_ss1_measurement = 0.003351 %obtained from figure(1003)
+y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer function at s=0) 
+%y_ss1 = 0.00334 %obtained from figure(5)
+%y_ss1_measurement = 0.003351 %obtained from figure(6)
 
 
 %% 2.1.4 LLS with low-pass filter applied to the input and output data
 % -------------------------------------------------------------------
 % define a low(band)-pass filter
-pd1 = pole(sys_d1);
-pc1 = log(pd1)/Ts;
-interesting_frequency = (imag(pc1(1))/(2*pi));
-cutoff = 1.5*interesting_frequency;
+pd1 = pole(sys_d1)
+pc1 = log(pd1)/Ts
+interesting_frequency = (imag(pc1(1))/(2*pi))
+cutoff = 1.5*interesting_frequency
 [B_filt,A_filt] = butter(6, cutoff/(fs/2));
 
 % apply the filter to both input and output
-x_filt = filtfilt(B_filt, A_filt, x_t); 
-F_filt = filtfilt(B_filt, A_filt, F_t);
+omegaA_filt = filtfilt(B_filt, A_filt, omegaA); 
+voltage_filt = filtfilt(B_filt, A_filt, voltage);
 
 % repeat the identification
-b = x_filt(3:end);
-A = [-x_filt(2:end-1), -x_filt(1:end-2), F_filt(2:end-1), F_filt(1:end-2)];
-theta = A\b;
+b = omegaA_filt(3:end);
+A = [-omegaA_filt(2:end-1), -omegaA_filt(1:end-2), voltage_filt(2:end-1), voltage_filt(1:end-2)];
+
+% H(z) = (b1 z + b2)/(z^3 + a1 z^2 + a2 z)
+
+theta = A\b; % theta = [a1 a2 b1 b2]'
+
 Num2 = [theta(3), theta(4)];
 Den2 = [1, theta(1) theta(2)];
 sys_d2 = tf(Num2, Den2, Ts);
 
 % plot results
-x2 = lsim(sys_d2,F_t,t);
-figure(4), hold on
+
+omegaA_model2 = lsim(sys_d2,voltage,timeVectorToPlot);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 7: omegaA experiments vs. filtered model %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(7), hold on
 sgtitle('LLS with low-pass filtering')
+
 subplot(2,1,1)
-plot(t,[x_t x2]);
+plot(t,[omegaA omegaA_model2]);
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight
-ylabel('displacement [m]')
-subplot(2,1,2),plot(t,x_t-x2)
+ylabel('omegaA [rad/s]')
+
+subplot(2,1,2),plot(timeVectorToPlot,omegaA-omegaA_model2)
 legend('error')
 xlabel('time [s]')
-ylabel('displacement [m]')
+ylabel('omegaA-filtered-error [rad/s]')
 axis tight
 
 % analyse step response of model in detail: calculate from model and
@@ -247,28 +272,28 @@ sys_c2 = d2c(sys_d2);
 pc2 = pole(sys_c2);
 wd2 = abs(imag(pc2(2)));
 
-[wn2,zeta2]=damp(sys_c2);
-figure(104)
+[wn2,zeta2]=damp(sys_c2)
+figure(8)
 step(sys_d2);grid
 
 % relative peak value: value of response at peak/steady state value
-y_peak = 0.00508/0.00333; %obtained from figure(104)
-Mp = y_peak-1
+%y_peak = 0.00508/0.00333; %obtained from figure(8)
+%Mp = y_peak-1
 Mp_model = exp(-pi*zeta2(1)/sqrt(1-zeta2(1)^2)) %formula slide 10, C6
-Mp_measurement = 0.005081/0.003351 - 1  %obtained from figure(1003)
+%Mp_measurement = 0.005081/0.003351 - 1  %obtained from figure(6)
 
 % peak time
-tp = 0.313 %obtained from figure(104)
+%tp = 0.313 %obtained from figure(8)
 tp_model = pi/wd2 %formula slide 9, C6
-tp_measurement = 8.125 - 7.813 %obtained from figure(1003)
+%tp_measurement = 8.125 - 7.813 %obtained from figure(6)
 
 % steady state value
 [Numc2, Denc2] = tfdata(sys_c2);
 Numc2 = Numc2{1};
 Denc2 = Denc2{1};
 y_ss_model = Numc2(end)/Denc2(end) %DC gain of CT model (evaluating transfer function at s=0) 
-y_ss = 0.00333 %obtained from figure(104)
-y_ss_measurement = 0.003351 %obtained from figure(1003)
+%y_ss = 0.00333 %obtained from figure(8)
+%y_ss_measurement = 0.003351 %obtained from figure(6)
 
 %% 2.1.4 LLS applied to the averaged output data
 % -------------------------------------------------------------------

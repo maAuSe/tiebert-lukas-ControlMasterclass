@@ -3,11 +3,11 @@ labels = strsplit(fileread(csvfile), '\n'); % Split file in lines
 labels = strsplit(labels{:, 2}, ', '); % Split and fetch the labels (they are in line 2 of every reco
 data = dlmread(csvfile, ',', 2, 0); % Data follows the labels
 
-timeVector= data(:,1);
-omegaA= data(:,3);
-omegaB= data(:,4);
+timeVector= data(368:4565,1);
+omegaA= data(368:4565,3);
+omegaB= data(368:4565,4);
 
-voltage= data(:,5);
+voltage= data(368:4565,5);
 
 
 

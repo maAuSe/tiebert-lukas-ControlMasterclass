@@ -66,11 +66,11 @@ void Robot::control() {
   }
 
 //GET POSITION 
- float encA_value = getPositionMotorA();
- writeValue(3, encA_value); // write the encoder value to channel 3
+ // float encA_value = getPositionMotorA();
+ // writeValue(3, encA_value); // write the encoder value to channel 3
 
- float frontDISTANCE = getFrontDistance();
- writeValue(4, frontDISTANCE); // write the encoder value to channel 3
+ // float frontDISTANCE = getFrontDistance();
+ // writeValue(4, frontDISTANCE); // write the encoder value to channel 3
 
 
   float va = getSpeedMotorA();    // Get the wheel speed of motor A (in radians/second)

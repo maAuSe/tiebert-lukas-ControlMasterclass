@@ -1,4 +1,4 @@
-csvfile = 'C:\Users\campa\QRCrecords\log_gpio_20-10-2025_14-26-20.csv';
+csvfile = 'log_gpio_20-10-2025_14-26-20.csv';
 labels = strsplit(fileread(csvfile), '\n'); % Split file in lines
 labels = strsplit(labels{:, 2}, ', '); % Split and fetch the labels (they are in line 2 of every reco
 data = dlmread(csvfile, ',', 2, 0); % Data follows the labels

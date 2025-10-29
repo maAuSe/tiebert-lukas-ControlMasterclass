@@ -217,8 +217,24 @@ y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer 
 % define a low(band)-pass filter
 pd1 = pole(sys_d1)
 pc1 = log(pd1)/Ts
+
+% Display the frequencies present in the system
+fprintf('\n=== FREQUENCY ANALYSIS ===\n');
+fprintf('Discrete poles: \n');
+disp(pd1);
+fprintf('Continuous poles: \n');
+disp(pc1);
+fprintf('Frequencies from poles:\n');
+for i = 1:length(pc1)
+    freq_i = abs(imag(pc1(i))/(2*pi));
+    fprintf('  Pole %d: %.4f Hz\n', i, freq_i);
+end
+
 interesting_frequency = (imag(pc1(3))/(2*pi))
-cutoff = 0.99*interesting_frequency  %was 1.5*interesting_frequency
+fprintf('Selected interesting frequency: %.4f Hz\n', interesting_frequency);
+
+cutoff = 0.90*interesting_frequency;  %was 1.5*interesting_frequency
+fprintf('Cutoff frequency for low-pass filter: %.4f Hz\n', cutoff);
 [B_filt,A_filt] = butter(6, cutoff/(fs/2));
 
 % apply the filter to both input and output
@@ -249,7 +265,7 @@ figure(7), hold on
 sgtitle('LLS with low-pass filtering')
 
 subplot(2,1,1)
-plot(t,[omegaA omegaA_model2]);
+plot(timeVectorToPlot,[omegaA omegaA_model2]);
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight

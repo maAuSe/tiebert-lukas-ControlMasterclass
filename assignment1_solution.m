@@ -134,7 +134,7 @@ sys_d1 = (theta(3)*z + theta(4))/(z^3 + theta(1)*z^2 + theta(2)*z);
 
 % plot the results
 
-timeVectorToPlot = 0.01:0.01:42; % IN SECONDS (total time period = 42 s --- sampling period = 0.01 s)
+timeVectorToPlot = 0.01:0.01:28; % IN SECONDS (total time period = 42 s --- sampling period = 0.01 s)
 
 omegaA_model = lsim(sys_d1,voltage,timeVectorToPlot);
 
@@ -218,7 +218,7 @@ y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer 
 pd1 = pole(sys_d1)
 pc1 = log(pd1)/Ts
 interesting_frequency = (imag(pc1(3))/(2*pi))
-cutoff = 1*interesting_frequency  %was 1.5*interesting_frequency
+cutoff = 0.99*interesting_frequency  %was 1.5*interesting_frequency
 [B_filt,A_filt] = butter(6, cutoff/(fs/2));
 
 % apply the filter to both input and output

@@ -34,19 +34,19 @@ void Robot::control() {
     float voltage = 0.0;
     
     if (cycleTime < 2000) {
-      voltage = 4.0;   // 0-2s: +4V
+      voltage = 6.0;   // 0-2s: +4V
     } else if (cycleTime < 3000) {
       voltage = 0.0;   // 2-3s: 0V
     } else if (cycleTime < 5000) {
-      voltage = 2.0;   // 3-5s: +2V
+      voltage = 5.0;   // 3-5s: +2V
     } else if (cycleTime < 7000) {
       voltage = 0.0;   // 5-7s: 0V
     } else if (cycleTime < 9000) {
-      voltage = -4.0;  // 7-9s: -4V
+      voltage = -6.0;  // 7-9s: -4V
     } else if (cycleTime < 10000) {
       voltage = 0.0;   // 9-10s: 0V
     } else if (cycleTime < 12000) {
-      voltage = -2.0;  // 10-12s: -2V
+      voltage = -5.0;  // 10-12s: -2V
     } else {
       voltage = 0.0;   // 12-14s: 0V (2s wait before cycle restarts)
     }

@@ -166,7 +166,8 @@ axis tight
 % measurement
 
 % transform model back to CT
-sys_c1 = d2c(sys_d1)
+% Use 'tustin' method because sys_d1 has a pole at z=0
+sys_c1 = d2c(sys_d1, 'tustin')
 pc1 = pole(sys_c1) % poles of the CT system 
 wd1 = abs(imag(pc1(1))) 
 
@@ -216,8 +217,8 @@ y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer 
 % define a low(band)-pass filter
 pd1 = pole(sys_d1)
 pc1 = log(pd1)/Ts
-interesting_frequency = (imag(pc1(1))/(2*pi))
-cutoff = 1.5*interesting_frequency
+interesting_frequency = (imag(pc1(3))/(2*pi))
+cutoff = 1*interesting_frequency  %was 1.5*interesting_frequency
 [B_filt,A_filt] = butter(6, cutoff/(fs/2));
 
 % apply the filter to both input and output

@@ -6,9 +6,6 @@ clc
 
 %% 2.1.2 Loading, plotting and noise detection
 % -------------------------------------------
-
-% plot time domain data
-%load assignment1_data.m
 N = length(timeVector);
 fs = 100; % sampling frequency [Hz]
 Ts = 1/fs; % sampling period [s]
@@ -113,7 +110,6 @@ ylabel('\Delta voltage  [V]')
 % -------------------------------------------
 % assume the model to have the same shape of the discrete model we obtained
 
-% H(z) = (b1 z + b2)/(z^3 + a1 z^2 + a2 z)
 
 % collect the signals appearing in the difference equation
 b = omegaA(3:end);
@@ -121,12 +117,8 @@ A = [-omegaA(2:end-1), -omegaA(1:end-2), voltage(2:end-1), voltage(1:end-2)];
 
 % perform the fit to get the desired parameters
 theta = A\b
-% theta = [a1 a2 b1 b2]'
 
-% build the identified model
-%Num1 = [0, theta(3), theta(4)];
-%Den1 = [1, theta(1) theta(2)];
-%sys_d1 = tf(Num1, Den1, Ts)
+
 
 % % alternative way to construct transfer function
 z = tf('z', Ts);
@@ -134,7 +126,7 @@ sys_d1 = (theta(3)*z + theta(4))/(z^3 + theta(1)*z^2 + theta(2)*z);
 
 % plot the results
 
-timeVectorToPlot = 0.01:0.01:28; % IN SECONDS (total time period = 42 s --- sampling period = 0.01 s)
+timeVectorToPlot = 0.01:0.01:28; % IN SECONDS (total time period = 28 s --- sampling period = 0.01 s)
 
 omegaA_model = lsim(sys_d1,voltage,timeVectorToPlot);
 
@@ -158,12 +150,7 @@ xlabel('time [s]')
 ylabel('omegaA-error [rad/s]')
 axis tight
 
-% analyse step response of model in detail: calculate from model and
-% measure from step response: peak value, peak time, steady state value
-% to do that, model is first transformed back to CT and step response of CT model
-% is simulated. Also zeta, wn, wd and DC-gain of CT model are calculated and used
-% ALSO compare these values with values derived from the provided
-% measurement
+
 
 % transform model back to CT
 % Use 'tustin' method because sys_d1 has a pole at z=0
@@ -192,25 +179,15 @@ xlabel('time [s]')
 ylabel('omegaA-mean [rad/s]')
 grid
 
-% relative peak value: value of response at peak/steady state value
-%y_peak = 0.00439/0.00334;     % obtained from figure(5)
-%Mp1 = y_peak-1
-Mp1_model = exp(-pi*zeta1(1)/sqrt(1-zeta1(1)^2)); % formula slide 10, C6
-%Mp1_measurement = 0.005081/0.003351 - 1  % obtained from figure(6)
 
-% peak time
-%tp1 = 0.312    % obtained from figure(5)
+Mp1_model = exp(-pi*zeta1(1)/sqrt(1-zeta1(1)^2)); 
 tp1_model = pi/wd1;      % formula slide 9, C6
-%tp1_measurement = 8.125 - 7.813   % obtained from figure(6)
 
 % steady state value
 [Numc1, Denc1] = tfdata(sys_c1);
 Numc1 = Numc1{1};
 Denc1 = Denc1{1};
-y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer function at s=0) 
-%y_ss1 = 0.00334 %obtained from figure(5)
-%y_ss1_measurement = 0.003351 %obtained from figure(6)
-
+y_ss1_model = Numc1(end)/Denc1(end); 
 
 %% 2.1.4 LLS with low-pass filter applied to the input and output data
 % -------------------------------------------------------------------
@@ -245,10 +222,8 @@ voltage_filt = filtfilt(B_filt, A_filt, voltage);
 b = omegaA_filt(3:end);
 A = [-omegaA_filt(2:end-1), -omegaA_filt(1:end-2), voltage_filt(2:end-1), voltage_filt(1:end-2)];
 
-% H(z) = (b1 z + b2)/(z^3 + a1 z^2 + a2 z)
 
-theta = A\b; % theta = [a1 a2 b1 b2]'
-
+theta = A\b;
 Num2 = [theta(3), theta(4)];
 Den2 = [1, theta(1) theta(2)];
 sys_d2 = tf(Num2, Den2, Ts);
@@ -277,12 +252,6 @@ xlabel('time [s]')
 ylabel('omegaA-filtered-error [rad/s]')
 axis tight
 
-% analyse step response of model in detail: calculate from model and
-% measure from step response: peak value, peak time, steady state value
-% befor that, model is transformed back to CT and step response of CT model
-% is simulated. Also zeta, wn, wd and DC-gain of CT model are calculated and used
-% ALSO compare these values with values derived from the provided
-% measurement
 
 %transform model back to CT
 sys_c2 = d2c(sys_d2);
@@ -293,26 +262,19 @@ wd2 = abs(imag(pc2(2)));
 figure(8)
 step(sys_d2);grid
 
-% relative peak value: value of response at peak/steady state value
-%y_peak = 0.00508/0.00333; %obtained from figure(8)
-%Mp = y_peak-1
-Mp_model = exp(-pi*zeta2(1)/sqrt(1-zeta2(1)^2)) %formula slide 10, C6
-%Mp_measurement = 0.005081/0.003351 - 1  %obtained from figure(6)
 
-% peak time
-%tp = 0.313 %obtained from figure(8)
-tp_model = pi/wd2 %formula slide 9, C6
-%tp_measurement = 8.125 - 7.813 %obtained from figure(6)
+Mp_model = exp(-pi*zeta2(1)/sqrt(1-zeta2(1)^2))
 
-% steady state value
+tp_model = pi/wd2
+
 [Numc2, Denc2] = tfdata(sys_c2);
 Numc2 = Numc2{1};
 Denc2 = Denc2{1};
-y_ss_model = Numc2(end)/Denc2(end) %DC gain of CT model (evaluating transfer function at s=0) 
-%y_ss = 0.00333 %obtained from figure(8)
-%y_ss_measurement = 0.003351 %obtained from figure(6)
+y_ss_model = Numc2(end)/Denc2(end) 
+%IGNORE EVERYTHING BELOW THIS, THIS IS NOT USED AND IS BASED ON A TEMPLATE,
+%IGNORE EVERYTHING BELOW THIS SECTION
 
-%% 2.1.4 LLS applied to the averaged output data
+%% 2.1.5 LLS applied to the averaged output data
 % -------------------------------------------------------------------
 % collect the signals appearing in the difference equation
 b = x_mean(3:end);

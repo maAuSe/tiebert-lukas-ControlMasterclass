@@ -17,9 +17,9 @@ timePeriod = 14; % time period of cycle [s]
 points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 1: input voltage plotted over time
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 1: input voltage plotted over time %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1),hold on
 sgtitle('Measured input data in time domain')
 plot(timeVector, voltage, 'LineWidth', 1)
@@ -29,9 +29,9 @@ xlabel('t [s]')
 ylabel('voltage [V]')
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 2: outputs omegaA,omegaB plotted over time
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 2: outputs omegaA,omegaB plotted over time %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(2),hold on
 sgtitle('Measured output data in time domain')
 
@@ -67,9 +67,9 @@ dvoltage_matrix = voltage_matrix - repmat(voltage_mean,1,num_periods);
 
 % plotting some interesting comparisons
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 3: omegaA,omegaB,voltage noise plotted over 1 period 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 3: omegaA,omegaB,voltage noise plotted over 1 period %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(3),hold on
 sgtitle('Comparison across periods to assess noise')
 
@@ -113,24 +113,24 @@ ylabel('\Delta voltage  [V]')
 % -------------------------------------------
 % assume the model to have the same shape of the discrete model we obtained
 
-% H(z) = (b1 z + b2)/(z^3 + a1 z^2 + a2 z)
+% H(z) = b1 /(z^2 + a1 z)
 
 % collect the signals appearing in the difference equation
 b = omegaA(3:end);
-A = [-omegaA(2:end-1), -omegaA(1:end-2), voltage(2:end-1), voltage(1:end-2)];
+A = [-omegaA(2:end-1), voltage(1:end-2)];
 
 % perform the fit to get the desired parameters
 theta = A\b
-% theta = [a1 a2 b1 b2]'
+% theta = [a1 b1]'
 
 % build the identified model
-%Num1 = [0, theta(3), theta(4)];
-%Den1 = [1, theta(1) theta(2)];
+%Num1 = [0, theta(2)];
+%Den1 = [1, theta(1)];
 %sys_d1 = tf(Num1, Den1, Ts)
 
 % % alternative way to construct transfer function
 z = tf('z', Ts);
-sys_d1 = (theta(3)*z + theta(4))/(z^3 + theta(1)*z^2 + theta(2)*z)
+sys_d1 = (theta(2))/(z^2 + theta(1)*z)
 
 % plot the results
 
@@ -167,8 +167,8 @@ axis tight
 
 % transform model back to CT
 % Use 'tustin' method because sys_d1 has a pole at z=0
-sys_c1 = d2c(sys_d1, 'tustin');
-pc1 = pole(sys_c1); % poles of the CT system 
+sys_c1 = d2c(sys_d1, 'tustin')
+pc1 = pole(sys_c1) % poles of the CT system 
 wd1 = abs(imag(pc1(1))); 
 
 [wn1,zeta1] = damp(sys_c1);
@@ -217,8 +217,8 @@ y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer 
 % -------------------------------------------------------------------
 % define a low(band)-pass filter
 pd1 = pole(sys_d1);
-pc1 = log(pd1)/Ts
-interesting_frequency = (imag(pc1(3))/(2*pi));
+pc1 = log(pd1)/Ts;
+interesting_frequency = (imag(pc1(1))/(2*pi));
 cutoff = 0.99*interesting_frequency;  %was 1.5*interesting_frequency
 [B_filt,A_filt] = butter(6, cutoff/(fs/2));
 
@@ -228,14 +228,15 @@ voltage_filt = filtfilt(B_filt, A_filt, voltage);
 
 % repeat the identification
 b = omegaA_filt(3:end);
-A = [-omegaA_filt(2:end-1), -omegaA_filt(1:end-2), voltage_filt(2:end-1), voltage_filt(1:end-2)];
+A = [-omegaA_filt(2:end-1), voltage_filt(1:end-2)];
 
-% H(z) = (b1 z + b2)/(z^3 + a1 z^2 + a2 z)
+% H(z) = b1 /(z^2 + a1 z)
 
-theta_filter = A\b % theta = [a1 a2 b1 b2]'
+theta_filter = A\b
+% theta_filter = [a1 b1]'
 
-Num2 = [theta_filter(3), theta_filter(4)];
-Den2 = [1, theta_filter(1) theta_filter(2)];
+Num2 = [theta_filter(2)];
+Den2 = [1, theta_filter(1)];
 sys_d2 = tf(Num2, Den2, Ts);
 
 % plot results

@@ -16,13 +16,14 @@ timePeriod = 14; % time period of cycle [s]
 
 points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;
+timeVectorInSec = (0:0.01:27.99)';
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 1: input voltage plotted over time %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 1: input voltage plotted over time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1),hold on
-sgtitle('Measured input data in time domain')
-plot(timeVector, voltage, 'LineWidth', 1)
+sgtitle('Excitation voltage to motors')
+plot(timeVectorInSec, voltage, 'LineWidth', 1)
 grid on
 axis tight
 xlabel('t [s]')
@@ -143,10 +144,11 @@ omegaA_model = lsim(sys_d1,voltage,timeVectorToPlot);
 %%% FIGURE 4: omegaA experiments vs. model %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(4), hold on
-sgtitle('LLS without low-pass filtering')
+sgtitle('LLS without low-pass filtering (simplified)')
 
 subplot(2,1,1)
-plot(timeVectorToPlot,[omegaA omegaA_model]);
+plot(timeVectorToPlot, omegaA, 'k-', ...        % solid black
+     timeVectorToPlot, omegaA_model, 'k--');    % dashed black
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 ylabel('omegaA [rad/s]')
@@ -167,8 +169,8 @@ axis tight
 
 % transform model back to CT
 % Use 'tustin' method because sys_d1 has a pole at z=0
-sys_c1 = d2c(sys_d1, 'tustin')
-pc1 = pole(sys_c1) % poles of the CT system 
+sys_c1 = d2c(sys_d1, 'tustin');
+pc1 = pole(sys_c1); % poles of the CT system 
 wd1 = abs(imag(pc1(1))); 
 
 [wn1,zeta1] = damp(sys_c1);
@@ -218,8 +220,14 @@ y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer 
 % define a low(band)-pass filter
 pd1 = pole(sys_d1);
 pc1 = log(pd1)/Ts;
-interesting_frequency = (imag(pc1(1))/(2*pi));
-cutoff = 0.99*interesting_frequency;  %was 1.5*interesting_frequency
+% For 2nd order system, use the non-zero pole (index 1 or 2)
+% Find the pole with non-zero imaginary part
+if abs(imag(pc1(1))) > abs(imag(pc1(2)))
+    interesting_frequency = abs(imag(pc1(1))/(2*pi));
+else
+    interesting_frequency = abs(imag(pc1(2))/(2*pi));
+end
+cutoff = 0.1*interesting_frequency;  %was 1.5*interesting_frequency
 [B_filt,A_filt] = butter(6, cutoff/(fs/2));
 
 % apply the filter to both input and output
@@ -274,7 +282,12 @@ axis tight
 %transform model back to CT
 sys_c2 = d2c(sys_d2);
 pc2 = pole(sys_c2);
-wd2 = abs(imag(pc2(2)));
+% For 2nd order system, get the imaginary part from the complex pole
+if abs(imag(pc2(1))) > abs(imag(pc2(2)))
+    wd2 = abs(imag(pc2(1)));
+else
+    wd2 = abs(imag(pc2(2)));
+end
 
 [wn2,zeta2] = damp(sys_c2);
 

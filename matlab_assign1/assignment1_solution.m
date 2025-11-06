@@ -16,13 +16,13 @@ timePeriod = 14; % time period of cycle [s]
 
 points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;
-
+timeVectorInSec= [0:0.01:27.99]' ;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FIGURE 1: input voltage plotted over time
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1),hold on
-sgtitle('Measured input data in time domain')
-plot(timeVector, voltage, 'LineWidth', 1)
+sgtitle('Excitation voltage to motors')
+plot(timeVectorInSec, voltage, 'LineWidth', 1)
 grid on
 axis tight
 xlabel('t [s]')
@@ -146,7 +146,8 @@ figure(4), hold on
 sgtitle('LLS without low-pass filtering')
 
 subplot(2,1,1)
-plot(timeVectorToPlot,[omegaA omegaA_model]);
+plot(timeVectorToPlot, omegaA, 'k-', ...        % solid black
+     timeVectorToPlot, omegaA_model, 'k--');    % dashed black
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 ylabel('omegaA [rad/s]')

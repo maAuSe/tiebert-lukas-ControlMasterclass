@@ -14,7 +14,7 @@
 \usepackage{lipsum} % For placeholder text, can be removed
 \usepackage{listings}
 \usepackage{xcolor}
-
+\usepackage{float}
 % Define MATLAB style for listings
 \lstdefinestyle{MatlabStyle}{
 	language=Matlab,
@@ -221,7 +221,7 @@
 	
 	\subsubsection{Motivation for excitation signal}
 	
-	A periodic piecewise-constant multilevel excitation signal was selected for system identification. This signal type provides persistent excitation across multiple operating points, generating broad frequency content essential for accurate parameter estimation. The signal alternates between four distinct voltage levels ($+6$ V, $+5$ V, $-6$ V, $-5$ V) with intermediate zero-voltage intervals, allowing observation of both transient dynamics and steady-state behavior. Using multiple amplitude levels helps verify linearity assumptions and ensures sufficient excitation to overcome static friction. The piecewise-constant structure is practical to implement on the microcontroller and provides clear step responses for analysis.
+	A periodic piecewise-constant multilevel excitation signal was selected for system identification. This signal type provides persistent excitation across multiple operating points, generating broad frequency content essential for accurate parameter estimation. The signal alternates between four distinct voltage levels ($+6$ V, $+5$ V, $-6$ V, $-5$ V) with intermediate zero-voltage intervals, allowing observation of both transient dynamics and steady-state behavior. Using multiple amplitude levels helps verify linearity assumptions, ensures sufficient excitation to overcome static friction, and excites all modes of the system dynamics, which can then be observed and analyzed. The piecewise-constant structure is practical to implement on the microcontroller and provides clear step responses for analysis.
 	
 	\subsubsection{Excitation signal design and implementation}
 	
@@ -239,36 +239,36 @@
 	Using linear least squares estimation, we identified both the third-order model ($H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$) and the simplified second-order model ($H(z) = \frac{b_1}{z^2 + a_1 z}$) for motors A and B.
 	
 	\subsubsection{Measured vs simulated response and model error}
-	
-	Figures~\ref{fig:measured_vs_modeled} and \ref{fig:measured_vs_modeled_simplified} show the measured angular velocity compared with the simulated responses for both models, zoomed to clearly reveal differences during transient periods. Figures~\ref{fig:model_error} and \ref{fig:model_error_simplified} display the error (difference) between measurement and simulation for each model.
-	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\linewidth]{images/measured_vs_modeled_nofilter.png}
-		\caption{Measured vs simulated response (third-order model, zoomed)}
-		\label{fig:measured_vs_modeled}
-	\end{figure}
-	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\linewidth]{images/measured_vs_modeled_nofilter_simplified.png}
-		\caption{Measured vs simulated response (simplified second-order model, zoomed)}
-		\label{fig:measured_vs_modeled_simplified}
-	\end{figure}
-	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\linewidth]{images/model_vs_meas_error_nofilter.png}
-		\caption{Prediction error: measurement minus simulation (third-order model)}
-		\label{fig:model_error}
-	\end{figure}
-	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.7\linewidth]{images/model_vs_meas_error_nofilter_simplified.png}
-		\caption{Prediction error: measurement minus simulation (simplified model)}
-		\label{fig:model_error_simplified}
-	\end{figure}
+
+Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity compared with the simulated responses for both models, zoomed to clearly reveal differences during transient periods. Figure~\ref{fig:model_error_pair} displays the error (difference) between measurement and simulation for each model.
+
+\begin{figure}[H]
+ \centering
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplified.png}
+ \end{minipage}
+ \caption{Measured vs simulated responses (left: third-order; right: simplified). Zoomed-in to highlight differences.}
+ \label{fig:measured_vs_modeled_pair}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplified.png}
+ \end{minipage}
+ \caption{Prediction error (measurement minus simulation). Left: third-order model; right: simplified model.}
+ \label{fig:model_error_pair}
+\end{figure}
 	
 	\subsubsection{Transient and steady-state characteristics}
 	
@@ -277,8 +277,8 @@
 	\textbf{Steady-state behavior:} Both models converge accurately to the measured steady-state angular velocity. The steady-state errors are minimal and nearly identical for both models, indicating that armature inductance has negligible impact on steady-state gain.
 	
 	\subsubsection{Model comparison and selection}
-	
-	\textbf{Model structure/order preference:} Comparing the error plots (Figures~\ref{fig:model_error} and \ref{fig:model_error_simplified}), the prediction errors are nearly identical between the third-order and simplified second-order models. The root mean square errors (RMSE) differ by less than 2\%, with the simplified model achieving RMSE = [PLACEHOLDER\_VALUE] rad/s versus [PLACEHOLDER\_VALUE] rad/s for the full model. Given this negligible difference in accuracy, we prefer the \textbf{simplified second-order model} following the parsimony principle (Occam's razor): it requires fewer parameters (2 vs 4), is computationally simpler, and the armature inductance time constant $\tau_L = L_a/R_a$ is evidently much smaller than the mechanical time constant, making its contribution insignificant.
+
+\textbf{Model structure/order preference:} Comparing the error plots in Figure~\ref{fig:model_error_pair}, the prediction errors are nearly identical between the third-order and simplified second-order models. The root mean square errors (RMSE) differ by less than 2\%, with the simplified model achieving RMSE = [PLACEHOLDER\_VALUE] rad/s versus [PLACEHOLDER\_VALUE] rad/s for the full model. Given this negligible difference in accuracy, we prefer the \textbf{simplified second-order model} following the parsimony principle (Occam's razor): it requires fewer parameters (2 vs 4), is computationally simpler, and the armature inductance time constant $\tau_L = L_a/R_a$ is evidently much smaller than the mechanical time constant, making its contribution insignificant.
 	
 	\textbf{Comparison between motors A and B:} The identified parameters for motors A and B show minor differences: motor A has [PLACEHOLDER\_PARAM\_A] while motor B has [PLACEHOLDER\_PARAM\_B]. These differences are \textbf{not significant} from a practical standpoint—both motors exhibit similar transient characteristics (damping ratio $\zeta \approx$ [PLACEHOLDER], natural frequency $\omega_n \approx$ [PLACEHOLDER] rad/s) and identical steady-state gains within measurement uncertainty. The variations likely stem from manufacturing tolerances and slight asymmetries in cart loading rather than fundamental motor differences. For control design purposes, we can use a single averaged model or treat the motors as identical.
 	

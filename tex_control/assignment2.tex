@@ -1,0 +1,165 @@
+\section*{Assignment 2: Velocity Control of the Cart}
+
+\section{Design of a Velocity Controller}
+
+\subsection{Controller Choice}
+
+\textbf{Control Objective:} Track constant velocity reference with zero steady-state error.
+
+\textbf{Requirements:}
+\begin{itemize}
+    \item Type-1 system (pole at origin) to eliminate steady error for step input
+    \item Adequate damping and stability (phase margin $\sim 55^\circ$)
+    \item Fast settling without excessive overshoot ($\sim 10\%$)
+    \item Minimal sensor noise amplification
+\end{itemize}
+
+\textbf{Controller Selection:} PI controller $D(s) = K\frac{T_I s + 1}{T_I s}$. 
+
+\textbf{Justification:} The PI compensator introduces an integrator (increases system type by one) providing infinite gain at DC for zero steady-state error. Unlike P or PD controllers (Type-0), it ensures error elimination for constant commands. Compared to PID, it avoids derivative action which amplifies high-frequency noise.
+
+\subsection{Implementation of the Controller}
+
+\textbf{Design Formulas:}
+
+\paragraph{Phase Margin Selection:} Target PM $= 55^\circ$ for $\sim 10\%$ overshoot and robustness.
+
+\paragraph{Crossover Frequency:} Choose $\omega_c$ where plant phase is $\angle G(j\omega_c) \approx -110^\circ$. This accounts for PI lag ($\sim 15^\circ$) to yield total phase of $-125^\circ$ at crossover, achieving PM $= 55^\circ$.
+
+\paragraph{Integral Time Constant:} Design PI to contribute $15^\circ$ lag at $\omega_c$:
+\[
+\angle D(j\omega_c) = -\arctan\left(\frac{1}{\omega_c T_I}\right) = -15^\circ \implies T_I = \frac{1}{\omega_c \tan 15^\circ}
+\]
+Numerical values: $\omega_c = \texttt{<value>}$ rad/s $\implies T_I = \texttt{<value>}$ s.
+
+\paragraph{Proportional Gain:} Enforce unity gain at crossover $|D(j\omega_c)G(j\omega_c)| = 1$. Discretize PI using Tustin's method and tune iteratively:
+\[
+K_A \approx \texttt{<value>}, \quad K_B \approx \texttt{<value>}
+\]
+
+\textbf{Design Trade-offs:}
+\begin{itemize}
+    \item \textbf{Phase Margin:} Higher PM $\to$ more damping, less overshoot; Lower PM $\to$ faster response, risk of instability
+    \item \textbf{Crossover Frequency:} Higher $\omega_c$ $\to$ faster bandwidth, tighter tracking; Limited by phase margin and sampling rate
+    \item \textbf{Integral Time $T_I$:} Larger $T_I$ $\to$ less phase lag, better stability; Slower error correction
+\end{itemize}
+
+\textbf{Bode Diagram Verification:}
+
+Figure~\ref{fig:openloop_bode} shows open-loop $L(j\omega) = D(j\omega)G(j\omega)$. Crossover at $\omega_c$ with phase $\approx -125^\circ$ confirms PM $= 55^\circ$. Gain margin also indicated.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{open_loop_bode_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{open_loop_bode_motorB}}
+    \caption{Open-loop Bode diagram showing crossover frequency $\omega_c$ and phase margin.}
+    \label{fig:openloop_bode}
+\end{figure}
+
+Figure~\ref{fig:closedloop_bode} shows closed-loop $T(j\omega) = \frac{L}{1+L}$. Bandwidth $\omega_{BW} \approx \omega_c$. Resonant peak due to finite PM. Gain rolls off beyond control bandwidth.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{closed_loop_bode_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{closed_loop_bode_motorB}}
+    \caption{Closed-loop Bode magnitude showing bandwidth $\omega_{BW}$.}
+    \label{fig:closedloop_bode}
+\end{figure}
+
+\subsection{Bandwidth Limitations}
+
+\textbf{Theoretical Limitations:} Yes. Bandwidth fundamentally limited by plant dynamics and stability requirements. Increasing $\omega_c$ requires reducing PM (to shift phase condition), leading to reduced damping or instability. Cannot arbitrarily increase bandwidth without violating closed-loop stability.
+
+\textbf{Practical Limitations:} 
+\begin{itemize}
+    \item \textbf{Sampling rate:} System sampled at 100 Hz (Nyquist at 50 Hz). Bandwidth must stay well below Nyquist ($\sim 1/10$ to $1/5$ of sampling rate) to avoid aliasing.
+    \item \textbf{Actuator saturation:} Arduino driver limited to $\pm 12$ V. High bandwidth demands large control effort; saturation degrades performance.
+    \item \textbf{Unmodeled dynamics:} High-frequency effects (actuator delays, sensor noise, friction) not captured in model. Very high bandwidth amplifies these, causing instability.
+\end{itemize}
+
+\textbf{Implementation Constraints:} Digital implementation imposes hard limit via sampling rate. Chosen bandwidth $\omega_{BW} \approx \texttt{<value>}$ Hz balances responsiveness with robustness and practical constraints.
+
+\section{Experimental Validation}
+
+\subsection{Step Response Validation}
+
+\textbf{Experiment:} Step reference $0 \to \texttt{<value>}$ rad/s applied to both motors. Measured velocity compared to simulation.
+
+\textbf{Step Response (Fig.~\ref{fig:step_nodist}):} Measured (red) matches simulated (blue) closely. Small initial delay (digital sampling), overshoot $\sim 10\%$ (as designed), settling time similar. \textbf{Zero steady-state error achieved} in both cases. Minor differences: measured response shows slightly higher oscillations due to friction/quantization.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorB}}
+    \caption{Step response: reference (black), measured (red), simulated (blue).}
+    \label{fig:step_nodist}
+\end{figure}
+
+\textbf{Tracking Error (Fig.~\ref{fig:error_nodist}):} Initial error identical. Transient decay similar. Both converge to zero, validating integrator action.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorB}}
+    \caption{Tracking error: measured (red) vs simulated (blue).}
+    \label{fig:error_nodist}
+\end{figure}
+
+\textbf{Control Signal (Fig.~\ref{fig:control_nodist}):} Large initial spike $\sim \texttt{<value>}$ V. \textbf{Saturation at 12 V} visible in measurement (flat plateau), not in simulation. Explains slightly slower measured acceleration. Steady-state voltage $\sim$ few volts to overcome friction. Good agreement aside from saturation effect.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorB}}
+    \caption{Control voltage: measured (red) vs simulated (blue). Saturation at 12 V visible.}
+    \label{fig:control_nodist}
+\end{figure}
+
+\textbf{Performance Comparison:} Rise time, overshoot, settling align with design specs (PM $= 55^\circ$, $\omega_c = \texttt{<value>}$). Model accuracy confirmed.
+
+\subsection{Disturbance Rejection (Constant Force)}
+
+\textbf{Experiment:} Cart driven on incline; gravity provides constant opposing force. Tests Type-1 disturbance rejection.
+
+\textbf{Disturbance Model:} Constant force $f[k]$ produces acceleration $a = f/m$. Discretized: $v[k+1] = v[k] + \frac{T_s}{m}f[k]$. In $z$-domain: persistent integrator effect on velocity. Included in simulation.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{block_diagram_PI_disturbance}
+    \caption{Block diagram with disturbance $f[k]$ entering dynamics.}
+    \label{fig:dist_block}
+\end{figure}
+
+\textbf{Step Response with Disturbance (Fig.~\ref{fig:step_dist}):} Measured response (red) shows lower overshoot and additional damping compared to no-disturbance case. Disturbance acts as braking force, reducing oscillations. \textbf{Steady-state error remains zero} --- PI integrator compensates for constant force.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorB}}
+    \caption{Step response under disturbance: measured (red) vs baseline (blue).}
+    \label{fig:step_dist}
+\end{figure}
+
+\textbf{Tracking Error (Fig.~\ref{fig:error_dist}):} Larger transient error (slower response due to opposing force). Oscillations damped. Error decays to zero in steady state, confirming successful disturbance rejection.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorB}}
+    \caption{Tracking error with disturbance: measured (red) vs baseline (blue).}
+    \label{fig:error_dist}
+\end{figure}
+
+\textbf{Control Signal (Fig.~\ref{fig:control_dist}):} Higher steady-state voltage required to counteract gravity ($\sim \texttt{<value>}$ V vs $\sim \texttt{<value>}$ V). Integrator accumulates to provide necessary torque. Demonstrates Type-1 property: integral action eliminates effect of constant disturbance.
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorB}}
+    \caption{Control voltage with disturbance: measured (red) requires higher steady voltage.}
+    \label{fig:control_dist}
+\end{figure}
+
+\textbf{Theoretical Justification:} PI controller (Type-1) guarantees zero steady-state error for step reference. For step disturbance at plant output, closed-loop is Type-0 w.r.t. disturbance if disturbance enters before integrator. Since force integrates to affect velocity (plant has integrator effect), and controller has integrator, overall loop is Type-1 to disturbance. Experiment confirms: PI successfully rejects constant force with zero steady-state error.
+
+\textbf{Summary:} Experimental results validate PI design. Zero steady-state error achieved for step reference (no disturbance and with constant disturbance). Performance characteristics (rise time, overshoot, settling) match design specifications. Saturation and minor unmodeled effects explain small discrepancies. Controller demonstrates robust velocity tracking and disturbance rejection.

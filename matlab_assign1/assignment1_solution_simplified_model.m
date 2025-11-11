@@ -169,8 +169,8 @@ axis tight
 
 % transform model back to CT
 % Use 'tustin' method because sys_d1 has a pole at z=0
-sys_c1 = d2c(sys_d1, 'tustin');
-pc1 = pole(sys_c1); % poles of the CT system 
+sys_c1 = d2c(sys_d1, 'tustin')
+pc1 = pole(sys_c1) % poles of the CT system 
 wd1 = abs(imag(pc1(1))); 
 
 [wn1,zeta1] = damp(sys_c1);

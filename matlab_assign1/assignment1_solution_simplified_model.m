@@ -147,8 +147,8 @@ figure(4), hold on
 sgtitle('LLS without low-pass filtering (simplified)')
 
 subplot(2,1,1)
-plot(timeVectorToPlot, omegaA, 'k-', ...        % solid black
-     timeVectorToPlot, omegaA_model, 'k--');    % dashed black
+plot(timeVectorToPlot, omegaA, 'k-', ...        % solid black (measured)
+     timeVectorToPlot, omegaA_model, 'k--');    % dashed black (estimated model)
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 ylabel('omegaA [rad/s]')

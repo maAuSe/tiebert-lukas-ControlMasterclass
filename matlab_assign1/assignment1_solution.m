@@ -355,20 +355,27 @@ theta_filter_B = A_B\b_B;
 
 
 
-Num2_A = [theta_filter_A(3), theta_filter_A(4)];
-Den2_A = [1, theta_filter_A(1) theta_filter_A(2)];
-sys_d2_A = tf(Num2_A, Den2_A, Ts);
+%Num2_A = [theta_filter_A(3), theta_filter_A(4)];
+%Den2_A = [1, theta_filter_A(1) theta_filter_A(2)];
+%sys_d2_A = tf(Num2_A, Den2_A, Ts)
 
-Num2_B = [theta_filter_B(3), theta_filter_B(4)];
-Den2_B = [1, theta_filter_B(1) theta_filter_B(2)];
-sys_d2_B = tf(Num2_B, Den2_B, Ts);
+%Num2_B = [theta_filter_B(3), theta_filter_B(4)];
+%Den2_B = [1, theta_filter_B(1) theta_filter_B(2)];
+%sys_d2_B = tf(Num2_B, Den2_B, Ts)
+
+
+z = tf('z', Ts);
+
+sys_d2_A = (theta_filter_A(3)*z + theta_filter_A(4))/(z^3 + theta_filter_A(1)*z^2 + theta_filter_A(2)*z)
+
+sys_d2_B = (theta_filter_B(3)*z + theta_filter_B(4))/(z^3 + theta_filter_B(1)*z^2 + theta_filter_B(2)*z)
 
 
 % plot results
 
-omegaA_model2 = lsim(sys_d2_A,voltage,timeVectorToPlot);
+omegaA_model2 = lsim(sys_d2_A,voltage,timeVectorInSec);
 
-omegaB_model2 = lsim(sys_d2_B,voltage,timeVectorToPlot);
+omegaB_model2 = lsim(sys_d2_B,voltage,timeVectorInSec);
 
 
 
@@ -424,14 +431,14 @@ axis tight
 
 %transform model back to CT
 
-sys_c2_A = d2c(sys_d2_A);
+sys_c2_A = d2c(sys_d2_A, 'tustin');
 pc2_A = pole(sys_c2_A);
 wd2_A = abs(imag(pc2_A(2)));
 
 [wn2_A,zeta2_A] = damp(sys_c2_A);
 
 
-sys_c2_B = d2c(sys_d2_B);
+sys_c2_B = d2c(sys_d2_B, 'tustin');
 pc2_B = pole(sys_c2_B);
 wd2_B = abs(imag(pc2_B(2)));
 

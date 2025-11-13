@@ -1,0 +1,128 @@
+clear all
+close all
+clear global
+clc
+
+%% 2.1.2 Design a proportional and integral (PI) controller for the force-controlled robot
+
+
+
+% Define the transfer function of Gs (uncompensated CT system).
+
+Ts = 0.01; % sampling time [s]
+z = tf('z', Ts);
+
+sys_d2_A = (0.005478*z + 0.6586)/(z^3 - 0.5746*z^2 - 0.09068*z);
+sys_d2_B = (0.005893*z + 0.6733)/(z^3 - 0.5849*z^2 - 0.08088*z);
+
+
+Gs_A = d2c(sys_d2_A, 'tustin');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 1: Bode diagram of Gs_A(s) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(1); bode(Gs_A); title('G_s_A(s)'); 
+
+Gs_B = d2c(sys_d2_B, 'tustin'); 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 2: Bode diagram of Gs_B(s) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(2); bode(Gs_B); title('G_s_B(s)'); 
+
+
+% Do the PI design.
+PM = 55;                 % desired phase margin [°]
+APL = 15;                % additional phase lag anticipated [°]
+phi = -180 + PM + APL;   % phase of Gs(s) where we will put the new cross-over frequency [°]
+% We check on the Bode diagram of Gs(s) where the phase equals 
+% phi, this will become the new cross-over frequency wc. 
+wc = 14.9;               % cross-over frequency [rad/s]
+
+% Choose the integration time Ti such that it will not interfere too much
+% with the phase at the new cross-over frequency. 
+Ti = tand(90 - APL)/wc; % integration time [s]
+
+% Define the transfer function of the compensator, without the gain K. 
+D = tf([Ti 1],[Ti 0]);
+
+% Plot the Bode diagram of the open loop, that is D*Gs, and find K such
+% that |Gc*Gs| = 1 = 0 dB at the cross-over frequency: we see a gain of
+% -7.33 dB, so we need K to be 7.33 dB = 10^(7.33/20). 
+figure; bode(D*Gs); title('D(s)*G_s(s), K = 1');  
+K = 10^(7.33/20);       % controller gain [m/N]
+
+% Define the PI compensator. 
+Gc = K*D;
+
+% Plot the compensator and the open loop. The command 'margin' makes a Bode 
+% diagram which immediately shows the stability margins.
+figure; margin(Gc*Gs); title('Open loop L = G_c(s)*G_s(s)'); 
+
+% Define the following closed-loop transfer functions:
+%    - reference to output
+       Fd_to_F = feedback(Gc*Gs,1);
+       
+%    - reference to control signal
+       Fd_to_xd = feedback(Gc,Gs); 
+
+% Do the simulation of the output on a reference step input. We clearly see
+% there is no steady-state error, and the overshoot is < 20%, as expected.
+% This means we can decrease the phase margin and iterate until we find
+% and overshoot of exactly 20%. In turn, wc will become higher and the
+% response will be faster. We also see that the peak time formula is
+% consistent with our observations: the peak is approximately at 
+% tp = pi/wc = 0.21s. 
+figure; step(Fd_to_F); title('Closed-loop step response F/F_d'); 
+
+% Plot the pole-zero map of the closed loop. This can be very misleading if
+% the horizontal and vertical axes have different scales. Therefore, we
+% constrain the figure to have a 1:1 aspect ratio. 
+figure; pzmap(Fd_to_F); daspect([1 1 1]);
+
+% The poles, indicated by 'x', are all in the left half plane, so the 
+% closed loop is stable. One might think the dominant (slowest) pole is at 
+% 3.1 rad/s, but this one is almost cancelled by a zero, indicated by 'o',
+% at -3.9 rad/s. Hence, the dominant pole pair is at 17.2 rad/s. However,
+% because the interaction of the pole and the zero at low frequencies, the
+% overshoot properties are more favorable than expected based on the
+% figure on slide 10 of C6.
+
+% Let's also check the actuator signal. The steady-state value of the
+% actuator signal on a step reference of 1 N is 1 m. That follows from
+% the steady state value of the plant in steady-state (= at frequency 0): 
+% it is 1, which means the control signal should equal 1 m in order to
+% realize a force output of 1 N. 
+figure; step(Fd_to_xd); title('Closed-loop step response x_d/F_d'); 
+Gs_at_0 = evalfr(Gs,1i*0)     % frequency response of Gs at 0 
+
+%% 2.1.3 Design a pure integral controller for the force controlled robot
+
+% The design of an I-controller is identical to the PI, with the difference
+% that we have no control of the phase lag the controller introduces at the
+% cross-over frequency: an integrator has a phase of -90° over the entire
+% frequency domain. Hence, given a desired PM of 45°, we should put the new
+% cross-over frequency at the frequency where Gs(s) has a phase of 
+% -180° + 90° + 45°. We find:
+wc = 5.20;          % cross-over frequency of the I-controller [rad/s]
+
+% The cross-over frequency is clearly a lot lower than for the PI design.
+% We can now make the compensator without gain, i.e., the integrator:
+D = tf([1],[1 0]);
+
+% The gain of the open loop at the new cross-over frequency should become 
+% 1, such that ki must be
+figure; bode(D*Gs); title('D(s)*G_s(s), K = 1'); 
+ki = 10^(14.5/20);  % ki [m*s/N]
+
+% Define the I-controller.
+Gc = tf([ki],[1 0]);
+
+%% 2.1.4 Compare the frequency and time domain characteristics of both systems
+ 
+% You can perform the same analysis as above and compare to the PI design
+% by plotting them on the same figure:
+figure; step(Fd_to_F); hold on; 
+Fd_to_F = feedback(Gc*Gs,1); step(Fd_to_F); title('Closed-loop step response F/F_d');  legend('PI controller','I controller'); 
+figure; step(Fd_to_xd); hold on;
+Fd_to_xd = feedback(Gc,Gs); step(Fd_to_xd); title('Closed-loop step response x_d/F_d'); legend('PI controller','I controller'); 

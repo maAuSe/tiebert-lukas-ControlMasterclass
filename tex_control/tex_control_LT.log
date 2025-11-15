@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 14:41
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 15:38
  restricted system commands enabled.
 **tex_control_LT.tex
 (./tex_control_LT.tex
@@ -624,61 +624,69 @@ Underfull \hbox (badness 10000) in paragraph at lines 178--180
  []
 
 [2] [3]
+Overfull \hbox (7.85834pt too wide) detected at line 282
+\OT1/cmr/m/n/10 +6 V (0[]2 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 0 V (2[]3 s)\O
+ML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 +5 V (3[]5 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n
+/10 0 V (5[]7 s)\OML/cmm/m/it/10 ;  \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 6 V (7[
+]9 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 0 V (9[]10 s)\OML/cmm/m/it/10 ;  \OMS/
+cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 5 V (10[]12 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/1
+0 0 V (12[]14 s)\OML/cmm/m/it/10 :
+ []
+
 <images/excitation_ass1.png, id=158, 357.4956pt x 295.8252pt>
 File: images/excitation_ass1.png Graphic file (type png)
 <use images/excitation_ass1.png>
-Package luatex.def Info: images/excitation_ass1.png  used on input line 273.
+Package luatex.def Info: images/excitation_ass1.png  used on input line 288.
 (luatex.def)             Requested size: 234.8775pt x 194.365pt.
-<images/measured_vs_modeled_nofilter.png, id=161, 379.6584pt x 225.9642pt>
+[4]
+<images/measured_vs_modeled_nofilter.png, id=170, 379.6584pt x 225.9642pt>
 File: images/measured_vs_modeled_nofilter.png Graphic file (type png)
 <use images/measured_vs_modeled_nofilter.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter.png  used on input
- line 290.
+ line 318.
 (luatex.def)             Requested size: 225.4804pt x 134.20038pt.
-<images/measured_vs_modeled_nofilter_simplified.png, id=162, 380.1402pt x 225.9
+<images/measured_vs_modeled_nofilter_simplified.png, id=171, 380.1402pt x 225.9
 642pt>
 File: images/measured_vs_modeled_nofilter_simplified.png Graphic file (type png
 )
 <use images/measured_vs_modeled_nofilter_simplified.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter_simplified.png  us
-ed on input line 294.
+ed on input line 322.
 (luatex.def)             Requested size: 225.4804pt x 134.03488pt.
- [4]
-<images/model_vs_meas_error_nofilter.png, id=174, 377.7312pt x 225.9642pt>
+ [5
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
+<./images/excitation_ass1.png>]
+<images/model_vs_meas_error_nofilter.png, id=182, 377.7312pt x 225.9642pt>
 File: images/model_vs_meas_error_nofilter.png Graphic file (type png)
 <use images/model_vs_meas_error_nofilter.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter.png  used on input
- line 304.
+ line 332.
 (luatex.def)             Requested size: 225.4804pt x 134.88652pt.
-<images/model_vs_meas_error_nofilter_simplified.png, id=175, 377.7312pt x 225.4
+<images/model_vs_meas_error_nofilter_simplified.png, id=183, 377.7312pt x 225.4
 824pt>
 File: images/model_vs_meas_error_nofilter_simplified.png Graphic file (type png
 )
 <use images/model_vs_meas_error_nofilter_simplified.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter_simplified.png  us
-ed on input line 308.
+ed on input line 336.
 (luatex.def)             Requested size: 225.4804pt x 134.59892pt.
- [5
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
-
+ [6
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.3'
-<./images/excitation_ass1.png><./images/measured_vs_modeled_nofilter.png><./imag
-es/measured_vs_modeled_nofilter_simplified.png><./images/model_vs_meas_error_nof
-ilter.png><./images/model_vs_meas_error_nofilter_simplified.png>]
+<./images/measured_vs_modeled_nofilter.png><./images/measured_vs_modeled_nofilte
+r_simplified.png><./images/model_vs_meas_error_nofilter.png><./images/model_vs_m
+eas_error_nofilter_simplified.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] (./tex_control_LT.bbl) [7
+[7
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
-
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.5'
-]
+] (./tex_control_LT.bbl)
 <images/linear_circuit_DC.png, id=208, 464.937pt x 203.5605pt>
 File: images/linear_circuit_DC.png Graphic file (type png)
 <use images/linear_circuit_DC.png>
-Package luatex.def Info: images/linear_circuit_DC.png  used on input line 442.
+Package luatex.def Info: images/linear_circuit_DC.png  used on input line 470.
 (luatex.def)             Requested size: 328.82707pt x 143.97607pt.
 
 
@@ -694,12 +702,14 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [8
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.5'
+] [9
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.6'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.7'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.8'
-<./images/linear_circuit_DC.png>] [9
+
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.9'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.10'
@@ -716,7 +726,7 @@ warning  (pdf backend): ignoring duplicate destination with the name 'figure.13'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.14'
 
-] (./tex_control_LT.aux)
+<./images/linear_circuit_DC.png>] (./tex_control_LT.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -730,15 +740,15 @@ Package rerunfilecheck Info: File `tex_control_LT.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 14420 strings out of 476497
+ 14425 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 698 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 49 attribute, 58 glue_spec
-, 49 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:739,3:280,4:63,5:398,6:50,7:6695,8:109,9:734,10:8,11:560
- 36077 multiletter control sequences out of 65536+600000
+ 723 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 53 attribute, 58 glue_spec
+, 53 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:786,3:280,4:81,5:369,6:54,7:5581,8:113,9:735,10:8,11:401
+ 36079 multiletter control sequences out of 65536+600000
  49 fonts using 3729047 bytes
- 79i,12n,89p,855b,410s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 79i,12n,89p,526b,407s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
 regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
 lic/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
@@ -761,9 +771,9 @@ mr5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
 s/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb>
-Output written on tex_control_LT.pdf (10 pages, 1142600 bytes).
+Output written on tex_control_LT.pdf (10 pages, 1145198 bytes).
 
-PDF statistics: 318 PDF objects out of 1000 (max. 8388607)
- 73 named destinations out of 1000 (max. 131072)
+PDF statistics: 323 PDF objects out of 1000 (max. 8388607)
+ 76 named destinations out of 1000 (max. 131072)
  197 words of extra memory for PDF output out of 10000 (max. 100000000)
 

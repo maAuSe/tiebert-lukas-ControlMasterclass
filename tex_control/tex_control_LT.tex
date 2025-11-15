@@ -198,7 +198,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	\section{Model parameters estimation}
 	
-	We estimate the parameters of the third-order discrete-time transfer function $H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$ using linear least squares. The simplified second-order model is presented in Appendix~\ref{app:simplified_model}.
+	We estimate the parameters of the third-order discrete-time transfer function $H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$ using linear least squares. The matrix formulation of the parameter estimation problem of the second-order model is presented in Appendix~\ref{app:simplified_model}.
 	
 	\subsection{Recursion expression and error criterion}
 	
@@ -253,31 +253,59 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 		\label{eq: LS solution}
 	\end{equation}
 	
-	where $\boldsymbol{\Phi}^+$ is the Moore-Penrose pseudo-inverse.
+	\noindent where $\boldsymbol{\Phi}^+$ is the Moore-Penrose pseudo-inverse.
 	
 	
 	\section{Identification of the cart by exciting the motors while the cart is on the ground}
 	
 	\subsection{Excitation signal selection}
 	
+	
+	
 	\subsubsection{Motivation for excitation signal}
 	
-	A periodic piecewise-constant multilevel excitation signal was selected for system identification. This signal type provides persistent excitation across multiple operating points, generating broad frequency content essential for accurate parameter estimation. The signal alternates between four distinct voltage levels ($+6$ V, $+5$ V, $-6$ V, $-5$ V) with intermediate zero-voltage intervals, allowing observation of both transient dynamics and steady-state behavior. Using multiple amplitude levels helps verify linearity assumptions, ensures sufficient excitation to overcome static friction, and excites all modes of the system dynamics, which can then be observed and analyzed. The piecewise-constant structure is practical to implement on the microcontroller and provides clear step responses for analysis.
+	A periodic piecewise-constant multilevel excitation signal is used for system identification. Such signals are persistently exciting, cover multiple operating points, and generate sufficiently rich frequency content for reliable parameter estimation. The input alternates between four nonzero voltage levels ($+6$ V $+5$ V $-6$ V $-5$ V) and zero-voltage plateaus so that both transient and steady-state responses are observable.
+	 The use of multiple amplitudes facilitates verification of approximate linearity, guarantees input levels high enough to overcome static friction and excites the dominant modes of the motor-cart dynamics.
 	
 	\subsubsection{Excitation signal design and implementation}
 	
-	The excitation signal has a 14-second period with the following sequence: $+6$ V (0--2 s), 0 V (2--3 s), $+5$ V (3--5 s), 0 V (5--7 s), $-6$ V (7--9 s), 0 V (9--10 s), $-5$ V (10--12 s), and 0 V (12--14 s). The signal is sampled at $f_s = 100$ Hz and repeated for 2 complete periods (28 seconds total) as shown in Figure \ref{fig:excitation_signal}. Repeating the cycle improves the signal-to-noise ratio through averaging across periods, provides sufficient data for robust parameter estimation, and allows assessment of measurement noise by comparing responses across identical excitation cycles.
+	The excitation has a period of $14$ s with the sequence
+	\[
+	+6~\mathrm{V}~(0\text{--}2~\mathrm{s}),\;
+	0~\mathrm{V}~(2\text{--}3~\mathrm{s}),\;
+	+5~\mathrm{V}~(3\text{--}5~\mathrm{s}),\;
+	0~\mathrm{V}~(5\text{--}7~\mathrm{s}),\;
+	-6~\mathrm{V}~(7\text{--}9~\mathrm{s}),\;
+	0~\mathrm{V}~(9\text{--}10~\mathrm{s}),\;
+	-5~\mathrm{V}~(10\text{--}12~\mathrm{s}),\;
+	0~\mathrm{V}~(12\text{--}14~\mathrm{s}).
+	\]
+	The signal is sampled at $f_s = 100$ Hz and applied for two full periods (total duration $28$ s), as shown in Figure~\ref{fig:excitation_signal}. Repetition of the cycle increases the effective SNR via averaging over periods, yields a data record of sufficient length for parameter estimation and permits an empirical assessment of measurement noise by comparing responses to identical input segments.
 	
-	\begin{figure}[htbp]
+	
+	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.5\linewidth]{images/excitation_ass1.png}
 		\caption{Applied excitation signal over 2 complete periods (28 seconds)}
 		\label{fig:excitation_signal}
 	\end{figure}
 	
+	
 	\subsection{Parameter estimation and model validation for both motors}
 	
 	Using linear least squares estimation, we identified both the third-order model ($H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$) and the simplified second-order model ($H(z) = \frac{b_1}{z^2 + a_1 z}$) for motors A and B.
+
+\noindent The estimated parameter vectors are
+\begin{equation}
+\hat{\boldsymbol{\theta}}_A = \begin{bmatrix} -0.5671 \\ -0.0970 \\ 0.0077 \\ 0.6589 \end{bmatrix}, \quad
+\hat{\boldsymbol{\theta}}_B = \begin{bmatrix} -0.5762 \\ -0.0881 \\ 0.0081 \\ 0.6741 \end{bmatrix}.
+\end{equation}
+
+\noindent The corresponding discrete-time transfer functions (sampling time $T_s = 0.01$~s) are
+\begin{align}
+\hat{H}_A(z) &= \frac{0.007672 z + 0.6589}{z^3 - 0.5671 z^2 - 0.09698 z},\\
+\hat{H}_B(z) &= \frac{0.008073 z + 0.6741}{z^3 - 0.5762 z^2 - 0.08815 z}.
+\end{align}
 	
 	\subsubsection{Measured vs simulated response and model error}
 

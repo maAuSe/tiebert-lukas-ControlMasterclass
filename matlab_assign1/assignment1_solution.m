@@ -123,9 +123,9 @@ b_B = omegaB(3:end);
 A_B = [-omegaB(2:end-1), -omegaB(1:end-2), voltage(2:end-1), voltage(1:end-2)];
 
 % perform the fit to get the desired parameters
-theta_A = A_A\b_A;
+theta_A = A_A\b_A
 
-theta_B = A_B\b_B;
+theta_B = A_B\b_B
 
 % theta = [a1 a2 b1 b2]'
 
@@ -137,9 +137,9 @@ theta_B = A_B\b_B;
 % % alternative way to construct transfer function
 z = tf('z', Ts);
 
-sys_d1_A = (theta_A(3)*z + theta_A(4))/(z^3 + theta_A(1)*z^2 + theta_A(2)*z);
+sys_d1_A = (theta_A(3)*z + theta_A(4))/(z^3 + theta_A(1)*z^2 + theta_A(2)*z)
 
-sys_d1_B = (theta_B(3)*z + theta_B(4))/(z^3 + theta_B(1)*z^2 + theta_B(2)*z);
+sys_d1_B = (theta_B(3)*z + theta_B(4))/(z^3 + theta_B(1)*z^2 + theta_B(2)*z)
 
 
 

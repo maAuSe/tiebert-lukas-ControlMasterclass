@@ -117,34 +117,35 @@ ylabel('\Delta voltage  [V]')
 % H(z) = b1 /(z^2 + a1 z)
 
 % collect the signals appearing in the difference equation
-b = omegaA(3:end);
-A = [-omegaA(2:end-1), voltage(1:end-2)];
+b_A = omegaA(3:end);
+A_A = [-omegaA(2:end-1), voltage(1:end-2)];
 
-% perform the fit to get the desired parameters
-theta = A\b
+b_B = omegaB(3:end);
+A_B = [-omegaB(2:end-1), voltage(1:end-2)];
+
+% perform the fit to get the desired parameters for both motors
+theta_A = A_A\b_A
+theta_B = A_B\b_B
 % theta = [a1 b1]'
 
-% build the identified model
-%Num1 = [0, theta(2)];
-%Den1 = [1, theta(1)];
-%sys_d1 = tf(Num1, Den1, Ts)
-
-% % alternative way to construct transfer function
+% build the identified models
 z = tf('z', Ts);
-sys_d1 = (theta(2))/(z^2 + theta(1)*z)
+sys_d1_A = (theta_A(2))/(z^2 + theta_A(1)*z)
+sys_d1_B = (theta_B(2))/(z^2 + theta_B(1)*z)
 
 % plot the results
 
 timeVectorToPlot = 0.01:0.01:28; % IN SECONDS (total time period = 28 s --- sampling period = 0.01 s)
 
-omegaA_model = lsim(sys_d1,voltage,timeVectorToPlot);
+omegaA_model = lsim(sys_d1_A,voltage,timeVectorToPlot);
+omegaB_model = lsim(sys_d1_B,voltage,timeVectorToPlot);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FIGURE 4: omegaA experiments vs. model %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(4), hold on
-sgtitle('LLS without low-pass filtering (simplified)')
+sgtitle('LLS without low-pass filtering (motor A, simplified)')
 
 subplot(2,1,1)
 plot(timeVectorToPlot, omegaA, 'k-', ...        % solid black (measured)
@@ -160,6 +161,26 @@ xlabel('time [s]')
 ylabel('omegaA-error [rad/s]')
 axis tight
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 5: omegaB experiments vs. model %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(5), hold on
+sgtitle('LLS without low-pass filtering (motor B, simplified)')
+
+subplot(2,1,1)
+plot(timeVectorToPlot, omegaB, 'k-', ...        % solid black (measured)
+     timeVectorToPlot, omegaB_model, 'k--');    % dashed black (estimated model)
+legend('empirical','estimated','Location','SouthWest')
+xlabel('time [s]')
+ylabel('omegaB [rad/s]')
+axis tight
+
+subplot(2,1,2),plot(timeVectorToPlot,omegaB-omegaB_model)
+legend('error')
+xlabel('time [s]')
+ylabel('omegaB-error [rad/s]')
+axis tight
+
 % analyse step response of model in detail: calculate from model and
 % measure from step response: peak value, peak time, steady state value
 % to do that, model is first transformed back to CT and step response of CT model
@@ -167,97 +188,153 @@ axis tight
 % ALSO compare these values with values derived from the provided
 % measurement
 
-% transform model back to CT
-% Use 'tustin' method because sys_d1 has a pole at z=0
-sys_c1 = d2c(sys_d1, 'tustin')
-pc1 = pole(sys_c1) % poles of the CT system 
-wd1 = abs(imag(pc1(1))); 
+% transform models back to CT (use 'tustin' method because sys_d1_* have a pole at z=0)
+sys_c1_A = d2c(sys_d1_A, 'tustin')
+pc1_A = pole(sys_c1_A); % poles of the CT system
+if abs(imag(pc1_A(1))) > abs(imag(pc1_A(2)))
+    wd1_A = abs(imag(pc1_A(1)));
+else
+    wd1_A = abs(imag(pc1_A(2)));
+end
 
-[wn1,zeta1] = damp(sys_c1);
+[wn1_A,zeta1_A] = damp(sys_c1_A);
+
+sys_c1_B = d2c(sys_d1_B, 'tustin')
+pc1_B = pole(sys_c1_B); % poles of the CT system
+if abs(imag(pc1_B(1))) > abs(imag(pc1_B(2)))
+    wd1_B = abs(imag(pc1_B(1)));
+else
+    wd1_B = abs(imag(pc1_B(2)));
+end
+
+[wn1_B,zeta1_B] = damp(sys_c1_B);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 5: step response of the CT system %%%
+%%% FIGURE 6: step response of the CT system (motor A) %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(5)
-step(sys_d1), grid  
+figure(6)
+step(sys_d1_A), grid  
 xlabel('time')
 ylabel('step response [-]')
+title('Step response of the CT system (motor A, simplified)')
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 7: step response of the CT system (motor B) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(7)
+step(sys_d1_B), grid  
+xlabel('time')
+ylabel('step response [-]')
+title('Step response of the CT system (motor B, simplified)')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FIGURE 6: omegaA averaged over the periods %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(6)
+figure(8)
 sgtitle('Velocity of wheel A averaged over the periods')
 plot(timeVectorToPlot(1:points_per_period),omegaA_mean) 
 xlabel('time [s]')
 ylabel('omegaA-mean [rad/s]')
 grid
 
+figure(9)
+sgtitle('Velocity of wheel B averaged over the periods')
+plot(timeVectorToPlot(1:points_per_period),omegaB_mean) 
+xlabel('time [s]')
+ylabel('omegaB-mean [rad/s]')
+grid
+
 % relative peak value: value of response at peak/steady state value
 %y_peak = 0.00439/0.00334;     % obtained from figure(5)
 %Mp1 = y_peak-1
-Mp1_model = exp(-pi*zeta1(1)/sqrt(1-zeta1(1)^2)); % formula slide 10, C6
-%Mp1_measurement = 0.005081/0.003351 - 1  % obtained from figure(6)
+Mp1_model_A = exp(-pi*zeta1_A(1)/sqrt(1-zeta1_A(1)^2)); % formula slide 10, C6
+Mp1_model_B = exp(-pi*zeta1_B(1)/sqrt(1-zeta1_B(1)^2)); % formula slide 10, C6
+%Mp1_measurement = 0.005081/0.003351 - 1  % obtained from figure(8)
 
 % peak time
-%tp1 = 0.312    % obtained from figure(5)
-tp1_model = pi/wd1;      % formula slide 9, C6
-%tp1_measurement = 8.125 - 7.813   % obtained from figure(6)
+%tp1 = 0.312    % obtained from figure(6)
+tp1_model_A = pi/wd1_A;      % formula slide 9, C6
+tp1_model_B = pi/wd1_B;      % formula slide 9, C6
+%tp1_measurement = 8.125 - 7.813   % obtained from figure(8)
 
 % steady state value
-[Numc1, Denc1] = tfdata(sys_c1);
-Numc1 = Numc1{1};
-Denc1 = Denc1{1};
-y_ss1_model = Numc1(end)/Denc1(end); % DC gain of CT model (evaluating transfer function at s=0) 
-%y_ss1 = 0.00334 %obtained from figure(5)
-%y_ss1_measurement = 0.003351 %obtained from figure(6)
+[Numc1_A, Denc1_A] = tfdata(sys_c1_A);
+Numc1_A = Numc1_A{1};
+Denc1_A = Denc1_A{1};
+y_ss1_model_A = Numc1_A(end)/Denc1_A(end); % DC gain of CT model (evaluating transfer function at s=0) 
+
+[Numc1_B, Denc1_B] = tfdata(sys_c1_B);
+Numc1_B = Numc1_B{1};
+Denc1_B = Denc1_B{1};
+y_ss1_model_B = Numc1_B(end)/Denc1_B(end); % DC gain of CT model (evaluating transfer function at s=0) 
 
 
 %% 2.1.4 LLS with low-pass filter applied to the input and output data
 % -------------------------------------------------------------------
-% define a low(band)-pass filter
-pd1 = pole(sys_d1);
-pc1 = log(pd1)/Ts;
-% For 2nd order system, use the non-zero pole (index 1 or 2)
-% Find the pole with non-zero imaginary part
-if abs(imag(pc1(1))) > abs(imag(pc1(2)))
-    interesting_frequency = abs(imag(pc1(1))/(2*pi));
+% define a low(band)-pass filter for each motor based on the identified dynamics
+pd1_A = pole(sys_d1_A);
+pc1_A = log(pd1_A)/Ts;
+if abs(imag(pc1_A(1))) > abs(imag(pc1_A(2)))
+    interesting_frequency_A = abs(imag(pc1_A(1))/(2*pi));
 else
-    interesting_frequency = abs(imag(pc1(2))/(2*pi));
+    interesting_frequency_A = abs(imag(pc1_A(2))/(2*pi));
 end
-cutoff = 0.1*interesting_frequency;  %was 1.5*interesting_frequency
-[B_filt,A_filt] = butter(6, cutoff/(fs/2));
+if interesting_frequency_A == 0
+    interesting_frequency_A = fs/10; % fallback to avoid zero cutoff
+end
+cutoff_A = 0.1*interesting_frequency_A;
+[B_filt_A,A_filt_A] = butter(6, min(cutoff_A, 0.99*(fs/2))/(fs/2));
 
-% apply the filter to both input and output
-omegaA_filt = filtfilt(B_filt, A_filt, omegaA); 
-voltage_filt = filtfilt(B_filt, A_filt, voltage);
+pd1_B = pole(sys_d1_B);
+pc1_B = log(pd1_B)/Ts;
+if abs(imag(pc1_B(1))) > abs(imag(pc1_B(2)))
+    interesting_frequency_B = abs(imag(pc1_B(1))/(2*pi));
+else
+    interesting_frequency_B = abs(imag(pc1_B(2))/(2*pi));
+end
+if interesting_frequency_B == 0
+    interesting_frequency_B = fs/10;
+end
+cutoff_B = 0.1*interesting_frequency_B;
+[B_filt_B,A_filt_B] = butter(6, min(cutoff_B, 0.99*(fs/2))/(fs/2));
 
-% repeat the identification
-b = omegaA_filt(3:end);
-A = [-omegaA_filt(2:end-1), voltage_filt(1:end-2)];
+% apply the filters to both input and outputs
+omegaA_filt = filtfilt(B_filt_A, A_filt_A, omegaA);
+voltage_filt_A = filtfilt(B_filt_A, A_filt_A, voltage);
+
+omegaB_filt = filtfilt(B_filt_B, A_filt_B, omegaB);
+voltage_filt_B = filtfilt(B_filt_B, A_filt_B, voltage);
+
+% repeat the identification for both motors
+b_A_filt = omegaA_filt(3:end);
+A_A_filt = [-omegaA_filt(2:end-1), voltage_filt_A(1:end-2)];
+
+b_B_filt = omegaB_filt(3:end);
+A_B_filt = [-omegaB_filt(2:end-1), voltage_filt_B(1:end-2)];
 
 % H(z) = b1 /(z^2 + a1 z)
 
-theta_filter = A\b
+theta_filter_A = A_A_filt\b_A_filt
+theta_filter_B = A_B_filt\b_B_filt
 % theta_filter = [a1 b1]'
 
-Num2 = [theta_filter(2)];
-Den2 = [1, theta_filter(1)];
-sys_d2 = tf(Num2, Den2, Ts);
+sys_d2_A = (theta_filter_A(2))/(z^2 + theta_filter_A(1)*z)
+sys_d2_B = (theta_filter_B(2))/(z^2 + theta_filter_B(1)*z)
 
 % plot results
 
-omegaA_model2 = lsim(sys_d2,voltage,timeVectorToPlot);
+omegaA_model2 = lsim(sys_d2_A,voltage,timeVectorToPlot);
+omegaB_model2 = lsim(sys_d2_B,voltage,timeVectorToPlot);
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 7: omegaA experiments vs. filtered model %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(7), hold on
-sgtitle('LLS with low-pass filtering')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 10: omegaA experiments vs. filtered model %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(10), hold on
+sgtitle('LLS with low-pass filtering (motor A, simplified)')
 
 subplot(2,1,1)
 plot(timeVectorToPlot,[omegaA omegaA_model2]);
@@ -272,52 +349,90 @@ xlabel('time [s]')
 ylabel('omegaA-filtered-error [rad/s]')
 axis tight
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 11: omegaB experiments vs. filtered model %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(11), hold on
+sgtitle('LLS with low-pass filtering (motor B, simplified)')
+
+subplot(2,1,1)
+plot(timeVectorToPlot,[omegaB omegaB_model2]);
+legend('empirical','estimated','Location','SouthWest')
+xlabel('time [s]')
+axis tight
+ylabel('omegaB [rad/s]')
+
+subplot(2,1,2),plot(timeVectorToPlot,omegaB-omegaB_model2)
+legend('error')
+xlabel('time [s]')
+ylabel('omegaB-filtered-error [rad/s]')
+axis tight
+
+
 % analyse step response of model in detail: calculate from model and
 % measure from step response: peak value, peak time, steady state value
-% befor that, model is transformed back to CT and step response of CT model
-% is simulated. Also zeta, wn, wd and DC-gain of CT model are calculated and used
-% ALSO compare these values with values derived from the provided
-% measurement
+% before that, models are transformed back to CT and step responses of the CT models
+% are simulated. Also zeta, wn, wd and DC-gain of CT models are calculated and used.
 
-%transform model back to CT
-sys_c2 = d2c(sys_d2);
-pc2 = pole(sys_c2);
-% For 2nd order system, get the imaginary part from the complex pole
-if abs(imag(pc2(1))) > abs(imag(pc2(2)))
-    wd2 = abs(imag(pc2(1)));
+sys_c2_A = d2c(sys_d2_A, 'tustin');
+pc2_A = pole(sys_c2_A);
+if abs(imag(pc2_A(1))) > abs(imag(pc2_A(2)))
+    wd2_A = abs(imag(pc2_A(1)));
 else
-    wd2 = abs(imag(pc2(2)));
+    wd2_A = abs(imag(pc2_A(2)));
 end
 
-[wn2,zeta2] = damp(sys_c2);
+[wn2_A,zeta2_A] = damp(sys_c2_A);
+
+sys_c2_B = d2c(sys_d2_B, 'tustin');
+pc2_B = pole(sys_c2_B);
+if abs(imag(pc2_B(1))) > abs(imag(pc2_B(2)))
+    wd2_B = abs(imag(pc2_B(1)));
+else
+    wd2_B = abs(imag(pc2_B(2)));
+end
+
+[wn2_B,zeta2_B] = damp(sys_c2_B);
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 8: step response of the CT system (filtered model) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(8)
-step(sys_d2);grid
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 12: step response of the CT system (filtered model, motor A) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(12)
+step(sys_d2_A);grid
+xlabel('time')
+ylabel('step response [-]')
+title('Step response of the CT system (filtered model, motor A, simplified)')
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 13: step response of the CT system (filtered model, motor B) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(13)
+step(sys_d2_B);grid
+xlabel('time')
+ylabel('step response [-]')
+title('Step response of the CT system (filtered model, motor B, simplified)')
 
 
 % relative peak value: value of response at peak/steady state value
-%y_peak = 0.00508/0.00333; %obtained from figure(8)
-%Mp = y_peak-1
-Mp_model = exp(-pi*zeta2(1)/sqrt(1-zeta2(1)^2)); %formula slide 10, C6
-%Mp_measurement = 0.005081/0.003351 - 1  %obtained from figure(6)
+Mp_model_A = exp(-pi*zeta2_A(1)/sqrt(1-zeta2_A(1)^2)); %formula slide 10, C6
+Mp_model_B = exp(-pi*zeta2_B(1)/sqrt(1-zeta2_B(1)^2)); %formula slide 10, C6
 
 % peak time
-%tp = 0.313 %obtained from figure(8)
-tp_model = pi/wd2; %formula slide 9, C6
-%tp_measurement = 8.125 - 7.813 %obtained from figure(6)
+tp_model_A = pi/wd2_A;      % formula slide 9, C6
+tp_model_B = pi/wd2_B;      % formula slide 9, C6
 
 % steady state value
-[Numc2, Denc2] = tfdata(sys_c2);
-Numc2 = Numc2{1};
-Denc2 = Denc2{1};
-y_ss_model = Numc2(end)/Denc2(end); %DC gain of CT model (evaluating transfer function at s=0) 
-%y_ss = 0.00333 %obtained from figure(8)
-%y_ss_measurement = 0.003351 %obtained from figure(6)
+[Numc2_A, Denc2_A] = tfdata(sys_c2_A);
+Numc2_A = Numc2_A{1};
+Denc2_A = Denc2_A{1};
+y_ss_model_A = Numc2_A(end)/Denc2_A(end); %DC gain of CT model (evaluating transfer function at s=0)
+
+[Numc2_B, Denc2_B] = tfdata(sys_c2_B);
+Numc2_B = Numc2_B{1};
+Denc2_B = Denc2_B{1};
+y_ss_model_B = Numc2_B(end)/Denc2_B(end); %DC gain of CT model (evaluating transfer function at s=0)
 
 

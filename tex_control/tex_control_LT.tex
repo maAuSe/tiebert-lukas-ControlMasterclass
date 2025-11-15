@@ -111,20 +111,14 @@
 	
 	\section{Discrete-time model structure selection}
 	
-	To select an appropriate model structure for identifying the relation between motor voltage and rotational wheel velocity, we start by analyzing the continuous-time dynamics of the DC motor, incorporating the following assumptions:
-	
-	\begin{itemize}
-		\item the same voltage is applied to both motors
-		\item no wheel slip occurs
-		\item only forward and backward motions are considered (no turning)
-		\item the cart's mass and ground friction are lumped into the wheel inertia and friction respectively
-	\end{itemize}
-	
-	\noindent When Laplace transforming the equations in our lumped model (see Figure~\ref{fig:dc_motor_model} in Appendix~\ref{app:figures}) of conservation of momentum and charge, and working out towards $\dot{\Theta}_m(s)/V_a(s)$, one obtains the following transfer function:
+	We assume that (i) the same voltage is applied to both motors, (ii) no wheel slip occurs, (iii) only longitudinal motion (no turning) is considered, and (iv) the cart mass and ground friction are lumped into the wheel inertia and viscous friction, respectively. Under these assumptions, the lumped-parameter model follows from the balance of angular momentum of the rotor and the conservation of electric charge in the armature circuit. \newline
+
+	\noindent Taking the Laplace transform of these equations (see Figure~\ref{fig:dc_motor_model} in Appendix~\ref{app:figures}) and solving for $\dot{\Theta}_m(s)/V_a(s)$ yields the following transfer function:
 	
 	\begin{equation}
-		H(s) = \frac{\dot{\Theta}_m(s)}{V_a(s)} = \frac{K}{(J_ms + b)(L_as + R_a) + K^2} 
-		\label{eq: CT transfer function DC}
+		H(s) = \frac{\dot{\Theta}_m(s)}{V_a(s)} 
+		= \frac{K}{\bigl(J_m s + b\bigr)\bigl(L_a s + R_a\bigr) + K^2}
+		\label{eq:CT_transfer_function_DC}
 	\end{equation}
 	
 	\begin{table}[htbp]
@@ -161,7 +155,26 @@
 	
 	\subsection{Model derivation}
 	
-	The discrete-time model was derived by applying Zero-Order Hold (ZOH) discretization to the continuous-time transfer function using MATLAB's \texttt{c2d} function. The one-sample delay ($z^{-1}$) was added to account for computational latency in the microOS embedded system. This yields the transfer function above with four unknown parameters ($a_1, a_2, b_1, b_2$) to be estimated from experimental data.
+	To obtain a discrete-time model, the continuous-time system
+	\[
+	H(s) = \frac{a}{b s^{2} + c s + d}
+	\]
+	is sampled with sampling period \(T_s\) under a zero-order hold (ZOH) on the input.  
+	The ZOH assumption implies that the input voltage is piecewise constant on each sampling interval \([kT_s,(k+1)T_s)\). For a strictly proper second-order transfer function, ZOH discretization yields a second-order discrete-time transfer function of the form
+	\begin{equation}
+		H_0(z) = \frac{\beta_1 z + \beta_2}{z^{2} + \alpha_1 z + \alpha_0},
+	\end{equation}
+	where the coefficients \(\alpha_0,\alpha_1,\beta_1,\beta_2\) are nonlinear functions of the continuous-time parameters \(a,b,c,d\) and of \(T_s\), obtained by solving the sampled state-space dynamics
+	\[
+	x((k+1)T_s) = e^{A T_s} x(kT_s) + \int_{0}^{T_s} e^{A\tau} B \, d\tau \, u(kT_s),
+	\]
+	with \(y(kT_s) = C x(kT_s)\), and then forming the corresponding pulse-transfer function.
+	
+	The computational latency of the microOS introduces an additional one-sample delay between the computed control signal and the applied motor voltage. In the \(z\)-domain this corresponds to a multiplicative factor \(z^{-1}\), so the overall discrete-time transfer function becomes
+	\begin{equation}
+		H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
+	\end{equation}
+	where the parameters \(a_1, a_2, b_1, b_2\) are functions of \(\alpha_0,\alpha_1,\beta_1,\beta_2\) and thus ultimately of \((a,b,c,d,T_s)\). In the identification step, these four coefficients are treated as unknowns and estimated directly from the experimental input-output data.
 	
 	\subsection{Model structure motivation}
 	

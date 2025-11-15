@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  8 NOV 2025 21:02
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 14:04
  restricted system commands enabled.
 **tex_control_LT.tex
 (./tex_control_LT.tex
@@ -613,42 +613,47 @@ Package luatex.def Info: logoFirW.jpg  used on input line 60.
 {C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
 /logoFirW.jpg>]
 warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
-[1] [2] [3]
-<images/excitation_ass1.png, id=160, 357.4956pt x 295.8252pt>
+[1]
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
+
+ []
+
+[2] [3]
+<images/excitation_ass1.png, id=162, 357.4956pt x 295.8252pt>
 File: images/excitation_ass1.png Graphic file (type png)
 <use images/excitation_ass1.png>
-Package luatex.def Info: images/excitation_ass1.png  used on input line 232.
+Package luatex.def Info: images/excitation_ass1.png  used on input line 245.
 (luatex.def)             Requested size: 234.8775pt x 194.365pt.
-<images/measured_vs_modeled_nofilter.png, id=163, 379.6584pt x 225.9642pt>
+<images/measured_vs_modeled_nofilter.png, id=165, 379.6584pt x 225.9642pt>
 File: images/measured_vs_modeled_nofilter.png Graphic file (type png)
 <use images/measured_vs_modeled_nofilter.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter.png  used on input
- line 249.
+ line 262.
 (luatex.def)             Requested size: 225.4804pt x 134.20038pt.
-<images/measured_vs_modeled_nofilter_simplified.png, id=164, 380.1402pt x 225.9
+<images/measured_vs_modeled_nofilter_simplified.png, id=166, 380.1402pt x 225.9
 642pt>
 File: images/measured_vs_modeled_nofilter_simplified.png Graphic file (type png
 )
 <use images/measured_vs_modeled_nofilter_simplified.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter_simplified.png  us
-ed on input line 253.
+ed on input line 266.
 (luatex.def)             Requested size: 225.4804pt x 134.03488pt.
  [4
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
 <./images/excitation_ass1.png>]
-<images/model_vs_meas_error_nofilter.png, id=173, 377.7312pt x 225.9642pt>
+<images/model_vs_meas_error_nofilter.png, id=175, 377.7312pt x 225.9642pt>
 File: images/model_vs_meas_error_nofilter.png Graphic file (type png)
 <use images/model_vs_meas_error_nofilter.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter.png  used on input
- line 263.
+ line 276.
 (luatex.def)             Requested size: 225.4804pt x 134.88652pt.
-<images/model_vs_meas_error_nofilter_simplified.png, id=174, 377.7312pt x 225.4
+<images/model_vs_meas_error_nofilter_simplified.png, id=176, 377.7312pt x 225.4
 824pt>
 File: images/model_vs_meas_error_nofilter_simplified.png Graphic file (type png
 )
 <use images/model_vs_meas_error_nofilter_simplified.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter_simplified.png  us
-ed on input line 267.
+ed on input line 280.
 (luatex.def)             Requested size: 225.4804pt x 134.59892pt.
  [5
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
@@ -665,10 +670,10 @@ warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.5'
 ]
-<images/linear_circuit_DC.png, id=209, 464.937pt x 203.5605pt>
+<images/linear_circuit_DC.png, id=212, 464.937pt x 203.5605pt>
 File: images/linear_circuit_DC.png Graphic file (type png)
 <use images/linear_circuit_DC.png>
-Package luatex.def Info: images/linear_circuit_DC.png  used on input line 436.
+Package luatex.def Info: images/linear_circuit_DC.png  used on input line 449.
 (luatex.def)             Requested size: 328.82707pt x 143.97607pt.
 
 
@@ -720,18 +725,18 @@ Package rerunfilecheck Info: File `tex_control_LT.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 14419 strings out of 476497
+ 14423 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 662 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 40 attribute, 58 glue_spec
-, 40 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:816,3:280,4:81,5:394,6:49,7:6075,8:109,9:783,10:8,11:531
- 36074 multiletter control sequences out of 65536+600000
+ 702 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 50 attribute, 58 glue_spec
+, 50 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:816,3:280,4:81,5:455,6:49,7:6920,8:109,9:861,10:8,11:531
+ 36076 multiletter control sequences out of 65536+600000
  49 fonts using 3729047 bytes
  79i,12n,89p,855b,410s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmrom
-an7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/pub
-lic/lm/lmmono10-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
+regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
+lic/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
 opentype/public/lm/lmmono10-italic.otf><C:/Users/campa/AppData/Local/Programs/Mi
 KTeX/fonts/opentype/public/lm/lmroman10-italic.otf><C:/Users/campa/AppData/Local
 /Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-bolditalic.otf><//?/c:/users
@@ -742,17 +747,18 @@ ublic/lm/lmroman12-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/campa/AppData/Local/Progra
 ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/ca
-mpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/U
-sers/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb
-><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-r7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmsy7.pfb>
-Output written on tex_control_LT.pdf (10 pages, 1136614 bytes).
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/camp
+a/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/U
+sers/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pf
+b><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
+mr5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmsy7.pfb>
+Output written on tex_control_LT.pdf (10 pages, 1148669 bytes).
 
-PDF statistics: 319 PDF objects out of 1000 (max. 8388607)
- 75 named destinations out of 1000 (max. 131072)
+PDF statistics: 325 PDF objects out of 1000 (max. 8388607)
+ 77 named destinations out of 1000 (max. 131072)
  205 words of extra memory for PDF output out of 10000 (max. 100000000)
 

@@ -357,9 +357,15 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
 	
 	\subsubsection{Transient and steady-state characteristics}
 	
-	\textbf{Transient behavior:} Both models capture the general shape of the transient response during step changes in input voltage. The third-order model exhibits slightly faster initial response due to the additional pole from armature inductance, while the simplified model shows marginally slower rise times. However, differences in peak overshoot and settling time between the two models are negligible for the observed dynamics.
+	\textbf{Transient behavior:} Both models reproduce the measured step-to-step evolution of the angular velocity. The third-order model responds a fraction faster after each voltage transition because the additional pole associated with armature inductance gives a steeper initial slope. The velocity measurements are quantized, so visible level-to-level toggling appears that the continuous models cannot mirror. That discrepancy excites the lightly damped high-frequency mode of the third-order fit and inflates its residuals. The simplified model stays closer to the data, and the RMS prediction errors are 0.5285~rad/s for the third-order model and 0.3723~rad/s for the simplified model.
+	\newline
 	
-	\textbf{Steady-state behavior:} Both models converge accurately to the measured steady-state angular velocity. The steady-state errors are minimal and nearly identical for both models, indicating that armature inductance has negligible impact on steady-state gain.
+
+	\noindent \textbf{Steady-state behavior:} Both simulations settle to the measured steady-state angular velocities within the sensor resolution. The apparent steady-state ripple arises from the same quantization and is absent in the simulated trajectories, yet the mean levels match within negligible error. 
+	\newline
+	\vspace{1em}
+
+	\noindent Armature inductance therefore has no discernible influence on steady-state gain, and the simplified second-order model is selected for subsequent analysis.
 	
 	
 	
@@ -367,7 +373,7 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
 	
 	\subsubsection{Motivation for filtering}
 	
-	Pre-filtering the input and output signals before parameter estimation can improve model accuracy by removing high-frequency measurement noise that is not part of the system dynamics. By filtering both signals with the same filter, we maintain the phase relationship while reducing noise contamination in the parameter estimation.
+	Pre-filtering the measured signals before parameter estimation can improve model accuracy by removing high-frequency measurement noise that is not part of the system dynamics. By filtering both signals with the same filter, we maintain the phase relationship while reducing noise contamination in the parameter estimation.
 	
 	We chose to filter the following signals:
 	\begin{itemize}

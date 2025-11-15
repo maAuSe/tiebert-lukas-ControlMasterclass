@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 16:19
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 16:47
  restricted system commands enabled.
 **tex_control_LT.tex
 (./tex_control_LT.tex
@@ -670,23 +670,24 @@ File: images/model_vs_meas_error_nofilter_simplified.png Graphic file (type png
 Package luatex.def Info: images/model_vs_meas_error_nofilter_simplified.png  us
 ed on input line 348.
 (luatex.def)             Requested size: 225.4804pt x 134.59892pt.
- [6
+
+Underfull \hbox (badness 10000) in paragraph at lines 360--362
+
+ []
+
+[6
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.3'
 <./images/measured_vs_modeled_nofilter.png><./images/measured_vs_modeled_nofilte
 r_simplified.png><./images/model_vs_meas_error_nofilter.png><./images/model_vs_m
-eas_error_nofilter_simplified.png>]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7
+eas_error_nofilter_simplified.png>] [7
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
 ] (./tex_control_LT.bbl)
-<images/linear_circuit_DC.png, id=210, 464.937pt x 203.5605pt>
+<images/linear_circuit_DC.png, id=209, 464.937pt x 203.5605pt>
 File: images/linear_circuit_DC.png Graphic file (type png)
 <use images/linear_circuit_DC.png>
-Package luatex.def Info: images/linear_circuit_DC.png  used on input line 486.
+Package luatex.def Info: images/linear_circuit_DC.png  used on input line 492.
 (luatex.def)             Requested size: 328.82707pt x 143.97607pt.
 
 
@@ -745,10 +746,10 @@ Here is how much of LuaTeX's memory you used:
  731 words of node memory still in use:
    7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 55 attribute, 58 glue_spec
 , 55 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:786,3:280,4:81,5:369,6:54,7:5581,8:113,9:735,10:8,11:401
+   avail lists: 2:894,3:309,4:81,5:369,6:49,7:5581,8:113,9:735,10:13,11:458
  36079 multiletter control sequences out of 65536+600000
  49 fonts using 3729047 bytes
- 79i,12n,89p,526b,407s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 79i,12n,89p,739b,410s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
 regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
 lic/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
@@ -771,7 +772,7 @@ mr5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
 s/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb>
-Output written on tex_control_LT.pdf (10 pages, 1146266 bytes).
+Output written on tex_control_LT.pdf (10 pages, 1146688 bytes).
 
 PDF statistics: 325 PDF objects out of 1000 (max. 8388607)
  78 named destinations out of 1000 (max. 131072)

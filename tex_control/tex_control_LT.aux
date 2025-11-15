@@ -8,27 +8,29 @@
 \newlabel{tab:laplace_variables}{{1}{II}{Discrete-time model structure selection}{equation.1.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Discrete-time transfer function}{II}{subsection.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Model derivation}{II}{subsection.1.2}\protected@file@percent }
+\newlabel{eq:discrete_base_model}{{4}{II}{Model derivation}{equation.1.4}{}}
+\newlabel{eq:discrete_full_model}{{5}{III}{Model derivation}{equation.1.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Model structure motivation}{III}{subsection.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Model parameters estimation}{III}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Recursion expression and error criterion}{III}{subsection.2.1}\protected@file@percent }
 \newlabel{eq: difference eq ARX}{{6}{III}{Recursion expression and error criterion}{equation.2.6}{}}
-\newlabel{eq: LS criterion}{{8}{III}{Recursion expression and error criterion}{equation.2.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Matrix formulation}{III}{subsection.2.2}\protected@file@percent }
-\newlabel{eq: LS solution}{{10}{III}{Matrix formulation}{equation.2.10}{}}
+\newlabel{eq: difference eq simple}{{8}{III}{Recursion expression and error criterion}{equation.2.8}{}}
+\newlabel{eq: LS criterion}{{10}{III}{Recursion expression and error criterion}{equation.2.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Matrix formulation}{IV}{subsection.2.2}\protected@file@percent }
+\newlabel{eq: LS solution}{{12}{IV}{Matrix formulation}{equation.2.12}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Identification of the cart by exciting the motors while the cart is on the ground}{IV}{section.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Excitation signal selection}{IV}{subsection.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Motivation for excitation signal}{IV}{subsubsection.3.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Excitation signal design and implementation}{IV}{subsubsection.3.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Applied excitation signal over 2 complete periods (28 seconds)}}{IV}{figure.1}\protected@file@percent }
-\newlabel{fig:excitation_signal}{{1}{IV}{Applied excitation signal over 2 complete periods (28 seconds)}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Parameter estimation and model validation for both motors}{IV}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Measured vs simulated response and model error}{IV}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Applied excitation signal over 2 complete periods (28 seconds)}}{V}{figure.1}\protected@file@percent }
+\newlabel{fig:excitation_signal}{{1}{V}{Applied excitation signal over 2 complete periods (28 seconds)}{figure.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Measured vs simulated responses (left: third-order; right: simplified). Zoomed-in to highlight differences.}}{V}{figure.2}\protected@file@percent }
 \newlabel{fig:measured_vs_modeled_pair}{{2}{V}{Measured vs simulated responses (left: third-order; right: simplified). Zoomed-in to highlight differences}{figure.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Prediction error (measurement minus simulation). Left: third-order model; right: simplified model.}}{V}{figure.3}\protected@file@percent }
 \newlabel{fig:model_error_pair}{{3}{V}{Prediction error (measurement minus simulation). Left: third-order model; right: simplified model}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Transient and steady-state characteristics}{V}{subsubsection.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Model comparison and selection}{V}{subsubsection.3.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Verification of data filtering to improve identification}{VI}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Motivation for filtering}{VI}{subsubsection.3.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Filter design}{VI}{subsubsection.3.3.2}\protected@file@percent }
@@ -44,16 +46,15 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Comparison and model selection}{VII}{subsubsection.3.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {A}Simplified second-order model (armature inductance neglected)}{VII}{appendix.A}\protected@file@percent }
 \newlabel{app:simplified_model}{{A}{VII}{Simplified second-order model (armature inductance neglected)}{appendix.A}{}}
-\newlabel{eq: difference eq simple}{{14}{VII}{Recursion expression and error criterion}{equation.A.14}{}}
 \citation{DC_motor_model}
 \@writefile{toc}{\contentsline {section}{\numberline {B}Figures}{VIII}{appendix.B}\protected@file@percent }
 \newlabel{app:figures}{{B}{VIII}{Figures}{appendix.B}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Model of the DC motor \cite  {DC_motor_model}}}{IX}{figure.6}\protected@file@percent }
-\newlabel{fig:dc_motor_model}{{6}{IX}{Model of the DC motor \cite {DC_motor_model}}{figure.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Input voltage applied to both DC motors over time}}{IX}{figure.7}\protected@file@percent }
-\newlabel{fig:voltage_time}{{7}{IX}{Input voltage applied to both DC motors over time}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Measured angular velocities for motors A and B}}{IX}{figure.8}\protected@file@percent }
-\newlabel{fig:omega_time}{{8}{IX}{Measured angular velocities for motors A and B}{figure.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Model of the DC motor \cite  {DC_motor_model}}}{VIII}{figure.6}\protected@file@percent }
+\newlabel{fig:dc_motor_model}{{6}{VIII}{Model of the DC motor \cite {DC_motor_model}}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Input voltage applied to both DC motors over time}}{VIII}{figure.7}\protected@file@percent }
+\newlabel{fig:voltage_time}{{7}{VIII}{Input voltage applied to both DC motors over time}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Measured angular velocities for motors A and B}}{VIII}{figure.8}\protected@file@percent }
+\newlabel{fig:omega_time}{{8}{VIII}{Measured angular velocities for motors A and B}{figure.8}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Comparison of signals across periods to assess measurement noise}}{IX}{figure.9}\protected@file@percent }
 \newlabel{fig:noise_analysis}{{9}{IX}{Comparison of signals across periods to assess measurement noise}{figure.9}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Model validation without filtering: measured vs simulated response for motor A}}{IX}{figure.10}\protected@file@percent }

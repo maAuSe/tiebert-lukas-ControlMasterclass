@@ -156,29 +156,45 @@
 	\subsection{Model derivation}
 	
 	To obtain a discrete-time model, the continuous-time system
-	\[
-	H(s) = \frac{a}{b s^{2} + c s + d}
-	\]
-	is sampled with sampling period \(T_s\) under a zero-order hold (ZOH) on the input.  
-	The ZOH assumption implies that the input voltage is piecewise constant on each sampling interval \([kT_s,(k+1)T_s)\). For a strictly proper second-order transfer function, ZOH discretization yields a second-order discrete-time transfer function of the form
-	\begin{equation}
-		H_0(z) = \frac{\beta_1 z + \beta_2}{z^{2} + \alpha_1 z + \alpha_0},
-	\end{equation}
-	where the coefficients \(\alpha_0,\alpha_1,\beta_1,\beta_2\) are nonlinear functions of the continuous-time parameters \(a,b,c,d\) and of \(T_s\), obtained by solving the sampled state-space dynamics
-	\[
-	x((k+1)T_s) = e^{A T_s} x(kT_s) + \int_{0}^{T_s} e^{A\tau} B \, d\tau \, u(kT_s),
-	\]
-	with \(y(kT_s) = C x(kT_s)\), and then forming the corresponding pulse-transfer function.
-	
-	The computational latency of the microOS introduces an additional one-sample delay between the computed control signal and the applied motor voltage. In the \(z\)-domain this corresponds to a multiplicative factor \(z^{-1}\), so the overall discrete-time transfer function becomes
-	\begin{equation}
-		H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
-	\end{equation}
-	where the parameters \(a_1, a_2, b_1, b_2\) are functions of \(\alpha_0,\alpha_1,\beta_1,\beta_2\) and thus ultimately of \((a,b,c,d,T_s)\). In the identification step, these four coefficients are treated as unknowns and estimated directly from the experimental input-output data.
+
+\[
+H(s) = \frac{a}{b s^{2} + c s + d}
+\]
+
+\noindent is sampled with sampling period \(T_s\) under a zero-order hold (ZOH) on the input.  
+The ZOH assumption implies that the input voltage is piecewise constant on each sampling interval \([kT_s,(k+1)T_s)\). For a strictly proper second-order transfer function, ZOH discretization yields a second-order discrete-time transfer function
+
+\begin{equation}
+\label{eq:discrete_base_model}
+H_0(z) = \frac{b_1 z + b_0}{z^{2} + a_1 z + a_0},
+\end{equation}
+
+\noindent with coefficients \(a_0,a_1,b_0,b_1\) that follow from the sampled state-space dynamics
+
+\[
+x((k+1)T_s) = e^{A T_s} x(kT_s) + \int_{0}^{T_s} e^{A\tau} B \, d\tau \, u(kT_s),
+\]
+
+\noindent with \(y(kT_s) = C x(kT_s)\), and then forming the corresponding transfer function.
+\newline
+
+\noindent The computational latency of the microOS introduces an additional one-sample delay between the computed control signal and the applied motor voltage. In the \(z\)-domain this corresponds to a multiplicative factor \(z^{-1}\), so the overall discrete-time transfer function becomes
+
+\begin{equation}
+\label{eq:discrete_full_model}
+H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
+\end{equation}
+
+\noindent During identification these four parameters are estimated directly from the measured input-output data, so no explicit mapping back to the continuous-time coefficients is required.
 	
 	\subsection{Model structure motivation}
 	
-	We consider two model structures: (1) the full third-order model above, which captures armature inductance effects, and (2) a simplified second-order model neglecting inductance ($L_a$), yielding $H(z) = \frac{b_1}{z^2 + a_1 z}$ with only two parameters. The third-order model is selected as the primary structure because it preserves more of the physical dynamics. The second-order model serves as a simplified alternative if parameter estimation reveals that inductance effects are negligible.
+	We consider two candidate model structures: (i) the full third-order model above, which accounts for armature inductance, and (ii) a reduced second-order model obtained by neglecting the armature inductance \(L_a\), leading to
+	\[
+	H(z) = \frac{b_1}{z^2 + a_1 z},
+	\]
+	\noindent with only two parameters.
+	
 	
 	\section{Model parameters estimation}
 	
@@ -192,17 +208,29 @@
 		\label{eq: difference eq ARX}
 	\end{equation}
 	
-	This can be written in compact form as $\dot{\theta}[k] = \boldsymbol{\theta}^T \boldsymbol{\phi}[k]$ with parameter vector and regression vector:
-	\begin{equation}
-		\boldsymbol{\theta} = \begin{bmatrix} a_1 \\ a_2 \\ b_1 \\ b_2 \end{bmatrix}, \quad
-		\boldsymbol{\phi}[k] = \begin{bmatrix} -\dot{\theta}[k-1] \\ -\dot{\theta}[k-2] \\ v[k-2] \\ v[k-3] \end{bmatrix}
-	\end{equation}
-	
-	The least squares criterion minimizes the sum of squared prediction errors:
-	\begin{equation}
-		V_N(\boldsymbol{\theta}) = \sum ^N _{k=1}  \frac{1}{2} [\dot{\theta}[k] - \boldsymbol{\phi}^T[k] \boldsymbol{\theta}]^2
-		\label{eq: LS criterion}
-	\end{equation}
+	\noindent This can be written in compact form as $\dot{\theta}[k] = \boldsymbol{\theta}^T \boldsymbol{\phi}[k]$ with parameter vector and regression vector:
+\begin{equation}
+	\boldsymbol{\theta} = \begin{bmatrix} a_1 \\ a_2 \\ b_1 \\ b_2 \end{bmatrix}, \quad
+	\boldsymbol{\phi}[k] = \begin{bmatrix} -\dot{\theta}[k-1] \\ -\dot{\theta}[k-2] \\ v[k-2] \\ v[k-3] \end{bmatrix}
+\end{equation}
+
+\noindent For the simplified second-order model, the recursion reduces to:
+\begin{equation}
+	\dot{\theta}[k] = -a_1\dot{\theta}[k-1] + b_1 v[k-2]
+	\label{eq: difference eq simple}
+\end{equation}
+
+\noindent with corresponding parameter and regression vectors
+\begin{equation}
+	\boldsymbol{\theta}_{\text{simp}} = \begin{bmatrix} a_1 \\ b_1 \end{bmatrix}, \quad
+	\boldsymbol{\phi}_{\text{simp}}[k] = \begin{bmatrix} -\dot{\theta}[k-1] \\ v[k-2] \end{bmatrix}.
+\end{equation}
+
+\noindent The least squares criterion minimizes the sum of squared prediction errors:
+\begin{equation}
+	V_N(\boldsymbol{\theta}) = \sum ^N _{k=1}  \frac{1}{2} [\dot{\theta}[k] - \boldsymbol{\phi}^T[k] \boldsymbol{\theta}]^2
+	\label{eq: LS criterion}
+\end{equation}
 	
 	\subsection{Matrix formulation}
 	
@@ -219,7 +247,7 @@
 		\end{bmatrix}
 	\end{equation}
 	
-	The least squares solution is:
+	\noindent The least squares solution is:
 	\begin{equation}
 		\hat{\boldsymbol{\theta}}^{LS}_N = [\boldsymbol{\Phi}^T \boldsymbol{\Phi}]^{-1} \boldsymbol{\Phi}^T \boldsymbol{y} = \boldsymbol{\Phi}^+ \boldsymbol{y}
 		\label{eq: LS solution}
@@ -289,13 +317,7 @@ Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity co
 	
 	\textbf{Steady-state behavior:} Both models converge accurately to the measured steady-state angular velocity. The steady-state errors are minimal and nearly identical for both models, indicating that armature inductance has negligible impact on steady-state gain.
 	
-	\subsubsection{Model comparison and selection}
-
-\textbf{Model structure/order preference:} Comparing the error plots in Figure~\ref{fig:model_error_pair}, the prediction errors are nearly identical between the third-order and simplified second-order models. The root mean square errors (RMSE) differ by less than 2\%, with the simplified model achieving RMSE = [PLACEHOLDER\_VALUE] rad/s versus [PLACEHOLDER\_VALUE] rad/s for the full model. Given this negligible difference in accuracy, we prefer the \textbf{simplified second-order model} following the parsimony principle (Occam's razor): it requires fewer parameters (2 vs 4), is computationally simpler, and the armature inductance time constant $\tau_L = L_a/R_a$ is evidently much smaller than the mechanical time constant, making its contribution insignificant.
 	
-	\textbf{Comparison between motors A and B:} The identified parameters for motors A and B show minor differences: motor A has [PLACEHOLDER\_PARAM\_A] while motor B has [PLACEHOLDER\_PARAM\_B]. These differences are \textbf{not significant} from a practical standpoint—both motors exhibit similar transient characteristics (damping ratio $\zeta \approx$ [PLACEHOLDER], natural frequency $\omega_n \approx$ [PLACEHOLDER] rad/s) and identical steady-state gains within measurement uncertainty. The variations likely stem from manufacturing tolerances and slight asymmetries in cart loading rather than fundamental motor differences. For control design purposes, we can use a single averaged model or treat the motors as identical.
-	
-	\textbf{Conclusion:} We will proceed with the \textbf{simplified second-order model} for both motors, as it provides nearly identical prediction accuracy (error difference $<2\%$) compared to the full third-order model while offering greater simplicity and computational efficiency.
 	
 	\subsection{Verification of data filtering to improve identification}
 	
@@ -391,26 +413,8 @@ Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity co
 	
 	This model has two parameters ($a_1, b_1$) compared to four in the full model.
 	
-	\subsection*{Recursion expression and error criterion}
-	
-	The difference equation for the simplified model is:
-	\begin{equation}
-		\dot{\theta}[k] = -a_1\dot{\theta}[k-1] + b_1 v[k-2]
-		\label{eq: difference eq simple}
-	\end{equation}
-	
-	In compact form with parameter and regression vectors:
-	\begin{equation}
-		\boldsymbol{\theta} = \begin{bmatrix} a_1 \\ b_1 \end{bmatrix}, \quad
-		\boldsymbol{\phi}[k] = \begin{bmatrix} -\dot{\theta}[k-1] \\ v[k-2] \end{bmatrix}
-	\end{equation}
-	
-	The error criterion is identical to the third-order case:
-	\begin{equation}
-		V_N(\boldsymbol{\theta}) = \sum ^N _{k=1}  \frac{1}{2} [\dot{\theta}[k] - \boldsymbol{\phi}^T[k] \boldsymbol{\theta}]^2
-	\end{equation}
-	
-	\subsection*{Matrix formulation}
+	The recursion expression for the simplified model is given in the main text by \eqref{eq: difference eq simple}, with the associated regression vector and least-squares criterion \eqref{eq: LS criterion}. For completeness, we retain the matrix formulation below.
+\subsection*{Matrix formulation}
 	
 	For $N$ measurements with maximum delay of 2 samples (starting from $k=3$):
 	\begin{equation}
@@ -425,22 +429,11 @@ Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity co
 		\end{bmatrix}
 	\end{equation}
 	
-	The least squares solution is:
+	\noindent The least squares solution is:
 	\begin{equation}
 		\hat{\boldsymbol{\theta}}^{LS}_N = [\boldsymbol{\Phi}^T \boldsymbol{\Phi}]^{-1} \boldsymbol{\Phi}^T \boldsymbol{y} = \boldsymbol{\Phi}^+ \boldsymbol{y}
 	\end{equation}
 	
-	\subsection*{Model comparison}
-	
-	When comparing the second-order model with the full third-order model, consider:
-	\begin{itemize}
-		\item \textbf{Prediction accuracy:} Compare the fit quality to measured data using metrics like root mean square error (RMSE) or $R^2$
-		\item \textbf{Physical plausibility:} Check if estimated poles and zeros align with expected motor dynamics
-		\item \textbf{Parsimony principle:} If both models achieve similar accuracy, prefer the simpler model (Occam's razor)
-		\item \textbf{Frequency domain:} Compare Bode plots to assess which model better captures the system's frequency response
-	\end{itemize}
-	
-	In practice, if the armature inductance time constant $\tau_L = L_a/R_a$ is much smaller than the mechanical time constant $\tau_m = J_m b / (bR_a + K^2)$, the simplified model may be adequate.
 
 	\section{Figures}\label{app:figures}
 

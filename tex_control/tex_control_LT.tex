@@ -307,13 +307,13 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 \hat{H}^{\text{simp}}_B(z) &= \frac{0.6488}{z^2 - 0.6806 z}.
 \end{align}
 
-\noindent The estimated parameter vectors are
+\noindent The full model estimated parameter vectors are
 \begin{equation}
 \hat{\boldsymbol{\theta}}_A = \begin{bmatrix} -0.5671 \\ -0.0970 \\ 0.0077 \\ 0.6589 \end{bmatrix}, \quad
 \hat{\boldsymbol{\theta}}_B = \begin{bmatrix} -0.5762 \\ -0.0881 \\ 0.0081 \\ 0.6741 \end{bmatrix}.
 \end{equation}
 
-\noindent The corresponding discrete-time transfer functions (sampling time $T_s = 0.01$~s) are
+\noindent The corresponding discrete-time transfer functions are
 \begin{align}
 \hat{H}_A(z) &= \frac{0.007672 z + 0.6589}{z^3 - 0.5671 z^2 - 0.09698 z},\\
 \hat{H}_B(z) &= \frac{0.008073 z + 0.6741}{z^3 - 0.5762 z^2 - 0.08815 z}.
@@ -321,7 +321,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	\subsubsection{Measured vs simulated response and model error}
 
-Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity compared with the simulated responses for both models, zoomed to clearly reveal differences during transient periods. Figure~\ref{fig:model_error_pair} displays the error (difference) between measurement and simulation for each model.
+Only the results concerning motor A are shown considering redundancy. Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity compared with the simulated responses for both models, zoomed to clearly reveal differences during transient periods. Figure~\ref{fig:model_error_pair} displays the error (difference) between measurement and simulation for each model.
 
 \begin{figure}[H]
  \centering
@@ -350,6 +350,10 @@ Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity co
  \caption{Prediction error (measurement minus simulation). Left: third-order model; right: simplified model.}
  \label{fig:model_error_pair}
 \end{figure}
+
+\noindent RMS error full model: 0.5285 rad/s \newline
+\noindent RMS error simplified model: 0.3723 rad/s
+
 	
 	\subsubsection{Transient and steady-state characteristics}
 	

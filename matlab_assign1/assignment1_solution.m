@@ -149,6 +149,12 @@ omegaA_model = lsim(sys_d1_A,voltage,timeVectorInSec);
 
 omegaB_model = lsim(sys_d1_B,voltage,timeVectorInSec);
 
+omegaA_rms_error = sqrt(mean((omegaA - omegaA_model).^2));
+omegaB_rms_error = sqrt(mean((omegaB - omegaB_model).^2));
+
+fprintf('RMS error (omegaA vs. model): %.4f rad/s\n', omegaA_rms_error);
+fprintf('RMS error (omegaB vs. model): %.4f rad/s\n', omegaB_rms_error);
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FIGURE 4: omegaA experiments vs. model %%%
@@ -376,6 +382,12 @@ sys_d2_B = (theta_filter_B(3)*z + theta_filter_B(4))/(z^3 + theta_filter_B(1)*z^
 omegaA_model2 = lsim(sys_d2_A,voltage,timeVectorInSec);
 
 omegaB_model2 = lsim(sys_d2_B,voltage,timeVectorInSec);
+
+omegaA_rms_error_filt = sqrt(mean((omegaA - omegaA_model2).^2));
+omegaB_rms_error_filt = sqrt(mean((omegaB - omegaB_model2).^2));
+
+fprintf('RMS error (omegaA vs. filtered model): %.4f rad/s\n', omegaA_rms_error_filt);
+fprintf('RMS error (omegaB vs. filtered model): %.4f rad/s\n', omegaB_rms_error_filt);
 
 
 

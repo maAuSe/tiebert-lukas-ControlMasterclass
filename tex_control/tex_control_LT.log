@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 15:38
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 NOV 2025 15:44
  restricted system commands enabled.
 **tex_control_LT.tex
 (./tex_control_LT.tex
@@ -643,7 +643,7 @@ Package luatex.def Info: images/excitation_ass1.png  used on input line 288.
 File: images/measured_vs_modeled_nofilter.png Graphic file (type png)
 <use images/measured_vs_modeled_nofilter.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter.png  used on input
- line 318.
+ line 330.
 (luatex.def)             Requested size: 225.4804pt x 134.20038pt.
 <images/measured_vs_modeled_nofilter_simplified.png, id=171, 380.1402pt x 225.9
 642pt>
@@ -651,24 +651,24 @@ File: images/measured_vs_modeled_nofilter_simplified.png Graphic file (type png
 )
 <use images/measured_vs_modeled_nofilter_simplified.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter_simplified.png  us
-ed on input line 322.
+ed on input line 334.
 (luatex.def)             Requested size: 225.4804pt x 134.03488pt.
  [5
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
 <./images/excitation_ass1.png>]
-<images/model_vs_meas_error_nofilter.png, id=182, 377.7312pt x 225.9642pt>
+<images/model_vs_meas_error_nofilter.png, id=184, 377.7312pt x 225.9642pt>
 File: images/model_vs_meas_error_nofilter.png Graphic file (type png)
 <use images/model_vs_meas_error_nofilter.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter.png  used on input
- line 332.
+ line 344.
 (luatex.def)             Requested size: 225.4804pt x 134.88652pt.
-<images/model_vs_meas_error_nofilter_simplified.png, id=183, 377.7312pt x 225.4
+<images/model_vs_meas_error_nofilter_simplified.png, id=185, 377.7312pt x 225.4
 824pt>
 File: images/model_vs_meas_error_nofilter_simplified.png Graphic file (type png
 )
 <use images/model_vs_meas_error_nofilter_simplified.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter_simplified.png  us
-ed on input line 336.
+ed on input line 348.
 (luatex.def)             Requested size: 225.4804pt x 134.59892pt.
  [6
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
@@ -683,10 +683,10 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [7
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
 ] (./tex_control_LT.bbl)
-<images/linear_circuit_DC.png, id=208, 464.937pt x 203.5605pt>
+<images/linear_circuit_DC.png, id=210, 464.937pt x 203.5605pt>
 File: images/linear_circuit_DC.png Graphic file (type png)
 <use images/linear_circuit_DC.png>
-Package luatex.def Info: images/linear_circuit_DC.png  used on input line 470.
+Package luatex.def Info: images/linear_circuit_DC.png  used on input line 482.
 (luatex.def)             Requested size: 328.82707pt x 143.97607pt.
 
 
@@ -740,11 +740,11 @@ Package rerunfilecheck Info: File `tex_control_LT.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 14425 strings out of 476497
+ 14427 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 723 words of node memory still in use:
-   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 53 attribute, 58 glue_spec
-, 53 attribute_list, 1 write, 2 pdf_action nodes
+ 731 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 55 attribute, 58 glue_spec
+, 55 attribute_list, 1 write, 2 pdf_action nodes
    avail lists: 2:786,3:280,4:81,5:369,6:54,7:5581,8:113,9:735,10:8,11:401
  36079 multiletter control sequences out of 65536+600000
  49 fonts using 3729047 bytes
@@ -771,9 +771,9 @@ mr5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
 s/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb>
-Output written on tex_control_LT.pdf (10 pages, 1145198 bytes).
+Output written on tex_control_LT.pdf (10 pages, 1146175 bytes).
 
-PDF statistics: 323 PDF objects out of 1000 (max. 8388607)
- 76 named destinations out of 1000 (max. 131072)
+PDF statistics: 325 PDF objects out of 1000 (max. 8388607)
+ 78 named destinations out of 1000 (max. 131072)
  197 words of extra memory for PDF output out of 10000 (max. 100000000)
 

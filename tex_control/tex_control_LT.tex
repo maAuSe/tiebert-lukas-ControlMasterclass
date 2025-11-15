@@ -295,6 +295,18 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	Using linear least squares estimation, we identified both the third-order model ($H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$) and the simplified second-order model ($H(z) = \frac{b_1}{z^2 + a_1 z}$) for motors A and B.
 
+\noindent The simplified-model parameter vectors are
+\begin{equation}
+\hat{\boldsymbol{\theta}}^{\text{simp}}_A = \begin{bmatrix} -0.6819 \\ 0.6309 \end{bmatrix},\qquad
+\hat{\boldsymbol{\theta}}^{\text{simp}}_B = \begin{bmatrix} -0.6806 \\ 0.6488 \end{bmatrix}.
+\end{equation}
+
+\noindent With sampling time $T_s = 0.01$~s, the corresponding discrete-time transfer functions are
+\begin{align}
+\hat{H}^{\text{simp}}_A(z) &= \frac{0.6309}{z^2 - 0.6819 z}, &
+\hat{H}^{\text{simp}}_B(z) &= \frac{0.6488}{z^2 - 0.6806 z}.
+\end{align}
+
 \noindent The estimated parameter vectors are
 \begin{equation}
 \hat{\boldsymbol{\theta}}_A = \begin{bmatrix} -0.5671 \\ -0.0970 \\ 0.0077 \\ 0.6589 \end{bmatrix}, \quad

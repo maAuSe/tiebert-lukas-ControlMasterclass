@@ -280,39 +280,17 @@ y_ss1_model_B = Numc1_B(end)/Denc1_B(end); % DC gain of CT model (evaluating tra
 
 %% 2.1.4 LLS with low-pass filter applied to the input and output data
 % -------------------------------------------------------------------
-% define a low(band)-pass filter for each motor based on the identified dynamics
-pd1_A = pole(sys_d1_A);
-pc1_A = log(pd1_A)/Ts;
-if abs(imag(pc1_A(1))) > abs(imag(pc1_A(2)))
-    interesting_frequency_A = abs(imag(pc1_A(1))/(2*pi));
-else
-    interesting_frequency_A = abs(imag(pc1_A(2))/(2*pi));
-end
-if interesting_frequency_A == 0
-    interesting_frequency_A = fs/10; % fallback to avoid zero cutoff
-end
-cutoff_A = 0.1*interesting_frequency_A;
-[B_filt_A,A_filt_A] = butter(6, min(cutoff_A, 0.99*(fs/2))/(fs/2));
+% match the filtering approach of the full third-order model (8th-order
+% Butterworth at 35 Hz applied to both input and output)
+cutoff_freq = 35; % Hz
+[B_filt, A_filt] = butter(8, cutoff_freq/(fs/2));
 
-pd1_B = pole(sys_d1_B);
-pc1_B = log(pd1_B)/Ts;
-if abs(imag(pc1_B(1))) > abs(imag(pc1_B(2)))
-    interesting_frequency_B = abs(imag(pc1_B(1))/(2*pi));
-else
-    interesting_frequency_B = abs(imag(pc1_B(2))/(2*pi));
-end
-if interesting_frequency_B == 0
-    interesting_frequency_B = fs/10;
-end
-cutoff_B = 0.1*interesting_frequency_B;
-[B_filt_B,A_filt_B] = butter(6, min(cutoff_B, 0.99*(fs/2))/(fs/2));
+% apply the same zero-phase filter to both motors
+omegaA_filt = filtfilt(B_filt, A_filt, omegaA);
+voltage_filt_A = filtfilt(B_filt, A_filt, voltage);
 
-% apply the filters to both input and outputs
-omegaA_filt = filtfilt(B_filt_A, A_filt_A, omegaA);
-voltage_filt_A = filtfilt(B_filt_A, A_filt_A, voltage);
-
-omegaB_filt = filtfilt(B_filt_B, A_filt_B, omegaB);
-voltage_filt_B = filtfilt(B_filt_B, A_filt_B, voltage);
+omegaB_filt = filtfilt(B_filt, A_filt, omegaB);
+voltage_filt_B = filtfilt(B_filt, A_filt, voltage);
 
 % repeat the identification for both motors
 b_A_filt = omegaA_filt(3:end);
@@ -349,7 +327,8 @@ figure(10), hold on
 sgtitle('LLS with low-pass filtering (motor A, simplified)')
 
 subplot(2,1,1)
-plot(timeVectorToPlot,[omegaA omegaA_model2]);
+plot(timeVectorToPlot, omegaA, 'k-', ...
+     timeVectorToPlot, omegaA_model2, 'k--');
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight
@@ -369,7 +348,8 @@ figure(11), hold on
 sgtitle('LLS with low-pass filtering (motor B, simplified)')
 
 subplot(2,1,1)
-plot(timeVectorToPlot,[omegaB omegaB_model2]);
+plot(timeVectorToPlot, omegaB, 'k-', ...
+     timeVectorToPlot, omegaB_model2, 'k--');
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight

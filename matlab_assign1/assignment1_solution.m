@@ -362,12 +362,12 @@ sys_d2_B = tf(num_filter_B, den_filter_B, Ts)
 
 % plot results
 
-omegaA_model2 = lsim(sys_d2_A,voltage,timeVectorInSec);
+omegaA_model2 = lsim(sys_d2_A, voltage_filt_A, timeVectorInSec);
 
-omegaB_model2 = lsim(sys_d2_B,voltage,timeVectorInSec);
+omegaB_model2 = lsim(sys_d2_B, voltage_filt_B, timeVectorInSec);
 
-omegaA_rms_error_filt = sqrt(mean((omegaA - omegaA_model2).^2));
-omegaB_rms_error_filt = sqrt(mean((omegaB - omegaB_model2).^2));
+omegaA_rms_error_filt = sqrt(mean((omegaA_filt - omegaA_model2).^2));
+omegaB_rms_error_filt = sqrt(mean((omegaB_filt - omegaB_model2).^2));
 
 fprintf('RMS error (omegaA vs. filtered model): %.4f rad/s\n', omegaA_rms_error_filt);
 fprintf('RMS error (omegaB vs. filtered model): %.4f rad/s\n', omegaB_rms_error_filt);
@@ -381,14 +381,14 @@ figure(10), hold on
 sgtitle('LLS with low-pass filtering (motor A)')
 
 subplot(2,1,1)
-plot(timeVectorInSec, omegaA, 'k-', ...
+plot(timeVectorInSec, omegaA_filt, 'k-', ...
      timeVectorInSec, omegaA_model2, 'k--');
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight
 ylabel('omegaA [rad/s]')
 
-subplot(2,1,2),plot(timeVectorInSec,omegaA-omegaA_model2)
+subplot(2,1,2),plot(timeVectorInSec, omegaA_filt-omegaA_model2)
 legend('error')
 xlabel('time [s]')
 ylabel('omegaA-filtered-error [rad/s]')
@@ -403,14 +403,14 @@ figure(11), hold on
 sgtitle('LLS with low-pass filtering (motor B)')
 
 subplot(2,1,1)
-plot(timeVectorInSec, omegaB, 'k-', ...
+plot(timeVectorInSec, omegaB_filt, 'k-', ...
      timeVectorInSec, omegaB_model2, 'k--');
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight
 ylabel('omegaB [rad/s]')
 
-subplot(2,1,2),plot(timeVectorInSec,omegaB-omegaB_model2)
+subplot(2,1,2),plot(timeVectorInSec, omegaB_filt-omegaB_model2)
 legend('error')
 xlabel('time [s]')
 ylabel('omegaB-filtered-error [rad/s]')

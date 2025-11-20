@@ -313,12 +313,8 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 \hat{\boldsymbol{\theta}}_B = \begin{bmatrix} -0.5762 \\ -0.0881 \\ 0.0081 \\ 0.6741 \end{bmatrix}.
 \end{equation}
 
-\noindent The corresponding discrete-time transfer functions without the explicit one-sample delay are
-\begin{align}
-\hat{H}_{0,A}(z) &= \frac{0.007672 z + 0.6589}{z^{2} - 0.5671 z - 0.09698},\\
-\hat{H}_{0,B}(z) &= \frac{0.008073 z + 0.6741}{z^{2} - 0.5762 z - 0.08815}.
-\end{align}
-\noindent Including the microOS delay yields the third-order models reported throughout this section:
+
+\noindent Including the microOS delay yields the corresponding third-order models reported throughout this section:
 \begin{align}
 \hat{H}_A(z) &= z^{-1} \hat{H}_{0,A}(z) = \frac{0.007672 z + 0.6589}{z^{3} - 0.5671 z^{2} - 0.09698 z},\\
 \hat{H}_B(z) &= z^{-1} \hat{H}_{0,B}(z) = \frac{0.008073 z + 0.6741}{z^{3} - 0.5762 z^{2} - 0.08815 z}.

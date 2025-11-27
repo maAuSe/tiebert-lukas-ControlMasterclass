@@ -165,7 +165,7 @@ The crossover frequency determines the closed-loop bandwidth. A value must balan
     \item Tracking performance vs. noise sensitivity
     \item Stability margin vs. speed
 \end{itemize}
-A phase margin (PM) target of 100° was imposed to ensure robust behavior.
+A phase margin (PM) target of 55° was imposed to ensure robust behavior.
 The uncompensated phase of the motor model was evaluated to find the frequency satisfying:
 \begin{equation}
     \phi_G(\omega_c) = -180° + PM + \phi_{PI}(\omega_c)
@@ -173,13 +173,13 @@ The uncompensated phase of the motor model was evaluated to find the frequency s
 where:
 \begin{itemize}
     \item $\phi_G(\omega_c)$ is the phase of the uncompensated open-loop system at $\omega_c$
-    \item $PM$ is the desired phase margin, which is 100°
+    \item $PM$ is the desired phase margin, which is 55°
     \item $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$, which is selected to be 15°
 \end{itemize}
 This yields:
 
 \begin{equation}
-	\phi_G(\omega_c) = -180° + 100° + 15° = -65°
+	\phi_G(\omega_c) = -180° + 55° + 15° = -110°
 \end{equation}
 
 The crossover frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -65° is:
@@ -284,15 +284,21 @@ where $\tau$ is the motor time constant.
 \paragraph{Practical limitations:} 
 
 \begin{itemize}
-    \item Sampling frequency (100 $Hz$) 
+    \item Sampling frequency (100 $Hz$): Nyquist limit of 50 $Hz$ (= $f_s/2$) cuts off the maximum achievable bandwidth. 
+	\item Microcontroller delay introduces extra phase lag, reducing stability margins.
+	\item Voltage saturation (≈ 12 $V$) limits achievable proportional gain.
+	\item Encoder quantization noise leads to large high-frequency disturbances when bandwidth is too high.
+	\item Motor friction and unmodeled nonlinearities reduce agreement with the designed frequency response.
 \end{itemize}
+These constraints limit the achievable closed-loop bandwidth even if theoretically higher values are possible.
 
 
-\textbf{Implementation Constraints:} Digital implementation imposes hard limit via sampling rate. Chosen bandwidth $\omega_{BW} \approx \texttt{<value>}$ Hz balances responsiveness with robustness and practical constraints.
 
-\section{Experimental Validation}
 
-\subsection{Step Response Validation}
+\section{Experimental validation of the designed controller}
+
+\subsection{Step response validation}
+
 
 \textbf{Experiment:} Step reference $0 \to \texttt{<value>}$ rad/s applied to both motors. Measured velocity compared to simulation.
 

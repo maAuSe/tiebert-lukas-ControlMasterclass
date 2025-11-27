@@ -240,18 +240,16 @@ The open-loop Bode plot $L(j\omega) = D(j\omega)G(j\omega)$ must show:
 The time-domain verification must confirm:
 \begin{itemize}
 	\item Zero steady-state error on constant velocity reference
-	\item Acceptable rise time and overshoot
+	\item Acceptable rise time ($t_r$ < 0.5s) and overshoot ($M_p$ < 20\%)
 \end{itemize}
 
 
 
+\paragraph{Bode Diagram Verification:}
 
 
-\textbf{Bode Diagram Verification:}
-
-
-
-Figure~\ref{fig:openloop_bode} shows open-loop $L(j\omega) = D(j\omega)G(j\omega)$. Crossover at $\omega_c$ with phase $\approx -125^\circ$ confirms PM $= 55^\circ$. Gain margin also indicated.
+Figure XXX shows the compensated open-loop system $L(j\omega) = D(j\omega)G(j\omega)$. 
+Crossover at $\omega_c$ with phase $\approx -125^\circ$ confirms PM $= 55^\circ$. Gain margin also indicated.
 %
 %\begin{figure}[h!]
 %    \centering
@@ -261,7 +259,8 @@ Figure~\ref{fig:openloop_bode} shows open-loop $L(j\omega) = D(j\omega)G(j\omega
 %    \label{fig:openloop_bode}
 %\end{figure}
 
-Figure~\ref{fig:closedloop_bode} shows closed-loop $T(j\omega) = \frac{L}{1+L}$. Bandwidth $\omega_{BW} \approx \omega_c$. Resonant peak due to finite PM. Gain rolls off beyond control bandwidth.
+Figure YYY shows the closed-loop system $H(j\omega) = \frac{L(j\omega)}{1+L(j\omega)}$. 
+Bandwidth $\omega_{BW} \approx \omega_c$. Resonant peak due to finite PM. Gain rolls off beyond control bandwidth.
 
 %\begin{figure}[h!]
 %    \centering
@@ -271,16 +270,23 @@ Figure~\ref{fig:closedloop_bode} shows closed-loop $T(j\omega) = \frac{L}{1+L}$.
 %    \label{fig:closedloop_bode}
 %\end{figure}
 
-\subsection{Bandwidth Limitations}
+\subsection{Theoretical and practical closed-loop bandwidth limitations}
 
-\textbf{Theoretical Limitations:} Yes. Bandwidth fundamentally limited by plant dynamics and stability requirements. Increasing $\omega_c$ requires reducing PM (to shift phase condition), leading to reduced damping or instability. Cannot arbitrarily increase bandwidth without violating closed-loop stability.
+\paragrpah{Theoretical limitation:} 
+The bandwidth cannot exceed the frequency where the total open-loop phase $\phi_L$ approaches -180°. 
+Beyond this point, increasing the gain drives the closed-loop system toward instability. 
+For a first-order motor model, this typically limits crossover frequency to approximately:
+\begin{equation}
+	\omega_c \approx \frac{1}{\tau}
+\end{equation}
+where $\tau$ is the motor time constant.
 
-\textbf{Practical Limitations:} 
+\paragraph{Practical limitations:} 
+
 \begin{itemize}
-    \item \textbf{Sampling rate:} System sampled at 100 Hz (Nyquist at 50 Hz). Bandwidth must stay well below Nyquist ($\sim 1/10$ to $1/5$ of sampling rate) to avoid aliasing.
-    \item \textbf{Actuator saturation:} Arduino driver limited to $\pm 12$ V. High bandwidth demands large control effort; saturation degrades performance.
-    \item \textbf{Unmodeled dynamics:} High-frequency effects (actuator delays, sensor noise, friction) not captured in model. Very high bandwidth amplifies these, causing instability.
+    \item Sampling frequency (100 $Hz$) 
 \end{itemize}
+
 
 \textbf{Implementation Constraints:} Digital implementation imposes hard limit via sampling rate. Chosen bandwidth $\omega_{BW} \approx \texttt{<value>}$ Hz balances responsiveness with robustness and practical constraints.
 

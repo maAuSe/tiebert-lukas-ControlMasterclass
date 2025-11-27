@@ -1,0 +1,37 @@
+close all
+clear all
+clc
+
+filePath_2 = 'C:\Users\maxim\OneDrive - KU Leuven\our Assigment\Assigment 3\Data\L0.0879.csv';
+lines_2 = strsplit(fileread(filePath_2), '\n'); 
+headers_2 = strsplit(lines_2{2}, ', '); 
+rawData_2 = dlmread(filePath_2, ',', 2, 0); 
+sensor_2= rawData_2(10:200, 9);
+x_hat_2= rawData_2(10:200, 10);
+
+
+filePath_4 = 'C:\Users\maxim\OneDrive - KU Leuven\our Assigment\Assigment 3\Data\L0.1681.csv';
+lines_4 = strsplit(fileread(filePath_4), '\n'); 
+headers_4 = strsplit(lines_4{2}, ', '); 
+rawData_4 = dlmread(filePath_4, ',', 2, 0); 
+sensor_4 = rawData_4(10:200, 9);
+x_hat_4 = rawData_4(10:200, 10);
+
+filePath_6 = 'C:\Users\maxim\OneDrive - KU Leuven\our Assigment\Assigment 3\Data\L0.2412.csv';
+lines_6 = strsplit(fileread(filePath_6), '\n'); 
+headers_6 = strsplit(lines_6{2}, ', '); 
+rawData_6 = dlmread(filePath_6, ',', 2, 0); 
+sensor_6 = rawData_6(10:200, 9);
+x_hat_6 = rawData_6(10:200, 10);
+
+
+figure
+hold on
+plot(sensor_2,'Color','k')
+plot(x_hat_2,'LineStyle','--')
+plot(x_hat_4,'LineStyle','-.')
+plot(x_hat_6,'LineStyle',':')
+legend('Sensor value','2x faster','4x faster','6x faster')
+xlabel('Time [ms]')
+ylabel('Distance sensor value')
+title('Estimator performance for different values of L')

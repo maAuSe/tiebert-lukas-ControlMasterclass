@@ -1,0 +1,89 @@
+clear
+close all
+clf
+
+csvfile = "C:\Users\USER\OneDrive - KU Leuven\Documents\Burgie\AAA 1ste Master\Contorl Theory\Assigment\our Assigment\Assigment 1\Data\excitation_data.csv";
+labels = strsplit(fileread(csvfile), '\n'); % Split file in lines
+labels = strsplit(labels{:, 2}, ', '); 
+data_air = dlmread(csvfile, ',', 2, 0); % Data follows the labels
+
+%constants
+Ts = 0.01;
+fs = 1 / Ts;
+N = numel(data_air(:, 1));
+frequencies = (0:N-1)' * (fs / N);
+t2 = 0:Ts:9.99;
+
+%means
+completedata_air = data_air(235:3234,[2,3]);
+input_voltagedata = data_air(235:3234,4);
+total_elements = length(completedata_air(:,1));
+number_periods = 2; % is dit niet zelfde als bij onze bepaling excitatie signal
+elements_period = total_elements/number_periods;
+
+speedA_matrix = reshape(completedata_air(:,1),elements_period,number_periods);
+speedB_matrix = reshape(completedata_air(:,2),elements_period,number_periods);
+input_voltage = reshape(input_voltagedata,elements_period,number_periods);
+
+mean_speedA = mean(speedA_matrix,2);
+mean_speedB = mean(speedB_matrix,2);
+mean_input_voltage = mean(input_voltage,2);
+
+%paramter estimation ZOH
+%A
+b_A = mean_speedA(4:end);
+A_A = [-mean_speedA(3:end-1), -mean_speedA(2:end-2), mean_input_voltage(2:end-2), mean_input_voltage(1:end-3)];
+theta_A = A_A\b_A;
+Numinator_A = [0, 0, theta_A(3), theta_A(4)];
+Denominator_A = [1, theta_A(1), theta_A(2), 0];
+wheelA_tf = tf(Numinator_A, Denominator_A, Ts)
+
+%B
+b_B = mean_speedB(4:end);
+A_B = [-mean_speedB(3:end-1), -mean_speedB(2:end-2), mean_input_voltage(2:end-2), mean_input_voltage(1:end-3)];
+theta_B = A_B\b_B;
+Numinator_B = [0, 0, theta_B(3), theta_B(4)];
+Denominator_B = [1, theta_B(1), theta_B(2), 0];
+wheelB_tf = tf(Numinator_B, Denominator_B, Ts)
+
+
+
+% plot ZOH methode
+
+A
+response_A =lsim(wheelA_tf, mean_input_voltage, t2);
+measured and zoh
+figure(1)
+hold on
+plot(t2, response_A, 'k-');          % Simulation of ZOH model response
+plot(t2, mean_speedA, 'k--');  
+title('Wheel A')
+legend({'Simulation ZOH model', 'Measured response'}, 'Location', 'northeast');
+difference
+difference_A = response_A - mean_speedA;
+
+figure(2);
+plot(t2, difference_A, 'k-');
+title('Difference between measured response and ZOH model for Wheel A');
+xlabel('Time [s]');
+ylabel('Speed difference for Wheel A [rad/s]');
+legend('Difference measured and zoh', 'Location',  'southeast');
+
+B
+response_B =lsim(wheelB_tf, mean_input_voltage, t2);
+measured and zoh
+figure(3)
+hold on
+plot(t2, response_B, 'k-');          % Simulation of ZOH model response
+plot(t2, mean_speedB, 'k--');  
+title('Wheel B')
+legend({'Simulation ZOH model', 'Measured response'}, 'Location', 'northeast');
+difference
+difference_B = response_B - mean_speedA;
+
+figure(4);
+plot(t2, difference_B, 'k-');
+title('Difference between measured response and ZOH model for Wheel B');
+xlabel('Time [s]');
+ylabel('Speed difference for Wheel B [rad/s]');
+legend('Difference measured and zoh', 'Location',  'southeast');

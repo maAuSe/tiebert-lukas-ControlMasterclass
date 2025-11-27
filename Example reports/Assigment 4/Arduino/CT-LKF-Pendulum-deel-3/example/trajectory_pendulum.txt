@@ -1,0 +1,55 @@
+/** USING THE TRAJECTORY OF ASSIGNMENT 4
+ *  IN THE KALMAN FILTER TEMPLATE        **/
+
+# The trajectory of assignment 4 is built-in in this template.
+# It performs a forward and backward motion with a trapezoidal velocity profile.
+
+# The following functions are important:
+
+# 1. Start with the trajectory
+#
+     trajectory.start();
+#
+#    As long as the trajectory is not started, it will not update or
+#    return values other than 0. You can, for example, put this method
+#    in the functionality of a button in QRoboticsCenter. The trajectory
+#    always starts where it was lastly stopped using trajectory.stop(),
+#    or at the starting point after trajectory.reset().
+
+# 2. Update the trajectory at every time instance
+#
+     trajectory.update();
+#
+#    This function should be called at the end of every control cycle.
+#    It triggers the trajectory to return the next values during the
+#    next cycle. Hence, you have to call this method in control().
+
+# 3. Reset the trajectory
+#
+     trajectory.reset();
+#
+#    This function makes the trajectory start again at its starting point.
+#    Note: if you do not explicitly stop the trajectory, it will not stop
+#    updating when calling trajectory.update() and you will hence immediately
+#    start again. 
+
+# 4. Stop the trajectory
+#
+     trajectory.stop();
+#
+#    If you want that the trajectory does not update anymore when calling
+#    trajectory.update(), call trajectory.stop(). As such, you can stop
+#    the trajectory and resume at a later time using trajectory.start()
+#    without having to remove the trajectory.update() in your control().
+#    Note: when the trajectory is finished, this method is automatically
+#    called.
+
+# 5. Obtain the reference and feedforward signals
+#
+      X = trajectory.X();
+#
+#     Returns the reference position of the cart in m.
+#
+      v = trajectory.v();
+#
+#     Returns the feedforward input, the forward velocity v in m/s.

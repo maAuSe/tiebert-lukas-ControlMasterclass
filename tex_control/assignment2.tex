@@ -112,47 +112,144 @@
 
 
 
-\section{Design of a velocity controller}
+\section{Design of a velocity controller using the frequency response method}
 
-\subsection{Controller choice}
+\subsection{Controller type choice}
 
-The velocity loop must remove steady-state error for a constant command, which we quantify as keeping the residual tracking error below the encoder noise floor once the transient fades. Meeting this requirement forces the closed loop to be at least type~1, while the cart still has to settle in roughly a second with under ${\sim}10\%$ overshoot to stay within mechanical limits. Those timing targets map to a phase margin near $55^{\circ}$ and a bandwidth that fits inside the $100\,$Hz sampling budget.
-
-A proportional-integral (PI) compensator satisfies these constraints with minimal design effort. Its transfer function is
-\[
-D(s) = \frac{K}{s}\left(s + \frac{1}{T_I}\right),
-\]
-where the integral term lifts the system type and guarantees infinite gain at DC, while the proportional term fixes the crossover. With only two tunable constants the PI law is easy to calibrate on the embedded controller and avoids the noise-sensitive derivative leg of a full PID.
-
-Its frequency response preserves the needed physics: below the corner $\omega = 1/T_I$ the magnitude behaves like $K/\omega$, so constant disturbances are strongly rejected. The same integral branch introduces negative phase, therefore $1/T_I$ is kept roughly one decade below the crossover to protect the phase margin while still delivering robust steady-state accuracy.
-
-\subsection{Implementation of the Controller}
-
-\textbf{Design Formulas:}
-
-\paragraph{Phase Margin Selection:} Target PM $= 55^\circ$ for $\sim 10\%$ overshoot and robustness.
-
-\paragraph{Crossover Frequency:} Choose $\omega_c$ where plant phase is $\angle G(j\omega_c) \approx -110^\circ$. This accounts for PI lag ($\sim 15^\circ$) to yield total phase of $-125^\circ$ at crossover, achieving PM $= 55^\circ$.
-
-\paragraph{Integral Time Constant:} Design PI to contribute $15^\circ$ lag at $\omega_c$:
-\[
-\angle D(j\omega_c) = -\arctan\left(\frac{1}{\omega_c T_I}\right) = -15^\circ \implies T_I = \frac{1}{\omega_c \tan 15^\circ}
-\]
-Numerical values: $\omega_c = \texttt{<value>}$ rad/s $\implies T_I = \texttt{<value>}$ s.
-
-\paragraph{Proportional Gain:} Enforce unity gain at crossover $|D(j\omega_c)G(j\omega_c)| = 1$. Discretize PI using Tustin's method and tune iteratively:
-\[
-K_A \approx \texttt{<value>}, \quad K_B \approx \texttt{<value>}
-\]
-
-\textbf{Design Trade-offs:}
+To achieve zero steady-state error on a constant velocity reference, which requires a closed-loop system with type 1 behavior, the controller must provide infinite DC gain.
+The identified DC-motor dynamics contain no inherent integrator, meaning proportional (P), PD, or lead-type controllers would leave a nonzero steady-state error.
+Desired closed-loop properties include:
 \begin{itemize}
-    \item \textbf{Phase Margin:} Higher PM $\to$ more damping, less overshoot; Lower PM $\to$ faster response, risk of instability
-    \item \textbf{Crossover Frequency:} Higher $\omega_c$ $\to$ faster bandwidth, tighter tracking; Limited by phase margin and sampling rate
-    \item \textbf{Integral Time $T_I$:} Larger $T_I$ $\to$ less phase lag, better stability; Slower error correction
+    \item Zero steady-state error on constant velocity
+    \item Adequate robustness (sufficient phase margin)
+    \item Sufficient bandwidth for accurate velocity tracking
+    \item Low sensitivity to external disturbances (slope, friction)
+\end{itemize}
+Possible controller structures:
+\begin{itemize}
+    \item P / PD: no integrator, meaning a nonzero steady-state error 
+    \item Lead: increases phase margin but does not provide infinite DC gain
+    \item Lag: increases low-frequency gain but insufficient for zero error
+    \item PI: provides an integrator and a zero for phase correction
+\end{itemize}
+The PI compensator is selected as a suitable controller.
+The continuous-time PI compensator is:
+\begin{equation}
+    D(s) = \frac{K}{s}(s+\frac{1}{T_i})
+\end{equation}
+where:
+\begin{itemize}
+    \item $K$ = proportional gain
+    \item $T_i$ = integration time
+\end{itemize}
+The controller increases system type by 1 and ensures infinite DC gain:
+\begin{equation}
+    \lim_{s\to 0} D(s) = \infty
+\end{equation}
+which ensures zero steady-state error for step velocity references and offers straightforward tuning in the frequency domain, 
+making it highly suitable for motor velocity control.
+
+
+
+
+\subsection{Design process and design parameters choices}
+
+The controller parameters were obtained using the frequency-response method, 
+based on the identified motor model $G_s(s)$ from Assignment 1, both for motor A and motor B.
+
+
+\paragraph{Choice of crossover frequency $\omega_c$:} 
+The crossover frequency determines the closed-loop bandwidth. A value must balance:
+\begin{itemize}
+    \item Faster response vs. actuator limitations
+    \item Tracking performance vs. noise sensitivity
+    \item Stability margin vs. speed
+\end{itemize}
+A phase margin (PM) target of 100° was imposed to ensure robust behavior.
+The uncompensated phase of the motor model was evaluated to find the frequency satisfying:
+\begin{equation}
+    \phi_G(\omega_c) = -180° + PM + \phi_{PI}(\omega_c)
+\end{equation}
+where:
+\begin{itemize}
+    \item $\phi_G(\omega_c)$ is the phase of the uncompensated open-loop system at $\omega_c$
+    \item $PM$ is the desired phase margin, which is 100°
+    \item $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$, which is selected to be 15°
+\end{itemize}
+This yields:
+
+\begin{equation}
+	\phi_G(\omega_c) = -180° + 100° + 15° = -65°
+\end{equation}
+
+The crossover frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -65° is:
+\begin{equation}
+    \omega_c = \texttt{XXX rad/s} for motor A 
+	\omega_c = \texttt{YYY rad/s} for motor B
+\end{equation}
+
+
+\paragraph{Integration time T$_i$:}
+The integrator pole must lie well below the crossover frequency to avoid excessive phase lag.
+The integration time is selected such that the contribution of the PI compensator to the phase at $\omega_c$ equals the anticipated one ($\phi_{PI}(\omega_c)$ = 15°).
+This design rule is mathematically expressed as:
+\begin{equation}
+    T_i \omega_c = tan(90°-\phi_{PI}(\omega_c))
+\end{equation}
+using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
+
+\begin{equation}
+    T_i = \texttt{XXX s} for motor A 
+	T_i = \texttt{YYY s} for motor B
+\end{equation}
+
+Interpretation of trade-offs:
+\begin{itemize}
+    \item A smaller $T_i$ gives faster removal of steady-state error but adds more phase lag.
+	\item A larger $T_i$ reduces phase lag but slows integral action.
 \end{itemize}
 
+
+\paragraph{Proportional gain $K$:} The gain is calculated such that the gain of the compensated system at $\omega_c$ equals 1:
+\begin{equation}
+    |D(j\omega_c)G(j\omega_c)| = 1
+\end{equation}
+The continuous controller is discretized using the Tustin method (with $c2d$ MATLAB command), 
+and the gain is adjusted iteratively until MATLAB's Bode diagram confirms the desired crossover frequency.
+The required proportional gain is:
+\begin{equation}
+    K = \texttt{XXX} for motor A 
+	K = \texttt{YYY} for motor B
+\end{equation}
+
+\paragraph{Design trade-offs:}
+\begin{itemize}
+	\item Increasing $PM$ provides robustness and damping but slows the response.
+    \item Increasing $K$ increases bandwith but reduces phase margin ($PM$), raising the risk of oscillatory behavior and actuator saturation.
+	\item Increasing $T_i$ reduces phase lag but slows convergence to steady-state (decreased integral speed).
+	\item Increasing $\omega_c$ reduces delay sensitivity but amplifies encoder noise.
+\end{itemize}
+
+\paragraph{Verification requirements:}
+The open-loop Bode plot $L(j\omega) = D(j\omega)G(j\omega)$ must show:
+\begin{itemize}
+	\item Unity gain ($|L(j\omega)| = 0 dB$) at $\omega_c$
+	\item $PM$ ≈ 100°
+	\item PI zero (at $\omega_z = \frac{1}{T_i}$) far below $\omega_c$
+\end{itemize}
+The time-domain verification must confirm:
+\begin{itemize}
+	\item Zero steady-state error on constant velocity reference
+	\item Acceptable rise time and overshoot
+\end{itemize}
+
+
+
+
+
 \textbf{Bode Diagram Verification:}
+
+
 
 Figure~\ref{fig:openloop_bode} shows open-loop $L(j\omega) = D(j\omega)G(j\omega)$. Crossover at $\omega_c$ with phase $\approx -125^\circ$ confirms PM $= 55^\circ$. Gain margin also indicated.
 %

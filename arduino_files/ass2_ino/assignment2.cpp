@@ -21,7 +21,7 @@ bool Robot::init() {
 
 void Robot::control() {
   const bool enabled = controlEnabled();
-  float referenceCmd = saturate(readValue(0), kReferenceLimit);
+  float referenceCmd = 10;
 
   const float speedA = getSpeedMotorA();
   const float speedB = getSpeedMotorB();

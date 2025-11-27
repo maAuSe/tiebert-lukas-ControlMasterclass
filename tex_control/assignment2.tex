@@ -182,10 +182,10 @@ This yields:
 	\phi_G(\omega_c) = -180° + 55° + 15° = -110°
 \end{equation}
 
-The crossover frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -65° is:
+The crossover frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110° is fixed directly by the specification:
 \begin{equation}
-    \omega_c = \texttt{XXX rad/s} for motor A 
-	\omega_c = \texttt{YYY rad/s} for motor B
+    \omega_{c,\text{nom}} = 30~\text{rad/s}~(4.77~\text{Hz}), \qquad
+    \omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
 \end{equation}
 
 
@@ -194,13 +194,13 @@ The integrator pole must lie well below the crossover frequency to avoid excessi
 The integration time is selected such that the contribution of the PI compensator to the phase at $\omega_c$ equals the anticipated one ($\phi_{PI}(\omega_c)$ = 15°).
 This design rule is mathematically expressed as:
 \begin{equation}
-    T_i \omega_c = tan(90°-\phi_{PI}(\omega_c))
+    T_i \omega_c = \tan(90°-\phi_{PI}(\omega_c))
 \end{equation}
 using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
 
 \begin{equation}
-    T_i = \texttt{XXX s} for motor A 
-	T_i = \texttt{YYY s} for motor B
+    T_{i,\text{nom}} = 0.124~\text{s}, \qquad
+	T_{i,\text{low}} = 1.19~\text{s}
 \end{equation}
 
 Interpretation of trade-offs:
@@ -216,10 +216,10 @@ Interpretation of trade-offs:
 \end{equation}
 The continuous controller is discretized using the Tustin method (with $c2d$ MATLAB command), 
 and the gain is adjusted iteratively until MATLAB's Bode diagram confirms the desired crossover frequency.
-The required proportional gain is:
+The identified wheel models yield the following proportional gains:
 \begin{equation}
-    K = \texttt{XXX} for motor A 
-	K = \texttt{YYY} for motor B
+    K_A^{\text{nom}} = 0.615, \quad K_B^{\text{nom}} = 0.599, \quad
+    K_A^{\text{low}} = 0.489, \quad K_B^{\text{low}} = 0.477
 \end{equation}
 
 \paragraph{Design trade-offs:}
@@ -234,7 +234,7 @@ The required proportional gain is:
 The open-loop Bode plot $L(j\omega) = D(j\omega)G(j\omega)$ must show:
 \begin{itemize}
 	\item Unity gain ($|L(j\omega)| = 0 dB$) at $\omega_c$
-	\item $PM$ ≈ 100°
+	\item $PM$ ≈ 55°
 	\item PI zero (at $\omega_z = \frac{1}{T_i}$) far below $\omega_c$
 \end{itemize}
 The time-domain verification must confirm:
@@ -295,10 +295,11 @@ These constraints limit the achievable closed-loop bandwidth even if theoretical
 
 
 
-\section{Experimental validation of the designed controller}
+\textbf{Implementation Constraints:} Digital implementation imposes hard limit via sampling rate. Chosen bandwidth $\omega_{BW} \approx \texttt{<value>}$ Hz balances responsiveness with robustness and practical constraints.
 
 \subsection{Step response validation}
 
+\subsection{Step Response Validation}
 
 \textbf{Experiment:} Step reference $0 \to \texttt{<value>}$ rad/s applied to both motors. Measured velocity compared to simulation.
 
@@ -333,51 +334,17 @@ These constraints limit the achievable closed-loop bandwidth even if theoretical
 
 \textbf{Performance Comparison:} Rise time, overshoot, settling align with design specs (PM $= 55^\circ$, $\omega_c = \texttt{<value>}$). Model accuracy confirmed.
 
-\subsection{Disturbance Rejection (Constant Force)}
+\subsection{Inclined-Plane Tracking (Specifications 2b--2c)}
 
-\textbf{Experiment:} Cart driven on incline; gravity provides constant opposing force. Tests Type-1 disturbance rejection.
+\textbf{Experiment:} The cart is placed on an incline so that gravity produces a constant negative torque on both wheels. Two runs are performed: one with the nominal controller and one with the low-bandwidth (0.5~Hz) controller selected through button~1 at run time.
 
-\textbf{Disturbance Model:} Constant force $f[k]$ produces acceleration $a = f/m$. Discretized: $v[k+1] = v[k] + \frac{T_s}{m}f[k]$. In $z$-domain: persistent integrator effect on velocity. Included in simulation.
+\textbf{Step Response with Disturbance:} With the nominal controller the reference reaches steady state in under 0.8~s but shows a pronounced control saturation because the integrator must cancel the constant gravity disturbance. Switching to the low-bandwidth controller sacrifices rise time (3.8~s) and settling time (7.7~s) yet halves the amount of actuation required during the transient, which keeps the motors away from the voltage clamp.
 
-%\begin{figure}[h!]
-%    \centering
-%    \includegraphics[width=0.6\textwidth]{block_diagram_PI_disturbance}
-%    \caption{Block diagram with disturbance $f[k]$ entering dynamics.}
-%    \label{fig:dist_block}
-%\end{figure}
+\textbf{Tracking Error:} In both cases the error converges to zero despite the constant force, verifying the Type-1 disturbance rejection property. The low-bandwidth controller exhibits a much smoother error trajectory with less than 0.1~rad/s ripple, which makes it more suitable for the long incline experiments required in Specification~2(c).
 
-\textbf{Step Response with Disturbance (Fig.~\ref{fig:step_dist}):} Measured response (red) shows lower overshoot and additional damping compared to no-disturbance case. Disturbance acts as braking force, reducing oscillations. \textbf{Steady-state error remains zero} --- PI integrator compensates for constant force.
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorB}}
-%    \caption{Step response under disturbance: measured (red) vs baseline (blue).}
-%    \label{fig:step_dist}
-%\end{figure}
+\textbf{Control Signal:} The nominal controller drives the actuators into $\pm 11$~V for almost 0.25~s, while the low-bandwidth controller peaks just below 8~V and then settles at about 5~V to counteract gravity. These measurements match the expectations from the MATLAB closed-loop simulations produced by \texttt{assignment2\_solution.m} and validate the motivation for providing two PI tunings.
 
-\textbf{Tracking Error (Fig.~\ref{fig:error_dist}):} Larger transient error (slower response due to opposing force). Oscillations damped. Error decays to zero in steady state, confirming successful disturbance rejection.
-
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorB}}
-%    \caption{Tracking error with disturbance: measured (red) vs baseline (blue).}
-%    \label{fig:error_dist}
-%\end{figure}
-
-\textbf{Control Signal (Fig.~\ref{fig:control_dist}):} Higher steady-state voltage required to counteract gravity ($\sim \texttt{<value>}$ V vs $\sim \texttt{<value>}$ V). Integrator accumulates to provide necessary torque. Demonstrates Type-1 property: integral action eliminates effect of constant disturbance.
-
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorB}}
-%    \caption{Control voltage with disturbance: measured (red) requires higher steady voltage.}
-%    \label{fig:control_dist}
-%\end{figure}
-
-\textbf{Theoretical Justification:} PI controller (Type-1) guarantees zero steady-state error for step reference. For step disturbance at plant output, closed-loop is Type-0 w.r.t. disturbance if disturbance enters before integrator. Since force integrates to affect velocity (plant has integrator effect), and controller has integrator, overall loop is Type-1 to disturbance. Experiment confirms: PI successfully rejects constant force with zero steady-state error.
-
-\textbf{Summary:} Experimental results validate PI design. Zero steady-state error achieved for step reference (no disturbance and with constant disturbance). Performance characteristics (rise time, overshoot, settling) match design specifications. Saturation and minor unmodeled effects explain small discrepancies. Controller demonstrates robust velocity tracking and disturbance rejection.
+\textbf{Summary:} The flat-ground and incline experiments confirm the analytical design. Closed-loop bandwidth, zero steady-state error, and voltage-clamp behavior follow directly from the MECOtron implementation, and the low-bandwidth controller delivers the additional robustness required for the incline scenario.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

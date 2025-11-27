@@ -46,16 +46,6 @@ dataPaths = struct( ...
     'inclineNominal',    fullfile(dataDir, 'cart_incline_nominal.csv'), ...  % spec 2(b)
     'inclineLowBand',    fullfile(dataDir, 'cart_incline_lowband.csv'));     % spec 2(c)
 
-channelMap = struct( ...
-    'reference',  2, ...   % ValueIn0
-    'speedA',     3, ...   % ValueIn1
-    'speedB',     4, ...   % ValueIn2
-    'errorA',     5, ...   % ValueIn3
-    'errorB',     6, ...   % ValueIn4
-    'controlA',   7, ...   % ValueIn5
-    'controlB',   8, ...   % ValueIn6
-    'modeFlag',   9);      % ValueIn7 (0 = nominal, 1 = low-band)
-
 %% --- MODELS FROM ASSIGNMENT 1 ---------------------------------------------
 % Discrete-time models as reported in tex_control/assignment1.tex (unfiltered,
 % simplified second-order fits with microOS delay). Each numerator includes
@@ -150,9 +140,9 @@ experimentData = struct();
 for s = 1:numel(scenarioDefs)
     def = scenarioDefs(s);
     filePath = dataPaths.(def.key);
-    experimentData.(def.key) = loadQRCLog(filePath, channelMap, Ts, def.description);
+    experimentData.(def.key) = loadQRCLog(filePath, Ts, def.description);
 end
-experimentData.inclineLowBand = loadQRCLog(dataPaths.inclineLowBand, channelMap, Ts, ...
+experimentData.inclineLowBand = loadQRCLog(dataPaths.inclineLowBand, Ts, ...
     'Inclined plane with low-bandwidth controller (spec 2c)');
 
 % Section 2(a) and 2(b) plots
@@ -334,10 +324,9 @@ function plotControlSignalStepComparison(label, ctrlNom, ctrlLow, exportPlots, f
     persistFigure(fig, figDir, sprintf('control_step_%s', label), exportPlots);
 end
 
-function data = loadQRCLog(filePath, channelMap, Ts, description)
+function data = loadQRCLog(filePath, Ts, description)
     arguments
         filePath (1,:) char
-        channelMap struct
         Ts double
         description (1,:) char
     end
@@ -359,20 +348,16 @@ function data = loadQRCLog(filePath, channelMap, Ts, description)
     data = struct();
     data.description = description;
     data.time = timeVec;
-    data.reference = raw(:, channelMap.reference);
-    data.speedA = raw(:, channelMap.speedA);
-    data.speedB = raw(:, channelMap.speedB);
-    data.controlA = raw(:, channelMap.controlA);
-    data.controlB = raw(:, channelMap.controlB);
-    if isfield(channelMap, 'errorA')
-        data.errorA = raw(:, channelMap.errorA);
-        data.errorB = raw(:, channelMap.errorB);
-    else
-        data.errorA = data.reference - data.speedA;
-        data.errorB = data.reference - data.speedB;
-    end
-    if isfield(channelMap, 'modeFlag')
-        data.mode = raw(:, channelMap.modeFlag);
+    % Column order in QRC CSV: [Time, ValueIn0, ValueIn1, ...]
+    data.reference = raw(:, 2); % ValueIn0
+    data.speedA = raw(:, 3);    % ValueIn1
+    data.speedB = raw(:, 4);    % ValueIn2
+    data.errorA = raw(:, 5);    % ValueIn3
+    data.errorB = raw(:, 6);    % ValueIn4
+    data.controlA = raw(:, 7);  % ValueIn5
+    data.controlB = raw(:, 8);  % ValueIn6
+    if size(raw,2) >= 9
+        data.mode = raw(:, 9);  % ValueIn7
     end
 end
 

@@ -1,17 +1,5 @@
 #include "assignment2.h"
 
-// Channel mapping (matches matlab_assign2/assignment2_solution.m)
-namespace {
-constexpr uint8_t kChannelReference = 0;
-constexpr uint8_t kChannelSpeedA = 1;
-constexpr uint8_t kChannelSpeedB = 2;
-constexpr uint8_t kChannelErrorA = 3;
-constexpr uint8_t kChannelErrorB = 4;
-constexpr uint8_t kChannelControlA = 5;
-constexpr uint8_t kChannelControlB = 6;
-constexpr uint8_t kChannelMode = 7;
-}  // namespace
-
 Robot::Robot() : activeMode(MODE_NOMINAL) {
   // Nominal controller coefficients (Wheel A/B) from MATLAB script.
   coeffsA[MODE_NOMINAL] = {0.639426f, -0.590012f, 1.0f};
@@ -124,12 +112,12 @@ void Robot::resetControllerStates() {
 void Robot::streamTelemetry(float reference, float errorA, float errorB,
                             float controlA, float controlB,
                             float speedA, float speedB) const {
-  writeValue(kChannelReference, reference);
-  writeValue(kChannelSpeedA, speedA);
-  writeValue(kChannelSpeedB, speedB);
-  writeValue(kChannelErrorA, errorA);
-  writeValue(kChannelErrorB, errorB);
-  writeValue(kChannelControlA, controlA);
-  writeValue(kChannelControlB, controlB);
-  writeValue(kChannelMode, static_cast<float>(activeMode));
+  writeValue(0, reference);
+  writeValue(1, speedA);
+  writeValue(2, speedB);
+  writeValue(3, errorA);
+  writeValue(4, errorB);
+  writeValue(5, controlA);
+  writeValue(6, controlB);
+  writeValue(7, static_cast<float>(activeMode));
 }

@@ -35,7 +35,8 @@ designSpecLowBW = struct( ...
 exportPlots = false;              % set true to automatically save every figure
 scriptDir = fileparts(mfilename('fullpath'));
 if isempty(scriptDir); scriptDir = pwd; end
-dataDir = fullfile(scriptDir, 'data');             % expected measurement folder
+% Explicitly point to the location where the experiment CSV files live.
+dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
 figDir = fullfile(scriptDir, 'figures_assignment2');
 if exportPlots && ~exist(figDir, 'dir')
     mkdir(figDir);

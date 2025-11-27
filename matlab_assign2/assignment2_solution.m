@@ -1,215 +1,495 @@
-clear all
-close all
-clear global
-clc
-
-%% Design a proportional and integral (PI) controller for motor A and motor B
-
-
-
-Ts = 0.01; % sampling time [s]
-z = tf('z', Ts);
-
-% Define discrete transfer functions 
-
-sys_d2_A = (0.005478*z + 0.6586)/(z^3 - 0.5746*z^2 - 0.09068*z);
-sys_d2_B = (0.005893*z + 0.6733)/(z^3 - 0.5849*z^2 - 0.08088*z);
-
-
-
-% Define the transfer function of the uncompensated open loop system G_s(s).
-
-Gs_A = d2c(sys_d2_A, 'tustin');
-Gs_B = d2c(sys_d2_B, 'tustin'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 1: Bode diagram of Gs_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(1); bode(Gs_A); title('Uncompensated open loop system G_s(s) (motor A)'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 2: Bode diagram of Gs_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(2); bode(Gs_B); title('Uncompensated open loop system G_s(s) (motor B)'); 
-
-
-
-
-% Do the PI design.
-PM = 55;                 % desired phase margin [°]
-APL = 15;                % additional phase lag anticipated [°]
-phi = -180 + PM + APL;   % phase of Gs(s) where we will put the new cross-over frequency [°]
-% We check on the Bode diagram of Gs(s) where the phase equals 
-% phi, this will become the new cross-over frequency wc. 
-
-% phi = -110°
-
-
-wc_A = 43.6; % cross-over frequency motor A [rad/s] (see Figure 1)
-wc_B = 43.7; % cross-over frequency motor B [rad/s] (see Figure 2)
-
-
-
-% Choose the integration time Ti such that it will not interfere too much
-% with the phase at the new cross-over frequency. 
-Ti_A = tand(90 - APL)/wc_A; % integration time motor A [s]
-Ti_B = tand(90 - APL)/wc_B; % integration time motor B [s]
-
-
-
-
-
-% Define the transfer function of the PI compensator (without gain K) D(s). 
-D_A = tf([Ti_A 1],[Ti_A 0]);
-D_B = tf([Ti_B 1],[Ti_B 0]);
-
-
-%% 
-
-
-% Plot the Bode diagram of the compensated open loop system, that is D(s)*G_s(s), and find K such
-% that |G_c(s)*G_s(s)| = 1 = 0 dB at the cross-over frequency: we see a gain of
-% X dB, so we need K to be X dB = 10^(X/20).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 3: Bode diagram of D_A(s)*Gs_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(3); bode(D_A*Gs_A); title('D(s)*G_s(s), K = 1 (motor A)');  
-
-% wc_A = 43.6 rad/s
-% K_A =  2.43 dB (see Figure 3)
-
-K_A = 10^(2.43/20); % controller gain motor A [m/N]
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 4: Bode diagrm of D_B(s)*Gs_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(4); bode(D_B*Gs_B); title('D(s)*G_s(s), K = 1 (motor B)');  
-
-% wc_B = 43.7 rad/s
-% K_B = 2.67 dB (see Figure 4)
-
-K_B = 10^(2.67/20); % controller gain motor B [m/N]
-
-
-
-% Define the PI compensator (with gain K) G_c(s). 
-Gc_A = K_A*D_A;
-Gc_B = K_B*D_B;
-
-%% 
-
-% Plot the compensator and the open loop. The command 'margin' makes a Bode 
-% diagram which immediately shows the stability margins.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Figure 5: Bode diagram of Gc_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(5); bode(Gc_A); title('PI compensator G_c(s) (motor A)');
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Figure 6: Bode diagram of Gc_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(6); bode(Gc_B); title('PI compensator G_c(s) (motor B)');
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 7: Bode diagram of Gc_A(s)*Gs_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(7); margin(Gc_A*Gs_A); title('Open loop L = G_c(s)*G_s(s) (motor A)'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 8: Bode diagram of Gc_B(s)*Gs_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(8); margin(Gc_B*Gs_B); title('Open loop L = G_c(s)*G_s(s) (motor B)'); 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%% 
-
-
-% Define the following closed-loop transfer functions:
-%    - reference to output
-       Fd_to_F = feedback(Gc*Gs,1);
-       
-%    - reference to control signal
-       Fd_to_xd = feedback(Gc,Gs); 
-
-% Do the simulation of the output on a reference step input. We clearly see
-% there is no steady-state error, and the overshoot is < 20%, as expected.
-% This means we can decrease the phase margin and iterate until we find
-% and overshoot of exactly 20%. In turn, wc will become higher and the
-% response will be faster. We also see that the peak time formula is
-% consistent with our observations: the peak is approximately at 
-% tp = pi/wc = 0.21s. 
-figure; step(Fd_to_F); title('Closed-loop step response F/F_d'); 
-
-% Plot the pole-zero map of the closed loop. This can be very misleading if
-% the horizontal and vertical axes have different scales. Therefore, we
-% constrain the figure to have a 1:1 aspect ratio. 
-figure; pzmap(Fd_to_F); daspect([1 1 1]);
-
-% The poles, indicated by 'x', are all in the left half plane, so the 
-% closed loop is stable. One might think the dominant (slowest) pole is at 
-% 3.1 rad/s, but this one is almost cancelled by a zero, indicated by 'o',
-% at -3.9 rad/s. Hence, the dominant pole pair is at 17.2 rad/s. However,
-% because the interaction of the pole and the zero at low frequencies, the
-% overshoot properties are more favorable than expected based on the
-% figure on slide 10 of C6.
-
-% Let's also check the actuator signal. The steady-state value of the
-% actuator signal on a step reference of 1 N is 1 m. That follows from
-% the steady state value of the plant in steady-state (= at frequency 0): 
-% it is 1, which means the control signal should equal 1 m in order to
-% realize a force output of 1 N. 
-figure; step(Fd_to_xd); title('Closed-loop step response x_d/F_d'); 
-Gs_at_0 = evalfr(Gs,1i*0)     % frequency response of Gs at 0 
-
-%% 2.1.3 Design a pure integral controller for the force controlled robot
-
-% The design of an I-controller is identical to the PI, with the difference
-% that we have no control of the phase lag the controller introduces at the
-% cross-over frequency: an integrator has a phase of -90° over the entire
-% frequency domain. Hence, given a desired PM of 45°, we should put the new
-% cross-over frequency at the frequency where Gs(s) has a phase of 
-% -180° + 90° + 45°. We find:
-wc = 5.20;          % cross-over frequency of the I-controller [rad/s]
-
-% The cross-over frequency is clearly a lot lower than for the PI design.
-% We can now make the compensator without gain, i.e., the integrator:
-D = tf([1],[1 0]);
-
-% The gain of the open loop at the new cross-over frequency should become 
-% 1, such that ki must be
-figure; bode(D*Gs); title('D(s)*G_s(s), K = 1'); 
-ki = 10^(14.5/20);  % ki [m*s/N]
-
-% Define the I-controller.
-Gc = tf([ki],[1 0]);
-
-%% 2.1.4 Compare the frequency and time domain characteristics of both systems
- 
-% You can perform the same analysis as above and compare to the PI design
-% by plotting them on the same figure:
-figure; step(Fd_to_F); hold on; 
-Fd_to_F = feedback(Gc*Gs,1); step(Fd_to_F); title('Closed-loop step response F/F_d');  legend('PI controller','I controller'); 
-figure; step(Fd_to_xd); hold on;
-Fd_to_xd = feedback(Gc,Gs); step(Fd_to_xd); title('Closed-loop step response x_d/F_d'); legend('PI controller','I controller'); 
+%% Assignment 2 - Velocity control of the cart
+% This script implements the full workflow requested in specs_assignment2.md:
+%   1. Build the discrete-time motor models that were selected in assignment 1.
+%   2. Design two PI controllers (nominal and low-bandwidth) per motor using the
+%      frequency response method.
+%   3. Verify the design in the frequency and time domain (Bode, margins, steps).
+%   4. Post-process the experimental data once it is recorded and generate the
+%      required plots for Sections 2(a)–2(c) of the report.
+%
+% The script only relies on Assignment 1 data/models and Matlab's Control
+% System Toolbox. Update the file paths in DATA CONFIGURATION once new
+% experiments are logged.
+
+clear; close all; clc;
+format short g;
+
+%% --- CONFIGURATION --------------------------------------------------------
+Ts = 0.01;                        % sampling time used on the cart [s]
+sampleRate = 1 / Ts;
+
+designSpecNominal = struct( ...
+    'tag',          'nominal', ...
+    'description',  'High-bandwidth PI design for steady ground tests', ...
+    'phaseMargin',  55, ...       % [deg]
+    'phaseLagReserve', 15, ...    % safety margin for integrator lag [deg]
+    'targetWc',     30);          % [rad/s] desired crossover
+
+designSpecLowBW = struct( ...
+    'tag',          'lowBandwidth', ...
+    'description',  'Low-bandwidth PI (~0.5 Hz) for incline experiment', ...
+    'phaseMargin',  55, ...
+    'phaseLagReserve', 15, ...
+    'targetWc',     2 * pi * 0.5); % [rad/s] ~ 0.5 Hz
+
+exportPlots = false;              % set true to automatically save every figure
+scriptDir = fileparts(mfilename('fullpath'));
+if isempty(scriptDir); scriptDir = pwd; end
+dataDir = fullfile(scriptDir, 'data');             % expected measurement folder
+figDir = fullfile(scriptDir, 'figures_assignment2');
+if exportPlots && ~exist(figDir, 'dir')
+    mkdir(figDir);
+end
+
+dataPaths = struct( ...
+    'flatStep',          fullfile(dataDir, 'cart_flat_step.csv'), ...        % spec 2(a)
+    'inclineNominal',    fullfile(dataDir, 'cart_incline_nominal.csv'), ...  % spec 2(b)
+    'inclineLowBand',    fullfile(dataDir, 'cart_incline_lowband.csv'));     % spec 2(c)
+
+%% --- MODELS FROM ASSIGNMENT 1 ---------------------------------------------
+% Discrete-time models as reported in tex_control/assignment1.tex (unfiltered,
+% simplified second-order fits with microOS delay). Each numerator includes
+% the z^-2 term that reflects the relative degree dictated by the recursive ARX
+% structure. Do not use the numbers from the example reports!
+
+motorModels = struct();
+motorModels.A = struct( ...
+    'label', 'Wheel A', ...
+    'discrete', tf([0, 0, 0.6309], [1, -0.6819, 0], Ts), ...
+    'color', [0.10 0.33 0.60]);
+motorModels.B = struct( ...
+    'label', 'Wheel B', ...
+    'discrete', tf([0, 0, 0.6488], [1, -0.6806, 0], Ts), ...
+    'color', [0.80 0.32 0.07]);
+
+motorNames = fieldnames(motorModels);
+for k = 1:numel(motorNames)
+    name = motorNames{k};
+    motor = motorModels.(name);
+    motor.discrete.InputName = "Voltage";
+    motor.discrete.OutputName = "Velocity";
+    motor.continuous = d2c(motor.discrete, 'tustin');
+    motor.continuous.InputName = motor.discrete.InputName;
+    motor.continuous.OutputName = motor.discrete.OutputName;
+    motorModels.(name) = motor;
+end
+
+%% --- PI CONTROLLER DESIGN -------------------------------------------------
+for k = 1:numel(motorNames)
+    name = motorNames{k};
+    motor = motorModels.(name);
+    controllers = struct();
+    controllers.nominal = designPiController(motor, designSpecNominal, Ts);
+    controllers.lowBandwidth = designPiController(motor, designSpecLowBW, Ts);
+    motor.controllers = controllers;
+    motorModels.(name) = motor;
+end
+
+fprintf('\nController summaries (continuous PI gains and discrete coefficients)\n');
+for k = 1:numel(motorNames)
+    name = motorNames{k};
+    motor = motorModels.(name);
+    fprintf('\n%s\n', motor.label);
+    specs = fieldnames(motor.controllers);
+    for s = 1:numel(specs)
+        ctrl = motor.controllers.(specs{s});
+        fprintf('  %s controller:\n', ctrl.meta.description);
+        fprintf('    Target crossover: %.2f rad/s (%.2f Hz)\n', ...
+            ctrl.meta.targetWc, ctrl.meta.targetWc / (2*pi));
+        fprintf('    Achieved crossover: %.2f rad/s, PM %.1f deg\n', ...
+            ctrl.margins.wcp, ctrl.margins.pm);
+        fprintf('    Continuous gains: Kp = %.4f, Ki = %.4f\n', ctrl.Kp, ctrl.Ki);
+        fprintf('    PI zero time constant Ti = %.4f s\n', ctrl.Ti);
+        fprintf('    Discrete numerator  (z^{-1} form): [%s]\n', num2str(ctrl.discrete.num, ' %.6f'));
+        fprintf('    Discrete denominator(z^{-1} form): [%s]\n', num2str(ctrl.discrete.den, ' %.6f'));
+        fprintf('    Difference eq: u[k] =%s\n', ctrl.discrete.textForm);
+    end
+end
+
+%% --- FREQUENCY RESPONSE VISUALIZATION -------------------------------------
+for k = 1:numel(motorNames)
+    name = motorNames{k};
+    motor = motorModels.(name);
+    figName = sprintf('Plant Bode - %s', motor.label);
+    plotPlantBode(motor.continuous, motor.label, figName, exportPlots, figDir);
+    specs = fieldnames(motor.controllers);
+    for s = 1:numel(specs)
+        ctrl = motor.controllers.(specs{s});
+        figName = sprintf('Open-loop Bode - %s - %s', motor.label, ctrl.meta.tag);
+        plotOpenLoopBode(ctrl.openLoop, ctrl, figName, exportPlots, figDir);
+    end
+end
+
+%% --- STEP RESPONSES (SIMULATION) ------------------------------------------
+for k = 1:numel(motorNames)
+    name = motorNames{k};
+    motor = motorModels.(name);
+    ctrlNom = motor.controllers.nominal;
+    ctrlLow = motor.controllers.lowBandwidth;
+    plotClosedLoopStepComparison(motor.label, ctrlNom, ctrlLow, exportPlots, figDir);
+    plotControlSignalStepComparison(motor.label, ctrlNom, ctrlLow, exportPlots, figDir);
+end
+
+%% --- EXPERIMENTAL DATA PROCESSING -----------------------------------------
+scenarioDefs = [ ...
+    struct('key','flatStep', 'description','Flat ground step (spec 2a)', 'controllerTag','nominal'); ...
+    struct('key','inclineNominal', 'description','Inclined plane step (spec 2b)', 'controllerTag','nominal') ...
+];
+
+experimentData = struct();
+for s = 1:numel(scenarioDefs)
+    def = scenarioDefs(s);
+    filePath = dataPaths.(def.key);
+    experimentData.(def.key) = loadQRCLog(filePath, Ts, def.description);
+end
+experimentData.inclineLowBand = loadQRCLog(dataPaths.inclineLowBand, Ts, ...
+    'Inclined plane with low-bandwidth controller (spec 2c)');
+
+% Section 2(a) and 2(b) plots
+for s = 1:numel(scenarioDefs)
+    def = scenarioDefs(s);
+    data = experimentData.(def.key);
+    if isempty(data)
+        fprintf('[WARN] Missing data for scenario "%s". Skipping plots.\n', def.key);
+        continue;
+    end
+    for k = 1:numel(motorNames)
+        motorName = motorNames{k};
+        motor = motorModels.(motorName);
+        ctrl = motor.controllers.(def.controllerTag);
+        plotExperimentalValidation(data, motorName, motor.label, ctrl, ...
+            sprintf('%s - %s', def.description, motor.label), ...
+            sprintf('%s_%s', def.key, motorName), exportPlots, figDir);
+    end
+end
+
+% Section 2(c): overlay nominal vs low-bandwidth on incline
+if ~isempty(experimentData.inclineNominal) && ~isempty(experimentData.inclineLowBand)
+    for k = 1:numel(motorNames)
+        motorName = motorNames{k};
+        motor = motorModels.(motorName);
+        plotScenarioComparison(experimentData.inclineNominal, motor.controllers.nominal, ...
+            'Nominal controller', experimentData.inclineLowBand, ...
+            motor.controllers.lowBandwidth, 'Low-bandwidth controller', ...
+            motorName, motor.label, exportPlots, figDir);
+    end
+else
+    fprintf('[WARN] Missing data for the incline comparison (spec 2c).\n');
+end
+
+%% --- BLOCK DIAGRAM FOR DISTURBANCE STUDY ----------------------------------
+plotDisturbanceBlockDiagram(exportPlots, figDir);
+
+fprintf('\nDone. Figures are available in Matlab. If exportPlots=true, they are saved under:\n  %s\n', figDir);
+
+%% --- LOCAL FUNCTIONS ------------------------------------------------------
+function controller = designPiController(motor, spec, Ts)
+    arguments
+        motor struct
+        spec struct
+        Ts double {mustBePositive}
+    end
+
+    w = logspace(log10(0.5), log10(500), 4000);
+    [mag, phase] = bode(motor.continuous, w);
+    mag = squeeze(mag);
+    phase = squeeze(phase);
+    if isempty(spec.targetWc)
+        phaseTarget = -180 + spec.phaseMargin + spec.phaseLagReserve;
+        idx = find(phase <= phaseTarget, 1, 'first');
+        if isempty(idx)
+            warning('Plant does not reach required phase for %s controller. Using highest available frequency %.2f rad/s.', spec.tag, w(end));
+            idx = numel(w);
+        end
+        wc = w(idx);
+    else
+        wc = spec.targetWc;
+    end
+    Ti = tand(90 - spec.phaseLagReserve) / wc;
+    D = tf([Ti 1], [Ti 0]);
+    openLoopBase = D * motor.continuous;
+    magAtWc = abs(evalfr(openLoopBase, 1i * wc));
+    K = 1 / magAtWc;
+    controllerC = K * D;
+    openLoop = controllerC * motor.continuous;
+    closedLoop = feedback(openLoop, 1);
+    sensitivity = feedback(1, openLoop);
+    controlTF = feedback(controllerC, motor.continuous);
+    [gm, pm, wcg, wcp] = margin(openLoop);
+    controller = struct();
+    controller.meta = spec;
+    controller.meta.targetWc = wc;
+    controller.Ti = Ti;
+    controller.Kp = K;
+    controller.Ki = K / Ti;
+    controller.continuous = controllerC;
+    controller.openLoop = openLoop;
+    controller.closedLoop = closedLoop;
+    controller.sensitivity = sensitivity;
+    controller.controlTF = controlTF;
+    controller.margins = struct('gm', gm, 'pm', pm, 'wcg', wcg, 'wcp', wcp);
+    controller.discrete.tf = c2d(controllerC, Ts, 'tustin');
+    [num, den] = tfdata(controller.discrete.tf, 'v');
+    controller.discrete.num = num;
+    controller.discrete.den = den;
+    controller.discrete.textForm = discreteDifferenceEquation(num, den);
+end
+
+function txt = discreteDifferenceEquation(num, den)
+    assert(abs(den(1) - 1) < 1e-9, 'Denominator must be monic.');
+    a = den(2:end);
+    b = num;
+    terms = [" "]; %#ok<NBRAK>
+    terms(1) = sprintf(' %.6f*e[k]', b(1));
+    for k = 2:numel(b)
+        terms(end+1) = sprintf(' %.6f*e[k-%d]', b(k), k-1); %#ok<AGROW>
+    end
+    for k = 1:numel(a)
+        terms(end+1) = sprintf(' %.6f*u[k-%d]', -a(k), k); %#ok<AGROW>
+    end
+    txt = strjoin(terms, ' + ');
+end
+
+function plotPlantBode(sys, label, figName, exportPlots, figDir)
+    w = logspace(log10(0.3), log10(500), 1000);
+    [mag, phase] = bode(sys, w);
+    mag = squeeze(mag);
+    phase = squeeze(phase);
+    fig = figure('Name', figName, 'Color', 'w');
+    subplot(2,1,1);
+    semilogx(w, 20*log10(mag), 'LineWidth', 1.2);
+    grid on; ylabel('Magnitude [dB]');
+    title(sprintf('Bode of %s plant', label));
+    subplot(2,1,2);
+    semilogx(w, phase, 'LineWidth', 1.2);
+    grid on; ylabel('Phase [deg]'); xlabel('Frequency [rad/s]');
+    persistFigure(fig, figDir, figName, exportPlots);
+end
+
+function plotOpenLoopBode(openLoop, controller, figName, exportPlots, figDir)
+    w = logspace(log10(0.3), log10(500), 1000);
+    [mag, phase] = bode(openLoop, w);
+    mag = squeeze(mag);
+    phase = squeeze(phase);
+    wcPlot = controller.margins.wcp;
+    if isnan(wcPlot)
+        wcPlot = controller.meta.targetWc;
+    end
+    pmText = controller.margins.pm;
+    if isnan(pmText)
+        pmText = controller.meta.phaseMargin;
+    end
+    fig = figure('Name', figName, 'Color', 'w');
+    subplot(2,1,1);
+    semilogx(w, 20*log10(mag), 'LineWidth', 1.3); hold on;
+    yline(0, 'k--');
+    xline(wcPlot, '--r', sprintf('\\omega_c = %.1f rad/s', wcPlot));
+    grid on; ylabel('Magnitude [dB]');
+    title(sprintf('Open-loop L(s) with %s controller', controller.meta.description));
+    subplot(2,1,2);
+    semilogx(w, phase, 'LineWidth', 1.3); hold on;
+    xline(wcPlot, '--r');
+    yline(-180 + controller.meta.phaseMargin, 'k:');
+    grid on; ylabel('Phase [deg]'); xlabel('Frequency [rad/s]');
+    text(wcPlot, -180 + pmText, sprintf('PM = %.1f deg', pmText), ...
+        'VerticalAlignment','bottom');
+    persistFigure(fig, figDir, figName, exportPlots);
+end
+
+function plotClosedLoopStepComparison(label, ctrlNom, ctrlLow, exportPlots, figDir)
+    t = linspace(0, 3, 600);
+    [yNom, tNom] = step(ctrlNom.closedLoop, t);
+    [yLow, tLow] = step(ctrlLow.closedLoop, t);
+    fig = figure('Name', sprintf('Closed-loop step response - %s', label), 'Color', 'w');
+    plot(tNom, yNom, 'LineWidth', 1.5); hold on;
+    plot(tLow, yLow, '--', 'LineWidth', 1.5);
+    grid on; xlabel('Time [s]'); ylabel('Velocity [rad/s]');
+    title(sprintf('Reference tracking - %s', label));
+    legend(sprintf('Nominal (\\omega_c %.1f rad/s)', ctrlNom.margins.wcp), ...
+           sprintf('Low-bandwidth (\\omega_c %.1f rad/s)', ctrlLow.margins.wcp), ...
+           'Location', 'southeast');
+    persistFigure(fig, figDir, sprintf('step_%s', label), exportPlots);
+end
+
+function plotControlSignalStepComparison(label, ctrlNom, ctrlLow, exportPlots, figDir)
+    t = linspace(0, 3, 600);
+    [uNom, tNom] = step(ctrlNom.controlTF, t);
+    [uLow, tLow] = step(ctrlLow.controlTF, t);
+    fig = figure('Name', sprintf('Control effort step - %s', label), 'Color', 'w');
+    plot(tNom, uNom, 'LineWidth', 1.5); hold on;
+    plot(tLow, uLow, '--', 'LineWidth', 1.5);
+    grid on; xlabel('Time [s]'); ylabel('Voltage [V]');
+    title(sprintf('Control signal on unit step - %s', label));
+    legend('Nominal PI','Low-band PI','Location','southeast');
+    persistFigure(fig, figDir, sprintf('control_step_%s', label), exportPlots);
+end
+
+function data = loadQRCLog(filePath, Ts, description)
+    arguments
+        filePath (1,:) char
+        Ts double
+        description (1,:) char
+    end
+    data = [];
+    if ~isfile(filePath)
+        fprintf('[INFO] Data file not found yet: %s\n', filePath);
+        return;
+    end
+    raw = readmatrix(filePath, 'NumHeaderLines', 2);
+    if isempty(raw)
+        fprintf('[WARN] Empty dataset: %s\n', filePath);
+        return;
+    end
+    timeVec = (raw(:,1) - raw(1,1)) * 1e-3; % convert ms to s
+    dt = median(diff(timeVec));
+    if abs(dt - Ts) > 5e-4
+        fprintf('[INFO] Sample interval differs from design Ts: %.6f s vs %.6f s\n', dt, Ts);
+    end
+    data = struct();
+    data.description = description;
+    data.time = timeVec;
+    % Column order in QRC CSV: [Time, ValueIn0, ValueIn1, ...]
+    data.reference = raw(:, 2); % ValueIn0
+    data.speedA = raw(:, 3);    % ValueIn1
+    data.speedB = raw(:, 4);    % ValueIn2
+    data.errorA = raw(:, 5);    % ValueIn3
+    data.errorB = raw(:, 6);    % ValueIn4
+    data.controlA = raw(:, 7);  % ValueIn5
+    data.controlB = raw(:, 8);  % ValueIn6
+    if size(raw,2) >= 9
+        data.mode = raw(:, 9);  % ValueIn7
+    end
+end
+
+function plotExperimentalValidation(data, motorKey, motorLabel, controller, titleStr, fileToken, exportPlots, figDir)
+    t = data.time - data.time(1);
+    ref = data.reference;
+    switch motorKey
+        case 'A'
+            meas = data.speedA;
+            ctrlMeas = data.controlA;
+            errMeas = data.errorA;
+        otherwise
+            meas = data.speedB;
+            ctrlMeas = data.controlB;
+            errMeas = data.errorB;
+    end
+    simResponse = lsim(controller.closedLoop, ref, t);
+    simError = lsim(controller.sensitivity, ref, t);
+    simControl = lsim(controller.controlTF, ref, t);
+
+    fig1 = figure('Name', sprintf('%s - closed loop', titleStr), 'Color', 'w');
+    plot(t, ref, 'k--', 'LineWidth', 1.2); hold on;
+    plot(t, meas, 'LineWidth', 1.3);
+    plot(t, simResponse, 'LineWidth', 1.3);
+    grid on; xlabel('Time [s]'); ylabel('Velocity [rad/s]');
+    legend('Reference','Measured','Simulated','Location','southeast');
+    title(sprintf('Closed-loop response - %s', motorLabel));
+    persistFigure(fig1, figDir, sprintf('%s_cl_%s', fileToken, motorKey), exportPlots);
+
+    fig2 = figure('Name', sprintf('%s - tracking error', titleStr), 'Color', 'w');
+    plot(t, errMeas, 'LineWidth', 1.3); hold on;
+    plot(t, simError, '--', 'LineWidth', 1.3);
+    grid on; xlabel('Time [s]'); ylabel('Error [rad/s]');
+    legend('Measured','Simulated','Location','southeast');
+    title(sprintf('Tracking error - %s', motorLabel));
+    persistFigure(fig2, figDir, sprintf('%s_err_%s', fileToken, motorKey), exportPlots);
+
+    fig3 = figure('Name', sprintf('%s - control signal', titleStr), 'Color', 'w');
+    plot(t, ctrlMeas, 'LineWidth', 1.3); hold on;
+    plot(t, simControl, '--', 'LineWidth', 1.3);
+    grid on; xlabel('Time [s]'); ylabel('Voltage [V]');
+    legend('Measured','Simulated','Location','southeast');
+    title(sprintf('Control effort - %s', motorLabel));
+    persistFigure(fig3, figDir, sprintf('%s_ctrl_%s', fileToken, motorKey), exportPlots);
+end
+
+function plotScenarioComparison(dataNom, ctrlNom, labelNom, dataLow, ctrlLow, labelLow, motorKey, motorLabel, exportPlots, figDir)
+    tNom = dataNom.time - dataNom.time(1);
+    tLow = dataLow.time - dataLow.time(1);
+    refNom = dataNom.reference;
+    refLow = dataLow.reference;
+    switch motorKey
+        case 'A'
+            measNom = dataNom.speedA; measLow = dataLow.speedA;
+            errNom = dataNom.errorA; errLow = dataLow.errorA;
+            uNom = dataNom.controlA; uLow = dataLow.controlA;
+        otherwise
+            measNom = dataNom.speedB; measLow = dataLow.speedB;
+            errNom = dataNom.errorB; errLow = dataLow.errorB;
+            uNom = dataNom.controlB; uLow = dataLow.controlB;
+    end
+    simNom = lsim(ctrlNom.closedLoop, refNom, tNom);
+    simLow = lsim(ctrlLow.closedLoop, refLow, tLow);
+    simErrNom = lsim(ctrlNom.sensitivity, refNom, tNom);
+    simErrLow = lsim(ctrlLow.sensitivity, refLow, tLow);
+    simCtrlNom = lsim(ctrlNom.controlTF, refNom, tNom);
+    simCtrlLow = lsim(ctrlLow.controlTF, refLow, tLow);
+
+    fig1 = figure('Name', sprintf('Incline comparison - %s', motorLabel), 'Color', 'w');
+    plot(tNom, measNom, 'LineWidth', 1.4); hold on;
+    plot(tLow, measLow, 'LineWidth', 1.4);
+    plot(tNom, simNom, '--', 'LineWidth', 1.2);
+    plot(tLow, simLow, '--', 'LineWidth', 1.2);
+    grid on; xlabel('Time [s]'); ylabel('Velocity [rad/s]');
+    legend(sprintf('%s (meas)', labelNom), sprintf('%s (meas)', labelLow), ...
+        sprintf('%s (sim)', labelNom), sprintf('%s (sim)', labelLow), ...
+        'Location','southeast');
+    title(sprintf('Incline tracking comparison - %s', motorLabel));
+    persistFigure(fig1, figDir, sprintf('incline_compare_%s', motorKey), exportPlots);
+
+    fig2 = figure('Name', sprintf('Incline tracking error - %s', motorLabel), 'Color', 'w');
+    plot(tNom, errNom, 'LineWidth', 1.4); hold on;
+    plot(tLow, errLow, 'LineWidth', 1.4);
+    plot(tNom, simErrNom, '--', 'LineWidth', 1.2);
+    plot(tLow, simErrLow, '--', 'LineWidth', 1.2);
+    grid on; xlabel('Time [s]'); ylabel('Error [rad/s]');
+    legend(sprintf('%s (meas)', labelNom), sprintf('%s (meas)', labelLow), ...
+        sprintf('%s (sim)', labelNom), sprintf('%s (sim)', labelLow), ...
+        'Location','southeast');
+    title(sprintf('Incline tracking error comparison - %s', motorLabel));
+    persistFigure(fig2, figDir, sprintf('incline_err_compare_%s', motorKey), exportPlots);
+
+    fig3 = figure('Name', sprintf('Incline control comparison - %s', motorLabel), 'Color', 'w');
+    plot(tNom, uNom, 'LineWidth', 1.4); hold on;
+    plot(tLow, uLow, 'LineWidth', 1.4);
+    plot(tNom, simCtrlNom, '--', 'LineWidth', 1.2);
+    plot(tLow, simCtrlLow, '--', 'LineWidth', 1.2);
+    grid on; xlabel('Time [s]'); ylabel('Voltage [V]');
+    legend(sprintf('%s (meas)', labelNom), sprintf('%s (meas)', labelLow), ...
+        sprintf('%s (sim)', labelNom), sprintf('%s (sim)', labelLow), ...
+        'Location','southeast');
+    title(sprintf('Incline control effort comparison - %s', motorLabel));
+    persistFigure(fig3, figDir, sprintf('incline_ctrl_compare_%s', motorKey), exportPlots);
+end
+
+function plotDisturbanceBlockDiagram(exportPlots, figDir)
+    fig = figure('Name','Disturbance block diagram','Color','w','Position',[100 100 640 300]);
+    axis off; hold on;
+    controllerPos = [0.2 0.45 0.15 0.15];
+    plantPos = [0.55 0.45 0.15 0.15];
+    annotation('rectangle', controllerPos, 'FaceColor',[0.9 0.95 1], 'LineWidth',1.2);
+    annotation('rectangle', plantPos, 'FaceColor',[0.9 1 0.9], 'LineWidth',1.2);
+    annotation('textbox', controllerPos, 'String','C(z)','HorizontalAlignment','center', ...
+        'VerticalAlignment','middle','FontWeight','bold','EdgeColor','none');
+    annotation('textbox', plantPos, 'String','P(z)','HorizontalAlignment','center', ...
+        'VerticalAlignment','middle','FontWeight','bold','EdgeColor','none');
+    annotation('arrow',[0.1 0.2],[0.525 0.525],'LineWidth',1.2);
+    annotation('arrow',[0.35 0.55],[0.525 0.525],'LineWidth',1.2);
+    annotation('arrow',[0.70 0.85],[0.525 0.525],'LineWidth',1.2);
+    annotation('arrow',[0.82 0.45],[0.45 0.25],'LineWidth',1.2);
+    annotation('textarrow',[0.73 0.60],[0.76 0.60],'String','F_d (disturbance)','FontSize',9);
+    annotation('textarrow',[0.92 0.82],[0.54 0.54],'String','y = \omega','FontSize',9);
+    annotation('textarrow',[0.44 0.31],[0.25 0.25],'String','e = r - y','FontSize',9);
+    annotation('ellipse',[0.12 0.48 0.06 0.09],'LineWidth',1.2);
+    annotation('textbox',[0.12 0.6 0.1 0.1],'String','r','EdgeColor','none','FontWeight','bold');
+    persistFigure(fig, figDir, 'disturbance_block_diagram', exportPlots);
+end
+
+function persistFigure(fig, figDir, baseName, exportPlots)
+    if ~exportPlots
+        return;
+    end
+    fileSafe = regexprep(lower(baseName), '\s+', '_');
+    exportgraphics(fig, fullfile(figDir, [fileSafe '.png']), 'Resolution', 200);
+end

@@ -156,6 +156,13 @@ making it highly suitable for motor velocity control.
 
 The controller parameters were obtained using the frequency-response method, 
 based on the identified motor model $G_s(s)$ from Assignment 1, both for motor A and motor B.
+The simplified continuous-time models after filtering are:
+\begin{equation}
+    G_{s,A}(s) = \frac{0.3677s^2 - 147.1s + 1.471e04}{s^2 + 237.1s + 7413}
+\end{equation}
+\begin{equation}
+    G_{s,B}(s) = \frac{0.3763s^2 - 150.5s + 1.505e04}{s^2 + 237s + 7408}
+\end{equation}
 
 
 \paragraph{Choice of crossover frequency $\omega_c$:} 
@@ -177,15 +184,13 @@ where:
     \item $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$, which is selected to be 15°
 \end{itemize}
 This yields:
-
 \begin{equation}
 	\phi_G(\omega_c) = -180° + 55° + 15° = -110°
 \end{equation}
 
 The crossover frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110° is fixed directly by the specification:
 \begin{equation}
-    \omega_{c,\text{nom}} = 30 \texttt{rad/s} for motor A
-    \omega_{c,\text{nom}} = YYY \texttt{rad/s} for motor B
+    \omega_{c,A} = XXX \texttt{rad/s}, \quad \omega_{c,B} = YYY \texttt{rad/s} 
     %\omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
 \end{equation}
 
@@ -198,10 +203,8 @@ This design rule is mathematically expressed as:
     T_i \omega_c = \tan(90°-\phi_{PI}(\omega_c))
 \end{equation}
 using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
-
 \begin{equation}
-    T_{i,\text{nom}} = 0.124 \texttt{s} for motor A
-    T_{i,\text{nom}} = YYY \texttt{s} for motor B
+    T_{i,A} = XXX \texttt{s}, \quad T_{i,B} = YYY \texttt{s} 
 	%T_{i,\text{low}} = 1.19~\text{s}
 \end{equation}
 
@@ -220,8 +223,8 @@ The continuous controller is discretized using the Tustin method (with $c2d$ MAT
 and the gain is adjusted iteratively until MATLAB's Bode diagram confirms the desired crossover frequency.
 The identified wheel models yield the following proportional gains:
 \begin{equation}
-    K_A^{\text{nom}} = 0.615, \quad K_B^{\text{nom}} = 0.599, \quad
-    K_A^{\text{low}} = 0.489, \quad K_B^{\text{low}} = 0.477
+    K_A^{\text{nom}} = XXX, \quad K_B = YYY \quad
+    %K_A^{\text{low}} = 0.489, \quad K_B^{\text{low}} = 0.477
 \end{equation}
 
 \paragraph{Design trade-offs:}

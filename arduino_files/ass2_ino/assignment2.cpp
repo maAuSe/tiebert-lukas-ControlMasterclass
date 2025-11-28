@@ -1,11 +1,19 @@
 #include "assignment2.h"
 
 Robot::Robot() : activeMode(MODE_NOMINAL) {
-  // Nominal controller coefficients (Wheel A/B) from MATLAB script.
+  // PI controller coefficients from MATLAB (assignment2_solution.m)
+  // Plant model: H(z) = b1 / (z^2 + a1*z) from Assignment 1
+  //   Wheel A: H(z) = 0.6309 / (z^2 - 0.6819*z)
+  //   Wheel B: H(z) = 0.6488 / (z^2 - 0.6806*z)
+  // Controller: C(z) = [b0, b1] / [1, -1] (Tustin discretization)
+  // Difference equation: u[k] = b0*e[k] + b1*e[k-1] + u[k-1]
+
+  // Nominal controller (wc = 30 rad/s, Ti = 0.1244 s, PM = 55 deg)
+  // Run MATLAB script to get exact values after model correction
   coeffsA[MODE_NOMINAL] = {0.639426f, -0.590012f, 1.0f};
   coeffsB[MODE_NOMINAL] = {0.623161f, -0.575004f, 1.0f};
 
-  // Low-bandwidth (~0.5 Hz crossover) controller coefficients.
+  // Low-bandwidth controller (wc = 3.14 rad/s, Ti = 1.19 s, PM = 55 deg)
   coeffsA[MODE_LOW_BAND] = {0.490693f, -0.486580f, 1.0f};
   coeffsB[MODE_LOW_BAND] = {0.479090f, -0.475074f, 1.0f};
 

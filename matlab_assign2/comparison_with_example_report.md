@@ -115,13 +115,15 @@ The script executes the following steps in order:
 
 | Parameter | Your Solution | Example Report |
 |-----------|---------------|----------------|
-| **Wheel A** | `tf([0, 0, 0.6309], [1, -0.6819, 0], Ts)` | `tf([0.6594, -0.3973], [1, -0.8789, 0.006421, 0], Ts)` |
-| **Wheel B** | `tf([0, 0, 0.6488], [1, -0.6806, 0], Ts)` | `tf([0.6845, -0.4205], [1, -0.8804, 0.00909, 0], Ts)` |
+| **Wheel A** | `tf([0.6309], [1, -0.6819, 0], Ts)` | `tf([0.6594, -0.3973], [1, -0.8789, 0.006421, 0], Ts)` |
+| **Wheel B** | `tf([0.6488], [1, -0.6806, 0], Ts)` | `tf([0.6845, -0.4205], [1, -0.8804, 0.00909, 0], Ts)` |
 | **Model order** | 2nd-order (simplified) | 3rd-order |
-| **Numerator structure** | Single coefficient with z⁻² delay | Two coefficients |
+| **Numerator structure** | Single coefficient (no extra delay) | Two coefficients |
 | **Source** | From your own Assignment 1 identification | From example Assignment 1 data |
 
 **Key difference:** Your models are simpler (2nd-order) while the example uses 3rd-order ARX fits with an additional pole near zero. Both include the integrator (pole at z=0).
+
+**Model form:** `H(z) = b1 / (z^2 + a1*z)` which corresponds to `tf([b1], [1, a1, 0], Ts)` in MATLAB.
 
 ---
 

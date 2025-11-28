@@ -195,8 +195,8 @@ end
 csvfile_incline = fullfile(dataDir, 'cart_incline_nominal.csv');
 if isfile(csvfile_incline)
     raw_inc = readmatrix(csvfile_incline, 'NumHeaderLines', 2);
-    raw_inc = raw_inc(150:530, :);  % Clip to relevant range
-    t_inc = 0:Ts:3.8; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_inc = raw_inc(174:385, :);  % Clip to relevant range
+    t_inc = 0:Ts:2.4; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_inc = raw_inc(:, 2);
     speedA_inc = raw_inc(:, 3);
     speedB_inc = raw_inc(:, 4);
@@ -258,8 +258,8 @@ end
 csvfile_incline_low = fullfile(dataDir, 'cart_incline_lowband.csv');
 if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     raw_low = readmatrix(csvfile_incline_low, 'NumHeaderLines', 2);
-    raw_low = raw_low(100:520, :);  % Clip to relevant range
-    t_inc = 0:Ts:4.2; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_low = raw_low(113:353, :);  % Clip to relevant range
+    t_low = 0:Ts:2.4; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_low = raw_low(:, 2);
     speedA_low = raw_low(:, 3);
     speedB_low = raw_low(:, 4);

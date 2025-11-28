@@ -428,14 +428,14 @@ axis tight
 
 %transform model back to CT
 
-sys_c2_A = d2c(sys_d2_A, 'tustin');
+sys_c2_A = d2c(sys_d2_A, 'tustin')
 pc2_A = pole(sys_c2_A);
 wd2_A = abs(imag(pc2_A(2)));
 
 [wn2_A,zeta2_A] = damp(sys_c2_A);
 
 
-sys_c2_B = d2c(sys_d2_B, 'tustin');
+sys_c2_B = d2c(sys_d2_B, 'tustin')
 pc2_B = pole(sys_c2_B);
 wd2_B = abs(imag(pc2_B(2)));
 

@@ -124,8 +124,8 @@ b_B = omegaB(3:end);
 A_B = [-omegaB(2:end-1), voltage(1:end-2)];
 
 % perform the fit to get the desired parameters for both motors
-theta_A = A_A\b_A
-theta_B = A_B\b_B
+theta_A = A_A\b_A;
+theta_B = A_B\b_B;
 % theta = [a1 b1]'
 
 % build the identified models
@@ -301,8 +301,8 @@ A_B_filt = [-omegaB_filt(2:end-1), voltage_filt_B(1:end-2)];
 
 % H(z) = b1 /(z^2 + a1 z)
 
-theta_filter_A = A_A_filt\b_A_filt
-theta_filter_B = A_B_filt\b_B_filt
+theta_filter_A = A_A_filt\b_A_filt;
+theta_filter_B = A_B_filt\b_B_filt;
 % theta_filter = [a1 b1]'
 
 sys_d2_A = (theta_filter_A(2))/(z^2 + theta_filter_A(1)*z)
@@ -367,7 +367,7 @@ axis tight
 % before that, models are transformed back to CT and step responses of the CT models
 % are simulated. Also zeta, wn, wd and DC-gain of CT models are calculated and used.
 
-sys_c2_A = d2c(sys_d2_A, 'tustin');
+sys_c2_A = d2c(sys_d2_A, 'tustin')
 pc2_A = pole(sys_c2_A);
 if abs(imag(pc2_A(1))) > abs(imag(pc2_A(2)))
     wd2_A = abs(imag(pc2_A(1)));
@@ -377,7 +377,7 @@ end
 
 [wn2_A,zeta2_A] = damp(sys_c2_A);
 
-sys_c2_B = d2c(sys_d2_B, 'tustin');
+sys_c2_B = d2c(sys_d2_B, 'tustin')
 pc2_B = pole(sys_c2_B);
 if abs(imag(pc2_B(1))) > abs(imag(pc2_B(2)))
     wd2_B = abs(imag(pc2_B(1)));

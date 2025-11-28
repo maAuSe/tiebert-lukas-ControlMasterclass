@@ -13,9 +13,9 @@ clear; close all; clc;
 
 %% Configuration
 Ts = 0.01;
-dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
+dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign2/data';
 
-%% Plant models from Assignment 1 (simplified 2nd-order model)
+%% Plant models from .csvAssignment 1 (simplified 2nd-order model)
 % H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
 wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts);
 wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts);
@@ -25,8 +25,8 @@ wheelA_cont = d2c(wheelA_tf, 'tustin');
 wheelB_cont = d2c(wheelB_tf, 'tustin');
 
 %% Show plant frequency response
-figure; margin(wheelA_tf); title('Plant Bode - Wheel A');
-figure; margin(wheelB_tf); title('Plant Bode - Wheel B');
+figure; margin(wheelA_tf); title('Uncompensated open-loop system G_s(s) - Wheel A');
+figure; margin(wheelB_tf); title('Uncompensated open-loop system G_s(s) - Wheel B');
 
 %% ========================================================================
 %  NOMINAL CONTROLLER (high bandwidth, ~30 rad/s crossover)

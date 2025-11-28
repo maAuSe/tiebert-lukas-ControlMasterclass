@@ -184,8 +184,9 @@ This yields:
 
 The crossover frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110° is fixed directly by the specification:
 \begin{equation}
-    \omega_{c,\text{nom}} = 30~\text{rad/s}~(4.77~\text{Hz}), \qquad
-    \omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
+    \omega_{c,\text{nom}} = 30 \texttt{rad/s} for motor A
+    \omega_{c,\text{nom}} = YYY \texttt{rad/s} for motor B
+    %\omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
 \end{equation}
 
 
@@ -199,8 +200,9 @@ This design rule is mathematically expressed as:
 using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
 
 \begin{equation}
-    T_{i,\text{nom}} = 0.124~\text{s}, \qquad
-	T_{i,\text{low}} = 1.19~\text{s}
+    T_{i,\text{nom}} = 0.124 \texttt{s} for motor A
+    T_{i,\text{nom}} = YYY \texttt{s} for motor B
+	%T_{i,\text{low}} = 1.19~\text{s}
 \end{equation}
 
 Interpretation of trade-offs:
@@ -284,39 +286,168 @@ where $\tau$ is the motor time constant.
 \paragraph{Practical limitations:} 
 
 \begin{itemize}
-    \item Sampling frequency (100 $Hz$) 
+    \item Sampling frequency (100 $Hz$): Nyquist limit of 50 $Hz$ (= $f_s/2$) cuts off the maximum achievable bandwidth. 
+	\item Microcontroller delay introduces extra phase lag, reducing stability margins.
+	\item Voltage saturation (≈ 12 $V$) limits achievable proportional gain.
+	\item Encoder quantization noise leads to large high-frequency disturbances when bandwidth is too high.
+	\item Motor friction and unmodeled nonlinearities reduce agreement with the designed frequency response.
 \end{itemize}
+These constraints limit the achievable closed-loop bandwidth even if theoretically higher values are possible.
 
 
-\textbf{Implementation Constraints:} Digital implementation imposes hard limit via sampling rate. The chosen bandwidth $\omega_{BW} \approx 4.8~\text{Hz}$ balances responsiveness with robustness and practical constraints.
 
-\textbf{Actuator Clamping:} The MECOtron libraries (\texttt{libraries/control-theory/mecotron.h}) drive the Pololu TB6612FNG stage from a 12~V battery rail. To stay within the safe operating window and allow for sensing offsets, the firmware clamps the commanded voltage to $\pm 11$~V, which matches the plateaus visible in the measured control signals.
 
-\section{Experimental Validation}
+\section{Experimental validation of the designed controller}
 
-All tests were executed on the MECOtron v3 cart controlled at 100~Hz. The firmware streamed reference, speed, error, control, and mode flags through QRC, and the MATLAB script in \texttt{matlab\_assign2/assignment2\_solution.m} post-processed the resulting logs. The following CSV files are used throughout the section: \texttt{cart\_flat\_step.csv} (flat ground), \texttt{cart\_incline\_nominal.csv} (incline with nominal controller), and \texttt{cart\_incline\_lowband.csv} (incline with the low-bandwidth controller).
 
-\subsection{Flat-Ground Step (Specification 2a)}
+\subsection{Step response validation}
 
-\textbf{Experiment:} Both wheels track a $0 \rightarrow 10$~rad/s velocity command using the nominal (30~rad/s) PI controller. The rise and settling times extracted from the log are $0.32$~s and $0.65$~s, respectively, which agree with the discrete-time model predictions (0.29~s and 0.64~s). Steady-state error remains below $0.05$~rad/s for the full duration of the experiment, confirming the correct integral action.
 
-\textbf{Step Response:} Simulated and measured velocities overlap within $\pm 0.2$~rad/s once the loop leaves the saturation regime. The transient is dominated by the intentionally aggressive crossover and shows no overshoot, which is consistent with the 55° phase margin requirement. Differences between Motor~A and Motor~B are below the encoder noise floor.
 
-\textbf{Tracking Error:} The logged error channels decay exponentially after an initial spike caused by the sample-and-hold delay. Within 0.4~s the absolute error is bounded by 0.05~rad/s for both wheels, matching the performance predicted by the model-based sensitivity function.
+\paragraph{Experiment:} 
+A constant velocity reference of 10 $rad/s$ is applied to both motors. The measured velocity is compared to the simulated velocity (using the compensated model).
 
-\textbf{Control Signal and Clamping:} The control effort saturates at $\pm 11$~V for roughly 150~ms, matching the limit imposed in firmware to keep the TB6612FNG bridge within the 12~V rail defined in \texttt{libraries/control-theory/mecotron.h}. After the transient, each wheel settles around 3--4~V to compensate friction, and the measured voltages are a close match to the MATLAB control-signal simulation.
+\paragraph{Step response:}
+The measured and simulated closed-loop responses exhibit similar transient patterns. Initial delays and rise times closely match the model predictions, confirming the validity of the identified motor dynamics. 
+The steady-state velocity converges to the reference value of 10 $rad/s$, demonstrating correct integral action.
+Oscillations in the measured signal may be slightly larger than in the simulation due to encoder quantization, unmodeled friction, and voltage saturation clipping.
+Despite these differences, the measured response remains consistent with expected closed-loop behavior.
 
-\subsection{Inclined-Plane Tracking (Specifications 2b--2c)}
+Figure XXX shows the step response comparison for both motors.
+The step reference (dotted line), measured closed-loop response (solid line) and simulated closed-loop response (dashed line) are shown in one plot.
 
-\textbf{Experiment:} The cart is placed on an incline so that gravity produces a constant negative torque on both wheels. Two runs are performed: one with the nominal controller and one with the low-bandwidth (0.5~Hz) controller selected through button~1 at run time.
+%\begin{figure}[h!]
+%    \centering
+%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorA}}\hfill
+%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorB}}
+%    \caption{Step response: reference (black), measured (red), simulated (blue).}
+%    \label{fig:step_nodist}
+%\end{figure}
 
-\textbf{Step Response with Disturbance:} With the nominal controller the reference reaches steady state in under 0.8~s but shows a pronounced control saturation because the integrator must cancel the constant gravity disturbance. Switching to the low-bandwidth controller sacrifices rise time (3.8~s) and settling time (7.7~s) yet halves the amount of actuation required during the transient, which keeps the motors away from the voltage clamp.
+\paragraph{Tracking error:} 
+The initial tracking error matches the simulated transient and decays to approximately zero, 
+apart from small steady-state fluctuations caused by sensor noise.
 
-\textbf{Tracking Error:} In both cases the error converges to zero despite the constant force, verifying the Type-1 disturbance rejection property. The low-bandwidth controller exhibits a much smoother error trajectory with less than 0.1~rad/s ripple, which makes it more suitable for the long incline experiments required in Specification~2(c).
+Figure YYY shows the tracking error comparison for both motors.
+The measured (solid line) and simulated (dashed line) tracking error of the step reference are shown in one plot.
 
-\textbf{Control Signal:} The nominal controller drives the actuators into $\pm 11$~V for almost 0.25~s, while the low-bandwidth controller peaks just below 8~V and then settles at about 5~V to counteract gravity. These measurements match the expectations from the MATLAB closed-loop simulations produced by \texttt{assignment2\_solution.m} and validate the motivation for providing two PI tunings.
+%\begin{figure}[h!]
+%    \centering
+%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorA}}\hfill
+%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorB}}
+%    \caption{Tracking error: measured (red) vs simulated (blue).}
+%    \label{fig:error_nodist}
+%\end{figure}
 
-\textbf{Summary:} The flat-ground and incline experiments confirm the analytical design. Closed-loop bandwidth, zero steady-state error, and voltage-clamp behavior follow directly from the MECOtron implementation, and the low-bandwidth controller delivers the additional robustness required for the incline scenario.
+\paragraph{Control signal (voltage):}
+The control voltage initially spikes due to a large tracking error. The measured signal is clipped at roughly 12 $V$ due to hardware limits.
+This clipping creates a slightly lower first overshoot compared to the simulation.
+The control signal tracks the evolution of the velocity error as expected.
+
+Figure ZZZ shows the control signal comparison for both motors.
+The measured (solid line) and simulated (dashed line) control signal of the step reference are shown in one plot.
+
+%\begin{figure}[h!]
+%    \centering
+%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorA}}\hfill
+%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorB}}
+%    \caption{Control voltage: measured (red) vs simulated (blue). Saturation at 12 V visible.}
+%    \label{fig:control_nodist}
+%\end{figure}
+
+\paragraph{Performance characteristics:} 
+Rise time ($t_r$), overshoot ($M_p$) and settling time ($t_s$) align with the design specifications.
+The measured and simulated responses show closely matching dynamic properties.
+The rise time $t_r$ of the measured system is slightly slower than in simulation due to unmodeled friction and voltage saturation, whereas the steady-state value is identical, confirming correct integral action.
+The overshoot $M_p$ matches well in shape but is marginally larger in the experiment because encoder quantization and actuator limits introduce additional damping and asymmetry.
+The settling time $t_s$ remains consistent between measurement and simulation, indicating that the designed phase margin ($PM$ = 55°) and bandwidth translate reliably to the real hardware.
+Overall, the measured performance agrees with the designed characteristics: fast but well-damped convergence, full elimination of steady-state error, and control behavior that remains within actuator limits.
+
+
+\subsection{Steady-state performance under constant force disturbance}
+
+\paragraph{Experiment:} 
+The cart is placed on an incline so that gravity (constant acceleration $g$ = 9.81 $m/s^2$) produces a constant negative torque, opposing the motion, on both wheels. 
+The same velocity setpoint as in Section 2.1 is applied, namely a constant velocity reference of 10 $rad/s$.
+
+\paragraph{Block diagram:} 
+The constant force disturbance signal enters the loop as an external load torque acting on the motor dynamics. 
+The disturbance affects the transient velocity, but the PI controller gradually compensates through its integral action.
+
+
+Figure XXX shows the block diagram of the closed-loop system with the constant force disturbance.
+
+%\begin{figure}[h!]
+%    \centering
+%    \includegraphics[width=0.48\textwidth]{block_diagram_disturbance}}
+%    \caption{Block diagram of the closed-loop system with the constant force disturbance.}
+%    \label{fig:block_diagram_disturbance}
+%\end{figure}
+
+\paragraph{Step response with disturbance:} 
+The measured response shows lower peaks and a slower rise than the nominal case, 
+while the simulated response remains unchanged because it does not include the disturbance.
+Despite this mismatch in the transient, both measured and simulated curves converge to the same steady-state value due to the integrator, which compensates the constant load.
+
+Figure XXX shows the step response comparison with disturbance for both motors.
+The step reference (dotted line), measured closed-loop response (solid line) and simulated closed-loop response (dashed line) are shown in one plot.
+
+%\begin{figure}[h!]
+%    \centering
+%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorA}}\hfill
+%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorB}}
+%    \caption{Step response: reference (black), measured (red), simulated (blue).}
+%    \label{fig:step_with_dist}
+%\end{figure}
+
+\paragraph{Tracking error with disturbance:} 
+The measured tracking error is larger at the start and decays more smoothly, whereas the simulated error follows the original undisturbed transient.
+Both measured and simulated tracking error eventually settle close to zero, but only the measured curve reflects the effect of the disturbance.
+
+Figure YYY shows the tracking error comparison with disturbance for both motors.
+The measured (solid line) and simulated (dashed line) tracking error of the step reference are shown in one plot.
+
+%\begin{figure}[h!]
+%    \centering
+%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorA}}\hfill
+%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorB}}
+%    \caption{Tracking error: measured (red) vs simulated (blue).}
+%    \label{fig:error_with_dist}
+%\end{figure}
+
+\paragraph{Control signal with disturbance:} 
+The measured control signal settles at a visibly higher steady-state value than the simulated one, which remains unchanged without the disturbance term.
+The transient shapes remain similar, but only the measured control effort compensates for the additional load.
+
+Figure ZZZ shows the control signal comparison with disturbance for both motors.
+The measured (solid line) and simulated (dashed line) control signal of the step reference are shown in one plot.
+
+%\begin{figure}[h!]
+%    \centering
+%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorA}}\hfill
+%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorB}}
+%    \caption{Control voltage: measured (red) vs simulated (blue). Saturation at 12 V visible.}
+%    \label{fig:control_with_dist}
+%\end{figure}
+
+\paragraph{Reference tracking despite disturbance:}
+The controller continues to track the reference in steady state because the integral action of the PI controller compensates any constant disturbance by increasing the steady-state control effort until the velocity error becomes zero again.
+Although the transient response is slowed down by the opposing force/torque, the integrator removes the steady-state error for constant disturbances, so the reference is still tracked.
+
+
+\section{Controller validation with cross-over frequency of 0.5 Hz (including constant disturbance)}
+
+\paragraph{Experiment:} 
+
+
+
+\paragraph{Step response with disturbance:}
+
+\paragraph{Tracking error with disturbance:}
+
+\paragraph{Control signal with disturbance:}
+
+\paragraph{Reference tracking despite disturbance:}
 
 \bibliographystyle{plainnat}
 \bibliography{references}

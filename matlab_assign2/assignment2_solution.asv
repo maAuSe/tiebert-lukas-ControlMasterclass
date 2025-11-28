@@ -1,215 +1,335 @@
-clear all
-close all
-clear global
-clc
-
-%% Design a proportional and integral (PI) controller for motor A and motor B
-
-
-
-Ts = 0.01; % sampling time [s]
-z = tf('z', Ts);
-
-% Define discrete transfer functions 
-
-sys_d2_A = (0.005478*z + 0.6586)/(z^3 - 0.5746*z^2 - 0.09068*z);
-sys_d2_B = (0.005893*z + 0.6733)/(z^3 - 0.5849*z^2 - 0.08088*z);
-
-
-
-% Define the transfer function of the uncompensated open loop system G_s(s).
-
-Gs_A = d2c(sys_d2_A, 'tustin');
-Gs_B = d2c(sys_d2_B, 'tustin'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 1: Bode diagram of Gs_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(1); bode(Gs_A); title('Uncompensated open loop system G_s(s) (motor A)'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 2: Bode diagram of Gs_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(2); bode(Gs_B); title('Uncompensated open loop system G_s(s) (motor B)'); 
-
-
-
-
-% Do the PI design.
-PM = 55;                 % desired phase margin [°]
-APL = 15;                % additional phase lag anticipated [°]
-phi = -180 + PM + APL;   % phase of Gs(s) where we will put the new cross-over frequency [°]
-% We check on the Bode diagram of Gs(s) where the phase equals 
-% phi, this will become the new cross-over frequency wc. 
-
-% phi = -110°
-
-
-wc_A = 43.6; % cross-over frequency motor A [rad/s] (see Figure 1)
-wc_B = 43.7; % cross-over frequency motor B [rad/s] (see Figure 2)
-
-
-
-% Choose the integration time Ti such that it will not interfere too much
-% with the phase at the new cross-over frequency. 
-Ti_A = tand(90 - APL)/wc_A; % integration time motor A [s]
-Ti_B = tand(90 - APL)/wc_B; % integration time motor B [s]
-
-
-
-
-
-% Define the transfer function of the PI compensator (without gain K) D(s). 
-D_A = tf([Ti_A 1],[Ti_A 0]);
-D_B = tf([Ti_B 1],[Ti_B 0]);
-
-
-%% 
-
-
-% Plot the Bode diagram of the compensated open loop system, that is D(s)*G_s(s), and find K such
-% that |G_c(s)*G_s(s)| = 1 = 0 dB at the cross-over frequency: we see a gain of
-% X dB, so we need K to be X dB = 10^(X/20).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 3: Bode diagram of D_A(s)*Gs_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(3); bode(D_A*Gs_A); title('D(s)*G_s(s), K = 1 (motor A)');  
-
-% wc_A = 43.4 rad/s
-% K_A = 2.45 dB
-
-K_A = 10^(2.45/20); % controller gain motor A [m/N]
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 4: Bode diagrm of D_B(s)*Gs_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(4); bode(D_B*Gs_B); title('D(s)*G_s(s), K = 1 (motor B)');  
-
-% wc_B = 43.5 rad/s
-% K_B = 2.7 dB
-
-K_B = 10^(2.7/20); % controller gain motor B [m/N]
-
-
-
-% Define the PI compensator (with gain K) G_c(s). 
-Gc_A = K_A*D_A;
-Gc_B = K_B*D_B;
-
-%% 
-
-% Plot the compensator and the open loop. The command 'margin' makes a Bode 
-% diagram which immediately shows the stability margins.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Figure 5: Bode diagram of Gc_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(5); bode(Gc_A); title('PI compensator G_c(s) (motor A)');
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Figure 6: Bode diagram of Gc_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(6); bode(Gc_B); title('PI compensator G_c(s) (motor B)');
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 7: Bode diagram of Gc_A(s)*Gs_A(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(7); margin(Gc_A*Gs_A); title('Open loop L = G_c(s)*G_s(s) (motor A)'); 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 8: Bode diagram of Gc_B(s)*Gs_B(s) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(8); margin(Gc_B*Gs_B); title('Open loop L = G_c(s)*G_s(s) (motor B)'); 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%% 
-
-
-% Define the following closed-loop transfer functions:
-%    - reference to output
-       Fd_to_F = feedback(Gc*Gs,1);
-       
-%    - reference to control signal
-       Fd_to_xd = feedback(Gc,Gs); 
-
-% Do the simulation of the output on a reference step input. We clearly see
-% there is no steady-state error, and the overshoot is < 20%, as expected.
-% This means we can decrease the phase margin and iterate until we find
-% and overshoot of exactly 20%. In turn, wc will become higher and the
-% response will be faster. We also see that the peak time formula is
-% consistent with our observations: the peak is approximately at 
-% tp = pi/wc = 0.21s. 
-figure; step(Fd_to_F); title('Closed-loop step response F/F_d'); 
-
-% Plot the pole-zero map of the closed loop. This can be very misleading if
-% the horizontal and vertical axes have different scales. Therefore, we
-% constrain the figure to have a 1:1 aspect ratio. 
-figure; pzmap(Fd_to_F); daspect([1 1 1]);
-
-% The poles, indicated by 'x', are all in the left half plane, so the 
-% closed loop is stable. One might think the dominant (slowest) pole is at 
-% 3.1 rad/s, but this one is almost cancelled by a zero, indicated by 'o',
-% at -3.9 rad/s. Hence, the dominant pole pair is at 17.2 rad/s. However,
-% because the interaction of the pole and the zero at low frequencies, the
-% overshoot properties are more favorable than expected based on the
-% figure on slide 10 of C6.
-
-% Let's also check the actuator signal. The steady-state value of the
-% actuator signal on a step reference of 1 N is 1 m. That follows from
-% the steady state value of the plant in steady-state (= at frequency 0): 
-% it is 1, which means the control signal should equal 1 m in order to
-% realize a force output of 1 N. 
-figure; step(Fd_to_xd); title('Closed-loop step response x_d/F_d'); 
-Gs_at_0 = evalfr(Gs,1i*0)     % frequency response of Gs at 0 
-
-%% 2.1.3 Design a pure integral controller for the force controlled robot
-
-% The design of an I-controller is identical to the PI, with the difference
-% that we have no control of the phase lag the controller introduces at the
-% cross-over frequency: an integrator has a phase of -90° over the entire
-% frequency domain. Hence, given a desired PM of 45°, we should put the new
-% cross-over frequency at the frequency where Gs(s) has a phase of 
-% -180° + 90° + 45°. We find:
-wc = 5.20;          % cross-over frequency of the I-controller [rad/s]
-
-% The cross-over frequency is clearly a lot lower than for the PI design.
-% We can now make the compensator without gain, i.e., the integrator:
-D = tf([1],[1 0]);
-
-% The gain of the open loop at the new cross-over frequency should become 
-% 1, such that ki must be
-figure; bode(D*Gs); title('D(s)*G_s(s), K = 1'); 
-ki = 10^(14.5/20);  % ki [m*s/N]
-
-% Define the I-controller.
-Gc = tf([ki],[1 0]);
-
-%% 2.1.4 Compare the frequency and time domain characteristics of both systems
- 
-% You can perform the same analysis as above and compare to the PI design
-% by plotting them on the same figure:
-figure; step(Fd_to_F); hold on; 
-Fd_to_F = feedback(Gc*Gs,1); step(Fd_to_F); title('Closed-loop step response F/F_d');  legend('PI controller','I controller'); 
-figure; step(Fd_to_xd); hold on;
-Fd_to_xd = feedback(Gc,Gs); step(Fd_to_xd); title('Closed-loop step response x_d/F_d'); legend('PI controller','I controller'); 
+%% Assignment 2 - Velocity control of the cart
+% Simplified procedural script for PI controller design and validation.
+% Covers sections 2(a), 2(b), and 2(c) of the report.
+
+clear; close all; clc;
+
+%% ========================================================================
+%  ARDUINO COEFFICIENT CALCULATION - RUN THIS SECTION FIRST
+%  ========================================================================
+%  This section computes the discrete PI controller coefficients.
+%  Copy the output to assignment2.cpp lines 13-18.
+%  ========================================================================
+
+%% Configuration
+Ts = 0.01;
+dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
+
+%% Plant models from Assignment 1 (simplified 2nd-order model)
+% H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
+wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts);
+wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts);
+
+% Convert to continuous for controller design
+wheelA_cont = d2c(wheelA_tf, 'tustin');
+wheelB_cont = d2c(wheelB_tf, 'tustin');
+
+%% Show plant frequency response
+figure; margin(wheelA_tf); title('Plant Bode - Wheel A');
+figure; margin(wheelB_tf); title('Plant Bode - Wheel B');
+
+%% ========================================================================
+%  NOMINAL CONTROLLER (high bandwidth, ~30 rad/s crossover)
+%  ========================================================================
+wc_nom = 30;                          % target crossover [rad/s]
+Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
+
+% Compute gain K so that |L(j*wc)| = 1
+D_nom = tf([Ti_nom 1], [Ti_nom 0]);
+L_base_nom = D_nom * wheelA_cont;
+K_nom = 1 / abs(evalfr(L_base_nom, 1i * wc_nom));
+
+% Continuous and discrete PI controller
+C_nom_cont = tf([K_nom, K_nom / Ti_nom], [1, 0]);
+C_nom_disc = c2d(C_nom_cont, Ts, 'tustin');
+
+% Open-loop, closed-loop, sensitivity, control TF
+L_nom = C_nom_disc * wheelA_tf;
+T_nom = L_nom / (1 + L_nom);
+S_nom = 1 / (1 + L_nom);
+U_nom = C_nom_disc / (1 + L_nom);
+
+% Also design for Wheel B
+L_base_nom_B = D_nom * wheelB_cont;
+K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom));
+C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]);
+C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin');
+
+fprintf('Nominal controller (Wheel A):\n');
+fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom);
+[num_nom_A, den_nom_A] = tfdata(C_nom_disc, 'v');
+fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_A(1), num_nom_A(2));
+fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_A(1), den_nom_A(2));
+
+fprintf('Nominal controller (Wheel B):\n');
+fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_B);
+[num_nom_B, den_nom_B] = tfdata(C_nom_disc_B, 'v');
+fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_B(1), num_nom_B(2));
+fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
+
+figure; margin(L_nom); title('Open-loop Bode - Nominal controller');
+
+%% ========================================================================
+%  LOW-BANDWIDTH CONTROLLER (~0.5 Hz = 3.14 rad/s crossover)
+%  ========================================================================
+wc_low = 2 * pi * 0.5;                % ~3.14 rad/s
+Ti_low = tand(90 - 15) / wc_low;
+
+D_low = tf([Ti_low 1], [Ti_low 0]);
+L_base_low = D_low * wheelA_cont;
+K_low = 1 / abs(evalfr(L_base_low, 1i * wc_low));
+
+C_low_cont = tf([K_low, K_low / Ti_low], [1, 0]);
+C_low_disc = c2d(C_low_cont, Ts, 'tustin');
+
+L_low = C_low_disc * wheelA_tf;
+T_low = L_low / (1 + L_low);
+S_low = 1 / (1 + L_low);
+U_low = C_low_disc / (1 + L_low);
+
+% Also design for Wheel B
+L_base_low_B = D_low * wheelB_cont;
+K_low_B = 1 / abs(evalfr(L_base_low_B, 1i * wc_low));
+C_low_cont_B = tf([K_low_B, K_low_B / Ti_low], [1, 0]);
+C_low_disc_B = c2d(C_low_cont_B, Ts, 'tustin');
+
+fprintf('\nLow-bandwidth controller (Wheel A):\n');
+fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low);
+[num_low_A, den_low_A] = tfdata(C_low_disc, 'v');
+fprintf('  Discrete num: [%.6f, %.6f]\n', num_low_A(1), num_low_A(2));
+fprintf('  Discrete den: [%.6f, %.6f]\n', den_low_A(1), den_low_A(2));
+
+fprintf('Low-bandwidth controller (Wheel B):\n');
+fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low_B);
+[num_low_B, den_low_B] = tfdata(C_low_disc_B, 'v');
+fprintf('  Discrete num: [%.6f, %.6f]\n', num_low_B(1), num_low_B(2));
+fprintf('  Discrete den: [%.6f, %.6f]\n', den_low_B(1), den_low_B(2));
+
+%% ========================================================================
+%  ARDUINO COEFFICIENTS - COPY THESE TO assignment2.cpp (lines 13-18)
+%  ========================================================================
+fprintf('\n=== COPY TO assignment2.cpp ===\n\n');
+fprintf('  coeffsA[MODE_NOMINAL]  = {%.6ff, %.6ff, 1.0f};\n', num_nom_A(1), num_nom_A(2));
+fprintf('  coeffsB[MODE_NOMINAL]  = {%.6ff, %.6ff, 1.0f};\n', num_nom_B(1), num_nom_B(2));
+fprintf('  coeffsA[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_A(1), num_low_A(2));
+fprintf('  coeffsB[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_B(1), num_low_B(2));
+fprintf('\n================================\n');
+
+figure; margin(L_low); title('Open-loop Bode - Low-bandwidth controller');
+
+%% Simulated step response comparison
+t_sim = 0:Ts:5.5;
+figure;
+step(T_nom, t_sim); hold on;
+step(T_low, t_sim);
+legend('Nominal (30 rad/s)', 'Low-BW (3.14 rad/s)', 'Location', 'southeast');
+title('Simulated closed-loop step response'); xlabel('Time [s]'); ylabel('Velocity [rad/s]');
+grid on;
+
+%% ========================================================================
+%  SECTION 2(a): Flat ground step response
+%  ========================================================================
+csvfile_flat = fullfile(dataDir, 'cart_flat_step.csv');
+if isfile(csvfile_flat)
+    raw_flat = readmatrix(csvfile_flat, 'NumHeaderLines', 2);
+    raw_flat = raw_flat(200:750, :);  % Clip to relevant range
+    t_flat = 0:Ts:5.5; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    ref_flat = raw_flat(:, 2);
+    speedA_flat = raw_flat(:, 3);
+    speedB_flat = raw_flat(:, 4);
+    errorA_flat = raw_flat(:, 5);
+    errorB_flat = raw_flat(:, 6);
+    ctrlA_flat = raw_flat(:, 7);
+    ctrlB_flat = raw_flat(:, 8);
+
+    sim_flat = lsim(T_nom, ref_flat, t_flat);
+    sim_err_flat = lsim(S_nom, ref_flat, t_flat);
+    sim_ctrl_flat = lsim(U_nom, ref_flat, t_flat);
+
+    % Wheel A
+    figure;
+    plot(t_flat, ref_flat, 'g--', 'LineWidth', 1.2); hold on;
+    plot(t_flat, speedA_flat, 'b', 'LineWidth', 1.2);
+    plot(t_flat, sim_flat, 'r', 'LineWidth', 1.2);
+    legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
+    title('Flat ground - Wheel A closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+
+    figure;
+    plot(t_flat, errorA_flat, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_flat, sim_err_flat, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Flat ground - Wheel A tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+
+    figure;
+    plot(t_flat, ctrlA_flat, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_flat, sim_ctrl_flat, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Flat ground - Wheel A control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+
+    % Wheel B
+    figure;
+    plot(t_flat, ref_flat, 'g--', 'LineWidth', 1.2); hold on;
+    plot(t_flat, speedB_flat, 'b', 'LineWidth', 1.2);
+    plot(t_flat, sim_flat, 'r', 'LineWidth', 1.2);
+    legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
+    title('Flat ground - Wheel B closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+
+    figure;
+    plot(t_flat, errorB_flat, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_flat, sim_err_flat, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Flat ground - Wheel B tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+
+    figure;
+    plot(t_flat, ctrlB_flat, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_flat, sim_ctrl_flat, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Flat ground - Wheel B control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+else
+    fprintf('[INFO] Flat ground data not found: %s\n', csvfile_flat);
+end
+
+%% ========================================================================
+%  SECTION 2(b): Incline with nominal controller
+%  ========================================================================
+csvfile_incline = fullfile(dataDir, 'cart_incline_nominal.csv');
+if isfile(csvfile_incline)
+    raw_inc = readmatrix(csvfile_incline, 'NumHeaderLines', 2);
+    raw_inc = raw_inc(150:530, :);  % Clip to relevant range
+    t_inc = 0:Ts:3.8; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    ref_inc = raw_inc(:, 2);
+    speedA_inc = raw_inc(:, 3);
+    speedB_inc = raw_inc(:, 4);
+    errorA_inc = raw_inc(:, 5);
+    errorB_inc = raw_inc(:, 6);
+    ctrlA_inc = raw_inc(:, 7);
+    ctrlB_inc = raw_inc(:, 8);
+
+    sim_inc = lsim(T_nom, ref_inc, t_inc);
+    sim_err_inc = lsim(S_nom, ref_inc, t_inc);
+    sim_ctrl_inc = lsim(U_nom, ref_inc, t_inc);
+
+    % Wheel A
+    figure;
+    plot(t_inc, ref_inc, 'g--', 'LineWidth', 1.2); hold on;
+    plot(t_inc, speedA_inc, 'b', 'LineWidth', 1.2);
+    plot(t_inc, sim_inc, 'r', 'LineWidth', 1.2);
+    legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
+    title('Incline (nominal) - Wheel A closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+
+    figure;
+    plot(t_inc, errorA_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_inc, sim_err_inc, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Incline (nominal) - Wheel A tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+
+    figure;
+    plot(t_inc, ctrlA_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_inc, sim_ctrl_inc, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Incline (nominal) - Wheel A control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+
+    % Wheel B
+    figure;
+    plot(t_inc, ref_inc, 'g--', 'LineWidth', 1.2); hold on;
+    plot(t_inc, speedB_inc, 'b', 'LineWidth', 1.2);
+    plot(t_inc, sim_inc, 'r', 'LineWidth', 1.2);
+    legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
+    title('Incline (nominal) - Wheel B closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+
+    figure;
+    plot(t_inc, errorB_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_inc, sim_err_inc, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Incline (nominal) - Wheel B tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+
+    figure;
+    plot(t_inc, ctrlB_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_inc, sim_ctrl_inc, 'r--', 'LineWidth', 1.2);
+    legend('Measured', 'Simulated', 'Location', 'southeast');
+    title('Incline (nominal) - Wheel B control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+else
+    fprintf('[INFO] Incline nominal data not found: %s\n', csvfile_incline);
+end
+
+%% ========================================================================
+%  SECTION 2(c): Incline comparison - nominal vs low-bandwidth
+%  ========================================================================
+csvfile_incline_low = fullfile(dataDir, 'cart_incline_lowband.csv');
+if isfile(csvfile_incline) && isfile(csvfile_incline_low)
+    raw_low = readmatrix(csvfile_incline_low, 'NumHeaderLines', 2);
+    raw_low = raw_low(100:520, :);  % Clip to relevant range
+    t_inc = 0:Ts:4.2; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    ref_low = raw_low(:, 2);
+    speedA_low = raw_low(:, 3);
+    speedB_low = raw_low(:, 4);
+    errorA_low = raw_low(:, 5);
+    errorB_low = raw_low(:, 6);
+    ctrlA_low = raw_low(:, 7);
+    ctrlB_low = raw_low(:, 8);
+
+    sim_inc_nom = lsim(T_nom, ref_inc, t_inc);
+    sim_inc_low = lsim(T_low, ref_low, t_low);
+    sim_err_nom = lsim(S_nom, ref_inc, t_inc);
+    sim_err_low = lsim(S_low, ref_low, t_low);
+    sim_ctrl_nom = lsim(U_nom, ref_inc, t_inc);
+    sim_ctrl_low = lsim(U_low, ref_low, t_low);
+
+    % Wheel A - closed-loop comparison
+    figure;
+    plot(t_inc, speedA_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_low, speedA_low, 'Color', [0.8 0.4 0], 'LineWidth', 1.2);
+    plot(t_inc, sim_inc_nom, 'b--', 'LineWidth', 1);
+    plot(t_low, sim_inc_low, '--', 'Color', [0.8 0.4 0], 'LineWidth', 1);
+    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Incline comparison - Wheel A closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+
+    % Wheel A - tracking error comparison
+    figure;
+    plot(t_inc, errorA_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_low, errorA_low, 'Color', [0.8 0.4 0], 'LineWidth', 1.2);
+    plot(t_inc, sim_err_nom, 'b--', 'LineWidth', 1);
+    plot(t_low, sim_err_low, '--', 'Color', [0.8 0.4 0], 'LineWidth', 1);
+    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Incline comparison - Wheel A tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+
+    % Wheel A - control signal comparison
+    figure;
+    plot(t_inc, ctrlA_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_low, ctrlA_low, 'Color', [0.8 0.4 0], 'LineWidth', 1.2);
+    plot(t_inc, sim_ctrl_nom, 'b--', 'LineWidth', 1);
+    plot(t_low, sim_ctrl_low, '--', 'Color', [0.8 0.4 0], 'LineWidth', 1);
+    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Incline comparison - Wheel A control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+
+    % Wheel B - closed-loop comparison
+    figure;
+    plot(t_inc, speedB_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_low, speedB_low, 'Color', [0.8 0.4 0], 'LineWidth', 1.2);
+    plot(t_inc, sim_inc_nom, 'b--', 'LineWidth', 1);
+    plot(t_low, sim_inc_low, '--', 'Color', [0.8 0.4 0], 'LineWidth', 1);
+    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Incline comparison - Wheel B closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+
+    % Wheel B - tracking error comparison
+    figure;
+    plot(t_inc, errorB_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_low, errorB_low, 'Color', [0.8 0.4 0], 'LineWidth', 1.2);
+    plot(t_inc, sim_err_nom, 'b--', 'LineWidth', 1);
+    plot(t_low, sim_err_low, '--', 'Color', [0.8 0.4 0], 'LineWidth', 1);
+    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Incline comparison - Wheel B tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+
+    % Wheel B - control signal comparison
+    figure;
+    plot(t_inc, ctrlB_inc, 'b', 'LineWidth', 1.2); hold on;
+    plot(t_low, ctrlB_low, 'Color', [0.8 0.4 0], 'LineWidth', 1.2);
+    plot(t_inc, sim_ctrl_nom, 'b--', 'LineWidth', 1);
+    plot(t_low, sim_ctrl_low, '--', 'Color', [0.8 0.4 0], 'LineWidth', 1);
+    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Incline comparison - Wheel B control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+else
+    fprintf('[INFO] Missing data for incline comparison (section 2c).\n');
+end
+
+fprintf('Done.\n');

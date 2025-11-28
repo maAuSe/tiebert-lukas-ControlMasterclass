@@ -4,6 +4,13 @@
 
 clear; close all; clc;
 
+%% ========================================================================
+%  ARDUINO COEFFICIENT CALCULATION - RUN THIS SECTION FIRST
+%  ========================================================================
+%  This section computes the discrete PI controller coefficients.
+%  Copy the output to assignment2.cpp lines 13-18.
+%  ========================================================================
+
 %% Configuration
 Ts = 0.01;
 dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
@@ -98,10 +105,20 @@ fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low_B);
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_low_B(1), num_low_B(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_low_B(1), den_low_B(2));
 
+%% ========================================================================
+%  ARDUINO COEFFICIENTS - COPY THESE TO assignment2.cpp (lines 13-18)
+%  ========================================================================
+fprintf('\n=== COPY TO assignment2.cpp ===\n\n');
+fprintf('  coeffsA[MODE_NOMINAL]  = {%.6ff, %.6ff, 1.0f};\n', num_nom_A(1), num_nom_A(2));
+fprintf('  coeffsB[MODE_NOMINAL]  = {%.6ff, %.6ff, 1.0f};\n', num_nom_B(1), num_nom_B(2));
+fprintf('  coeffsA[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_A(1), num_low_A(2));
+fprintf('  coeffsB[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_B(1), num_low_B(2));
+fprintf('\n================================\n');
+
 figure; margin(L_low); title('Open-loop Bode - Low-bandwidth controller');
 
 %% Simulated step response comparison
-t_sim = 0:Ts:3;
+t_sim = 0:Ts:5.5;
 figure;
 step(T_nom, t_sim); hold on;
 step(T_low, t_sim);
@@ -115,7 +132,8 @@ grid on;
 csvfile_flat = fullfile(dataDir, 'cart_flat_step.csv');
 if isfile(csvfile_flat)
     raw_flat = readmatrix(csvfile_flat, 'NumHeaderLines', 2);
-    t_flat = (raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_flat = raw_flat(200:750, :);  % Clip to relevant range
+    t_flat = 0:Ts:5.5; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_flat = raw_flat(:, 2);
     speedA_flat = raw_flat(:, 3);
     speedB_flat = raw_flat(:, 4);
@@ -177,7 +195,8 @@ end
 csvfile_incline = fullfile(dataDir, 'cart_incline_nominal.csv');
 if isfile(csvfile_incline)
     raw_inc = readmatrix(csvfile_incline, 'NumHeaderLines', 2);
-    t_inc = (raw_inc(:,1) - raw_inc(1,1)) * 1e-3;
+    raw_inc = raw_inc(145:385, :);  % Clip to relevant range
+    t_inc = 0:Ts:2.4; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_inc = raw_inc(:, 2);
     speedA_inc = raw_inc(:, 3);
     speedB_inc = raw_inc(:, 4);
@@ -239,7 +258,8 @@ end
 csvfile_incline_low = fullfile(dataDir, 'cart_incline_lowband.csv');
 if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     raw_low = readmatrix(csvfile_incline_low, 'NumHeaderLines', 2);
-    t_low = (raw_low(:,1) - raw_low(1,1)) * 1e-3;
+    raw_low = raw_low(113:353, :);  % Clip to relevant range
+    t_low = 0:Ts:2.4; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_low = raw_low(:, 2);
     speedA_low = raw_low(:, 3);
     speedB_low = raw_low(:, 4);
@@ -312,12 +332,4 @@ else
     fprintf('[INFO] Missing data for incline comparison (section 2c).\n');
 end
 
-%% Print Arduino-ready coefficients
-% The discrete PI controller is: u[k] = b0*e[k] + b1*e[k-1] + u[k-1]
-% where den = [1, -1] (integrator), so feedback coeff = 1
-fprintf('\n=== ARDUINO COEFFICIENTS ===\n');
-fprintf('// Nominal controller (Wheel A): b0=%.6f, b1=%.6f\n', num_nom_A(1), num_nom_A(2));
-fprintf('// Nominal controller (Wheel B): b0=%.6f, b1=%.6f\n', num_nom_B(1), num_nom_B(2));
-fprintf('// Low-BW controller (Wheel A):  b0=%.6f, b1=%.6f\n', num_low_A(1), num_low_A(2));
-fprintf('// Low-BW controller (Wheel B):  b0=%.6f, b1=%.6f\n', num_low_B(1), num_low_B(2));
-fprintf('\nDone.\n');
+fprintf('Done.\n');

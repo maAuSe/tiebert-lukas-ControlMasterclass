@@ -24,9 +24,23 @@ wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts);
 wheelA_cont = d2c(wheelA_tf, 'tustin');
 wheelB_cont = d2c(wheelB_tf, 'tustin');
 
+%% Step 1: Bode plot of G(s) - determine w_c where phase = -110° (for 70° PM)
+% This helps select the crossover frequency from plant characteristics
+figure;
+bode(wheelA_cont);
+hold on;
+ax = findall(gcf, 'Type', 'axes');
+for i = 1:length(ax)
+    if contains(ax(i).YLabel.String, 'Phase')
+        axes(ax(i)); hold on;
+        yline(-110, 'r--', '\phi = -110° (target for 70° PM)', 'LabelHorizontalAlignment', 'left');
+    end
+end
+title('Step 1: Plant G(s) Bode - Find \omega_c where \phi = -110°');
+grid on;
 
 %% ========================================================================
-%  NOMINAL CONTROLLER (high bandwidth, ~30 rad/s crossover)
+%  NOMINAL CONTROLLER (high bandwidth, ~60 rad/s crossover)
 %  ========================================================================
 wc_nom = 60;                          % target crossover [rad/s]
 Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
@@ -64,13 +78,28 @@ fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_B);
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_B(1), num_nom_B(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
 
-% Open-loop Bode with annotated design parameters (Section 1b)
+% Step 2: Bode plot of D(s)*G(s) with K=1 - determine gain K where |D*G| = 1 at w_c
+figure;
+bode(L_base_nom);
+hold on;
+ax = findall(gcf, 'Type', 'axes');
+for i = 1:length(ax)
+    if contains(ax(i).YLabel.String, 'Magnitude')
+        axes(ax(i)); hold on;
+        yline(0, 'r--', '0 dB (|D*G| = 1)', 'LabelHorizontalAlignment', 'left');
+        xline(wc_nom, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_nom), 'LabelOrientation', 'horizontal');
+    end
+end
+title(sprintf('Step 2: D(s)*G(s) with K=1 - Read gain at \\omega_c = %.1f rad/s', wc_nom));
+grid on;
+
+% Step 3: Open-loop Bode L = G_c * G_s with annotated design parameters (Section 1b)
 figure;
 [mag_nom, phase_nom, w_nom] = bode(L_nom);
 margin(L_nom);
 hold on;
 [Gm_nom, Pm_nom, Wcg_nom, Wcp_nom] = margin(L_nom);
-title(sprintf('Open-loop Bode - Nominal controller (PM = %.1f°, \\omega_c = %.1f rad/s)', Pm_nom, Wcp_nom));
+title(sprintf('Step 3: Open-loop L(s) - Verify PM = %.1f° at \\omega_c = %.1f rad/s', Pm_nom, Wcp_nom));
 % Add crossover frequency annotation
 ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)
@@ -129,12 +158,27 @@ fprintf('  coeffsA[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_A(1), num_
 fprintf('  coeffsB[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_B(1), num_low_B(2));
 fprintf('\n================================\n');
 
-% Open-loop Bode with annotated design parameters (Section 1b)
+% Step 2 (Low-BW): Bode plot of D(s)*G(s) with K=1 - determine gain K
+figure;
+bode(L_base_low);
+hold on;
+ax = findall(gcf, 'Type', 'axes');
+for i = 1:length(ax)
+    if contains(ax(i).YLabel.String, 'Magnitude')
+        axes(ax(i)); hold on;
+        yline(0, 'r--', '0 dB (|D*G| = 1)', 'LabelHorizontalAlignment', 'left');
+        xline(wc_low, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_low), 'LabelOrientation', 'horizontal');
+    end
+end
+title(sprintf('Step 2 (Low-BW): D(s)*G(s) with K=1 - Read gain at \\omega_c = %.1f rad/s', wc_low));
+grid on;
+
+% Step 3 (Low-BW): Open-loop Bode L = G_c * G_s - verify PM
 figure;
 margin(L_low);
 hold on;
 [Gm_low, Pm_low, Wcg_low, Wcp_low] = margin(L_low);
-title(sprintf('Open-loop Bode - Low-bandwidth controller (PM = %.1f°, \\omega_c = %.1f rad/s)', Pm_low, Wcp_low));
+title(sprintf('Step 3 (Low-BW): Open-loop L(s) - Verify PM = %.1f° at \\omega_c = %.1f rad/s', Pm_low, Wcp_low));
 % Add crossover frequency annotation
 ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)

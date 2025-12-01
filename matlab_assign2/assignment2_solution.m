@@ -13,7 +13,7 @@ clear; close all; clc;
 
 %% Configuration
 Ts = 0.01;
-dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign2/data';
+dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
 
 %% Motor models from .csvAssignment 1 (simplified 2nd-order model)
 % H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
@@ -28,16 +28,11 @@ wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model
 figure; margin(wheelA_tf); title('Uncompensated open-loop system G_s(s) - Wheel A');
 figure; margin(wheelB_tf); title('Uncompensated open-loop system G_s(s) - Wheel B');
 
-% check at which frequency phi = -180° + 55° + 15° = -110°
-
 %% ========================================================================
 %  NOMINAL CONTROLLER (high bandwidth, ~30 rad/s crossover)
 %  ========================================================================
-wc_nom_A = 60;                          % target crossover - Wheel A [rad/s]
-wc_nom_B = 60;                          % target crossover - Wheel A [rad/s]
-Ti_nom_A = tand(90 - 15) / wc_nom_A;    % integrator time constant (15 deg lag reserve) - Wheel A [s]
-Ti_nom_B = tand(90 - 15) / wc_nom_B;    % integrator time constant (15 deg lag reserve) - Wheel B [s]
-
+wc_nom = 30;                          % target crossover [rad/s]
+Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
 
 % Compute gain K so that |L(j*wc)| = 1
 D_nom_A = tf([Ti_nom_A 1], [Ti_nom_A 0]); % PI compensator without gain K - Wheel A
@@ -80,9 +75,7 @@ fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_B);
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_B(1), num_nom_B(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
 
-figure; margin(L_nom); title('Compensated open-loop system L(s) - Wheel A');
-figure; margin(L_nom); title('Compensated open-loop system L(s) - Wheel B');
-
+figure; margin(L_nom); title('Open-loop Bode - Nominal controller');
 
 %% ========================================================================
 %  LOW-BANDWIDTH CONTROLLER (~0.5 Hz = 3.14 rad/s crossover)
@@ -130,27 +123,33 @@ fprintf('  coeffsA[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_A(1), num_
 fprintf('  coeffsB[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_B(1), num_low_B(2));
 fprintf('\n================================\n');
 
-figure; margin(L_low); title('Open-loop Bode - Low-bandwidth controller');
-
-%% Simulated step response comparison
-t_sim = 0:Ts:5.5;
+% Open-loop Bode with annotated design parameters (Section 1b)
 figure;
-[y_nom, t_nom_step] = step(T_nom, t_sim);
-[y_low, t_low_step] = step(T_low, t_sim);
-plot(t_nom_step, y_nom, 'k-', 'LineWidth', 1.5); hold on;
-plot(t_low_step, y_low, 'k--', 'LineWidth', 1.5);
-legend('Nominal (30 rad/s)', 'Low-BW (3.14 rad/s)', 'Location', 'southeast');
-title('Simulated closed-loop step response'); xlabel('Time [s]'); ylabel('Velocity [rad/s]');
-grid on;
+margin(L_low);
+hold on;
+[Gm_low, Pm_low, Wcg_low, Wcp_low] = margin(L_low);
+title(sprintf('Open-loop Bode - Low-bandwidth controller (PM = %.1f°, \\omega_c = %.1f rad/s)', Pm_low, Wcp_low));
+% Add crossover frequency annotation
+ax = findall(gcf, 'Type', 'axes');
+for i = 1:length(ax)
+    if contains(ax(i).YLabel.String, 'Magnitude')
+        axes(ax(i)); hold on;
+        xline(Wcp_low, 'r--', sprintf('\\omega_c = %.1f rad/s', Wcp_low), 'LabelOrientation', 'horizontal', 'LabelVerticalAlignment', 'bottom');
+    elseif contains(ax(i).YLabel.String, 'Phase')
+        axes(ax(i)); hold on;
+        yline(-180 + Pm_low, 'r--', sprintf('PM = %.1f°', Pm_low), 'LabelHorizontalAlignment', 'left');
+    end
+end
+
 
 %% ========================================================================
 %  SECTION 2(a): Flat ground step response
 %  ========================================================================
-csvfile_flat = fullfile(dataDir, 'cart_flat_step.csv');
+csvfile_flat = fullfile(dataDir, 'cart_flat_step3.csv');
 if isfile(csvfile_flat)
     raw_flat = readmatrix(csvfile_flat, 'NumHeaderLines', 2);
-    raw_flat = raw_flat(200:750, :);  % Clip to relevant range
-    t_flat = 0:Ts:5.5; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_flat = raw_flat(125:425, :);  % Clip to relevant range
+    t_flat = 0:Ts:3; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_flat = raw_flat(:, 2);
     speedA_flat = raw_flat(:, 3);
     speedB_flat = raw_flat(:, 4);
@@ -212,8 +211,8 @@ end
 csvfile_incline = fullfile(dataDir, 'cart_incline_nominal.csv');
 if isfile(csvfile_incline)
     raw_inc = readmatrix(csvfile_incline, 'NumHeaderLines', 2);
-    raw_inc = raw_inc(164:404, :);  % Clip to relevant range
-    t_inc = 0:Ts:2.4; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_inc = raw_inc(71:371, :);  % Clip to relevant range
+    t_inc = 0:Ts:3; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_inc = raw_inc(:, 2);
     speedA_inc = raw_inc(:, 3);
     speedB_inc = raw_inc(:, 4);
@@ -275,8 +274,8 @@ end
 csvfile_incline_low = fullfile(dataDir, 'cart_incline_lowband.csv');
 if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     raw_low = readmatrix(csvfile_incline_low, 'NumHeaderLines', 2);
-    raw_low = raw_low(361:601, :);  % Clip to relevant range
-    t_low = 0:Ts:2.4; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_low = raw_low(331:631, :);  % Clip to relevant range
+    t_low = 0:Ts:3; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
     ref_low = raw_low(:, 2);
     speedA_low = raw_low(:, 3);
     speedB_low = raw_low(:, 4);

@@ -8,9 +8,9 @@ Robot::Robot() : activeMode(MODE_NOMINAL) {
   // Controller: C(z) = [b0, b1] / [1, -1] (Tustin discretization)
   // Difference equation: u[k] = b0*e[k] + b1*e[k-1] + u[k-1]
 
-  // Nominal controller (wc = 30 rad/s, Ti = 0.1244 s, PM = 55 deg)
-  coeffsA[MODE_NOMINAL]  = {0.639426f, -0.590012f, 1.0f};
-  coeffsB[MODE_NOMINAL]  = {0.623161f, -0.575004f, 1.0f};
+  // Nominal controller (wc = 60 rad/s, Ti = 0.0622 s, PM = 55 deg)
+  coeffsA[MODE_NOMINAL]  = {0.945014f, -0.804389f, 1.0f};
+  coeffsB[MODE_NOMINAL]  = {0.919504f, -0.782675f, 1.0f};
 
   // Low-bandwidth controller (wc = 3.14 rad/s, Ti = 1.19 s, PM = 55 deg)
   coeffsA[MODE_LOW_BAND] = {0.490693f, -0.486580f, 1.0f};
@@ -57,6 +57,7 @@ void Robot::control() {
 
   uA = saturate(uA, kVoltageLimit);
   uB = saturate(uB, kVoltageLimit);
+  
 
   stateA.controlPrev = uA;
   stateB.controlPrev = uB;

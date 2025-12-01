@@ -15,42 +15,55 @@ clear; close all; clc;
 Ts = 0.01;
 dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign2/data';
 
-%% Plant models from .csvAssignment 1 (simplified 2nd-order model)
+%% Motor models from .csvAssignment 1 (simplified 2nd-order model)
 % H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
-wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts);
-wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts);
+wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel A
+wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel B
 
 % Convert to continuous for controller design
-wheelA_cont = d2c(wheelA_tf, 'tustin');
-wheelB_cont = d2c(wheelB_tf, 'tustin');
+wheelA_cont = d2c(wheelA_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel A
+wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel B
 
 %% Show plant frequency response
 figure; margin(wheelA_tf); title('Uncompensated open-loop system G_s(s) - Wheel A');
 figure; margin(wheelB_tf); title('Uncompensated open-loop system G_s(s) - Wheel B');
 
+% check at which frequency phi = -180° + 55° + 15° = -110°
+
 %% ========================================================================
 %  NOMINAL CONTROLLER (high bandwidth, ~30 rad/s crossover)
 %  ========================================================================
-wc_nom = 30;                          % target crossover [rad/s]
-Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
+wc_nom_A = 60;                          % target crossover - Wheel A [rad/s]
+wc_nom_B = 60;                          % target crossover - Wheel A [rad/s]
+Ti_nom_A = tand(90 - 15) / wc_nom_A;    % integrator time constant (15 deg lag reserve) - Wheel A [s]
+Ti_nom_B = tand(90 - 15) / wc_nom_B;    % integrator time constant (15 deg lag reserve) - Wheel B [s]
+
 
 % Compute gain K so that |L(j*wc)| = 1
-D_nom = tf([Ti_nom 1], [Ti_nom 0]);
-L_base_nom = D_nom * wheelA_cont;
-K_nom = 1 / abs(evalfr(L_base_nom, 1i * wc_nom));
+D_nom_A = tf([Ti_nom_A 1], [Ti_nom_A 0]); % PI compensator without gain K - Wheel A
+D_nom_B = tf([Ti_nom_B 1], [Ti_nom_B 0]); % PI compensator without gain K - Wheel B
+
+L_base_nom_A = D_nom_A * wheelA_cont; % CT compensated system without gain K - Wheel A
+L_base_nom_B = D_nom_B * wheelB_cont; % CT compensated system without gain K - Wheel B
+
+K_nom_A = 1 / abs(evalfr(L_base_nom_A, 1i * wc_nom_A)); % proportional gain K - Wheel A
+K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom_B)); % proportional gain K - Wheel B
 
 % Continuous and discrete PI controller
-C_nom_cont = tf([K_nom, K_nom / Ti_nom], [1, 0]);
-C_nom_disc = c2d(C_nom_cont, Ts, 'tustin');
+C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom_A], [1, 0]); % CT PI compensator with gain K - Wheel A
+C_nom_disc_A = c2d(C_nom_cont_A, Ts, 'tustin'); % DT PI compensator with gain K - Wheel A
+
+C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom_B], [1, 0]); % CT PI compensator with gain K - Wheel B
+C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin'); % DT PI compensator with gain K - Wheel B
 
 % Open-loop, closed-loop, sensitivity, control TF
-L_nom = C_nom_disc * wheelA_tf;
-T_nom = L_nom / (1 + L_nom);
-S_nom = 1 / (1 + L_nom);
+L_nom = C_nom_disc * wheelA_tf; % CT open-loop compensated system
+T_nom = L_nom / (1 + L_nom); % CT closed-loop compensated system
+S_nom = 1 / (1 + L_nom); 
 U_nom = C_nom_disc / (1 + L_nom);
 
 % Also design for Wheel B
-L_base_nom_B = D_nom * wheelB_cont;
+L_base_nom_B = D_nom * wheelB_cont; % Continuous-time compensated system without gain K
 K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom));
 C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]);
 C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin');
@@ -67,7 +80,9 @@ fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_B);
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_B(1), num_nom_B(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
 
-figure; margin(L_nom); title('Open-loop Bode - Nominal controller');
+figure; margin(L_nom); title('Compensated open-loop system L(s) - Wheel A');
+figure; margin(L_nom); title('Compensated open-loop system L(s) - Wheel B');
+
 
 %% ========================================================================
 %  LOW-BANDWIDTH CONTROLLER (~0.5 Hz = 3.14 rad/s crossover)

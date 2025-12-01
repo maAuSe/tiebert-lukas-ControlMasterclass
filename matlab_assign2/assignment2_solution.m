@@ -31,7 +31,7 @@ figure; margin(wheelB_tf); title('Uncompensated open-loop system G_s(s) - Wheel 
 %% ========================================================================
 %  NOMINAL CONTROLLER (high bandwidth, ~30 rad/s crossover)
 %  ========================================================================
-wc_nom = 30;                          % target crossover [rad/s]
+wc_nom = 60;                          % target crossover [rad/s]
 Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
 
 % Compute gain K so that |L(j*wc)| = 1

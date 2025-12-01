@@ -42,41 +42,34 @@ grid on;
 %% ========================================================================
 %  NOMINAL CONTROLLER (high bandwidth, ~60 rad/s crossover)
 %  ========================================================================
-wc_nom = 30;                          % target crossover [rad/s]
+wc_nom = 60;                          % target crossover [rad/s]
 Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
 
 % Compute gain K so that |L(j*wc)| = 1
-D_nom_A = tf([Ti_nom_A 1], [Ti_nom_A 0]); % PI compensator without gain K - Wheel A
-D_nom_B = tf([Ti_nom_B 1], [Ti_nom_B 0]); % PI compensator without gain K - Wheel B
+D_nom = tf([Ti_nom 1], [Ti_nom 0]); % PI compensator without gain K (same structure for both wheels)
 
-L_base_nom_A = D_nom_A * wheelA_cont; % CT compensated system without gain K - Wheel A
-L_base_nom_B = D_nom_B * wheelB_cont; % CT compensated system without gain K - Wheel B
+L_base_nom_A = D_nom * wheelA_cont; % CT compensated system without gain K - Wheel A
+L_base_nom_B = D_nom * wheelB_cont; % CT compensated system without gain K - Wheel B
 
-K_nom_A = 1 / abs(evalfr(L_base_nom_A, 1i * wc_nom_A)); % proportional gain K - Wheel A
-K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom_B)); % proportional gain K - Wheel B
+K_nom_A = 1 / abs(evalfr(L_base_nom_A, 1i * wc_nom)); % proportional gain K - Wheel A
+K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom)); % proportional gain K - Wheel B
 
 % Continuous and discrete PI controller
-C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom_A], [1, 0]); % CT PI compensator with gain K - Wheel A
+C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom], [1, 0]); % CT PI compensator with gain K - Wheel A
 C_nom_disc_A = c2d(C_nom_cont_A, Ts, 'tustin'); % DT PI compensator with gain K - Wheel A
 
-C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom_B], [1, 0]); % CT PI compensator with gain K - Wheel B
+C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]); % CT PI compensator with gain K - Wheel B
 C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin'); % DT PI compensator with gain K - Wheel B
 
-% Open-loop, closed-loop, sensitivity, control TF
-L_nom = C_nom_disc * wheelA_tf; % CT open-loop compensated system
-T_nom = L_nom / (1 + L_nom); % CT closed-loop compensated system
-S_nom = 1 / (1 + L_nom); 
-U_nom = C_nom_disc / (1 + L_nom);
-
-% Also design for Wheel B
-L_base_nom_B = D_nom * wheelB_cont; % Continuous-time compensated system without gain K
-K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom));
-C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]);
-C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin');
+% Open-loop, closed-loop, sensitivity, control TF (Wheel A for simulation)
+L_nom = C_nom_disc_A * wheelA_tf; % DT open-loop compensated system - Wheel A
+T_nom = L_nom / (1 + L_nom); % DT closed-loop compensated system
+S_nom = 1 / (1 + L_nom); % Sensitivity TF
+U_nom = C_nom_disc_A / (1 + L_nom); % Control effort TF
 
 fprintf('Nominal controller (Wheel A):\n');
-fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom);
-[num_nom_A, den_nom_A] = tfdata(C_nom_disc, 'v');
+fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_A);
+[num_nom_A, den_nom_A] = tfdata(C_nom_disc_A, 'v');
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_A(1), num_nom_A(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_A(1), den_nom_A(2));
 
@@ -88,7 +81,7 @@ fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
 
 % Step 2: Bode plot of D(s)*G(s) with K=1 - determine gain K where |D*G| = 1 at w_c
 figure;
-bode(L_base_nom);
+bode(L_base_nom_A);
 hold on;
 ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)
@@ -126,27 +119,30 @@ end
 wc_low = 2 * pi * 0.5;                % ~3.14 rad/s
 Ti_low = tand(90 - 15) / wc_low;
 
-D_low = tf([Ti_low 1], [Ti_low 0]);
-L_base_low = D_low * wheelA_cont;
-K_low = 1 / abs(evalfr(L_base_low, 1i * wc_low));
+D_low = tf([Ti_low 1], [Ti_low 0]); % PI compensator without gain K (same structure for both wheels)
 
-C_low_cont = tf([K_low, K_low / Ti_low], [1, 0]);
-C_low_disc = c2d(C_low_cont, Ts, 'tustin');
+L_base_low_A = D_low * wheelA_cont; % CT compensated system without gain K - Wheel A
+L_base_low_B = D_low * wheelB_cont; % CT compensated system without gain K - Wheel B
 
-L_low = C_low_disc * wheelA_tf;
-T_low = L_low / (1 + L_low);
-S_low = 1 / (1 + L_low);
-U_low = C_low_disc / (1 + L_low);
+K_low_A = 1 / abs(evalfr(L_base_low_A, 1i * wc_low)); % proportional gain K - Wheel A
+K_low_B = 1 / abs(evalfr(L_base_low_B, 1i * wc_low)); % proportional gain K - Wheel B
 
-% Also design for Wheel B
-L_base_low_B = D_low * wheelB_cont;
-K_low_B = 1 / abs(evalfr(L_base_low_B, 1i * wc_low));
-C_low_cont_B = tf([K_low_B, K_low_B / Ti_low], [1, 0]);
-C_low_disc_B = c2d(C_low_cont_B, Ts, 'tustin');
+% Continuous and discrete PI controller
+C_low_cont_A = tf([K_low_A, K_low_A / Ti_low], [1, 0]); % CT PI compensator with gain K - Wheel A
+C_low_disc_A = c2d(C_low_cont_A, Ts, 'tustin'); % DT PI compensator with gain K - Wheel A
+
+C_low_cont_B = tf([K_low_B, K_low_B / Ti_low], [1, 0]); % CT PI compensator with gain K - Wheel B
+C_low_disc_B = c2d(C_low_cont_B, Ts, 'tustin'); % DT PI compensator with gain K - Wheel B
+
+% Open-loop, closed-loop, sensitivity, control TF (Wheel A for simulation)
+L_low = C_low_disc_A * wheelA_tf; % DT open-loop compensated system - Wheel A
+T_low = L_low / (1 + L_low); % DT closed-loop compensated system
+S_low = 1 / (1 + L_low); % Sensitivity TF
+U_low = C_low_disc_A / (1 + L_low); % Control effort TF
 
 fprintf('\nLow-bandwidth controller (Wheel A):\n');
-fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low);
-[num_low_A, den_low_A] = tfdata(C_low_disc, 'v');
+fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low_A);
+[num_low_A, den_low_A] = tfdata(C_low_disc_A, 'v');
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_low_A(1), num_low_A(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_low_A(1), den_low_A(2));
 
@@ -168,7 +164,7 @@ fprintf('\n================================\n');
 
 % Step 2 (Low-BW): Bode plot of D(s)*G(s) with K=1 - determine gain K
 figure;
-bode(L_base_low);
+bode(L_base_low_A);
 hold on;
 ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)

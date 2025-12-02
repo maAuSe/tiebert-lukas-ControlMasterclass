@@ -24,7 +24,7 @@ wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplifie
 wheelA_cont = d2c(wheelA_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel A
 wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel B
 
-%% Step 1: Bode plot of G(s) - determine w_c where phase = -110° (for 70° PM)
+%% Step 1: Bode plot of G(s) - determine w_c where phase = -110° (for 55° PM)
 % This helps select the crossover frequency from plant characteristics
 figure;
 bode(wheelA_cont);
@@ -33,10 +33,10 @@ ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)
     if contains(ax(i).YLabel.String, 'Phase')
         axes(ax(i)); hold on;
-        yline(-110, 'r--', '\phi = -110° (target for 70° PM)', 'LabelHorizontalAlignment', 'left');
+        yline(-110, 'r--', '\phi = -110° (target for 55° PM)', 'LabelHorizontalAlignment', 'left');
     end
 end
-title('Step 1: Plant G(s) Bode - Find \omega_c where \phi = -110°');
+title('Uncompensated open-loop system G_s(s) - Wheel A');
 grid on;
 
 %% ========================================================================
@@ -91,7 +91,7 @@ for i = 1:length(ax)
         xline(wc_nom, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_nom), 'LabelOrientation', 'horizontal');
     end
 end
-title(sprintf('Step 2: D(s)*G(s) with K=1 - Read gain at \\omega_c = %.1f rad/s', wc_nom));
+title('Compensated open-loop system D(s)*G_s(s) with K=1 - Wheel A');
 grid on;
 
 % Step 3: Open-loop Bode L = G_c * G_s with annotated design parameters (Section 1b)
@@ -100,7 +100,7 @@ figure;
 margin(L_nom);
 hold on;
 [Gm_nom, Pm_nom, Wcg_nom, Wcp_nom] = margin(L_nom);
-title(sprintf('Step 3: Open-loop L(s) - Verify PM = %.1f° at \\omega_c = %.1f rad/s', Pm_nom, Wcp_nom));
+title(sprintf('Compenstaed open-loop system L(s) = G_c(s)*G_s(s) - Wheel A');
 % Add crossover frequency annotation
 ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)
@@ -222,19 +222,19 @@ if isfile(csvfile_flat)
     plot(t_flat, speedA_flat, 'k-', 'LineWidth', 1.2);
     plot(t_flat, sim_flat, 'k--', 'LineWidth', 1.2);
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
-    title('Flat ground - Wheel A closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    title('Step response - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
 
     figure;
     plot(t_flat, errorA_flat, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_flat, sim_err_flat, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Flat ground - Wheel A tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
 
     figure;
     plot(t_flat, ctrlA_flat, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_flat, sim_ctrl_flat, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Flat ground - Wheel A control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
 
     % Wheel B
     figure;
@@ -242,19 +242,19 @@ if isfile(csvfile_flat)
     plot(t_flat, speedB_flat, 'k-', 'LineWidth', 1.2);
     plot(t_flat, sim_flat, 'k--', 'LineWidth', 1.2);
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
-    title('Flat ground - Wheel B closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    title('Step response - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
 
     figure;
     plot(t_flat, errorB_flat, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_flat, sim_err_flat, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Flat ground - Wheel B tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
 
     figure;
     plot(t_flat, ctrlB_flat, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_flat, sim_ctrl_flat, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Flat ground - Wheel B control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
 else
     fprintf('[INFO] Flat ground data not found: %s\n', csvfile_flat);
 end
@@ -285,19 +285,19 @@ if isfile(csvfile_incline)
     plot(t_inc, speedA_inc, 'k-', 'LineWidth', 1.2);
     plot(t_inc, sim_inc, 'k--', 'LineWidth', 1.2);
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
-    title('Incline (nominal) - Wheel A closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    title('Step response with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
 
     figure;
     plot(t_inc, errorA_inc, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_inc, sim_err_inc, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Incline (nominal) - Wheel A tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
 
     figure;
     plot(t_inc, ctrlA_inc, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_inc, sim_ctrl_inc, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Incline (nominal) - Wheel A control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
 
     % Wheel B
     figure;
@@ -305,19 +305,19 @@ if isfile(csvfile_incline)
     plot(t_inc, speedB_inc, 'k-', 'LineWidth', 1.2);
     plot(t_inc, sim_inc, 'k--', 'LineWidth', 1.2);
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
-    title('Incline (nominal) - Wheel B closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    title('Step response with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
 
     figure;
     plot(t_inc, errorB_inc, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_inc, sim_err_inc, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Incline (nominal) - Wheel B tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
 
     figure;
     plot(t_inc, ctrlB_inc, 'k-', 'LineWidth', 1.2); hold on;
     plot(t_inc, sim_ctrl_inc, 'k--', 'LineWidth', 1.2);
     legend('Measured', 'Simulated', 'Location', 'southeast');
-    title('Incline (nominal) - Wheel B control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
 else
     fprintf('[INFO] Incline nominal data not found: %s\n', csvfile_incline);
 end
@@ -352,7 +352,7 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_inc_nom, 'k--', 'LineWidth', 1);
     plot(t_low, sim_inc_low, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Incline comparison - Wheel A closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    title('Step response with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
 
     % Wheel A - tracking error comparison
     figure;
@@ -361,7 +361,7 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_err_nom, 'k--', 'LineWidth', 1);
     plot(t_low, sim_err_low, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Incline comparison - Wheel A tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
 
     % Wheel A - control signal comparison
     figure;
@@ -370,7 +370,7 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_ctrl_nom, 'k--', 'LineWidth', 1);
     plot(t_low, sim_ctrl_low, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Incline comparison - Wheel A control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
 
     % Wheel B - closed-loop comparison
     figure;
@@ -379,7 +379,7 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_inc_nom, 'k--', 'LineWidth', 1);
     plot(t_low, sim_inc_low, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Incline comparison - Wheel B closed-loop'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    title('Step response with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
 
     % Wheel B - tracking error comparison
     figure;
@@ -388,7 +388,7 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_err_nom, 'k--', 'LineWidth', 1);
     plot(t_low, sim_err_low, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Incline comparison - Wheel B tracking error'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
 
     % Wheel B - control signal comparison
     figure;
@@ -397,7 +397,7 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_ctrl_nom, 'k--', 'LineWidth', 1);
     plot(t_low, sim_ctrl_low, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Incline comparison - Wheel B control signal'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
 else
     fprintf('[INFO] Missing data for incline comparison (section 2c).\n');
 end

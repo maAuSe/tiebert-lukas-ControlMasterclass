@@ -89,7 +89,8 @@ Goal: Demonstrate separation principle and effect of slow estimator.
 
 2. **Gain selection**
    - Controller: keep `K = 120` rad/(s·m).
-   - Estimator: set slow pole (`L = -0.02`) via channel 11 (≈10× slower than control pole).
+   - Estimator: set slow pole (`L = -0.004`) via channel 11 (true 10× slower than control pole).
+   - **Verification:** p_est = 1 + L = 0.996 ≈ 10× slower settling than p_cl = 0.96.
 
 3. **Runs**
    - **Good initial estimate**: before enabling estimator, write actual distance to channel 5 (use measurement).
@@ -133,4 +134,36 @@ Goal: Demonstrate separation principle and effect of slow estimator.
 
 ---
 
-Following this plan ensures every bullet in `specs_assignment3.md` has corresponding data, plots, and written analysis, while keeping the workflow reproducible.*** End Patch
+Following this plan ensures every bullet in `specs_assignment3.md` has corresponding data, plots, and written analysis, while keeping the workflow reproducible.
+
+---
+
+## 7. Remaining Checklist
+
+### Code Fixes
+- [x] **Fix controller-only mode** in `robot.cpp` (Issue 1 above) ✓
+- [x] Update `L_slow` constant → now -0.004 in MATLAB and LaTeX ✓
+
+### Data Collection (all CSVs in `matlab_assign3/data/`)
+- [ ] `est_only_L-005.csv` (L = -0.05)
+- [ ] `est_only_L-018.csv` (L = -0.18)
+- [ ] `est_only_L-035.csv` (L = -0.35)
+- [ ] `ctrl_only_K080.csv` (K = 80)
+- [ ] `ctrl_only_K120.csv` (K = 120)
+- [ ] `ctrl_only_K250.csv` (K = 250)
+- [ ] `est_ctrl_good.csv` (correct initial estimate)
+- [ ] `est_ctrl_bad.csv` (wrong initial estimate)
+
+### MATLAB Processing
+- [ ] Populate `estOnlyRuns`, `ctrlOnlyRuns`, `estCtrlRuns` arrays with CSV paths
+- [ ] Generate figures: `estimator_L_sweep.pdf`, `controller_K_response.pdf`, `controller_K_voltage.pdf`, `est_ctrl_good.pdf`, `est_ctrl_bad.pdf`
+- [ ] Update MATLAB pole map for L_slow = -0.004 in Section 2(c) discussion
+
+### LaTeX Report (`assignment3.tex`)
+- [ ] Replace figure placeholders with `\includegraphics{images/...}`
+- [ ] Fill in TODO placeholders:
+  - Settling time for L_nom (Section 2.1 observations)
+  - RMS innovation for L_nom
+  - Settling time for K_nom (Section 2.2 observations)
+- [ ] Update $L_\text{slow}$ value from -0.02 to -0.004 in Section 2.3
+- [ ] Final proofreading and consistency check

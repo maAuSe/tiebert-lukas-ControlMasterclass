@@ -56,7 +56,14 @@ void Robot::control() {
     K(0) = kPosGain;
 
     // State feedback to desired velocity (rad/s)
-    const float positionError = xref(0) - _xhat(0);
+    // Use estimator output if enabled, else use direct measurement (spec 2b)
+    float feedbackPos;
+    if (StateEstimationEnabled()) {
+      feedbackPos = _xhat(0);            // use estimator output
+    } else {
+      feedbackPos = -frontDistance;      // use direct measurement (x = -distance)
+    }
+    const float positionError = xref(0) - feedbackPos;
     float v_ref = kPosGain * positionError;
     v_ref = saturate(v_ref, kVelRefLimit); // avoid excessive speed commands
     desired_velocity(0) = v_ref;

@@ -211,7 +211,7 @@
   \end{itemize}
 
   \subsection{Estimator and controller (2c)}
-  The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $|p_\text{est}| \approx (|p_\text{cl}|)^{0.1}$, leading to $L_\text{slow} \approx -0.02$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
+  The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $(1-p_\text{est}) = (1-p_\text{cl})/10$, leading to $L_\text{slow} \approx -0.004$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
   \begin{enumerate}
     \item \textbf{Good initial estimate} $\hat{x}[0]\approx x[0]$.
     \item \textbf{Wrong initial estimate} $\hat{x}[0]=\hat{x}_0^\text{bad}$ (set via \texttt{readValue(5)}).

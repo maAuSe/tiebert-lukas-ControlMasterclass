@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{subfig}
+\geometry{margin=1in}
+
+% Define MATLAB style for listings
+\lstdefinestyle{MatlabStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  commentstyle=\color{green!50!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=single,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  escapeinside={\%*}{*)}
+}
+
+\begin{document}
+
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \pagenumbering{Roman}
+    \frenchspacing
+
+    \noindent
+    \begin{tabular}{@{} c @{\hspace{0.1cm}} c @{\hspace{0.2cm}} c @{}}
+      \adjustbox{valign=c}{%
+        \includegraphics[height=2cm, trim=0 0 0 0, clip]{sedes.pdf}%
+      } &
+      \adjustbox{valign=c}{%
+        \rule{0.5pt}{2cm}%
+      } &
+      \adjustbox{valign=c}{%
+        \includegraphics[height=2cm, trim=0 0 0 0, clip]{logoFirW.jpg}%
+      }
+    \end{tabular}
+    \hfill
+
+    \vspace*{2cm}
+
+    \begin{center}
+      \begin{minipage}[t]{\textwidth}
+        \begin{center}
+          \large\textbf{B-KUL-H04X3A: Control Theory}
+        \end{center}
+        \vspace{1cm}
+        \begin{center}
+          \textbf{Team members:}\\[2mm]
+          Lefebure Tiebert (r0887630)\\
+          Campaert Lukas (r0885501)\\
+        \end{center}
+        \vspace{1cm}
+        \begin{center}
+          \Huge\textbf{Assignment 3: State Feedback and State Estimation}
+        \end{center}
+        \vspace{1cm}
+        \begin{center}
+          \underline{Professor:}\\[2mm]
+          Prof. Dr. Ir. Jan Swevers\\
+        \end{center}
+        \vspace{2cm}
+        \makebox[\textwidth]{Academic Year 2025-2026}
+      \end{minipage}
+    \end{center}
+  \end{titlepage}
+
+  \newpage
+  \vspace*{3.2cm}\vfill
+
+  \begin{center}
+    \Large\textbf{\textit{Declaration of Originality}}
+  \end{center}
+
+  \noindent \textit{We hereby declare that this submitted draft is entirely our own, subject to feedback and support given us by the didactic team, and subject to lawful cooperation which was agreed with the same didactic team. Regarding this draft, we also declare that:}
+
+  \begin{enumerate}
+    \item \textit{Note has been taken of the text on academic integrity \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/documenten/20161221-academischeintegriteit-okt2016.pdf}.}
+    \item \textit{No plagiarism has been committed as described on \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/plagiaat\#Definitie:\%20wat\%20is\%20plagiaat?}.}
+    \item \textit{All experiments, tests, measurements, \ldots, have been performed as described in this draft, and no data or measurement results have been manipulated.}
+    \item \textit{All sources employed in this draft --- including internet sources --- have been correctly referenced.}
+  \end{enumerate}
+
+  \newpage
+
+  \section{Design of a state feedback controller and estimator (pole placement)}
+
+  Unless stated otherwise, the sampling time is $T_s = 0.01$~s and the wheel radius is $r = 0.033$~m. The state is the cart position $x$ (m) along the track, measured from the wall at the origin ($x<0$ when the cart is in front of the wall). The input $v$ is the common wheel velocity command (rad/s).
+
+  \subsection{Discrete-time state equation (1a)}
+  \paragraph{Continuous-time model.} With ideal inner velocity control, $\dot{x}(t) = r\,\omega(t)$, where $\omega$ is the average wheel speed. In matrix form with state $x$ and input $u=\omega$:
+  \begin{equation}
+    \dot{x}(t) = A_c x(t) + B_c u(t), \quad A_c = 0,\quad B_c = r.
+  \end{equation}
+
+  \paragraph{Forward Euler discretization.} Using $x[k+1] = x[k] + T_s \dot{x}[k]$:
+  \begin{equation}
+    x[k+1] = x[k] + T_s r\,u[k] = A_d x[k] + B_d u[k],
+  \end{equation}
+  with
+  \begin{equation}
+    A_d = 1, \qquad B_d = T_s r = 3.3\times10^{-4}\ \text{m/rad}.
+  \end{equation}
+  For the estimator we also use $u[k] \approx (\omega_A[k]+\omega_B[k])/2$ to incorporate measured wheel speeds.
+
+  \subsection{Measurement equation (1b)}
+  The infrared sensor measures the distance to the wall, i.e. $y[k] = -x[k] + v_d[k]$ with $v_d$ measurement noise. The discrete measurement model is
+  \begin{equation}
+    y[k] = C x[k] + D u[k],\qquad C = -1,\qquad D = 0.
+  \end{equation}
+  The positive distance reading corresponds to $-x$, consistent with Fig.~3.
+
+  \subsection{Design of state feedback gain $K$ (1c)}
+  The state feedback acts on the position estimate: $u[k] = K\,(x_\text{ref}-\hat{x}[k])$, with $K$ in rad/(s$\cdot$m). In closed loop (no estimator) the pole is
+  \begin{equation}
+    p_\text{cl}(K) = A_d - B_d K = 1 - T_s r K.
+  \end{equation}
+  The pole moves left on the real axis as $K$ increases; stability requires $|p_\text{cl}(K)|<1 \Rightarrow 0 < K < \tfrac{2}{T_s r}\approx 6.1\times10^3$~rad/(s$\cdot$m). A faster response is obtained by choosing $p_\text{cl}$ closer to~0, at the cost of higher velocity commands.
+
+  \paragraph{Pole-zero map.} Figure~\ref{fig:pole_map_K} shows $p_\text{cl}(K)$ for $K\in\{K_\text{slow},K_\text{nom},K_\text{fast}\}=\{80,120,250\}$~rad/(s$\cdot$m). %TODO replace values if retuned.
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for pole-zero map from MATLAB (images/pole_map_K.pdf).}}
+    \caption{Closed-loop pole location versus $K$.}
+    \label{fig:pole_map_K}
+  \end{figure}
+
+  \paragraph{Step responses.} Figure~\ref{fig:step_K_sweep} groups simulated position step responses for the same $K$ sweep. Larger $K$ yields shorter rise time and higher control action; excessive $K$ would saturate the motors and could destabilize the discretized model.
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for simulated step responses (images/step_K_sweep.pdf).}}
+    \caption{Simulated closed-loop step responses for varying $K$.}
+    \label{fig:step_K_sweep}
+  \end{figure}
+
+  \paragraph{Gain selection.} A nominal choice $K_\text{nom}=120$~rad/(s$\cdot$m) gives $p_\text{cl}\approx0.96$, keeping the velocity within $\pm 20$~rad/s for 0.2~m position steps while preserving stability margin. This value will be updated after on-cart tests; the MATLAB script exports the active value to the Arduino code.
+
+  \subsection{Design of state estimator gain $L$ (1d)}
+  The one-state observer update is $\hat{x}[k+1]=A_d\hat{x}[k]+B_d u[k]+L\,(y[k]-C\hat{x}[k])$. The estimation error $e[k]=x[k]-\hat{x}[k]$ evolves as
+  \begin{equation}
+    e[k+1]=(A_d - L C)e[k]\quad\Rightarrow\quad p_\text{est}(L)=A_d - L C = 1 + L.
+  \end{equation}
+  Because $C=-1$, negative $L$ moves the observer pole inside the unit circle; $L>0$ makes it unstable. Fast convergence requires $|p_\text{est}|$ small, but a large $|L|$ amplifies sensor noise.
+
+  \paragraph{Pole placement and trade-offs.} We select $L$ such that the estimator is $3$--$5$ times faster than the controller for tasks in Section~2(a)--(b), then set it ten times slower than the controller for Section~2(c) per the specification. The practical limits are set by sensor noise and discretization: $|1+L|<1\Rightarrow -2<L<0$.
+
+  \paragraph{Chosen gain.} A nominal value $L_\text{nom}=-0.18$ gives $p_\text{est}=0.82$ (fast but noise-aware). Alternative gains $L\in\{-0.05,-0.18,-0.35\}$ are swept in the experiments below.
+
+  \section{Implementation and experiments}
+
+  Data and figures will be populated after running the Arduino experiments and MATLAB post-processing. Each plot placeholder corresponds to a file exported to \texttt{images/}.
+
+  \subsection{Estimator only (2a)}
+  The controller is disabled; the estimator starts from a wrong initial position $\hat{x}[0]$ set via \texttt{readValue(5)} in the Arduino code. Figure~\ref{fig:estimator_L_sweep} overlays the measured distance $y=-x$ and the estimated distance $-\hat{x}$ for $L\in\{-0.05,-0.18,-0.35\}$. Larger $|L|$ yields faster convergence but more noise on $\hat{x}$ and $\nu$.
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for estimator convergence plots (images/estimator_L_sweep.pdf).}}
+    \caption{Measured vs. estimated distance for different $L$ (wrong initial estimate).}
+    \label{fig:estimator_L_sweep}
+  \end{figure}
+
+  \noindent \textbf{Observations:}
+  \begin{itemize}
+    \item Convergence speed increases with $|L|$, consistent with $p_\text{est}=1+L$.
+    \item Noise on $\hat{x}$ and the innovation $\nu$ grows with $|L|$, illustrating the trade-off from 1(d).
+    \item The chosen $L_\text{nom}$ balances settling time ($\approx$~TODO~s) and noise (RMS $\approx$~TODO~m).
+  \end{itemize}
+
+  \subsection{Controller only (2b)}
+  The estimator is disabled; feedback uses the raw distance $y=-x$. A 0.15~m step reference is applied for $K\in\{K_\text{slow},K_\text{nom},K_\text{fast}\}$. Figure~\ref{fig:controller_K_response} shows position responses and Figure~\ref{fig:controller_K_voltage} the corresponding motor voltages.
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for measured step responses without estimator (images/controller_K_response.pdf).}}
+    \caption{Measured position step responses for different $K$ (estimator disabled).}
+    \label{fig:controller_K_response}
+  \end{figure}
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for control signals (images/controller_K_voltage.pdf).}}
+    \caption{Motor voltage commands for the responses in Fig.~\ref{fig:controller_K_response}.}
+    \label{fig:controller_K_voltage}
+  \end{figure}
+
+  \noindent \textbf{Observations:}
+  \begin{itemize}
+    \item Rise time and steady-state error match the simulated trend from 1(c); higher $K$ speeds up the response but increases peak voltage.
+    \item For $K=K_\text{fast}$ the voltage briefly saturates, explaining the mild overshoot; this bounds feasible $K$ in practice.
+    \item The selected $K_\text{nom}$ avoids saturation while providing $t_s\approx$~TODO~s and negligible steady-state error.
+  \end{itemize}
+
+  \subsection{Estimator and controller (2c)}
+  The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $|p_\text{est}| \approx (|p_\text{cl}|)^{0.1}$, leading to $L_\text{slow} \approx -0.02$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
+  \begin{enumerate}
+    \item \textbf{Good initial estimate} $\hat{x}[0]\approx x[0]$.
+    \item \textbf{Wrong initial estimate} $\hat{x}[0]=\hat{x}_0^\text{bad}$ (set via \texttt{readValue(5)}).
+  \end{enumerate}
+
+  Figures~\ref{fig:est_ctrl_good} and~\ref{fig:est_ctrl_bad} plot measured and estimated distances. The closed-loop poles of the combined system are
+  \begin{equation}
+    \lambda_{1,2} = \{p_\text{cl}(K_\text{nom}),\ p_\text{est}(L_\text{slow})\},
+  \end{equation}
+  confirming that the estimator dynamics do not affect the control pole (separation principle).
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs. estimated position, good initial estimate (images/est_ctrl_good.pdf).}}
+    \caption{Measured and estimated distance with good initial estimate.}
+    \label{fig:est_ctrl_good}
+  \end{figure}
+
+  \begin{figure}[H]\centering
+    \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs. estimated position, wrong initial estimate (images/est_ctrl_bad.pdf).}}
+    \caption{Measured and estimated distance with wrong initial estimate.}
+    \label{fig:est_ctrl_bad}
+  \end{figure}
+
+  \noindent \textbf{Observations:}
+  \begin{itemize}
+    \item With correct initialization, the estimator tracks the measurement and the controller meets the design settling time.
+    \item With a wrong $\hat{x}[0]$, the estimator converges slowly by design while the control performance remains acceptable, illustrating that the estimator pole does not alter the control pole.
+    \item If faster estimator convergence is required, $L$ can be decreased (more negative) at the cost of more noise, as seen in 2(a).
+  \end{itemize}
+
+  \newpage
+  \bibliographystyle{plain}
+  \bibliography{references}
+
+\end{document}

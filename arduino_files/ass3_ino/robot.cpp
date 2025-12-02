@@ -11,45 +11,64 @@
 bool Robot::init() {
   MECOtron::init(); // Initialize the MECOtron
 
-  desired_velocity(0) = 0;
+  xref.Fill(0);
+  _xhat.Fill(0);
+  _nu.Fill(0);
+  setEstimatorGain(-0.18f);
+  resetController();
   return true;
 }
 
 void Robot::control() {
 
-  float volt_A = 0.0;
-  float volt_B = 0.0;
-  Matrix<1> desired_velocity; //control signal
-  desired_velocity.Fill(0); //Initialize matrix with zeros
+  float volt_A = 0.0f;
+  float volt_B = 0.0f;
+  Matrix<1> desired_velocity;           // control signal (rad/s)
+  desired_velocity.Fill(0);
+
+  const float speedA = getSpeedMotorA();
+  const float speedB = getSpeedMotorB();
+  const float avgSpeed = 0.5f * (speedA + speedB);
+  const float frontDistance = getFrontDistance(); // m, positive
 
   // State estimation
   if(StateEstimationEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 1' in QRoboticsCenter)
     // Correction step
-    Matrix<1> distance_measurement;                                     // define a vector of length 1
-    distance_measurement(0) = getFrontDistance();                       // front distance
-    CorrectionUpdate(distance_measurement, _xhat, _nu);     // do the correction step -> update _xhat, _nu
+    Matrix<1> distance_measurement;                   // define a vector of length 1
+    distance_measurement(0) = frontDistance;          // front distance (m)
+    CorrectionUpdate(distance_measurement, _xhat, _nu);   // do the correction step -> update _xhat, _nu
   }
-  writeValue(8, _xhat(0)); // a posteriori state estimate
-  writeValue(9, _nu(0)); // innovation
-
   if(controlEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 0' in QRoboticsCenter)
 
-    // UNCOMMENT AND COMPLETE LINES BELOW TO IMPLEMENT POSITION CONTROLLER
-    // float desired_position = readValue(0);      // use channel 0 to provide the constant position reference
-    // xref(0) = ? ;                               // transform desired_position to the state reference (make sure units are consistent)
-    // K(0) = ? ;                                  // state feedback gain K, to design
-    // desired_velocity = K * (xref - _xhat);      // calculate the state feedback signal, (i.e. the input for the velocity controller)
+    // Read position reference as distance to wall [m]; convert to cart position [m] (negative in front of wall)
+    const float desired_distance = readValue(0); // channel 0 reserved for reference input
+    xref(0) = -desired_distance;
 
-    // // UNCOMMENT AND COMPLETE LINES BELOW TO IMPLEMENT VELOCITY CONTROLLER
-    // ...
-    // ...                                          // implement your velocity controller here (assignment 2), such that the motors track velocity v
-    // ...
-    // volt_A =
-    // volt_B =
+    // Optional runtime gain override from QRC (channels 10 for K, 11 for L)
+    const float kOverride = readValue(10);
+    const float lOverride = readValue(11);
+    if(kOverride > 0.0001f || kOverride < -0.0001f) {
+      kPosGain = kOverride;
+    }
+    if(lOverride > 0.0001f || lOverride < -0.0001f) {
+      setEstimatorGain(lOverride);
+    }
+    K(0) = kPosGain;
 
-    //// COMMENT OR REMOVE LINES BELOW ONCE YOU IMPLEMENT THE VELOCITY CONTROLLER
-    volt_A = 0.0;
-    volt_B = 0.0;
+    // State feedback to desired velocity (rad/s)
+    const float positionError = xref(0) - _xhat(0);
+    float v_ref = kPosGain * positionError;
+    v_ref = saturate(v_ref, kVelRefLimit); // avoid excessive speed commands
+    desired_velocity(0) = v_ref;
+
+    // Velocity controller (PI from Assignment 2)
+    const float eA = v_ref - speedA;
+    const float eB = v_ref - speedB;
+    const float uA = applyPi(eA, piStateA, coeffA);
+    const float uB = applyPi(eB, piStateB, coeffB);
+
+    volt_A = saturate(uA, kVoltageLimit);
+    volt_B = saturate(uB, kVoltageLimit);
 
     // Send wheel speed command
     setVoltageMotorA(volt_A);
@@ -60,38 +79,66 @@ void Robot::control() {
     desired_velocity(0) = 0.0;
     setVoltageMotorA(0.0);
     setVoltageMotorB(0.0);
+    resetController();
   }
 
   // Sate estimation
   if(StateEstimationEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 1' in QRoboticsCenter)
     // Prediction step
-    PredictionUpdate(desired_velocity, _xhat);                    // do the prediction step -> update _xhat
+    Matrix<1> velocity_input;
+    velocity_input(0) = avgSpeed; // use measured speed for prediction
+    PredictionUpdate(velocity_input, _xhat);                    // do the prediction step -> update _xhat
   }
   // writeValue(8, _xhat(0)); // a priori state estimate
   
   // Send useful outputs to QRC
-  writeValue(0, volt_A);
-  writeValue(1, volt_B);
-  writeValue(2, desired_velocity(0));
-  writeValue(3, getPositionMotorA());
-  writeValue(4, getPositionMotorB());
-  writeValue(5, getSpeedMotorA());
-  writeValue(6, getSpeedMotorB());
-  writeValue(7, getFrontDistance());
+  writeValue(1, frontDistance);
+  writeValue(2, _xhat(0));
+  writeValue(3, desired_velocity(0));
+  writeValue(4, speedA);
+  writeValue(5, speedB);
+  writeValue(6, volt_A);
+  writeValue(7, volt_B);
+  writeValue(8, _nu(0));
+  writeValue(9, xref(0));
+  writeValue(12, avgSpeed);
+  writeValue(13, kPosGain);
+  writeValue(14, getEstimatorGain());
 
 
 }
 
 void Robot::resetController(){
-  // Set all errors and control signals in the memory back to 0
-  // ...
-  // ...
+  // Reset PI states and set voltages to zero
+  piStateA.errorPrev = 0.0f;
+  piStateA.controlPrev = 0.0f;
+  piStateB.errorPrev = 0.0f;
+  piStateB.controlPrev = 0.0f;
+  setVoltageMotorA(0.0f);
+  setVoltageMotorB(0.0f);
 }
 
 void Robot::resetStateEstimator() {
-  // // UNCOMMENT AND MODIFIES LINES BELOW TO IMPLEMENT THE RESET OF THE STATE ESTIMATOR
-  // // Initialize state estimate
-  // _xhat(0) = 0.0;     // Change this according to your experiments
+  _nu.Fill(0);
+  float initGuess = readValue(5); // optional: set wrong initial estimate from QRC
+  if(initGuess < 0.0001f && initGuess > -0.0001f) {
+    initGuess = kDefaultX0;
+  }
+  _xhat(0) = initGuess;
+}
+
+float Robot::applyPi(float error, PiState &state, const PiCoeffs &coeffs) const {
+  const float control = coeffs.b0 * error + coeffs.b1 * state.errorPrev +
+                        coeffs.feedback * state.controlPrev;
+  state.errorPrev = error;
+  state.controlPrev = control;
+  return control;
+}
+
+float Robot::saturate(float value, float limit) const {
+  if(value > limit) return limit;
+  if(value < -limit) return -limit;
+  return value;
 }
 
 bool Robot::controlEnabled() {

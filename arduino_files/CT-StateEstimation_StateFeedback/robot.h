@@ -14,6 +14,8 @@
 #include <BasicLinearAlgebra.h> // Include BasicLinearAlgebra to make matrix manipulations easier
 #include "state_estimator.h" // Include template to make state estimation implementation easier
 
+using namespace BLA;
+
 class Robot : public MECOtron {
   private:
 

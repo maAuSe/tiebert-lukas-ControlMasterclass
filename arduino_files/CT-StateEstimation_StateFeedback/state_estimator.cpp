@@ -12,18 +12,18 @@ float getEstimatorGain() { return g_estimator_gain; }
 
 void PredictionUpdate(const Matrix<1> &u, Matrix<1> &xhat) {
   // Discrete-time A and B matrices for x[k+1] = A x[k] + B u[k]
-  float arrayA[1][1]{{1.0f}};
-  Matrix<1,1> A = arrayA;
-  float arrayB[1][1]{{kTs * kWheelRadius}};
-  Matrix<1,1> B = arrayB;
+  Matrix<1,1> A;
+  A(0,0) = 1.0f;
+  Matrix<1,1> B;
+  B(0,0) = kTs * kWheelRadius;
 
   // A priori update
   xhat = A * xhat + B * u;
 }
 
 void CorrectionUpdate(const Matrix<1> &y, Matrix<1> &xhat, Matrix<1> &nu) {
-  float arrayC[1][1]{{kC}};
-  Matrix<1,1> C = arrayC;
+  Matrix<1,1> C;
+  C(0,0) = kC;
 
   // Innovation
   nu = y - C * xhat;

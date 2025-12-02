@@ -167,3 +167,58 @@ Following this plan ensures every bullet in `specs_assignment3.md` has correspon
   - Settling time for K_nom (Section 2.2 observations)
 - [ ] Update $L_\text{slow}$ value from -0.02 to -0.004 in Section 2.3
 - [ ] Final proofreading and consistency check
+
+## 8. Review vs. `specs_assignment3.md`
+
+### 8.1 Theoretical design (Task 1)
+
+- **State and measurement models (1a, 1b)**  
+  - `assignment3.tex` derives the continuous-time model, applies forward Euler, and states $A_d = 1$, $B_d = T_s r = 3.3\times10^{-4}$ m/rad, matching `specs_assignment3.md` and `assignment3_solution.m` (`A = 1; B = Ts * r;`).  
+  - The measurement equation $y = -x$ with $C = -1$, $D = 0$ is used consistently in LaTeX, MATLAB (`C = -1; D = 0;`), and Arduino (`frontDistance` is positive, `feedbackPos = -frontDistance` when the estimator is disabled).
+
+- **State feedback gain K (1c)**  
+  - LaTeX correctly derives $p_\text{cl}(K) = 1 - T_s r K$ and discusses stability/response vs K.  
+  - MATLAB implements the required pole map and simulated step responses: `p_cl = 1 - B * K_sweep;` with `K_sweep = [80, 120, 250]` and exports `pole_map_K.pdf` and `step_K_sweep.pdf`, as requested.  
+  - The chosen nominal gain $K_\text{nom} = 120$ rad/(s·m) is documented and used consistently in MATLAB and in the plan (K-sweep section).
+
+- **Estimator gain L (1d)**  
+  - LaTeX derives $p_\text{est}(L) = 1 + L$ and explains stability and noise/convergence trade-offs in line with the spec.  
+  - MATLAB sweeps `L_sweep = [-0.05, -0.18, -0.35]` and exports `pole_map_L.pdf`; $L_\text{nom} = -0.18$ and the sweep set are explicitly stated in LaTeX.  
+  - Overall, the analytical part of 1(a)–1(d) is complete and consistent across LaTeX and MATLAB; remaining gaps are mainly numerical values to be filled from experiments.
+
+### 8.2 Implementation and experiments (Task 2)
+
+- **Estimator only (2a)**  
+  - Spec requires: controller off, estimator on, wrong initial $\hat x[0]$, multiple L values, plots of measured vs estimated distance, linked to 1(d).  
+  - Arduino: `resetStateEstimator()` reads an initial guess from `readValue(5)` (falling back to `kDefaultX0`), allowing both “good” and “wrong” initializations. With button 0 off and button 1 on, motors are held at zero voltage while the estimator runs, matching an "estimator only" mode.  
+  - Plan: Section 1 prescribes an L-sweep with $L \in \{-0.05, -0.18, -0.35\}$, uses `writeValue(5)` for a wrong initial estimate, and logs distance, $\hat x$, and innovation to CSV files.  
+  - MATLAB: `estOnlyRuns` + `plotEstimatorOnly` are ready to generate the required plots once CSV paths are provided.  
+  - **Minor issue:** In `robot.cpp`, the estimator gain override (`lOverride`) is only applied inside `if(controlEnabled())`. For pure estimator-only experiments (controller disabled), runtime L-sweeps via channel 11 will not take effect unless this logic is moved outside the controller block or gains are changed offline.
+
+- **Controller only (2b)**  
+  - Spec requires: estimator off, controller uses raw position, step reference for several K values, plots of responses and control signals, explanation vs 1(c).  
+  - Arduino: when `StateEstimationEnabled()` is false and `controlEnabled()` is true, `feedbackPos = -frontDistance`, so the outer loop uses the raw measurement without the estimator, as required. Channel 10 (`kOverride`) cleanly implements the K-sweep.  
+  - Plan: Section 2 defines a K-sweep with $K \in \{80,120,250\}$, a safe step reference, and the correct set of logged signals.  
+  - MATLAB: `ctrlOnlyRuns` + `plotControllerOnly` generate the measured step responses and corresponding motor voltages (`controller_K_response.pdf`, `controller_K_voltage.pdf`).  
+  - LaTeX: Section 2.2 already reflects the qualitative trends; the remaining TODOs are the numerical settling times and overshoot numbers to be pulled from the experimental figures.
+
+- **Estimator + controller (2c)**  
+  - Spec requires: estimator pole 10× slower than controller pole, good/wrong initial estimate experiments under a step, and analysis of whether estimator performance affects control performance (separation principle).  
+  - Design: `assignment3_solution.m` sets `K_nom = 120`, `L_slow = -0.004`, and `assignment3.tex` explains the 10× slower pole placement and the resulting poles $\{p_\text{cl}(K_\text{nom}), p_\text{est}(L_\text{slow})\}$.  
+  - Arduino: runtime overrides (channels 10 and 11) allow implementing $(K_\text{nom}, L_\text{slow})$ while both controller and estimator are enabled.  
+  - Plan: Section 3 prescribes good/wrong initial estimate runs and the corresponding data files, aligned with the spec.  
+  - MATLAB/LaTeX: `estCtrlRuns` + `plotEstimatorController` generate `est_ctrl_good.pdf` and `est_ctrl_bad.pdf` for the LaTeX placeholders; the LaTeX text already articulates the separation principle, and only minor expansion is needed if more explicit reference to the closed-loop transfer function is desired.
+
+### 8.3 Consistency notes and remaining work
+
+- **Firmware path**  
+  - The plan refers to `arduino_files/ass3_ino/CT-StateEstimation_StateFeedback.ino`, whereas the repository currently contains `arduino_files/CT-StateEstimation_StateFeedback/CT-StateEstimation_StateFeedback.ino`. These should be aligned (either by updating the path in the plan or by adding the `ass3_ino` wrapper used in other assignments).
+
+- **Channel 5 usage**  
+  - The plan uses channel 5 as an input for a "forced estimator initial guess" (`writeValue(5)`), while `robot.cpp` both reads `readValue(5)` in `resetStateEstimator()` and writes `writeValue(5, speedB)`. Using the same channel as both input and telemetry can be confusing or error-prone; separating these roles (e.g. a dedicated read channel for the initial estimate, and a different channel for speed logging) would make the experiments more robust.
+
+- **Estimator gain override in estimator-only mode**  
+  - As noted above, the L override is currently only applied when the controller is enabled. If strict compliance with the 2(a) spec (estimator only, controller truly off) is important, consider allowing `lOverride` to update the estimator gain even when `controlEnabled() == false`.
+
+- **Experiment and report completion**  
+  - All analytical pieces required by `specs_assignment3.md` are in place and consistent across Arduino, MATLAB, and LaTeX. The remaining work is operational: collect the CSVs listed in Section 7, populate `estOnlyRuns`, `ctrlOnlyRuns`, and `estCtrlRuns`, regenerate figures, and replace the LaTeX placeholders/TODOs with measured metrics and final wording.

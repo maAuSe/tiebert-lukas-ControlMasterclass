@@ -105,11 +105,13 @@
 
   \newpage
 
-  \section{Design of a state feedback controller and estimator (pole placement)}
+  \section{State estimator and state feedback controller design using pole placement}
 
-  Unless stated otherwise, the sampling time is $T_s = 0.01$~s and the wheel radius is $r = 0.033$~m. The state is the cart position $x$ (m) along the track, measured from the wall at the origin ($x<0$ when the cart is in front of the wall). The input $v$ is the common wheel velocity command (rad/s).
+  Unless stated otherwise, the sampling time is $T_s$ = 0.01$s$ and the wheel radius is $r$ = 0.033$m$. 
+  The state is the cart position $x$ [$m$] along the track, measured from the wall at the origin ($x$<0 when the cart is in front of the wall). 
+  The input $v$ [$rad/s$] is the common wheel velocity command.
 
-  \subsection{Discrete-time state equation (1a)}
+  \subsection{Discrete-time state equation}
   \paragraph{Continuous-time model.} With ideal inner velocity control, $\dot{x}(t) = r\,\omega(t)$, where $\omega$ is the average wheel speed. In matrix form with state $x$ and input $u=\omega$:
   \begin{equation}
     \dot{x}(t) = A_c x(t) + B_c u(t), \quad A_c = 0,\quad B_c = r.

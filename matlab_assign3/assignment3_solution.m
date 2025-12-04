@@ -17,7 +17,9 @@ if ~exist(outDir, 'dir'); mkdir(outDir); end
 
 % Controller/estimator sweeps (update if retuned)
 K_sweep = [80, 120, 250];         % rad/(s*m)
-L_sweep = [-0.05, -0.18, -0.35];  % observer gains
+L_sweep = [-0.05, -0.18, -0.35];  % observer gains for 2(a)
+K_nom = 120;                       % nominal controller gain
+L_slow = -0.004;                   % 10x slower estimator pole for 2(c)
 
 %% 1(c) Closed-loop pole map vs K
 p_cl = 1 - B * K_sweep;
@@ -105,8 +107,9 @@ end
 
 %% Export suggested Arduino gains for traceability
 fprintf('Suggested Arduino gains:\n');
-fprintf('  K_pos_nom = %.1f rad/(s*m)\n', K_sweep(2));
-fprintf('  L_nom     = %.2f (observer pole = %.2f)\n', L_sweep(2), p_est(2));
+fprintf('  K_nom     = %.1f rad/(s*m) -> p_cl = %.4f\n', K_nom, 1 - B*K_nom);
+fprintf('  L_nom     = %.2f (estimator pole = %.2f)\n', L_sweep(2), 1 + L_sweep(2));
+fprintf('  L_slow    = %.4f (10x slower, estimator pole = %.4f)\n', L_slow, 1 + L_slow);
 
 %% ------------------------------------------------------------------------
 function plotEstimatorOnly(files, outDir)

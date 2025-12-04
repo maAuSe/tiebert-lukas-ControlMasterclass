@@ -144,7 +144,7 @@
   \paragraph{Pole-zero map.} Figure~\ref{fig:pole_map_K} shows $p_\text{cl}(K)$ for $K\in\{K_\text{slow},K_\text{nom},K_\text{fast}\}=\{80,120,250\}$~rad/(s$\cdot$m). %TODO replace values if retuned.
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for pole-zero map from MATLAB (images/pole_map_K.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for pole-zero map from MATLAB (images/pole\_map\_K.pdf).}}
     \caption{Closed-loop pole location versus $K$.}
     \label{fig:pole_map_K}
   \end{figure}
@@ -152,7 +152,7 @@
   \paragraph{Step responses.} Figure~\ref{fig:step_K_sweep} groups simulated position step responses for the same $K$ sweep. Larger $K$ yields shorter rise time and higher control action; excessive $K$ would saturate the motors and could destabilize the discretized model.
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for simulated step responses (images/step_K_sweep.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for simulated step responses (images/step\_K\_sweep.pdf).}}
     \caption{Simulated closed-loop step responses for varying $K$.}
     \label{fig:step_K_sweep}
   \end{figure}
@@ -178,7 +178,7 @@
   The controller is disabled; the estimator starts from a wrong initial position $\hat{x}[0]$ set via \texttt{readValue(5)} in the Arduino code. Figure~\ref{fig:estimator_L_sweep} overlays the measured distance $y=-x$ and the estimated distance $-\hat{x}$ for $L\in\{-0.05,-0.18,-0.35\}$. Larger $|L|$ yields faster convergence but more noise on $\hat{x}$ and $\nu$.
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for estimator convergence plots (images/estimator_L_sweep.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for estimator convergence plots (images/estimator\_L\_sweep.pdf).}}
     \caption{Measured vs. estimated distance for different $L$ (wrong initial estimate).}
     \label{fig:estimator_L_sweep}
   \end{figure}
@@ -194,13 +194,13 @@
   The estimator is disabled; feedback uses the raw distance $y=-x$. A 0.15~m step reference is applied for $K\in\{K_\text{slow},K_\text{nom},K_\text{fast}\}$. Figure~\ref{fig:controller_K_response} shows position responses and Figure~\ref{fig:controller_K_voltage} the corresponding motor voltages.
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for measured step responses without estimator (images/controller_K_response.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for measured step responses without estimator (images/controller\_K\_response.pdf).}}
     \caption{Measured position step responses for different $K$ (estimator disabled).}
     \label{fig:controller_K_response}
   \end{figure}
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for control signals (images/controller_K_voltage.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for control signals (images/controller\_K\_voltage.pdf).}}
     \caption{Motor voltage commands for the responses in Fig.~\ref{fig:controller_K_response}.}
     \label{fig:controller_K_voltage}
   \end{figure}
@@ -213,7 +213,7 @@
   \end{itemize}
 
   \subsection{Estimator and controller (2c)}
-  The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $|p_\text{est}| \approx (|p_\text{cl}|)^{0.1}$, leading to $L_\text{slow} \approx -0.02$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
+  The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $(1-p_\text{est}) = (1-p_\text{cl})/10$, leading to $L_\text{slow} \approx -0.004$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
   \begin{enumerate}
     \item \textbf{Good initial estimate} $\hat{x}[0]\approx x[0]$.
     \item \textbf{Wrong initial estimate} $\hat{x}[0]=\hat{x}_0^\text{bad}$ (set via \texttt{readValue(5)}).
@@ -226,13 +226,13 @@
   confirming that the estimator dynamics do not affect the control pole (separation principle).
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs. estimated position, good initial estimate (images/est_ctrl_good.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs.\ estimated position, good initial estimate (images/est\_ctrl\_good.pdf).}}
     \caption{Measured and estimated distance with good initial estimate.}
     \label{fig:est_ctrl_good}
   \end{figure}
 
   \begin{figure}[H]\centering
-    \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs. estimated position, wrong initial estimate (images/est_ctrl_bad.pdf).}}
+    \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs.\ estimated position, wrong initial estimate (images/est\_ctrl\_bad.pdf).}}
     \caption{Measured and estimated distance with wrong initial estimate.}
     \label{fig:est_ctrl_bad}
   \end{figure}

@@ -564,34 +564,7 @@
     \item The selected $K_\text{nom}$ avoids saturation while providing $t_s\approx$~TODO~s and negligible steady-state error.
   \end{itemize}
 
-  These observations correspond to the theoretical dependence $z_{cl}(K) = 1 - T_s r K$:
-  as $K$ increases, the closed-loop pole moves left towards -1, giving faster dynamics until saturation and discrete oscillations become limiting.
-
-  \paragraph{Limitations on $K$:}
-  There are both theoretical and practical limits.
-  Theoretical limit: stability in discrete-time requires
-  \begin{equation}
-    0 < K < \frac{2}{T_s}.
-  \end{equation}
-  Practical limits:
-  \begin{itemize}
-    \item The low-level motor voltage is bounded: too large $K$ causes saturation, making the actual behaviour deviate from the linear model.
-    \item Large $K$ amplifies sensor noise and model errors.
-    \item The IR sensor has a limited range (approximately 5-30$cm$). Overshoot may drive the cart outside this range, resulting in invalid measurements.
-  \end{itemize}
-  In light of these constraints, a value around
-  \begin{equation}
-    K = 40\text{rad/(s\cdot m)}
-  \end{equation}
-  offers a good compromise between tracking performance and actuator/sensor limitations, 
-  and is therefore used in the remainder of the assignment.
-
-  
-
-
-
-
-  \subsection{Estimator and controller (2c)} % Section 2(c)
+  \subsection{Estimator and controller (2c)}
   The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $(1-p_\text{est}) = (1-p_\text{cl})/10$, leading to $L_\text{slow} \approx -0.004$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
   \begin{enumerate}
     \item \textbf{Good initial estimate} $\hat{x}[0]\approx x[0]$.

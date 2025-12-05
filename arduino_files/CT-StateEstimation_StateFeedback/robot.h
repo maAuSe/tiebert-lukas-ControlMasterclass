@@ -36,7 +36,7 @@ class Robot : public MECOtron {
     static constexpr float kWheelRadius = 0.033f;
     static constexpr float kVoltageLimit = 11.0f;
     static constexpr float kVelRefLimit = 25.0f;   // rad/s cap on commanded wheel speed
-    static constexpr float kDefaultKpos = 120.0f;  // rad/(s*m)
+    static constexpr float kDefaultKpos = 40.0f;   // rad/(s*m)
     static constexpr float kDefaultX0 = -0.40f;    // m, used when no init value is provided
 
     PiCoeffs coeffA{0.945014f, -0.804389f, 1.0f}; // PI (assignment 2) - wheel A
@@ -44,6 +44,7 @@ class Robot : public MECOtron {
     PiState piStateA{0.0f, 0.0f};
     PiState piStateB{0.0f, 0.0f};
     float kPosGain = kDefaultKpos;
+    float desiredDistanceMeters = 0.40f;  // positive distance to wall
 
     // State estimation
     Matrix<1> _xhat;      // state estimate vector

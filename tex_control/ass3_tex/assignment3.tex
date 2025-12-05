@@ -246,11 +246,11 @@
     x[k+1] = (1 - T_s r K)x[k] + T_s r K r_0, \quad x[0] = x_0
   \end{equation}
 
-  Typical behaviours:
+  Typical behaviors:
   \begin{itemize}
     \item Small $K$ (e.g. $K$ ≈ 0): pole $z_\text{cl}$ ≈ 1, very slow response, large settling time.
     \item Moderate $K$: pole $z_\text{cl}$ moves closer to the origin, faster convergence, reasonably small rise and settling times, no oscillation because the pole remains real and between -1 and 1 (inside the unit circle).
-    \item Large $K$ (near upper stability limit, $K$ ≈ $\frac{2}{T_s r}$): pole $z_\text{cl}$ approaches -1, oscillatory (sign-alternating) behaviour in discrete-time with long settling and potential overshoot.
+    \item Large $K$ (near upper stability limit, $K$ ≈ $\frac{2}{T_s r}$): pole $z_\text{cl}$ approaches -1, oscillatory (sign-alternating) behavior in discrete-time with long settling and potential overshoot.
   \end{itemize}
 
   %%% FIGURE 3: Simulated step responses x[k] for several K values on one plot
@@ -299,7 +299,7 @@
 
   So the chosen value is, for example:
   \begin{equation}
-    K = 50 \text{rad/(s$\cdot$m)}.
+    K = 40 \text{rad/(s$\cdot$m)}.
   \end{equation}
   This lies well within the theoretical stability range and respects practical voltage constraints.
 
@@ -567,15 +567,16 @@
   These observations correspond to the theoretical dependence $z_{cl}(K) = 1 - T_s r K$:
   as $K$ increases, the closed-loop pole moves left towards -1, giving faster dynamics until saturation and discrete oscillations become limiting.
 
-  \paragraph{Limitations on $K$:}
-  There are both theoretical and practical limits.
+  \paragraph{Choice of $K$:}
+  There are both theoretical and practical limits for $K$.
   Theoretical limit: stability in discrete-time requires
   \begin{equation}
     0 < K < \frac{2}{T_s}.
   \end{equation}
+
   Practical limits:
   \begin{itemize}
-    \item The low-level motor voltage is bounded: too large $K$ causes saturation, making the actual behaviour deviate from the linear model.
+    \item The low-level motor voltage is bounded: too large $K$ causes saturation, making the actual behavior deviate from the linear model.
     \item Large $K$ amplifies sensor noise and model errors.
     \item The IR sensor has a limited range (approximately 5-30$cm$). Overshoot may drive the cart outside this range, resulting in invalid measurements.
   \end{itemize}
@@ -591,8 +592,118 @@
 
 
 
-  \subsection{Estimator and controller (2c)} % Section 2(c)
-  The estimator and controller run together. The estimator pole is placed ten times slower than the controller: $(1-p_\text{est}) = (1-p_\text{cl})/10$, leading to $L_\text{slow} \approx -0.004$ for $K_\text{nom}$. Two experiments are executed with a 0.15~m step:
+  \subsection{Combined estimator and controller: influence of estimator pole choice} % Section 2(c)
+  In this final experiment, both the state feedback controller and the state estimator are active. 
+  The controller no longer uses the true position $x[k]$, but the estimated position $\hat{x}[k]$: 
+  \begin{equation}
+    u[k] = K(x_{ref}[k] - \hat{x}[k]).
+  \end{equation}
+  Because the measurement equation is
+  \begin{equation}
+    y[k] = -x[k], \quad C = -1
+  \end{equation}
+  the controller receives no direct measurement of $x[k]$, all feedback passes through the estimator.
+
+  \paragraph{Controller closed-loop pole $z_{cl}$:}
+  From the discretized model
+  \begin{equation}
+    x[k+1] = x[k] + T_s r u[k]
+  \end{equation}
+  and the control law $u[k] = K(x_{ref}[k] - \hat{x}[k])$, the closed-loop state update becomes:
+  \begin{equation}
+    x[k+1] = (1 - T_s r K)x[k] + T_s r K x_{ref}[k].
+  \end{equation}
+  Hence the controller pole is:
+  \begin{equation}
+    z_{cl}(K) = 1 - T_s r K = 1 - 0.01 \cdot 0.033 \cdot 40 = 0.9967.
+  \end{equation}
+  This pole does not depend on the estimator.
+
+  \paragraph{Designing the estimator to be 10x slower:}
+  The observer is:
+  \begin{equation}
+    \hat{x}[k+1] = \hat{x}[k] + T_s r u[k] + L(y[k] - hat{y}[k]).
+  \end{equation}
+  Given $y[k] = -x[k]$, and $\hat{y}[k] = -\hat{x}[k]$, the innovation becomes:
+  \begin{equation}
+    y[k] - \hat{y}[k] = -x[k] + \hat{x}[k] = -e[k].
+  \end{equation}
+  So the observer becomes:
+  \begin{equation}
+    \hat{x}[k+1] = \hat{x}[k] + T_s r u[k] - L e[k].
+  \end{equation}
+  The estimation error is:
+  \begin{equation}
+    e[k] = x[k] - \hat{x}[k].
+  \end{equation}
+  Using the state equation and observer update, one obtains 
+  \begin{equation}
+    e[k+1] = (1-L)e[k].
+  \end{equation}
+  Thus the estimator pole is:
+  \begin{equation}
+    z_{est}(L) = 1 - L.
+  \end{equation}
+  
+  The assignment requires an estimator pole 10x slower than the controller pole.
+  Convert the controller pole into continuous-time:
+  \begin{equation}
+    s_{cl} = \frac{1}{T_s} ln(z_{cl}).
+  \end{equation}
+  An estimator pole ten times slower has:
+  \begin{equation}
+    s_{est} = \frac{s_{cl}}{10}.
+  \end{equation}
+  Convert back into discrete-time:
+  \begin{equation}
+    z_{est} = e^{s_{est} T_s} = z_{cl}^{1/10}.
+  \end{equation}
+  Finally:
+  \begin{equation}
+    L = 1 - z_{est}.
+  \end{equation}
+  This gain is used during the experiments.
+
+  \paragraph{Experiments (correct vs. wrong initial estimate):}
+  Two runs are performed:
+  \begin{enumerate}
+    \item Correct initial estimate: $\hat{x}[0] = x[0]$.
+    \item Incorrect initial estimate: $\hat{x}[0] = x[0] + \Delta x$, with $\Delta x$ several $cm$.
+  \end{enumerate}
+  In both cases, the measured signal $y[k] = -x[k]$ and the estimated output $\hat{y}[k] = -\hat{x}[k]$ are plotted.
+
+  %%% FIGURE 6: Measured vs. estimated distance with slow estimator, 
+  %%% correct initial estimate
+
+  %\begin{figure}[h!]
+  %  \centering
+  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
+  %  \caption{Cart measuring its distance to a wall.}
+  %  \label{fig:state_feedback_assignment}
+  %\end{figure}
+
+
+  %%% FIGURE 7: Same but with incorrect initial estimate
+  %%% 
+
+  %\begin{figure}[h!]
+  %  \centering
+  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
+  %  \caption{Cart measuring its distance to a wall.}
+  %  \label{fig:state_feedback_assignment}
+  %\end{figure}
+
+
+  \paragraph{Observed behavior:}
+
+  \textbf{1. Correct initial estimate}
+  If $\hat{x}[0] ≈ x[0]$, the estimator error
+
+ 
+  
+
+
+
   \begin{enumerate}
     \item \textbf{Good initial estimate} $\hat{x}[0]\approx x[0]$.
     \item \textbf{Wrong initial estimate} $\hat{x}[0]=\hat{x}_0^\text{bad}$ (set via \texttt{readValue(5)}).

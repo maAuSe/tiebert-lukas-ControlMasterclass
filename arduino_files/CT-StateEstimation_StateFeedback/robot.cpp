@@ -14,8 +14,27 @@ bool Robot::init() {
   xref.Fill(0);
   _xhat.Fill(0);
   _nu.Fill(0);
-  setEstimatorGain(-0.18f);
-  resetController();
+  desiredDistanceMeters = 0.40f;  // initial reference: 0.40 m to wall
+
+  // ========== EXPERIMENT GAIN CONFIGURATION ==========
+  // Uncomment ONE line per section depending on which experiment you are running.
+  //
+  // --- 2(a) Estimator-only: L sweep (controller OFF, estimator ON) ---
+  // setEstimatorGain(-0.05f);      // L_slow:  p_est ~= 0.95 (estimator-only sweep)
+  // setEstimatorGain(-0.18f);      // L_nom:   p_est ~= 0.82
+  // setEstimatorGain(-0.35f);      // L_fast:  p_est ~= 0.65
+  //
+  // --- 2(b) Controller-only: K sweep (controller ON, estimator OFF) ---
+  // kPosGain = 20.0f;              // K_slow: p_cl ~= 0.993
+  kPosGain = 40.0f;                 // K_nom:  p_cl ~= 0.987  <-- default
+  // kPosGain = 80.0f;              // K_fast: p_cl ~= 0.974
+  //
+  // --- 2(c) Estimator + Controller: slow estimator pole (both ON) ---
+  // For 2(c), use K_nom and L_slow (10x slower than controller):
+  //   kPosGain = 40.0f;
+  setEstimatorGain(-0.00132f);      // L_slow: p_est ~= 0.9987 (10x slower than p_cl with K_nom)
+  // =======================================================
+resetController();
   return true;
 }
 
@@ -41,18 +60,11 @@ void Robot::control() {
   if(controlEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 0' in QRoboticsCenter)
 
     // Read position reference as distance to wall [m]; convert to cart position [m] (negative in front of wall)
-    const float desired_distance = readValue(0); // channel 0 reserved for reference input
-    xref(0) = -desired_distance;
+    // Desired distance is now button-controlled: start at 0.40 m, button 1 sets 0.15 m
+    xref(0) = -desiredDistanceMeters;
 
-    // Optional runtime gain override from QRC (channels 10 for K, 11 for L)
-    const float kOverride = readValue(10);
-    const float lOverride = readValue(11);
-    if(kOverride > 0.0001f || kOverride < -0.0001f) {
-      kPosGain = kOverride;
-    }
-    if(lOverride > 0.0001f || lOverride < -0.0001f) {
-      setEstimatorGain(lOverride);
-    }
+    // Gains are now hardcoded in init(); runtime override removed for reproducibility.
+    // To change K or L, edit the values in init() and re-flash.
     K(0) = kPosGain;
 
     // State feedback to desired velocity (rad/s)
@@ -127,11 +139,10 @@ void Robot::resetController(){
 
 void Robot::resetStateEstimator() {
   _nu.Fill(0);
-  float initGuess = readValue(5); // optional: set wrong initial estimate from QRC
-  if(initGuess < 0.0001f && initGuess > -0.0001f) {
-    initGuess = kDefaultX0;
-  }
-  _xhat(0) = initGuess;
+  // Hardcoded initial estimate (used for estimator-only and combined runs)
+  // Set to +0.15 m for upcoming combined experiment
+  constexpr float kWrongInitialEstimate = -0.00f;
+  _xhat(0) = kWrongInitialEstimate;
 }
 
 float Robot::applyPi(float error, PiState &state, const PiCoeffs &coeffs) const {
@@ -157,25 +168,24 @@ bool Robot::StateEstimationEnabled() {
 }
 
 void Robot::button0callback() {
+  // Toggle controller AND estimator together
   if(toggleButton(0)) {           // Switches the state of button 0 and checks if the new state is true
+    _button_states[1] = 1;        // estimator follows controller state
     resetController();
-    message("Controller reset and enabled.");    // Display a message in the status bar of QRoboticsCenter
+    resetStateEstimator();
+    desiredDistanceMeters = 0.30f;
+    message("Controller + estimator enabled (Button 0).");    // Display a message in the status bar of QRoboticsCenter
   }
   else {
-    message("Control disabled.");
+    _button_states[1] = 0;
+    message("Controller + estimator disabled.");
   }
-  // button1callback();           // If you want to toggle the estimator together with the controller
 }
 
 void Robot::button1callback() {
-  if(toggleButton(1)){
-      resetStateEstimator();            // Reset the state estimator
-      message("State estimator reset and enabled.");
-  }
-  else
-  {
-    message("State estimator disabled.");
-  }
+  // Update desired reference from 0.15 m to 0.30 m (no estimator reset)
+  desiredDistanceMeters = 0.30f;
+  message("Desired distance set to 0.30 m (Button 1).");
 }
 
 void Robot::button2callback() {

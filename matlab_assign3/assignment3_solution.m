@@ -87,7 +87,10 @@ legend('Poles for K sweep', 'Pole trajectory', 'Location', 'northwest');
 %  ========================================================================
 figure('Name','Simulated Step Response vs K','Position',[100 100 700 450]);
 hold on; grid on;
-colors = lines(length(K_sweep));
+% Black-white friendly: use line styles and markers
+lineStyles = {'-', '--', ':'};
+markers = {'o', 's', '^'};
+markerInterval = 40;  % plot marker every N points
 
 for i = 1:length(K_sweep)
     kVal = K_sweep(i);
@@ -98,10 +101,11 @@ for i = 1:length(K_sweep)
         xk(k+1) = (1 - Bd * kVal) * xk(k) + Bd * kVal * x_ref;
     end
     % Plot distance (= -x) since IR sensor measures positive distance
-    plot(t_sim, -xk, 'Color', colors(i,:), 'LineWidth', 1.5, ...
-         'DisplayName', sprintf('K = %d (p = %.3f)', kVal, 1 - Bd*kVal));
+    plot(t_sim, -xk, 'k', 'LineStyle', lineStyles{i}, 'LineWidth', 1.5, ...
+         'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t_sim), ...
+         'MarkerSize', 6, 'DisplayName', sprintf('K = %d (p = %.3f)', kVal, 1 - Bd*kVal));
 end
-plot(t_sim, -x_ref*ones(size(t_sim)), 'k--', 'LineWidth', 1.5, 'DisplayName', 'Reference');
+plot(t_sim, -x_ref*ones(size(t_sim)), 'k-.', 'LineWidth', 1.5, 'DisplayName', 'Reference');
 xlabel('Time [s]'); ylabel('Distance to wall [m]');
 title('Simulated step response vs K (ideal velocity loop)');
 legend('Location','best');
@@ -137,7 +141,10 @@ legend('Poles for L sweep', 'Pole trajectory', 'Location', 'northwest');
 %  ========================================================================
 figure('Name','Simulated Estimator Convergence','Position',[100 100 700 450]);
 hold on; grid on;
-colors = lines(length(L_sweep));
+% Black-white friendly: use line styles and markers
+lineStyles = {'-', '--', ':'};
+markers = {'o', 's', '^'};
+markerInterval = 40;
 
 for i = 1:length(L_sweep)
     Lval = L_sweep(i);
@@ -156,10 +163,11 @@ for i = 1:length(L_sweep)
         xhat(k+1) = xhat_pred + Lval * nu;
     end
     % Plot estimated distance (= -xhat)
-    plot(t_sim, -xhat, 'Color', colors(i,:), 'LineWidth', 1.5, ...
-         'DisplayName', sprintf('L = %.2f (p = %.2f)', Lval, 1 + Lval));
+    plot(t_sim, -xhat, 'k', 'LineStyle', lineStyles{i}, 'LineWidth', 1.5, ...
+         'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t_sim), ...
+         'MarkerSize', 6, 'DisplayName', sprintf('L = %.2f (p = %.2f)', Lval, 1 + Lval));
 end
-plot(t_sim, -x_true0*ones(size(t_sim)), 'k--', 'LineWidth', 1.5, 'DisplayName', 'True distance');
+plot(t_sim, -x_true0*ones(size(t_sim)), 'k-.', 'LineWidth', 2, 'DisplayName', 'True distance');
 xlabel('Time [s]'); ylabel('Estimated distance [m]');
 title('Simulated estimator convergence vs L (cart stationary)');
 legend('Location','best');
@@ -170,7 +178,11 @@ legend('Location','best');
 if ~isempty(estOnlyFiles)
     figure('Name','Experimental Estimator Convergence','Position',[100 100 800 500]);
     hold on; grid on;
-    colors = lines(size(estOnlyFiles, 1));
+    % Black-white friendly: grayscale + line styles + markers
+    grayLevels = [0.0, 0.4, 0.7];  % dark to light gray
+    lineStyles = {'-', '--', ':'};
+    markers = {'o', 's', '^'};
+    markerInterval = 20;
     
     for i = 1:size(estOnlyFiles, 1)
         filename = estOnlyFiles{i, 1};
@@ -187,11 +199,14 @@ if ~isempty(estOnlyFiles)
             
             % Normalize time to start at 0
             t = (T.Time - T.Time(1)) / 1000;  % convert ms to s
+            grayColor = grayLevels(i) * [1 1 1];
             
-            % Plot measured distance and estimated distance
-            plot(t, T.distance, '--', 'Color', colors(i,:), 'LineWidth', 1, ...
+            % Plot measured distance (thin, no marker) and estimated distance (thick, with marker)
+            plot(t, T.distance, 'Color', grayColor, 'LineStyle', ':', 'LineWidth', 1, ...
                  'DisplayName', sprintf('Measured (L=%.2f)', Lval));
-            plot(t, -T.xhat, 'Color', colors(i,:), 'LineWidth', 1.5, ...
+            plot(t, -T.xhat, 'Color', grayColor, 'LineStyle', lineStyles{i}, 'LineWidth', 1.8, ...
+                 'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t), ...
+                 'MarkerSize', 5, 'MarkerFaceColor', grayColor, ...
                  'DisplayName', sprintf('Estimated (L=%.2f)', Lval));
         else
             warning('File not found: %s', filename);
@@ -209,7 +224,11 @@ end
 if ~isempty(estOnlyFiles)
     figure('Name','Innovation Signal','Position',[100 100 800 400]);
     hold on; grid on;
-    colors = lines(size(estOnlyFiles, 1));
+    % Black-white friendly
+    grayLevels = [0.0, 0.4, 0.7];
+    lineStyles = {'-', '--', ':'};
+    markers = {'o', 's', '^'};
+    markerInterval = 20;
     
     for i = 1:size(estOnlyFiles, 1)
         filename = estOnlyFiles{i, 1};
@@ -224,8 +243,11 @@ if ~isempty(estOnlyFiles)
             i2 = min(n, endRow);
             T = Tall(i1:i2, :);
             t = (T.Time - T.Time(1)) / 1000;
+            grayColor = grayLevels(i) * [1 1 1];
             
-            plot(t, T.nu, 'Color', colors(i,:), 'LineWidth', 1.2, ...
+            plot(t, T.nu, 'Color', grayColor, 'LineStyle', lineStyles{i}, 'LineWidth', 1.5, ...
+                 'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t), ...
+                 'MarkerSize', 5, 'MarkerFaceColor', grayColor, ...
                  'DisplayName', sprintf('L = %.2f', Lval));
         end
     end
@@ -242,7 +264,11 @@ if ~isempty(ctrlOnlyFiles)
     % Position response plot
     figure('Name','Controller-Only Position Response','Position',[100 100 800 500]);
     hold on; grid on;
-    colors = lines(size(ctrlOnlyFiles, 1));
+    % Black-white friendly
+    grayLevels = [0.0, 0.35, 0.6];
+    lineStyles = {'-', '--', ':'};
+    markers = {'o', 's', '^'};
+    markerInterval = 40;
     
     for i = 1:size(ctrlOnlyFiles, 1)
         filename = ctrlOnlyFiles{i, 1};
@@ -257,14 +283,17 @@ if ~isempty(ctrlOnlyFiles)
             i2 = min(n, endRow);
             T = Tall(i1:i2, :);
             t = (T.Time - T.Time(1)) / 1000;
+            grayColor = grayLevels(i) * [1 1 1];
             
-            plot(t, T.distance, 'Color', colors(i,:), 'LineWidth', 1.5, ...
+            plot(t, T.distance, 'Color', grayColor, 'LineStyle', lineStyles{i}, 'LineWidth', 1.8, ...
+                 'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t), ...
+                 'MarkerSize', 5, 'MarkerFaceColor', grayColor, ...
                  'DisplayName', sprintf('K = %d', Kval));
             % Plot reference if available
             if i == 1
                 refLine = 0.25 * ones(size(t));
-                plot(t, refLine, 'k--', 'LineWidth', 1.5, ...
-                     'DisplayName', 'Reference (0.25 m, hardcoded)');
+                plot(t, refLine, 'k-.', 'LineWidth', 2, ...
+                     'DisplayName', 'Reference (0.25 m)');
             end
         else
             warning('File not found: %s', filename);
@@ -291,10 +320,13 @@ if ~isempty(ctrlOnlyFiles)
             i2 = min(n, endRow);
             T = Tall(i1:i2, :);
             t = (T.Time - T.Time(1)) / 1000;
+            grayColor = grayLevels(i) * [1 1 1];
             
             % Average voltage of both motors
             volt_avg = 0.5 * (T.voltA + T.voltB);
-            plot(t, volt_avg, 'Color', colors(i,:), 'LineWidth', 1.2, ...
+            plot(t, volt_avg, 'Color', grayColor, 'LineStyle', lineStyles{i}, 'LineWidth', 1.5, ...
+                 'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t), ...
+                 'MarkerSize', 5, 'MarkerFaceColor', grayColor, ...
                  'DisplayName', sprintf('K = %d', Kval));
         end
     end
@@ -309,7 +341,12 @@ end
 if ~isempty(estCtrlFiles)
     figure('Name','Estimator + Controller','Position',[100 100 800 500]);
     hold on; grid on;
-    colors = lines(size(estCtrlFiles, 1));
+    % Black-white friendly: distinct grayscale + line styles + markers
+    grayLevels = [0.0, 0.5];
+    lineStylesMeas = {':', '--'};  % measured: dotted/dashed (thin)
+    lineStylesEst = {'-', '-.'};   % estimated: solid/dash-dot (thick)
+    markers = {'o', 's'};
+    markerInterval = 40;
     
     for i = 1:size(estCtrlFiles, 1)
         filename = estCtrlFiles{i, 1};
@@ -324,10 +361,15 @@ if ~isempty(estCtrlFiles)
             i2 = min(n, endRow);
             T = Tall(i1:i2, :);
             t = (T.Time - T.Time(1)) / 1000;
+            grayColor = grayLevels(i) * [1 1 1];
             
-            plot(t, T.distance, '--', 'Color', colors(i,:), 'LineWidth', 1, ...
+            % Measured: thin line, no marker
+            plot(t, T.distance, 'Color', grayColor, 'LineStyle', lineStylesMeas{i}, 'LineWidth', 1.2, ...
                  'DisplayName', sprintf('Measured (%s)', label));
-            plot(t, -T.xhat, 'Color', colors(i,:), 'LineWidth', 1.5, ...
+            % Estimated: thick line with marker
+            plot(t, -T.xhat, 'Color', grayColor, 'LineStyle', lineStylesEst{i}, 'LineWidth', 2, ...
+                 'Marker', markers{i}, 'MarkerIndices', 1:markerInterval:length(t), ...
+                 'MarkerSize', 5, 'MarkerFaceColor', grayColor, ...
                  'DisplayName', sprintf('Estimated (%s)', label));
         else
             warning('File not found: %s', filename);

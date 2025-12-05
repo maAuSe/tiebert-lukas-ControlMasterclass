@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  4 DEC 2025 15:22
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  5 DEC 2025 15:49
  restricted system commands enabled.
 **assignment3.tex
 (./assignment3.tex
@@ -635,80 +635,152 @@ Package luatex.def Info: logoFirW.jpg  used on input line 57.
 /logoFirW.jpg>]
 warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
 [1]
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 135.
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 135.
+Underfull \hbox (badness 10000) in paragraph at lines 127--129
+
+ []
 
 [2]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 160.
+(hyperref)                removing `math shift' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 160.
+(hyperref)                removing `math shift' on input line 182.
 
+<images/pole_map_K.pdf, id=90, 449.68pt x 384.43625pt>
+File: images/pole_map_K.pdf Graphic file (type pdf)
+<use images/pole_map_K.pdf>
+Package luatex.def Info: images/pole_map_K.pdf  used on input line 231.
+(luatex.def)             Requested size: 328.82707pt x 281.12886pt.
 [3]
-Underfull \hbox (badness 3088) in paragraph at lines 227--227
-[]\TU/lmr/m/n/10 Place-holder for mea-sured vs. es-ti-mated po-si-tion, good ini
--tial es-ti-mate (im-
+<images/step_K_sweep.pdf, id=112, 451.6875pt x 321.2pt>
+File: images/step_K_sweep.pdf Graphic file (type pdf)
+<use images/step_K_sweep.pdf>
+Package luatex.def Info: images/step_K_sweep.pdf  used on input line 257.
+(luatex.def)             Requested size: 375.80544pt x 267.25269pt.
+ [4<./images/pole_map_K.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 292.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 292.
+
+[5<./images/step_K_sweep.pdf>] [6]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 427.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 427.
+
+[7]
+Overfull \hbox (15.63939pt too wide) in paragraph at lines 453--454
+[]\TU/lmr/m/n/10 Fig-ure []3[] over-lays the mea-sured dis-tance $\OML/cmm/m/it
+/10 y \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 x$ \TU/lmr/m/n/10 
+and the es-ti-mated dis-tance $\OMS/cmsy/m/n/10 ^^@[]$ \TU/lmr/m/n/10 for $\OML
+/cmm/m/it/10 L \OMS/cmsy/m/n/10 2 f^^@\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/c
+mr/m/n/10 05\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 0\OML/cmm/m/
+it/10 :\OT1/cmr/m/n/10 18\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10
+ 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 35\OMS/cmsy/m/n/10 g$\TU/lmr/m/n/10 .
  []
 
+<images/estimator_L_sweep.pdf, id=196, 508.90125pt x 351.3125pt>
+File: images/estimator_L_sweep.pdf Graphic file (type pdf)
+<use images/estimator_L_sweep.pdf>
+Package luatex.def Info: images/estimator_L_sweep.pdf  used on input line 456.
+(luatex.def)             Requested size: 375.80544pt x 259.44183pt.
+[8<./images/estimator_L_sweep.pdf>]
 
-Underfull \hbox (badness 2142) in paragraph at lines 233--233
-[]\TU/lmr/m/n/10 Place-holder for mea-sured vs. es-ti-mated po-si-tion, wrong in
-i-tial es-ti-mate (im-
- []
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 495.
 
-[4] (./assignment3.bbl
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 495.
+
+<images/controller_K_response.pdf, id=228, 508.90125pt x 351.3125pt>
+File: images/controller_K_response.pdf Graphic file (type pdf)
+<use images/controller_K_response.pdf>
+Package luatex.def Info: images/controller_K_response.pdf  used on input line 5
+30.
+(luatex.def)             Requested size: 375.80544pt x 259.44183pt.
+[9]
+<images/controller_K_voltage.pdf, id=237, 500.87125pt x 291.0875pt>
+File: images/controller_K_voltage.pdf Graphic file (type pdf)
+<use images/controller_K_voltage.pdf>
+Package luatex.def Info: images/controller_K_voltage.pdf  used on input line 53
+6.
+(luatex.def)             Requested size: 375.80544pt x 218.4128pt.
+ [10<./images/controller_K_response.pdf><./images/controller_K_voltage.pdf>] [1
+1]
+<images/est_ctrl_good.pdf, id=297, 449.68pt x 321.2pt>
+File: images/est_ctrl_good.pdf Graphic file (type pdf)
+<use images/est_ctrl_good.pdf>
+Package luatex.def Info: images/est_ctrl_good.pdf  used on input line 658.
+(luatex.def)             Requested size: 375.80544pt x 268.44365pt.
+ [12]
+<images/est_ctrl_bad.pdf, id=316, 449.68pt x 321.2pt>
+File: images/est_ctrl_bad.pdf Graphic file (type pdf)
+<use images/est_ctrl_bad.pdf>
+Package luatex.def Info: images/est_ctrl_bad.pdf  used on input line 664.
+(luatex.def)             Requested size: 375.80544pt x 268.44365pt.
+ [13<./images/est_ctrl_good.pdf><./images/est_ctrl_bad.pdf>] [14]
+(./assignment3.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 3.
 
-) [5] (./assignment3.aux)
+) [15] (./assignment3.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `assignment3.out' has not changed.
-(rerunfilecheck)             Checksum: 046BC8FED3B5AAB6071F55776D4433BF;2123.
+(rerunfilecheck)             Checksum: C5485EE52D1410F3B73CB626373D3B2E;3089.
 )
 
 Here is how much of LuaTeX's memory you used:
- 15322 strings out of 476497
+ 15477 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 605 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 22 attribute, 61 glue_spec
-, 22 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 1:1,2:626,3:313,4:64,5:428,6:56,7:6277,8:109,9:468,10:10,11:421
- 37032 multiletter control sequences out of 65536+600000
- 52 fonts using 3915455 bytes
- 85i,11n,130p,449b,439s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
-lic/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
-opentype/public/lm/lmmono10-italic.otf><C:/Users/campa/AppData/Local/Programs/Mi
-KTeX/fonts/opentype/public/lm/lmroman10-italic.otf><C:/Users/campa/AppData/Local
-/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-bolditalic.otf><//?/c:/users
-/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-regular.
-otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/l
-mroman10-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/p
-ublic/lm/lmroman12-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/campa/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users
-/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
-7.pfb>
-Output written on assignment3.pdf (6 pages, 967497 bytes).
+ 866 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 85 attribute, 61 glue_spec
+, 85 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 1:1,2:748,3:280,4:64,5:540,6:53,7:5854,8:109,9:692,10:10,11:451
+ 37092 multiletter control sequences out of 65536+600000
+ 54 fonts using 4178831 bytes
+ 85i,13n,130p,478b,486s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman5-
+regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/
+lm/lmmono10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/
+opentype/public/lm/lmroman7-bold.otf><//?/c:/users/campa/appdata/local/programs/
+miktex/fonts/opentype/public/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Loc
+al/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-italic.otf><C:/Users/campa/
+AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-italic.otf><C:/
+Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-bol
+ditalic.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
+lic/lm/lmroman10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/f
+onts/opentype/public/lm/lmroman10-bold.otf><C:/Users/campa/AppData/Local/Program
+s/MiKTeX/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/campa/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/campa/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/c
+ampa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/
+Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.p
+fb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
+nts/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmsy7.pfb>
+Output written on assignment3.pdf (16 pages, 1116015 bytes).
 
-PDF statistics: 210 PDF objects out of 1000 (max. 8388607)
- 43 named destinations out of 1000 (max. 131072)
+PDF statistics: 475 PDF objects out of 1000 (max. 8388607)
+ 117 named destinations out of 1000 (max. 131072)
  93 words of extra memory for PDF output out of 10000 (max. 100000000)
 

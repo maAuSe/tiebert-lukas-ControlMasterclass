@@ -32,6 +32,10 @@ x_true0 = -0.30;                % m (start 30 cm from wall)
 x_ref = -0.15;                  % m (target 15 cm from wall)
 xhat_init_wrong = -0.40;        % m (wrong initial estimate)
 
+% Output directory for figures
+imgDir = 'C:\\Users\\campa\\Documents\\Arduino\\tex_control\\ass3_tex\\images';
+if ~exist(imgDir, 'dir'), mkdir(imgDir); end
+
 % Data files (estimator-only experiments available)
 dataDir = 'C:\\Users\\campa\\Documents\\Arduino\\matlab_assign3\\data';
 estOnlyFiles = {
@@ -59,28 +63,54 @@ estCtrlFiles = {
 %  1(c) CLOSED-LOOP POLE MAP VS K
 %  ========================================================================
 % Closed-loop pole: p_cl = A - B*K = 1 - Ts*r*K
-p_cl = 1 - Bd * K_sweep;
+% Wide K sweep to show full pole trajectory from z=1 toward z=-1
+K_pole_sweep = [0, 500, 1000, 1500, 2000, 2500, 3030, 4000, 5000, 6060];
+p_cl_pole = 1 - Bd * K_pole_sweep;
 
-figure('Name','Pole Map vs K','Position',[100 100 600 500]);
+figure('Name','Pole Map vs K','Position',[100 100 700 550]);
 hold on; grid on;
 theta = linspace(0, 2*pi, 100);
-plot(cos(theta), sin(theta), 'k--', 'LineWidth', 0.5, 'HandleVisibility','off'); % unit circle
-scatter(real(p_cl), imag(p_cl), 100, 'x', 'LineWidth', 2);
+plot(cos(theta), sin(theta), 'k--', 'LineWidth', 1.2); % unit circle
 xline(0, ':k', 'HandleVisibility','off');
 yline(0, ':k', 'HandleVisibility','off');
-for i = 1:length(K_sweep)
-    text(real(p_cl(i))+0.02, imag(p_cl(i))+0.03, sprintf('K = %d', K_sweep(i)), 'FontSize', 10);
-end
-xlabel('Real Axis'); ylabel('Imaginary Axis');
-title('Closed-loop pole location vs K');
-xlim([-0.2 1.2]); ylim([-0.6 0.6]);
-axis equal;
 
-% Additional: show pole trajectory for continuous K
-K_range = linspace(0, 350, 100);
+% Show pole trajectory as continuous line
+K_range = linspace(0, 6500, 200);
 p_cl_range = 1 - Bd * K_range;
-plot(p_cl_range, zeros(size(p_cl_range)), 'b-', 'LineWidth', 1.5, 'DisplayName', 'Pole trajectory');
-legend('Poles for K sweep', 'Pole trajectory', 'Location', 'northwest');
+plot(p_cl_range, zeros(size(p_cl_range)), 'b-', 'LineWidth', 2, 'DisplayName', 'Pole trajectory');
+
+% Mark specific K values with distinct markers
+scatter(real(p_cl_pole), imag(p_cl_pole), 120, 'ko', 'filled', 'DisplayName', 'Poles for K values');
+
+% Add labels for key K values
+for i = 1:length(K_pole_sweep)
+    if K_pole_sweep(i) == 0
+        text(real(p_cl_pole(i))+0.05, 0.08, 'K=0', 'FontSize', 9, 'FontWeight', 'bold');
+    elseif K_pole_sweep(i) == 3030
+        text(real(p_cl_pole(i))-0.02, 0.1, 'K=3030 (deadbeat)', 'FontSize', 9, 'HorizontalAlignment', 'center');
+    elseif K_pole_sweep(i) == 6060
+        text(real(p_cl_pole(i))+0.05, 0.08, 'K=6060 (unstable)', 'FontSize', 9, 'Color', 'r');
+    elseif mod(i,2) == 0  % alternate labels above/below
+        text(real(p_cl_pole(i)), -0.1, sprintf('K=%d', K_pole_sweep(i)), 'FontSize', 8, 'HorizontalAlignment', 'center');
+    else
+        text(real(p_cl_pole(i)), 0.1, sprintf('K=%d', K_pole_sweep(i)), 'FontSize', 8, 'HorizontalAlignment', 'center');
+    end
+end
+
+% Mark stability boundaries
+plot(1, 0, 'g^', 'MarkerSize', 12, 'LineWidth', 2, 'MarkerFaceColor', 'g', 'HandleVisibility', 'off');
+plot(-1, 0, 'rv', 'MarkerSize', 12, 'LineWidth', 2, 'MarkerFaceColor', 'r', 'HandleVisibility', 'off');
+plot(0, 0, 'bs', 'MarkerSize', 10, 'LineWidth', 2, 'HandleVisibility', 'off');
+text(1.05, -0.12, 'z=1', 'FontSize', 10, 'Color', [0 0.5 0]);
+text(-1.05, -0.12, 'z=-1', 'FontSize', 10, 'Color', 'r', 'HorizontalAlignment', 'right');
+text(0.05, -0.12, 'z=0', 'FontSize', 10, 'Color', 'b');
+
+xlabel('Real Axis'); ylabel('Imaginary Axis');
+title('Closed-loop pole location z_{cl}(K) = 1 - T_s r K');
+xlim([-1.3 1.3]); ylim([-1.3 1.3]);
+axis equal;
+legend('Unit circle', 'Pole trajectory', 'Poles for K values', 'Location', 'northwest');
+exportgraphics(gcf, fullfile(imgDir, 'pole_map_K.pdf'), 'ContentType', 'vector');
 
 %% ========================================================================
 %  1(c) SIMULATED STEP RESPONSES FOR K SWEEP
@@ -109,6 +139,7 @@ plot(t_sim, -x_ref*ones(size(t_sim)), 'k-.', 'LineWidth', 1.5, 'DisplayName', 'R
 xlabel('Time [s]'); ylabel('Distance to wall [m]');
 title('Simulated step response vs K (ideal velocity loop)');
 legend('Location','best');
+exportgraphics(gcf, fullfile(imgDir, 'step_K_sweep.pdf'), 'ContentType', 'vector');
 
 %% ========================================================================
 %  1(d) ESTIMATOR POLE MAP VS L
@@ -135,6 +166,7 @@ L_range = linspace(0, -1, 100);
 p_est_range = 1 + L_range;
 plot(p_est_range, zeros(size(p_est_range)), 'r-', 'LineWidth', 1.5, 'DisplayName', 'Pole trajectory');
 legend('Poles for L sweep', 'Pole trajectory', 'Location', 'northwest');
+exportgraphics(gcf, fullfile(imgDir, 'estimator_pole_map_L.pdf'), 'ContentType', 'vector');
 
 %% ========================================================================
 %  1(d) SIMULATED ESTIMATOR CONVERGENCE VS L
@@ -171,6 +203,7 @@ plot(t_sim, -x_true0*ones(size(t_sim)), 'k-.', 'LineWidth', 2, 'DisplayName', 'T
 xlabel('Time [s]'); ylabel('Estimated distance [m]');
 title('Simulated estimator convergence vs L (cart stationary)');
 legend('Location','best');
+exportgraphics(gcf, fullfile(imgDir, 'simulated_estimator_L.pdf'), 'ContentType', 'vector');
 
 %% ========================================================================
 %  2(a) EXPERIMENTAL: ESTIMATOR-ONLY CONVERGENCE
@@ -216,6 +249,7 @@ if ~isempty(estOnlyFiles)
     title('Experimental estimator convergence for different L values');
     legend('Location','best');
     xlim([0 2]);
+    exportgraphics(gcf, fullfile(imgDir, 'estimator_L_sweep.pdf'), 'ContentType', 'vector');
 end
 
 %% ========================================================================
@@ -255,6 +289,7 @@ if ~isempty(estOnlyFiles)
     title('Innovation signal for different L values');
     legend('Location','best');
     xlim([0 2]);
+    exportgraphics(gcf, fullfile(imgDir, 'innovation_L_sweep.pdf'), 'ContentType', 'vector');
 end
 
 %% ========================================================================
@@ -302,6 +337,7 @@ if ~isempty(ctrlOnlyFiles)
     xlabel('Time [s]'); ylabel('Distance [m]');
     title('Controller-only step response for different K values (ref = 0.25 m)');
     legend('Location','best');
+    exportgraphics(gcf, fullfile(imgDir, 'controller_K_response.pdf'), 'ContentType', 'vector');
     
     % Control signal (voltage) plot
     figure('Name','Controller-Only Voltage','Position',[100 100 800 400]);
@@ -333,12 +369,14 @@ if ~isempty(ctrlOnlyFiles)
     xlabel('Time [s]'); ylabel('Average voltage [V]');
     title('Control signal for different K values');
     legend('Location','best');
+    exportgraphics(gcf, fullfile(imgDir, 'controller_K_voltage.pdf'), 'ContentType', 'vector');
 end
 
 %% ========================================================================
 %  2(c) EXPERIMENTAL: ESTIMATOR + CONTROLLER
 %  ========================================================================
 if ~isempty(estCtrlFiles)
+    % Combined plot
     figure('Name','Estimator + Controller','Position',[100 100 800 500]);
     hold on; grid on;
     % Black-white friendly: distinct grayscale + line styles + markers
@@ -378,6 +416,34 @@ if ~isempty(estCtrlFiles)
     xlabel('Time [s]'); ylabel('Distance [m]');
     title('Estimator + Controller: measured vs estimated distance');
     legend('Location','best');
+    exportgraphics(gcf, fullfile(imgDir, 'est_ctrl_combined.pdf'), 'ContentType', 'vector');
+    
+    % Individual plots for good and bad initial estimate
+    outputNames = {'est_ctrl_good.pdf', 'est_ctrl_bad.pdf'};
+    for i = 1:size(estCtrlFiles, 1)
+        filename = estCtrlFiles{i, 1};
+        label = estCtrlFiles{i, 2};
+        startRow = estCtrlFiles{i, 3};
+        endRow   = estCtrlFiles{i, 4};
+        
+        if exist(filename, 'file')
+            Tall = readQRCData(filename);
+            n = height(Tall);
+            i1 = max(1, startRow);
+            i2 = min(n, endRow);
+            T = Tall(i1:i2, :);
+            t = (T.Time - T.Time(1)) / 1000;
+            
+            figure('Name', label, 'Position', [100 100 700 450]);
+            hold on; grid on;
+            plot(t, T.distance, 'k:', 'LineWidth', 1.5, 'DisplayName', 'Measured distance');
+            plot(t, -T.xhat, 'k-', 'LineWidth', 2, 'DisplayName', 'Estimated distance');
+            xlabel('Time [s]'); ylabel('Distance [m]');
+            title(sprintf('Estimator + Controller: %s', label));
+            legend('Location', 'best');
+            exportgraphics(gcf, fullfile(imgDir, outputNames{i}), 'ContentType', 'vector');
+        end
+    end
 end
 
 %% ========================================================================

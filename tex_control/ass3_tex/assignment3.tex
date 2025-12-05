@@ -411,6 +411,7 @@
 
 
 
+  
   \section{Implementation and testing of state estimator and state feedback controller}
   
   Now the designed estimator and controller are implemented on the Arduino, following the assignment structure.
@@ -481,6 +482,7 @@
 
   From the plots, one concludes that larger negative $L$ values (closer to −2) give faster convergence of the estimates to the measurements, 
   consistent with the expression $z_\text{est} = 1 + L$ and the trade-offs discussed in Section 1.4 (design of state estimator gain $L$).
+
 
 
 
@@ -694,27 +696,6 @@
   %\end{figure}
 
 
-  \paragraph{Observed behavior:}
-
-  \textbf{1. Correct initial estimate}
-  If $\hat{x}[0] ≈ x[0]$, the estimator error
-
- 
-  
-
-
-
-  \begin{enumerate}
-    \item \textbf{Good initial estimate} $\hat{x}[0]\approx x[0]$.
-    \item \textbf{Wrong initial estimate} $\hat{x}[0]=\hat{x}_0^\text{bad}$ (set via \texttt{readValue(5)}).
-  \end{enumerate}
-
-  Figures~\ref{fig:est_ctrl_good} and~\ref{fig:est_ctrl_bad} plot measured and estimated distances. The closed-loop poles of the combined system are
-  \begin{equation}
-    \lambda_{1,2} = \{p_\text{cl}(K_\text{nom}),\ p_\text{est}(L_\text{slow})\},
-  \end{equation}
-  confirming that the estimator dynamics do not affect the control pole (separation principle).
-
   \begin{figure}[H]\centering
     \fbox{\parbox{0.8\textwidth}{Placeholder for measured vs.\ estimated position, good initial estimate (images/est\_ctrl\_good.pdf).}}
     \caption{Measured and estimated distance with good initial estimate.}
@@ -727,12 +708,93 @@
     \label{fig:est_ctrl_bad}
   \end{figure}
 
-  \noindent \textbf{Observations:}
+
+
+
+  \paragraph{Observed behavior:}
+
+  1. Correct initial estimate
+  If $\hat{x}[0] ≈ x[0]$, the estimator error is nearly zero, so:
   \begin{itemize}
-    \item With correct initialization, the estimator tracks the measurement and the controller meets the design settling time.
-    \item With a wrong $\hat{x}[0]$, the estimator converges slowly by design while the control performance remains acceptable, illustrating that the estimator pole does not alter the control pole.
-    \item If faster estimator convergence is required, $L$ can be decreased (more negative) at the cost of more noise, as seen in 2(a).
+    \item the estimator output $\hat{x}[k]$ is immediately accurate,
+    \item the controller behaves almost exactly as in the no-estimator case,
+    \item the step response closely matches the ideal closed-loop behavior governed by $z_{cl}$.
   \end{itemize}
+
+  2. Incorrect initial estimate
+  Because the chosen estimator pole is very slow:
+  \begin{equation}
+    e[k+1] = z_{est} e[k], \quad \text{with} z_{est} ≈ z_{cl}^{1/10} ≈ XXX,
+  \end{equation}
+  the error decays only gradually.
+  During this long transient, the controller acts on:
+  \begin{equation}
+    x_{ref}[k] - \hat{x}[k],
+  \end{equation}
+  which may be very different from the true distance error.
+  Consequences:
+  \begin{itemize}
+    \item delayed motion toward the setpoint,
+    \item possible motion in the wrong direction initially,
+    \item slow convergence to the correct position,
+    \item degraded control performance even though the controller gain $K$ is unchanged. 
+  \end{itemize}
+
+  This demonstrates that a too-slow estimator harms the transient performance,
+  especially when initial estimation erros are present.
+
+  3. If you designing a state estimator yourself (using pole placement):
+  Instead of making the estimator slower, the closed-loop estimator pole would be placed faster than the controller pole, 
+  typically 2-5 times faster in continuous-time terms. 
+  For example, if the controller pole is $z_{cl} = 0.2$, a good choice for the estimator pole is around $z_{est} ≈ 0.1$ (or even smaller),
+  which corresponds to an $L$ that gives very quick convergence of $\hat{x}[k]$ without excessive noise amplification.
+
+  \paragraph{Full closed-loop system poles:}
+  The combined controller-estimator system in $[x[k], \hat{x}[k]]^T$ has the update matrix:
+  A_{\text{full}} = 
+  \begin{bmatrix}
+    1 - T_s r K & T_s r K \\ 
+    -L & 1 - L - T_s r K
+  \end{bmatrix}
+  Its eigenvalues are:
+  \begin{equation}
+    \lambda_{1} = 1 - T_s K = z_{cl} \text{(controller pole)}, \quad \lambda_{2} = 1 - L C = z_{est} \text{(estimator pole)}.
+  \end{equation}
+  So the full closed-loop system has two poles: one equal to the controller pole and one equal to the estimator pole.
+  They appear separately and are not coupled.
+  This matches the separation principle: for linear systems with full-order observers, the controller and estimator can be designed independently,
+  and their poles show up unchanged in the combined system:
+  \begin{itemize}
+    \item modifying $K$ moves only $z_{cl}$,
+    \item modifying $L$ moves only $z_{est}$.
+  \end{itemize}
+
+  However, the estimator performance does influence the control performance in practice.
+  Even though the controller pole $z_{cl}$ is unchanged, the controller acts on $\hat{x}[k]$ rather than on the true state $x[k]$. 
+  If the estimator is very slow or starts from a wrong initial condition, $\hat{x}[k]$ can be far from $x[k]$ for a long time,
+  and the control input is based on this wrong information. 
+  The result is a poor transient response (slow, possibly with motion in the wrong direction) even though the poles of the closed-loop system are identical.
+
+  The closed-loop transfer function from reference $x_{ref}$ to output $y$ only describes the asymptotic dynamics
+  assuming the internal states are already consistent (i.e. $\hat{x} ≈ x$). 
+  The poles show how fast modes decay, but they do not encode the effect of wrong initial conditions in the internal estimator.
+  The estimator performance depends on the estimator pole $z_{cl}$ \textit{and} the initial estimation error $e[0] = x[0] - \hat{x}[0]$,
+  which only appears in the time-domain solution, not in the pole values themselves.
+  Therefore, the poor transient behaviour seen with a slow estimator and wrong $\hat{x}[0]$
+  cannot be predicted from the closed-loop poles alone. Time-domain simulations or experimental plots of $x[k]$ and $\hat{x}[k]$
+  are needed to fully assess the control performance.
+
+
+  \paragraph{Conclusion:}
+  Although both poles $z_{cl}$ and $z_{est}$ lie inside the unit circle, meaning the closed-loop system is formally stable,
+  choosing $z_{est}$ much slower than $z_{cl}$:
+  \begin{itemize}
+    \item severely reduces closed-loop performance,
+    \item introduces long transients when $\hat{x}[0]$ is wrong,
+    \item demonstrates why estimators are typically placed faster than controllers, not slower.
+  \end{itemize}
+
+
 
   \newpage
   \bibliographystyle{plain}

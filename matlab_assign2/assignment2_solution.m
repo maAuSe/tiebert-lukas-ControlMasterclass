@@ -100,7 +100,7 @@ figure;
 margin(L_nom);
 hold on;
 [Gm_nom, Pm_nom, Wcg_nom, Wcp_nom] = margin(L_nom);
-title(sprintf('Compenstaed open-loop system L(s) = G_c(s)*G_s(s) - Wheel A');
+%title(sprintf('Compenstaed open-loop system L(s) = G_c(s)*G_s(s) - Wheel A');
 % Add crossover frequency annotation
 ax = findall(gcf, 'Type', 'axes');
 for i = 1:length(ax)

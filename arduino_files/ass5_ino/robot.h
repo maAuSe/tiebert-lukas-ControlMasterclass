@@ -12,16 +12,27 @@
 
 #include "mecotron.h" // Include MECOTRON header
 #include <BasicLinearAlgebra.h> // Include BasicLinearAlgebra to make matrix manipulations easier
-#include "linear_kalman_filter.h" // Include template to make linear Kalman filter implementation easier
+#include "extended_kalman_filter.h" // Include template to make extended Kalman filter implementation easier
 
-#define PENDULUM
-#include <trajectory.h> // Include trajectory, for assignment 4
+#define SWIVEL
+#include <trajectory.h> // Include trajectory, for assignment 5
 
 class Robot : public MECOtron {
   private:
 
     // Class variables
     Trajectory trajectory; // define the reference trajectory object
+
+    struct PiCoeffs {
+      float b0;
+      float b1;
+      float feedback;
+    };
+
+    struct PiState {
+      float errorPrev;
+      float controlPrev;
+    };
 
     // Kalman filter
     Matrix<3> _xhat;       // state estimate vector
@@ -30,19 +41,18 @@ class Robot : public MECOtron {
     Matrix<2,2> _S;        // innovation covariance
 
     // Position controller
-    Matrix<1> ref;        // reference state
-    Matrix<1> desiredVelocityCart;  // control signal
+    Matrix<3> xref;        // reference state
+    Matrix<2> desiredVelocityCart; // control signal
+    Matrix<2,3> Kfb;       // state feedback gains (cart frame)
 
-    float errorA[1] = {0.0};
-    float errorB[1] = {0.0};
-    float controlA[1] = {0.0};
-    float controlB[1] = {0.0};
+    // Velocity controller
+    PiState piStateA;
+    PiState piStateB;
+    PiCoeffs piCoeffsA;
+    PiCoeffs piCoeffsB;
+    float kVoltageLimit = 11.0f;
+    float kVelRefLimit = 12.0f;  // rad/s limit for wheel speed commands
 
-    float uA;
-    float uB;
-
-
-    
   public:
     // Constructor
     Robot() { }
@@ -57,11 +67,15 @@ class Robot : public MECOtron {
 
     void resetController();
     void resetKalmanFilter();
+    void resetVelocityController();
 
     void button0callback();
     void button1callback();
     void button2callback();
     void button3callback();
+
+    float saturate(float value, float limit) const;
+    float applyPi(float error, PiState &state, const PiCoeffs &coeffs) const;
 
 };
 

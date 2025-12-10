@@ -7,25 +7,49 @@
  */
 
 #include "robot.h"
+#include <math.h>
+
+namespace {
+constexpr float kWheelRadius = R_WHEEL;
+constexpr float kWheelbase = WHEELBASE;
+}
 
 bool Robot::init() {
   MECOtron::init(); // Initialize the MECOtron
 
-  desiredVelocityCart(0) = 0.0;
-  desiredVelocityCart(1) = 0.0;
+  desiredVelocityCart.Fill(0);
+  xref.Fill(0);
+  _xhat.Fill(0);
+  _Phat.Fill(0);
+  _nu.Fill(0);
+  _S.Fill(0);
+
+  // PI velocity controllers (nominal bandwidth from Assignment 2)
+  piCoeffsA = {0.945014f, -0.804389f, 1.0f};
+  piCoeffsB = {0.919504f, -0.782675f, 1.0f};
+  resetVelocityController();
+
+  // Default state-feedback gains (cart frame) - tune via MATLAB dlqr results
+  float arrayKfbInit[2][3] = {
+    {-0.6f,  0.0f,  0.0f},
+    { 0.0f, -0.6f, -0.45f}
+  };
+  Kfb = arrayKfbInit;
+
+  resetKalmanFilter();
   return true;
 }
 
 void Robot::control() {
 
-  float volt_A = 0.0;
-  float volt_B = 0.0;
-  float desiredVelocityMotorA = 0.0;
-  float desiredVelocityMotorB = 0.0;
-  Matrix<2> desiredVelocityCart; // control signal
-  desiredVelocityCart.Fill(0); //Initialize matrix with zeros
-  Matrix<2> uff;
-  Matrix<2> measurements;
+  float volt_A = 0.0f;
+  float volt_B = 0.0f;
+  Matrix<2> uff; uff.Fill(0);
+  Matrix<2> ufb; ufb.Fill(0);
+  Matrix<2> measurements; measurements.Fill(0);
+
+  const float speedA = getSpeedMotorA();
+  const float speedB = getSpeedMotorB();
 
   // Kalman filtering
   if(KalmanFilterEnabled()) {   // only do this if Kalman filter is enabled (triggered by pushing 'Button 1' in QRoboticsCenter)
@@ -35,83 +59,44 @@ void Robot::control() {
       measurements(0) = getFrontDistance();
       measurements(1) = getSideDistance();
       CorrectionUpdate(measurements, _xhat, _Phat, _nu, _S);     // do the correction step -> update _xhat, _Phat, _nu, _S
-      // writeValue(10, measurements(0));
-      // writeValue(11, measurements(1));
     }
-
-    // // Useful outputs to QRC for assignment questions
-    // writeValue(1, _xhat(0));
-    // writeValue(2, _xhat(1));
-    // writeValue(3, _xhat(2));
-    // writeValue(3, _Phat(0,0));
-    // writeValue(4, _Phat(1,0));
-    // writeValue(4, _Phat(1,0));
-    // writeValue(6, _Phat(1,1));
-    // writeValue(7, _Phat(2,0));
-    // writeValue(7, _Phat(2,1));
-    // writeValue(9, _Phat(2,2));
   }
 
   if(controlEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 0' in QRoboticsCenter)
 
-    // UNCOMMENT AND COMPLETE LINES BELOW TO IMPLEMENT THE FEEDFORWARD INPUTS (ASSIGNMENT 5.2, no state feedback here)
-    // COMMENT OR REMOVE LINES BELOW ONCE YOU IMPLEMENT THE POSITION STATE FEEDBACK CONTROLLER
-    // Compute feedforward uff = [v w]
-    // The feedforward are here returned by the built-in trajectory: trajectory.v() and trajectory.omega()
-    uff(0) = trajectory.v();          //desired forward velocity of the cart (in m/s)
-    uff(1) = trajectory.omega();      //desired rotational velocity of the cart (in rad/s)
-    // The trajectory must be started by pushing 'Button 2' in QRoboticsCenter, otherwise will return zeros
-    // after any experiment the trajectory must be reset pushing 'Button 3' in QRoboticsCenter
-    //
-    // Desired velocity of the cart just feedforward in this case
-    desiredVelocityCart = uff;  // desired forward and rotational velocity of the cart from the feedforward and state feedback controller
-    //
-    // // apply the static transformation between velocity of the cart and velocity of the motors
-    // desiredVelocityMotorA = ?;  // calculate the angular velocity of the motor A using desiredVelocityCart(0) (cart forward velocity) and desiredVelocityCart(0) (cart rotational velocity)
-    // desiredVelocityMotorB = ?;  // calculate the angular velocity of the motor B using desiredVelocityCart(0) (cart forward velocity) and desiredVelocityCart(0) (cart rotational velocity)
+    // Reference from built-in trajectory
+    xref(0)=trajectory.X();        // desired X cart position [m]
+    xref(1)=trajectory.Y();        // desired Y cart position [m]
+    xref(2)=trajectory.Theta();    // desired cart angle [rad]
 
+    // Feedforward
+    uff(0) = trajectory.v();          // desired forward velocity of the cart (in m/s)
+    uff(1) = trajectory.omega();      // desired rotational velocity of the cart (in rad/s)
 
-    // // UNCOMMENT AND COMPLETE LINES BELOW TO IMPLEMENT POSITION CONTROLLER (ASSIGNMENT 5.3)
-    // The reference is here given by built-in trajectory: trajectory.X(), trajectory.Y(), trajectory.Theta()
-    // xref(0)=trajectory.X();        // desired X cart position [m]
-    // xref(1)=trajectory.Y();        // desired Y cart position [m]
-    // xref(2)=trajectory.Theta();    // desired cart angle [rad]
-    //
-    // // Controller tuning
-    // float arrayKfb[2][3]{{?, 0, 0},  // state feedback gain K, to design
-    //                      {0, ?, ?}};
-    // Matrix<2, 3> Kfb = arrayKfb;
-    //
-    // // Compute control action
-    // // Firstly, compute error in world-frame ew = xref - x
-    // Matrix<3> ew = xref - _xhat;
-    //
-    // /// Secondly, compute rotation matrix
-    // float arrayRw2c[3][3]{{?, ?, ?},
-    //                       {?, ?, ?},
-    //                       {?, ?, ?}};
-    //
-    // Matrix<3, 3> Rw2c = arrayRw2c;
-    // /// Thirdly, rotate error to cart-frame ec = Rw2c*ew
-    // Matrix<3> ec = Rw2c * ew;
-    // /// Fourthly, compute feedback ufb = Kfb*ec
-    // Matrix<2> ufb = Kfb * ec;
-    // /// Fifthly, compute feedforward uff = [v w]
-    // uff(0) = trajectory.v();
-    // uff(1) = trajectory.omega();
-    // // Sixtly, compute the control action u = uff + ufb
-    // desiredVelocityCart = uff + ufb;  // desired forward and rotational velocity of the cart from the feedforward and state feedback controller
+    // Feedback (cart frame)
+    Matrix<3> ew = xref - _xhat;      // world-frame error
+    const float cth = cosf(_xhat(2));
+    const float sth = sinf(_xhat(2));
+    float arrayRw2c[3][3]{{ cth,  sth, 0.0f},
+                          {-sth,  cth, 0.0f},
+                          {0.0f,  0.0f, 1.0f}};
+    Matrix<3, 3> Rw2c = arrayRw2c;
+    Matrix<3> ec = Rw2c * ew;         // cart-frame error
+    ufb = Kfb * ec;                   // state feedback
 
+    desiredVelocityCart = uff + ufb;  // desired cart velocities (forward + rotational)
 
-    // UNCOMMENT AND COMPLETE LINES BELOW TO IMPLEMENT VELOCITY CONTROLLER
-    // ...
-    // ...
-    // volt_A = ?;
-    // volt_B = ?;
+    // Map cart velocities to wheel angular velocities (rad/s)
+    const float v_cmd = desiredVelocityCart(0);
+    const float omega_cmd = desiredVelocityCart(1);
+    const float desiredVelocityMotorA = (v_cmd - 0.5f * kWheelbase * omega_cmd) / kWheelRadius;
+    const float desiredVelocityMotorB = (v_cmd + 0.5f * kWheelbase * omega_cmd) / kWheelRadius;
 
-    // // COMMENT OR REMOVE LINES BELOW ONCE YOU IMPLEMENT THE VELOCITY CONTROLLER
-    volt_A = 0.0;
-    volt_B = 0.0;
+    const float eA = saturate(desiredVelocityMotorA, kVelRefLimit) - speedA;
+    const float eB = saturate(desiredVelocityMotorB, kVelRefLimit) - speedB;
+
+    volt_A = saturate(applyPi(eA, piStateA, piCoeffsA), kVoltageLimit);
+    volt_B = saturate(applyPi(eB, piStateB, piCoeffsB), kVoltageLimit);
 
     // Send wheel speed command
     setVoltageMotorA(volt_A);
@@ -119,10 +104,10 @@ void Robot::control() {
   }
   else                      // do nothing since control is disables
   {
-   desiredVelocityCart(0) = 0.0;
-   desiredVelocityCart(1) = 0.0;
+   desiredVelocityCart.Fill(0);
    setVoltageMotorA(0.0);
    setVoltageMotorB(0.0);
+   resetVelocityController();
   }
 
   // Kalman filtering
@@ -145,33 +130,42 @@ void Robot::control() {
   writeValue(9, measurements(1));
   writeValue(10, volt_A);
   writeValue(11, volt_B);
+  writeValue(12, _xhat(0));
+  writeValue(13, _xhat(1));
+  writeValue(14, _xhat(2));
+  writeValue(15, _nu(0));
+  writeValue(16, _nu(1));
+  writeValue(17, _Phat(0,0));
+  writeValue(18, _Phat(1,1));
+  writeValue(19, _Phat(2,2));
 
   //triggers the trajectory to return the next values during the next cycle
   trajectory.update();
 }
 
 void Robot::resetController(){
-  // Set all errors and control signals in the memory back to 0
-  // ...
-  // ...
+  desiredVelocityCart.Fill(0);
+  xref.Fill(0);
+  resetVelocityController();
+  setVoltageMotorA(0.0f);
+  setVoltageMotorB(0.0f);
 }
 
 void Robot::resetKalmanFilter() {
-  // // UNCOMMENT AND MODIFY LINES BELOW TO IMPLEMENT THE RESET OF THE KALMAN FILTER
-  // // Initialize state covariance matrix
-  //  _Phat.Fill(0);      // Initialize the covariance matrix
-  //  _Phat(0,0) = ?;     // Fill the initial covariance matrix, you can change this according to your experiments
-  //  _Phat(1,1) = ?;
-  //  _Phat(2,2) = ?;
-  //
-  // // Initialize state estimate
-  // _xhat(0) = -0.3;    // Change this according to your experiments
-  // _xhat(1) = -0.2;
-  // _xhat(2) = 0.0;
-  //
-  // // Reset innovation and its covariance matrix
-  // _S.Fill(0);
-  // _nu.Fill(0);
+  _Phat.Fill(0);      // Initialize the covariance matrix
+  // Initial covariance (tune experimentally)
+  _Phat(0,0) = 0.04f;     // (m^2)
+  _Phat(1,1) = 0.04f;     // (m^2)
+  _Phat(2,2) = powf(10.0f * (float)M_PI / 180.0f, 2); // (rad^2) ~10 deg
+
+  // Initialize state estimate near starting pose (-0.30, -0.20) m, heading aligned with +X
+  _xhat(0) = -0.30f;
+  _xhat(1) = -0.20f;
+  _xhat(2) = 0.0f;
+
+  // Reset innovation and its covariance matrix
+  _S.Fill(0);
+  _nu.Fill(0);
 }
 
 bool Robot::controlEnabled() {
@@ -217,4 +211,25 @@ void Robot::button3callback() {
     _button_states[2] = 0;
     trajectory.reset();
     message("Trajectory reset.");
+}
+
+void Robot::resetVelocityController() {
+  piStateA.errorPrev = 0.0f;
+  piStateA.controlPrev = 0.0f;
+  piStateB.errorPrev = 0.0f;
+  piStateB.controlPrev = 0.0f;
+}
+
+float Robot::saturate(float value, float limit) const {
+  if(value > limit) return limit;
+  if(value < -limit) return -limit;
+  return value;
+}
+
+float Robot::applyPi(float error, PiState &state, const PiCoeffs &coeffs) const {
+  const float control = coeffs.b0 * error + coeffs.b1 * state.errorPrev +
+                        coeffs.feedback * state.controlPrev;
+  state.errorPrev = error;
+  state.controlPrev = control;
+  return control;
 }

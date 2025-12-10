@@ -105,9 +105,12 @@
 
   \newpage
 
+
+
   \section{State estimator and state feedback controller design using pole placement}
 
-  The goal of this assignment is to control the position of the cart along a straight line. The state is the cart position $x(t)$ [m] along the $x$-axis, with the wall at the origin $x=0$. The cart is positioned in front of the wall, so $x<0$. The infrared sensor measures the positive distance to the wall, i.e.\ it measures $-x$.\newline
+  The goal of this assignment is to control the position of the cart along a straight line. The state is the cart position $x(t)$ [$m$] along the $x$-axis, with the wall at the origin $x=0m$. 
+  The cart is positioned in front of the wall, so $x<0$. The infrared sensor measures the positive distance to the wall, \ i.e. it measures $-x$.\newline
   
  \noindent The system parameters are:
   \begin{itemize}
@@ -116,7 +119,8 @@
   \end{itemize}
 
   
-  \noindent The input $u(t) = \omega(t)$ [rad/s] is the common wheel angular velocity setpoint, applied equally to both motors via the inner velocity controllers designed in Assignment~2. The velocity control loop is assumed ideal, meaning the actual wheel velocity tracks the setpoint perfectly.
+  \noindent The input $u(t) = \omega(t)$ [$rad/s$] is the common wheel angular velocity setpoint, applied equally to both motors via the inner velocity controllers designed in Assignment~2. 
+  The velocity control loop is assumed ideal, meaning the actual wheel velocity tracks the setpoint perfectly.
 
   \subsection{Discrete-time state equation} % Section 1(a)
   
@@ -206,7 +210,7 @@
   
   \noindent For this first-order system, the closed-loop pole equals the system matrix:
   \begin{equation}
-    \boxed{z_\text{cl}(K) = 1 - T_s r K = 1 - 3.3 \times 10^{-4} \cdot K.}
+    \boxed{z_\text{cl}(K) = 1 - T_s r K = 1 - 0.1\text{s} \cdot 0.033\text{m} \cdot K.}
   \end{equation}
 
   \paragraph{Pole behavior as function of $K$:}
@@ -219,10 +223,10 @@
   \end{equation}
   This yields the stability condition:
   \begin{equation}
-    \boxed{0 < K < \frac{2}{T_s r} = \frac{2}{0.01 \times 0.033} \approx 6060\ \text{rad/(s$\cdot$m)}.}
+    \boxed{0 < K < \frac{2}{T_s r} = \frac{2}{0.01 \cdot 0.033} \approx 6060\ \text{rad/(s$\cdot$m)}.}
   \end{equation}
   
-  \noindent\textbf{Yes, the system can become unstable} if $K > 6060$ rad/(s$\cdot$m), causing the pole to exit the unit circle through $z = -1$.
+  \noindent\textbf{Yes, the system can become unstable} if $K > 6060 rad/(s\cdotm)$, causing the pole to exit the unit circle through $z = -1$.
 
   \paragraph{Pole-zero map:}
   Figure~\ref{fig:pole_map_K} shows the closed-loop pole location for varying $K$. The pole moves along the real axis from $z = 1$ (at $K = 0$) toward $z = -1$ (at $K = K_\text{max}$).

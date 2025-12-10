@@ -718,14 +718,16 @@
 
   \paragraph{Full closed-loop system poles:}
   The combined controller-estimator system in $[x[k], \hat{x}[k]]^T$ has the update matrix:
-  A_{\text{full}} = 
-  \begin{bmatrix}
-    1 - T_s r K & T_s r K \\ 
-    -L & 1 - L - T_s r K
-  \end{bmatrix}
+  \begin{equation}
+    A_{\text{full}} =
+    \begin{bmatrix}
+      1 - T_s r K & T_s r K \\ 
+      -L & 1 - L - T_s r K
+    \end{bmatrix}
+  \end{equation}
   Its eigenvalues are:
   \begin{equation}
-    \lambda_{1} = 1 - T_s K = z_{cl} \text{(controller pole)}, \quad \lambda_{2} = 1 - L C = z_{est} \text{(estimator pole)}.
+    \lambda_{1} = 1 - T_s r K = z_{\text{cl}} \text{(controller pole)}, \quad \lambda_{2} = 1 + L = z_{\text{est}} \text{(estimator pole)}.
   \end{equation}
   So the full closed-loop system has two poles: one equal to the controller pole and one equal to the estimator pole.
   They appear separately and are not coupled.

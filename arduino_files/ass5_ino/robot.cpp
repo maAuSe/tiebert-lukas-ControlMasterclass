@@ -31,8 +31,8 @@ bool Robot::init() {
 
   // Default state-feedback gains (cart frame) from MATLAB dlqr (Assignment 5 script)
   float arrayKfbInit[2][3] = {
-    {-3.112673f,  0.0f,       0.0f     },
-    { 0.0f,       3.138436f, -1.448272f}
+    {-3.112673f,  0.0f,        0.0f      },
+    { 0.0f,       3.139305f,  -1.448285f }
   };
   Kfb = arrayKfbInit;
 
@@ -47,6 +47,7 @@ void Robot::control() {
   Matrix<2> uff; uff.Fill(0);
   Matrix<2> ufb; ufb.Fill(0);
   Matrix<2> measurements; measurements.Fill(0);
+  bool hasMeas = trajectory.hasMeasurements();
 
   const float speedA = getSpeedMotorA();
   const float speedB = getSpeedMotorB();
@@ -55,10 +56,13 @@ void Robot::control() {
   if(KalmanFilterEnabled()) {   // only do this if Kalman filter is enabled (triggered by pushing 'Button 1' in QRoboticsCenter)
 
     // Correction step
-    if(trajectory.hasMeasurements()){                                     // perform the correction step if measurement from the sensor are meaningful
+    if(hasMeas){                                     // perform the correction step if measurement from the sensor are meaningful
       measurements(0) = getFrontDistance();
       measurements(1) = getSideDistance();
       CorrectionUpdate(measurements, _xhat, _Phat, _nu, _S);     // do the correction step -> update _xhat, _Phat, _nu, _S
+    } else {
+      measurements(0) = NAN;
+      measurements(1) = NAN;
     }
   }
 
@@ -123,7 +127,7 @@ void Robot::control() {
   writeValue(2, trajectory.X());
   writeValue(3, trajectory.Y());
   writeValue(4, trajectory.Theta());
-  writeValue(5, trajectory.hasMeasurements());
+  writeValue(5, hasMeas);
   writeValue(6, getSpeedMotorA());
   writeValue(7, getSpeedMotorB());
   writeValue(8, measurements(0));

@@ -7,20 +7,20 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
 ## 0. Preparation
 
 1. **Measure geometry (update code + MATLAB variables)**
-   - `a` (half wheelbase if needed for motor mapping) is already given by `WHEELBASE/2 = 0.083 m` in `mecotron.h`.
+   - `a` (half wheelbase) is `WHEELBASE/2 = 0.083 m` in `mecotron.h`.
    - Measured offsets for our cart (use in both `extended_kalman_filter.cpp` and `assignment5_solution.m`):
-     - `alpha = 0.075 m` – center to front IR along X'.
-     - `beta  = 0.065 m` – center to lateral IR along X'.
-     - `gamma = 0.078 m` – center to lateral IR along Y' (positive to the sensor side).
+     - `alpha = 0.075 m` — center to front IR along X'.
+     - `beta  = 0.065 m` — center to lateral IR along X'.
+     - `gamma = 0.078 m` — center to lateral IR along Y' (positive to the sensor side).
    - Measure the wall equations: default corner at `x=0`, `y=0` with robot starting in `x<0, y<0`. Adjust `(p,q,r)` if the arena differs.
 
 2. **Firmware setup**
-   - Flash `arduino_files/ass5_ino/CT-EKF-Swivel.ino` after updating the constants above, `Q/R` guesses, and `Kfb` (LQR gains).
+   - Flash `arduino_files/ass5_ino/CT-EKF-Swivel.ino` after updating the constants above, `Q/R` guesses, and `Kfb` (LQR gains). `Kfb` now matches the MATLAB default (`assignment5_solution.m` dlqr).
    - Confirm PI velocity gains (in `robot.cpp`) remain as in Assignment 2 unless you intentionally retune.
    - Initial state in `resetKalmanFilter()`: `(-0.30, -0.20, 0.0)` m/rad (per spec). Update if you start elsewhere.
 
 3. **Buttons and modes**
-   - Button 0: enable velocity loop + trajectory feedforward + state-feedback (if `Kfb ≠ 0`).
+   - Button 0: enable velocity loop + trajectory feedforward + state-feedback (if `Kfb != 0`).
    - Button 1: enable/reset EKF.
    - Button 2: start/stop trajectory playback.
    - Button 3: reset trajectory pointer to the start.
@@ -30,7 +30,7 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
    - ch2–4: `x_ref, y_ref, theta_ref`
    - ch5: `hasMeasurements` flag
    - ch6–7: wheel speeds A/B (rad/s)
-   - ch8–9: IR measurements `z1` (front), `z2` (side)
+   - ch8–9: IR measurements `z1` (front), `z2` (side) — logged as `NaN` when sensors are off
    - ch10–11: motor voltages A/B
    - ch12–14: state estimates `xhat, yhat, thetahat`
    - ch15–16: innovations `nu1, nu2`
@@ -46,13 +46,13 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
 Goal: feedforward-only trajectory with different Q/R ratios; analyze convergence and bias.
 
 1. **Firmware parameters (per run)**
-   - Set `kQx/kQy/kQtheta` and `kRz1/kRz2` in `extended_kalman_filter.cpp` according to the planned combo.
+   - Set `kQx/kQy/kQtheta` and `kRz1/kRz2` in `extended_kalman_filter.cpp` according to the planned combo (defaults match `assignment5_solution.m` nominal).
    - Keep `Kfb` = zeros (or very small) if you want pure feedforward; otherwise the default gains are mild.
    - Reflash after each change.
 
 2. **Execution per run**
    - Place cart at `(-0.30, -0.20)` m facing +X.
-   - Button 1 (EKF on/reset) → Button 0 (control on) → Button 2 (start trajectory).
+   - Button 1 (EKF on/reset) + Button 0 (control on) + Button 2 (start trajectory).
    - Let the full straight–turn–straight profile finish; Button 2 to stop or Button 3 to reset.
 
 3. **Files and labels (match MATLAB script)**
@@ -68,9 +68,10 @@ Goal: feedforward-only trajectory with different Q/R ratios; analyze convergence
 1. Choose the “best” combo from Section 1 (small bias, stable covariance); keep it as `ekfNominalIdx` in MATLAB.
 2. Run once more and save as `ekf_Q1_R1.csv` (or the chosen best filename).
 3. Verify channels 17–19 are nonzero so the 95% CI can be plotted.
-4. Export state + measurement plots in MATLAB:
-   - `ekf_states_QR_sweep.pdf`
-   - `ekf_uncertainty_95ci.pdf`
+4. Export state + measurement plots in MATLAB (run `assignment5_solution.m`):
+   - `ekf_state{1,2,3}_QR_sweep.pdf`
+   - `ekf_state{1,2,3}_95ci_plotstates.pdf`
+   - `ekf_measurement{1,2}_95ci.pdf`
 
 Record observations on:
    - Covariance drop while both sensors are active vs. growth when `hasMeasurements=0`.
@@ -82,18 +83,18 @@ Record observations on:
 Goal: closed-loop tracking of the same trajectory with varying Q/R (max 4 combos), **without feedforward** for these tests.
 
 1. **Compute K in MATLAB**
-   - Update `Q_lqr`, `R_lqr` in `assignment5_solution.m`, run to get `K_lqr`.
-   - Copy the numerical `K_lqr` into `robot.cpp` (matrix `arrayKfbInit`). For “no feedforward” tests, temporarily set `uff.Fill(0)` in `control()`.
+   - Update `Q_lqr`, `R_lqr` in `assignment5_solution.m`, run to get `K_lqr` (dlqr). Current `Kfb` in `robot.cpp` equals the script’s default: `[[-3.1127, 0, 0]; [0, 3.1393, -1.4483]]`.
+   - For “no feedforward” tests, temporarily set `uff.Fill(0)` in `control()`.
 
 2. **Runs and filenames**
    - `lqr_A.csv`, `lqr_B.csv`, `lqr_C.csv`, `lqr_D.csv` aligned with the Q/R sets in the script.
 
 3. **Execution**
-   - Button 1 (EKF) → Button 0 (controller) → Button 2 (trajectory).
+   - Button 1 (EKF) + Button 0 (controller) + Button 2 (trajectory).
    - Ensure feedforward is disabled for Section 4(c) runs; restore it for normal operation afterward.
 
 4. **Signals to inspect**
-   - Tracking errors `e_x, e_y, e_theta` over time.
+   - Tracking errors `e_x, e_y, e_theta` over time (world and body frames).
    - Control signals (log `v` and `omega` if you add channels, else proxy with ch0–1 feedforward values).
    - Convergence speed vs. oscillations as Q/R changes; voltage saturation events.
 
@@ -103,9 +104,11 @@ Goal: closed-loop tracking of the same trajectory with varying Q/R (max 4 combos
 1. Update measured `alpha, beta, gamma`, wall equations, and any non-default Q/R in `assignment5_solution.m`.
 2. Ensure data filenames in `ekfRuns` and `lqrRuns` match the recorded CSVs.
 3. Run the script; it will export to `tex_control/ass5_tex/images/`:
-   - `ekf_states_QR_sweep.pdf`
-   - `ekf_uncertainty_95ci.pdf`
-   - `lqr_tracking_errors.pdf`
+   - `ekf_state{1,2,3}_QR_sweep.pdf`
+   - `ekf_state{1,2,3}_95ci_plotstates.pdf`
+   - `ekf_measurement{1,2}_95ci.pdf`
+   - `lqr_tracking_errors_world.pdf`
+   - `lqr_tracking_errors_body.pdf`
    - `lqr_control_signals.pdf`
 4. Note the winning Q/R (EKF) and Q/R (LQR) along with chosen `P0` for the report tables.
 

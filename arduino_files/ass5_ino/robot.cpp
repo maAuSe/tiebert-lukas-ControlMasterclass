@@ -29,10 +29,10 @@ bool Robot::init() {
   piCoeffsB = {0.919504f, -0.782675f, 1.0f};
   resetVelocityController();
 
-  // Default state-feedback gains (cart frame) - tune via MATLAB dlqr results
+  // Default state-feedback gains (cart frame) from MATLAB dlqr (Assignment 5 script)
   float arrayKfbInit[2][3] = {
-    {-0.6f,  0.0f,  0.0f},
-    { 0.0f, -0.6f, -0.45f}
+    {-3.112673f,  0.0f,       0.0f     },
+    { 0.0f,       3.138436f, -1.448272f}
   };
   Kfb = arrayKfbInit;
 
@@ -82,7 +82,7 @@ void Robot::control() {
                           {0.0f,  0.0f, 1.0f}};
     Matrix<3, 3> Rw2c = arrayRw2c;
     Matrix<3> ec = Rw2c * ew;         // cart-frame error
-    ufb = Kfb * ec;                   // state feedback
+    ufb = -Kfb * ec;                  // LQR feedback (u = -K * e)
 
     desiredVelocityCart = uff + ufb;  // desired cart velocities (forward + rotational)
 
@@ -179,7 +179,7 @@ bool Robot::KalmanFilterEnabled() {
 void Robot::button0callback() {
   if(toggleButton(0)) {           // Switches the state of button 0 and checks if the new state is true
     resetController();
-    message("Controller resed and enabled.");    // Display a message in the status bar of QRoboticsCenter
+    message("Controller reset and enabled.");    // Display a message in the status bar of QRoboticsCenter
   }
   else {
     message("Control disabled.");

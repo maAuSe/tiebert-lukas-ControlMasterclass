@@ -38,7 +38,7 @@
 
 /* MECOtron HARDWARE */
 #define BATTERY_VOLTAGE                     12.0f  // battery voltage [V]
-#define R_WHEEL                            0.0325  // wheel radius [m]
+#define R_WHEEL                            0.0330  // wheel radius [m] (Assignment 3 measurement)
 #define WHEELBASE                          0.1660  // wheelbase [m]
 
 /* TIMING INFORMATION */

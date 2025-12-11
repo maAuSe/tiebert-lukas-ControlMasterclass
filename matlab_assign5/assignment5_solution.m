@@ -19,7 +19,7 @@ if ~exist(imgDir, 'dir'), mkdir(imgDir); end
 %  PHYSICAL & GEOMETRIC PARAMETERS (MEASURE ON THE CART)
 %  ========================================================================
 Ts     = 0.010;     % s (sampling time)
-r      = 0.0325;    % m (wheel radius, R_WHEEL)
+r      = 0.0330;    % m (wheel radius, R_WHEEL, per Assignment 3 measurement)
 Lwheel = 0.1660;    % m (wheelbase, WHEELBASE)
 a      = Lwheel/2;  % m, half wheelbase (0.083 m)
 

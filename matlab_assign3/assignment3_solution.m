@@ -33,11 +33,11 @@ x_ref = -0.15;                  % m (target 15 cm from wall)
 xhat_init_wrong = -0.40;        % m (wrong initial estimate)
 
 % Output directory for figures
-imgDir = 'C:\\Users\\campa\\Documents\\Arduino\\tex_control\\ass3_tex\\images';
+imgDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/tex_control/ass3_tex/images';
 if ~exist(imgDir, 'dir'), mkdir(imgDir); end
 
 % Data files (estimator-only experiments available)
-dataDir = 'C:\\Users\\campa\\Documents\\Arduino\\matlab_assign3\\data';
+dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign3/data';
 estOnlyFiles = {
     fullfile(dataDir, 'est_only_L-005.csv'), -0.05, 188, 388;   % file, L, startRow, endRow
     fullfile(dataDir, 'est_only_L-018.csv'), -0.18, 130, 330;
@@ -106,7 +106,7 @@ text(-1.05, -0.12, 'z=-1', 'FontSize', 10, 'Color', 'r', 'HorizontalAlignment', 
 text(0.05, -0.12, 'z=0', 'FontSize', 10, 'Color', 'b');
 
 xlabel('Real Axis'); ylabel('Imaginary Axis');
-title('Closed-loop pole location z_{cl}(K) = 1 - T_s r K');
+title('Closed-loop pole location z_{cl}(K) = 1 - T_srK');
 xlim([-1.3 1.3]); ylim([-1.3 1.3]);
 axis equal;
 legend('Unit circle', 'Pole trajectory', 'Poles for K values', 'Location', 'northwest');

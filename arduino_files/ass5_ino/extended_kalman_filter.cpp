@@ -4,10 +4,10 @@
 namespace {
 constexpr float kTs = TSAMPLE;
 
-// Geometry (measure on the platform; default values are placeholders in meters)
-constexpr float kAlpha = 0.090f;  // front sensor offset along X' from cart center
-constexpr float kBeta  = 0.085f;  // longitudinal offset of side sensor from cart center
-constexpr float kGamma = 0.060f;  // lateral offset of side sensor from cart center (positive to the left)
+// Geometry (measure on the platform; values in meters)
+constexpr float kAlpha = 0.075f;  // front sensor offset along X' from cart center
+constexpr float kBeta  = 0.065f;  // longitudinal offset of side sensor from cart center
+constexpr float kGamma = 0.078f;  // lateral offset of side sensor from cart center (positive to the left)
 
 // Walls: p*x + q*y = r  (default: W1 is y=0, W2 is x=0, robot starts in x<0, y<0 quadrant)
 constexpr float kP1 = 0.0f; constexpr float kQ1 = 1.0f; constexpr float kR1 = 0.0f;  // W1: y = 0

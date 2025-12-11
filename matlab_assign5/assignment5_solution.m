@@ -21,11 +21,12 @@ if ~exist(imgDir, 'dir'), mkdir(imgDir); end
 Ts     = 0.010;     % s (sampling time)
 r      = 0.0325;    % m (wheel radius, R_WHEEL)
 Lwheel = 0.1660;    % m (wheelbase, WHEELBASE)
+a      = Lwheel/2;  % m, half wheelbase (0.083 m)
 
 % Sensor offsets in body frame (X' forward, Y' left); UPDATE after measuring
-alpha = 0.090;      % m, front IR along X' from cart center to sensor
-beta  = 0.085;      % m, side IR longitudinal offset from center
-gamma = 0.060;      % m, side IR lateral offset from center (positive to left)
+alpha = 0.075;      % m, front IR along X' from cart center to sensor
+beta  = 0.065;      % m, side IR longitudinal offset from center
+gamma = 0.078;      % m, side IR lateral offset from center (positive to left)
 
 % Walls p*x + q*y = r. Default: corner at (0,0), cart starts in x<0, y<0.
 wall1 = [0, 1, 0];  % y = 0 (front wall W1)

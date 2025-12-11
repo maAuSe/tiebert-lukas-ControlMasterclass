@@ -1,6 +1,6 @@
 # Assignment 5 EKF + LQR Experiment Plan
 
-Workflow to collect the data requested by `specs_assignment5.md`, process it in MATLAB, and fill the report/template. Paths assume this repo layout and the Arduino/QRC channel map below.
+Workflow to collect the data requested by `specs_assignment5.md`, process it in MATLAB, and fill the report/template. This plan focuses on the experimental EKF and LQR parts (Sections 3 and 4 of `specs_assignment5.md`); the modelling and derivation questions (Sections 1 and 2, 3a, 4a, 4b) are handled directly in `matlab_assign5/assignment5_solution.m` and `tex_control/ass5_tex/assignment5.tex`. Paths assume this repo layout and the Arduino/QRC channel map below.
 
 ---
 
@@ -8,10 +8,10 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
 
 1. **Measure geometry (update code + MATLAB variables)**
    - `a` (half wheelbase if needed for motor mapping) is already given by `WHEELBASE/2 = 0.083 m` in `mecotron.h`.
-   - Measure and record in meters (update both `extended_kalman_filter.cpp` and `assignment5_solution.m`):
-     - `alpha` – center to front IR along X'.
-     - `beta` – center to lateral IR along X'.
-     - `gamma` – center to lateral IR along Y' (positive to the sensor side).
+   - Measured offsets for our cart (use in both `extended_kalman_filter.cpp` and `assignment5_solution.m`):
+     - `alpha = 0.075 m` – center to front IR along X'.
+     - `beta  = 0.065 m` – center to lateral IR along X'.
+     - `gamma = 0.078 m` – center to lateral IR along Y' (positive to the sensor side).
    - Measure the wall equations: default corner at `x=0`, `y=0` with robot starting in `x<0, y<0`. Adjust `(p,q,r)` if the arena differs.
 
 2. **Firmware setup**

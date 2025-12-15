@@ -295,7 +295,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	Using linear least squares estimation, we identified both the third-order model ($H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$) and the simplified second-order model ($H(z) = \frac{b_1}{z^2 + a_1 z}$) for motors A and B.
 
-\noindent The simplified-model parameter vectors, identified on the unfiltered data set with sampling time $T_s = 0.01$~s, are
+\noindent The simplified-model parameter vectors, identified on the unfiltered data set, are
 \begin{equation}
 \hat{\boldsymbol{\theta}}^{\text{simp}}_A = \begin{bmatrix} -0.6819 \\ 0.6309 \end{bmatrix},\qquad
 \hat{\boldsymbol{\theta}}^{\text{simp}}_B = \begin{bmatrix} -0.6806 \\ 0.6488 \end{bmatrix}.
@@ -314,7 +314,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 \end{equation}
 
 
-\noindent Including the microOS delay yields the corresponding third-order models reported throughout this section:
+\noindent Including the microOS delay yields the corresponding third-order models:
 \begin{align}
 \hat{H}_A(z) &= z^{-1} \hat{H}_{0,A}(z) = \frac{0.007672 z + 0.6589}{z^{3} - 0.5671 z^{2} - 0.09698 z},\\
 \hat{H}_B(z) &= z^{-1} \hat{H}_{0,B}(z) = \frac{0.008073 z + 0.6741}{z^{3} - 0.5762 z^{2} - 0.08815 z}.
@@ -322,19 +322,28 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	\subsubsection{Measured vs simulated response and model error}
 
-Only the results concerning motor A are shown considering redundancy. Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity compared with the simulated responses for both models, zoomed to clearly reveal differences during transient periods. Figure~\ref{fig:model_error_pair} displays the error (difference) between measurement and simulation for each model.
+Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair} collect the validation plots for both motors. The top row of each figure shows the third-order model, whereas the bottom row shows the simplified model (left column: motor~A, right column: motor~B). All panels are zoomed on the transient windows to expose the small mismatches between the measured data and the simulations.
 
 \begin{figure}[H]
  \centering
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter.png}
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilterA.png}
  \end{minipage}\hfill
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplified.png}
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilterB.png}
  \end{minipage}
- \caption{Measured vs simulated responses (left: third-order; right: simplified). Zoomed-in to highlight differences.}
+
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplifiedA.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplifiedB.png}
+ \end{minipage}
+ \caption{Measured (solid black) versus simulated (dashed black) responses for both motors. Top row: third-order model; bottom row: simplified model.}
  \label{fig:measured_vs_modeled_pair}
 \end{figure}
 
@@ -342,29 +351,40 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
  \centering
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter.png}
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilterA.png}
  \end{minipage}\hfill
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplified.png}
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilterB.png}
  \end{minipage}
- \caption{Prediction error (measurement minus simulation). Left: third-order model; right: simplified model.}
+
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplifiedA.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplifiedB.png}
+ \end{minipage}
+ \caption{Prediction error (measurement minus simulation) for both motors. Top row: third-order model; bottom row: simplified model.}
  \label{fig:model_error_pair}
 \end{figure}
 
 \noindent RMS error (motor A, full model): 0.3611~rad/s \newline
 \noindent RMS error (motor B, full model): 0.3644~rad/s \newline
 \noindent RMS error (motor A, simplified model): 0.3723~rad/s \newline
-\noindent RMS error (motor B, simplified model): 0.3758~rad/s
+\noindent RMS error (motor B, simplified model): 0.3758~rad/s \newline
+
+\noindent The two motors therefore behave almost identically: the RMS prediction errors differ by less than 0.004~rad/s (below 1\%) for both model structures, and the identified parameters vary by less than 2\% across motors. The residual envelopes in Figure~\ref{fig:model_error_pair} overlap as well, showing that the remaining discrepancies stem from shared effects such as sensor resolution/quantization limitations and mechanical eccentricities. Because the validation metrics and visual inspections point to equivalent dynamics, subsequent sections display detailed plots for motor~A only; whenever performance numbers are quoted, both motors are still reported to document their similarity.
 
 	
 	\subsubsection{Transient and steady-state characteristics}
 	
-	\textbf{Transient behavior:} Both models reproduce the measured step-to-step evolution of the angular velocity. The third-order model responds a fraction faster after each voltage transition because the additional pole associated with armature inductance gives a steeper initial slope. The velocity measurements are quantized, so visible level-to-level toggling appears that the continuous models cannot mirror. That discrepancy excites the lightly damped high-frequency mode of the third-order fit and inflates its residuals. With the updated identification, the third-order model attains RMS prediction errors of 0.3611~rad/s for motor~A and 0.3644~rad/s for motor~B—only marginally below the simplified model's 0.3723~rad/s (motor~A) and 0.3758~rad/s (motor~B) while requiring more parameters.
+	Transient behavior: Both models reproduce the measured step-to-step evolution of the angular velocity. The third-order model responds a fraction faster after each voltage transition because the additional pole associated with armature inductance gives a steeper initial slope. The velocity measurements are quantized, so visible level-to-level toggling appears that the continuous models do not mirror. That discrepancy excites the lightly damped high-frequency mode of the third-order fit and inflates its residuals. With the updated identification, the third-order model attains RMS prediction errors of 0.3611~rad/s for motor~A and 0.3644~rad/s for motor~B -only marginally below the simplified model's 0.3723~rad/s (motor~A) and 0.3758~rad/s (motor~B) while requiring more parameters.
 	\newline
 	
 
-	\noindent \textbf{Steady-state behavior:} Both simulations settle to the measured steady-state angular velocities within the sensor resolution. The apparent steady-state ripple arises from the same quantization and is absent in the simulated trajectories, yet the mean levels match within negligible error. 
+	\noindent Steady-state behavior: Both simulations settle to the measured steady-state angular velocities within the sensor resolution. The apparent steady-state ripple arises from the same quantization and is absent in the simulated trajectories, yet the mean levels match within negligible error. 
 	\newline
 	\vspace{1em}
 
@@ -426,6 +446,7 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
 \end{align}
 
 \noindent Figure~\ref{fig:validation_filtered} (Appendix~\ref{app:figures}) compares the measured angular velocity with the simulated response of the filtered-data model. The continuous-time pole locations, damping ratios, natural frequencies, and step-response characteristics (overshoot, peak time, steady-state gain) are computed via Tustin transformation and the \texttt{damp} function, as in the unfiltered case.
+% TODO (spec 2(c)): specs ask to plot the filtered-model response together with the model from 2(b) and to repeat the same validation (zoomed plots + residuals) for both motors. Consider adding those overlays/residual plots here so the reader can visually compare filtered vs unfiltered fits.
 
 \noindent The explicit transfer functions (without the microOS delay) are
 \begin{align}

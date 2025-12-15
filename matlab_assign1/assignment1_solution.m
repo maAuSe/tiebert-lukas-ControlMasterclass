@@ -17,11 +17,12 @@ timePeriod = 14; % time period of cycle [s]
 points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;
 timeVectorInSec= [0:0.01:27.99]' ;
+timeVectorToPlot = timeVectorInSec;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FIGURE 1: input voltage plotted over time
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(1),hold on
-sgtitle('Excitation voltage to motors A & B')
+sgtitle('Excitation voltage to motors')
 plot(timeVectorInSec, voltage, 'LineWidth', 1)
 grid on
 axis tight
@@ -33,15 +34,15 @@ ylabel('voltage [V]')
 %%% FIGURE 2: outputs omegaA,omegaB plotted over time
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(2),hold on
-sgtitle('Measured output data (omegaA & omegaB) in time domain')
+sgtitle('Measured output data in time domain')
 
-subplot(2,1,1),plot(timeVectorInSec, omegaA, 'LineWidth', 1)
+subplot(2,1,1),plot(timeVector, omegaA, 'LineWidth', 1)
 grid on
 axis tight
 xlabel('t [s]')
 ylabel('omegaA [rad/s]')
 
-subplot(2,1,2),plot(timeVectorInSec, omegaB, 'LineWidth', 1)
+subplot(2,1,2),plot(timeVector, omegaB, 'LineWidth', 1)
 grid on
 axis tight
 xlabel('t [s]')
@@ -149,9 +150,9 @@ sys_d1_B = tf(num_unfilt_B, den_unfilt_B, Ts)
 
 % plot the results
 
-omegaA_model = lsim(sys_d1_A,voltage,timeVectorInSec);
+omegaA_model = lsim(sys_d1_A, voltage, timeVectorToPlot);
 
-omegaB_model = lsim(sys_d1_B,voltage,timeVectorInSec);
+omegaB_model = lsim(sys_d1_B, voltage, timeVectorToPlot);
 
 omegaA_rms_error = sqrt(mean((omegaA - omegaA_model).^2));
 omegaB_rms_error = sqrt(mean((omegaB - omegaB_model).^2));
@@ -167,14 +168,14 @@ figure(4), hold on
 sgtitle('LLS without low-pass filtering (motor A)')
 
 subplot(2,1,1)
-plot(timeVectorInSec, omegaA, 'k-', ...        % solid black
-     timeVectorInSec, omegaA_model, 'k--');    % dashed black
+plot(timeVectorToPlot, omegaA, 'k-', ...        % solid black
+     timeVectorToPlot, omegaA_model, 'k--');    % dashed black
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 ylabel('omegaA [rad/s]')
 axis tight
 
-subplot(2,1,2),plot(timeVectorInSec,omegaA-omegaA_model)
+subplot(2,1,2),plot(timeVectorToPlot, omegaA-omegaA_model)
 legend('error')
 xlabel('time [s]')
 ylabel('omegaA-error [rad/s]')
@@ -187,14 +188,14 @@ figure(5), hold on
 sgtitle('LLS without low-pass filtering (motor B)')
 
 subplot(2,1,1)
-plot(timeVectorInSec, omegaB, 'k-', ...        % solid black
-     timeVectorInSec, omegaB_model, 'k--');    % dashed black
+plot(timeVectorToPlot, omegaB, 'k-', ...        % solid black
+     timeVectorToPlot, omegaB_model, 'k--');    % dashed black
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 ylabel('omegaB [rad/s]')
 axis tight
 
-subplot(2,1,2),plot(timeVectorInSec,omegaB-omegaB_model)
+subplot(2,1,2),plot(timeVectorToPlot, omegaB-omegaB_model)
 legend('error')
 xlabel('time [s]')
 ylabel('omegaB-error [rad/s]')
@@ -231,8 +232,8 @@ wd1_B = abs(imag(pc1_B(1)));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(6)
 step(sys_d1_A), grid  
-xlabel('time [s]')
-ylabel('Step response motor A [-]')
+xlabel('time')
+ylabel('step response [-]')
 title('Step response of the CT system (motor A)')
 
 
@@ -241,8 +242,8 @@ title('Step response of the CT system (motor A)')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(7)
 step(sys_d1_B), grid  
-xlabel('time [s]')
-ylabel('Step response motor B [-]')
+xlabel('time')
+ylabel('step response [-]')
 title('Step response of the CT system (motor B)')
 
 
@@ -251,9 +252,9 @@ title('Step response of the CT system (motor B)')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(8)
 sgtitle('Velocity of wheel A averaged over the periods')
-plot(timeVectorInSec(1:points_per_period),omegaA_mean) 
+plot(timeVectorToPlot(1:points_per_period),omegaA_mean) 
 xlabel('time [s]')
-ylabel('omegaA-averaged [rad/s]')
+ylabel('omegaA-mean [rad/s]')
 grid
 
 
@@ -262,9 +263,9 @@ grid
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(9)
 sgtitle('Velocity of wheel B averaged over the periods')
-plot(timeVectorInSec(1:points_per_period),omegaB_mean) 
+plot(timeVectorToPlot(1:points_per_period),omegaB_mean) 
 xlabel('time [s]')
-ylabel('omegaB-averaged [rad/s]')
+ylabel('omegaB-mean [rad/s]')
 grid
 
 
@@ -362,12 +363,12 @@ sys_d2_B = tf(num_filter_B, den_filter_B, Ts)
 
 % plot results
 
-omegaA_model2 = lsim(sys_d2_A, voltage_filt_A, timeVectorInSec);
+omegaA_model2 = lsim(sys_d2_A, voltage, timeVectorToPlot);
 
-omegaB_model2 = lsim(sys_d2_B, voltage_filt_B, timeVectorInSec);
+omegaB_model2 = lsim(sys_d2_B, voltage, timeVectorToPlot);
 
-omegaA_rms_error_filt = sqrt(mean((omegaA_filt - omegaA_model2).^2));
-omegaB_rms_error_filt = sqrt(mean((omegaB_filt - omegaB_model2).^2));
+omegaA_rms_error_filt = sqrt(mean((omegaA - omegaA_model2).^2));
+omegaB_rms_error_filt = sqrt(mean((omegaB - omegaB_model2).^2));
 
 fprintf('RMS error (omegaA vs. filtered model): %.4f rad/s\n', omegaA_rms_error_filt);
 fprintf('RMS error (omegaB vs. filtered model): %.4f rad/s\n', omegaB_rms_error_filt);
@@ -381,14 +382,14 @@ figure(10), hold on
 sgtitle('LLS with low-pass filtering (motor A)')
 
 subplot(2,1,1)
-plot(timeVectorInSec, omegaA_filt, 'k-', ...
-     timeVectorInSec, omegaA_model2, 'k--');
+plot(timeVectorToPlot, omegaA, 'k-', ...
+     timeVectorToPlot, omegaA_model2, 'k--');
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight
 ylabel('omegaA [rad/s]')
 
-subplot(2,1,2),plot(timeVectorInSec, omegaA_filt-omegaA_model2)
+subplot(2,1,2),plot(timeVectorToPlot, omegaA-omegaA_model2)
 legend('error')
 xlabel('time [s]')
 ylabel('omegaA-filtered-error [rad/s]')
@@ -403,14 +404,14 @@ figure(11), hold on
 sgtitle('LLS with low-pass filtering (motor B)')
 
 subplot(2,1,1)
-plot(timeVectorInSec, omegaB_filt, 'k-', ...
-     timeVectorInSec, omegaB_model2, 'k--');
+plot(timeVectorToPlot, omegaB, 'k-', ...
+     timeVectorToPlot, omegaB_model2, 'k--');
 legend('empirical','estimated','Location','SouthWest')
 xlabel('time [s]')
 axis tight
 ylabel('omegaB [rad/s]')
 
-subplot(2,1,2),plot(timeVectorInSec, omegaB_filt-omegaB_model2)
+subplot(2,1,2),plot(timeVectorToPlot, omegaB-omegaB_model2)
 legend('error')
 xlabel('time [s]')
 ylabel('omegaB-filtered-error [rad/s]')
@@ -449,7 +450,7 @@ wd2_B = abs(imag(pc2_B(2)));
 figure(12)
 step(sys_d2_A);grid
 xlabel('time')
-ylabel('step response motor A [-]')
+ylabel('step response [-]')
 title('Step response of the CT system (filtered model, motor A)')
 
 
@@ -459,7 +460,7 @@ title('Step response of the CT system (filtered model, motor A)')
 figure(13)
 step(sys_d2_B);grid
 xlabel('time')
-ylabel('step response motor B [-]')
+ylabel('step response [-]')
 title('Step response of the CT system (filtered model, motor B)')
 
 
@@ -508,5 +509,3 @@ Denc2_B = Denc2_B{1};
 y_ss_model_B = Numc2_B(end)/Denc2_B(end); %DC gain of CT model motor B(evaluating transfer function at s=0) 
 %y_ss_B = ... %obtained from figure(8)
 %y_ss_measurement_B = ... %obtained from figure(6)
-
-

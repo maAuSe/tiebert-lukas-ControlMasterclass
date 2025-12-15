@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 DEC 2025 11:17
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  15 DEC 2025 20:02
  restricted system commands enabled.
 **assignment1.tex
 (./assignment1.tex
@@ -705,15 +705,53 @@ Underfull \hbox (badness 10000) in paragraph at lines 383--385
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 399--400
+
+ []
+
 [6
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.3'
 <./images/model_vs_meas_error_nofilterA.png><./images/model_vs_meas_error_nofilt
 erB.png><./images/model_vs_meas_error_nofilter_simplifiedA.png><./images/model_v
-s_meas_error_nofilter_simplifiedB.png>] [7] (./assignment1.bbl) [8]
-<images/linear_circuit_DC.png, id=223, 464.937pt x 203.5605pt>
+s_meas_error_nofilter_simplifiedB.png>]
+<images/measured_vs_modeled_filteredA.png, id=192, 362.7954pt x 135.8676pt>
+File: images/measured_vs_modeled_filteredA.png Graphic file (type png)
+<use images/measured_vs_modeled_filteredA.png>
+Package luatex.def Info: images/measured_vs_modeled_filteredA.png  used on inpu
+t line 413.
+(luatex.def)             Requested size: 225.4804pt x 84.44434pt.
+<images/measured_vs_modeled_filtered_simplifiedA.png, id=193, 362.7954pt x 135.
+8676pt>
+File: images/measured_vs_modeled_filtered_simplifiedA.png Graphic file (type pn
+g)
+<use images/measured_vs_modeled_filtered_simplifiedA.png>
+Package luatex.def Info: images/measured_vs_modeled_filtered_simplifiedA.png  u
+sed on input line 417.
+(luatex.def)             Requested size: 225.4804pt x 84.44434pt.
+ [7
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
+<./images/measured_vs_modeled_filteredA.png><./images/measured_vs_modeled_filter
+ed_simplifiedA.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 460--461
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 462--463
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 464--465
+
+ []
+
+(./assignment1.bbl) [8]
+<images/linear_circuit_DC.png, id=221, 464.937pt x 203.5605pt>
 File: images/linear_circuit_DC.png Graphic file (type png)
 <use images/linear_circuit_DC.png>
-Package luatex.def Info: images/linear_circuit_DC.png  used on input line 517.
+Package luatex.def Info: images/linear_circuit_DC.png  used on input line 508.
 (luatex.def)             Requested size: 328.82707pt x 143.97607pt.
 
 
@@ -729,14 +767,12 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [9
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
-
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.5'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.6'
-<./images/linear_circuit_DC.png>] [10
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.7'
 
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.7'
+<./images/linear_circuit_DC.png>] [10
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.8'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.9'
@@ -749,6 +785,9 @@ warning  (pdf backend): ignoring duplicate destination with the name 'figure.11'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.12'
 
+
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.13'
+
 ] (./assignment1.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
@@ -759,13 +798,13 @@ Package rerunfilecheck Info: File `assignment1.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 14471 strings out of 476497
+ 14486 strings out of 476497
  125027,1977958 words of node,token memory allocated
  739 words of node memory still in use:
    7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 57 attribute, 58 glue_spec
 , 57 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:723,3:280,4:63,5:441,6:44,7:6902,8:113,9:805,10:11,11:562
- 36107 multiletter control sequences out of 65536+600000
+   avail lists: 2:723,3:280,4:63,5:405,6:39,7:6704,8:113,9:805,10:11,11:549
+ 36120 multiletter control sequences out of 65536+600000
  49 fonts using 3729047 bytes
  79i,12n,89p,827b,397s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
@@ -790,9 +829,9 @@ mr5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
 s/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb>
-Output written on assignment1.pdf (11 pages, 1200577 bytes).
+Output written on assignment1.pdf (11 pages, 1258367 bytes).
 
-PDF statistics: 337 PDF objects out of 1000 (max. 8388607)
- 82 named destinations out of 1000 (max. 131072)
+PDF statistics: 332 PDF objects out of 1000 (max. 8388607)
+ 78 named destinations out of 1000 (max. 131072)
  189 words of extra memory for PDF output out of 10000 (max. 100000000)
 

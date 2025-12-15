@@ -398,25 +398,34 @@ Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair} collec
 	
 	Pre-filtering measured signals before parameter estimation is a standard technique to suppress high-frequency measurement noise that corrupts the least-squares regression. In principle, applying a low-pass filter to both input and output preserves the frequency-domain ratio $\hat{H}(e^{j\omega})$ while attenuating noise components above the system bandwidth, thereby reducing parameter variance and improving model fidelity.\newline
 	
-	\noindent Filtering both the input voltage ($v[k]$) and output angular velocity ($\omega_A[k]$ and $\omega_B[k]$) with the same linear-phase filter maintains the correct phase relationship and gain ratio at all frequencies below the cutoff.
+\noindent Filtering both the input voltage ($v[k]$) and output angular velocity ($\omega_A[k]$) with the same linear-phase filter maintains the correct phase relationship and gain ratio at all frequencies below the cutoff.
 	
 	\subsubsection{Filter design}
 	
-	An eight-order Butterworth low-pass filter was selected for its maximally flat passband magnitude response and straightforward design. The 35~Hz cutoff frequency was chosen empirically by examining the frequency content of the measurement noise visible in Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair}. High-frequency oscillations in the prediction error suggest noise components well above the dominant system pole frequency.
-	
+	An eighth-order Butterworth filter was used because of its flat passband characteristic, and we swept the cutoff from 20~Hz up to the Nyquist limit of 50~Hz. None of those settings produced a meaningful improvement: the apparent ``high-frequency'' ripple is tied to quantization rather than a removable noise band, so even aggressive cutoffs fail to clean it up.\newline
 
-\noindent The 35~Hz cutoff attenuates the high-frequency ripple observed in the prediction error while keeping the dynamic range of interest intact. Higher cutoffs offered less noise suppression, whereas more aggressive settings below 30~Hz began to erode the transient content needed for accurate identification.
+\noindent Worse, every cutoff shaves off useful transient content (and phase information) all the way up to Nyquist, so the filtered signals systematically lose the sharp voltage-to-velocity steps that carry the identification information. Because no level of cutoff usefully removes the high-frequency noise and we always trade away informative transients, filtering cannot help here.
+
+\begin{figure}[H]
+ \centering
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_filteredA.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_filtered_simplifiedA.png}
+ \end{minipage}
+ \caption{Measured (black) versus simulated responses when identification uses filtered data. Left: full third-order model overlays for unfiltered, 20~Hz, and 35~Hz cutoffs. Right: the same comparison for the simplified model. Filtering softens the transients but does not eliminate the high-frequency artefacts.}
+ \label{fig:measured_vs_modeled_filtered}
+\end{figure}
 	
 	\subsubsection{Re-identification with filtered data}
 	
-	After applying the Butterworth filter to both input and output signals using \texttt{filtfilt}, the linear least-squares estimation was repeated. For motor~A, the estimated parameter vectors with 20~Hz and 35~Hz cutoffs are
+After applying the Butterworth filter to both input and output signals using \texttt{filtfilt}, the linear least-squares estimation was repeated. For motor~A, the estimated parameter vectors with 20~Hz and 35~Hz cutoffs are
 \begin{equation}
 \hat{\boldsymbol{\theta}}^{\text{filt,20}}_A = \begin{bmatrix} -1.3385 \\ 0.4738 \\ 0.3416 \\ -0.0730 \end{bmatrix}, \quad
 \hat{\boldsymbol{\theta}}^{\text{filt,35}}_A = \begin{bmatrix} -0.7993 \\ 0.0923 \\ -0.0127 \\ 0.5937 \end{bmatrix},
-\end{equation}
-and for motor~B (35~Hz cutoff, unchanged),
-\begin{equation}
-\hat{\boldsymbol{\theta}}^{\text{filt}}_B = \begin{bmatrix} -0.8033 \\ 0.0941 \\ 0.0132 \\ 0.5773 \end{bmatrix}.
 \end{equation}
 
 \noindent These coefficients yield discrete-time transfer functions of the form
@@ -427,47 +436,34 @@ and for motor~B (35~Hz cutoff, unchanged),
 \noindent Re-identifying the simplified second-order model on the filtered data gives (motor~A shown with both cutoffs)
 \begin{equation}
 \hat{\boldsymbol{\theta}}^{\text{simp,filt,20}}_A = \begin{bmatrix} -0.7007 \\ 0.5940 \end{bmatrix},\qquad
-\hat{\boldsymbol{\theta}}^{\text{simp,filt,35}}_A = \begin{bmatrix} -0.6873 \\ 0.6204 \end{bmatrix},\qquad
-\hat{\boldsymbol{\theta}}^{\text{simp,filt}}_B = \begin{bmatrix} -0.6875 \\ 0.6351 \end{bmatrix},
+\hat{\boldsymbol{\theta}}^{\text{simp,filt,35}}_A = \begin{bmatrix} -0.6873 \\ 0.6204 \end{bmatrix},
 \end{equation}
 
 \noindent with corresponding transfer functions
 \begin{align}
 \hat{H}^{\text{simp,filt,20}}_A(z) &= \frac{0.5940}{z^2 - 0.7007 z}, &
-\hat{H}^{\text{simp,filt,35}}_A(z) &= \frac{0.6204}{z^2 - 0.6873 z}, &
-\hat{H}^{\text{simp,filt}}_B(z) &= \frac{0.6351}{z^2 - 0.6875 z}.
+\hat{H}^{\text{simp,filt,35}}_A(z) &= \frac{0.6204}{z^2 - 0.6873 z}.
 \end{align}
 
 \noindent Figure~\ref{fig:validation_filtered} (Appendix~\ref{app:figures}) compares the measured angular velocity with the simulated response of the filtered-data model. The continuous-time pole locations, damping ratios, natural frequencies, and step-response characteristics (overshoot, peak time, steady-state gain) are computed via Tustin transformation and the \texttt{damp} function, as in the unfiltered case.
 % TODO (spec 2(c)): specs ask to plot the filtered-model response together with the model from 2(b) and to repeat the same validation (zoomed plots + residuals) for both motors. Consider adding those overlays/residual plots here so the reader can visually compare filtered vs unfiltered fits.
 
-\noindent The explicit transfer functions (without the microOS delay) are
-\begin{align}
-\hat{H}_{0,A}^{\text{filt,20}}(z) &= \frac{0.3416 z - 0.07297}{z^{2} - 1.338 z + 0.4738},\\
-\hat{H}_{0,A}^{\text{filt,35}}(z) &= \frac{-0.01271 z + 0.5937}{z^{2} - 0.7993 z + 0.09234},\\
-\hat{H}_{0,B}^{\text{filt}}(z) &= \frac{0.01315 z + 0.5773}{z^{2} - 0.8033 z + 0.09407},
-\end{align}
-\noindent and reinstating the one-sample delay gives
+\noindent The explicit transfer functions are:
+
 \begin{align}
 \hat{H}_{A}^{\text{filt,20}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,20}}(z) = \frac{0.3416 z - 0.07297}{z^{3} - 1.338 z^{2} + 0.4738 z},\\
-\hat{H}_{A}^{\text{filt,35}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,35}}(z) = \frac{-0.01271 z + 0.5937}{z^{3} - 0.7993 z^{2} + 0.09234 z},\\
-\hat{H}_{B}^{\text{filt}}(z) &= z^{-1} \hat{H}_{0,B}^{\text{filt}}(z) = \frac{0.01315 z + 0.5773}{z^{3} - 0.8033 z^{2} + 0.09407 z}.
+\hat{H}_{A}^{\text{filt,35}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,35}}(z) = \frac{-0.01271 z + 0.5937}{z^{3} - 0.7993 z^{2} + 0.09234 z}.
 \end{align}
 	
 	\subsubsection{Comparison and model selection}
 	
-	\textbf{RMS prediction error:} Direct comparison of RMS errors reveals that filtering does \emph{not} improve identification accuracy for motor~A. The unfiltered third-order model achieves an RMS error of 0.3611~rad/s, whereas the filtered third-order fits rise to 0.4255~rad/s (20~Hz) and 0.3865~rad/s (35~Hz). For the simplified motor~A model, filtering yields 0.3682~rad/s (20~Hz) and 0.3706~rad/s (35~Hz), only a marginal change relative to the unfiltered 0.3723~rad/s.
+	\noindent Direct comparison of RMS errors reveals that filtering does \emph{not} improve identification accuracy for motor~A. The unfiltered third-order model achieves an RMS error of 0.3611~rad/s, whereas the filtered third-order fits rise to 0.4255~rad/s (20~Hz) and 0.3865~rad/s (35~Hz). For the simplified motor~A model, filtering yields 0.3682~rad/s (20~Hz) and 0.3706~rad/s (35~Hz), only a marginal change relative to the unfiltered 0.3723~rad/s. \newline
 
-\textbf{Interpretation:} The lack of improvement suggests that the dominant error source is \emph{not} high-frequency additive noise but rather model mismatch (e.g., unmodeled nonlinearities, quantization effects, or the lightly damped pole artifact from encoder resolution). Because the simplified second-order model already achieves 0.3723~rad/s for motor~A with two parameters and outperforms the filtered third-order alternatives, we conclude that the model structure—not the noise level—is the limiting factor.
+\noindent The lack of improvement suggests that the dominant error source is \emph{not} high-frequency additive noise but rather model mismatch (e.g., unmodeled nonlinearities, quantization effects, or the lightly damped pole artifact from encoder resolution). Because the simplified second-order model already achieves 0.3723~rad/s for motor~A with two parameters and outperforms the filtered third-order alternatives, we conclude that the model structure, not the noise level, is the limiting factor. \newline
 
-\textbf{Model preference:} We therefore retain the \textbf{unfiltered simplified second-order model} for all subsequent analysis. This choice is motivated by:
-\begin{enumerate}
-\item Superior or comparable RMS prediction performance (0.3723~rad/s for motor~A) without the error penalty observed for the filtered third-order models (0.4255/0.3865~rad/s), and only marginal gains from filtered simplified fits (0.3682/0.3706~rad/s).
-\item Simpler structure (two parameters vs.\ four), reducing overfitting risk.
-\item Absence of the spurious high-frequency oscillations that can appear in the higher-order fit due to encoder quantization.
-\end{enumerate}
+\noindent Considering the simpler structure (reduced overfitting risk) and the better RMS error performance, we select the \textbf{unfiltered simplified second-order model} for all subsequent analysis. \newline
 
-\noindent The filtering exercise confirms that the measurement noise is secondary relative to structural mismatch; a parsimonious model on unfiltered data best captures the true system dynamics under the given experimental conditions.
+\noindent The filtering exercise confirms that the measurement noise is secondary relative to structural mismatch; a model on unfiltered data best captures the true system dynamics under the given experimental conditions.
 	
 	\bibliographystyle{plainnat}
 	\bibliography{references}

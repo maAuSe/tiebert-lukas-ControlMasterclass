@@ -310,55 +310,114 @@ sys_d2_B = (theta_filter_B(2))/(z^2 + theta_filter_B(1)*z)
 
 % plot results
 
-omegaA_model2 = lsim(sys_d2_A,voltage,timeVectorToPlot);
-omegaB_model2 = lsim(sys_d2_B,voltage,timeVectorToPlot);
+omegaA_model2_filt = lsim(sys_d2_A,voltage_filt_A,timeVectorToPlot);
+omegaB_model2_filt = lsim(sys_d2_B,voltage_filt_B,timeVectorToPlot);
 
-omegaA_rms_error_filt = sqrt(mean((omegaA - omegaA_model2).^2));
-omegaB_rms_error_filt = sqrt(mean((omegaB - omegaB_model2).^2));
+omegaA_model2_raw = lsim(sys_d2_A,voltage,timeVectorToPlot);
+omegaB_model2_raw = lsim(sys_d2_B,voltage,timeVectorToPlot);
 
-fprintf('RMS error (omegaA vs. simplified filtered model): %.4f rad/s\n', omegaA_rms_error_filt);
-fprintf('RMS error (omegaB vs. simplified filtered model): %.4f rad/s\n', omegaB_rms_error_filt);
+omegaA_rms_error_filt = sqrt(mean((omegaA_filt - omegaA_model2_filt).^2));
+omegaB_rms_error_filt = sqrt(mean((omegaB_filt - omegaB_model2_filt).^2));
+
+fprintf('RMS error (omegaA_filt vs. simplified filtered model): %.4f rad/s\n', omegaA_rms_error_filt);
+fprintf('RMS error (omegaB_filt vs. simplified filtered model): %.4f rad/s\n', omegaB_rms_error_filt);
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 10: omegaA experiments vs. filtered model %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 10: omegaA experiments vs. filtered + unfiltered models %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+omegaA_err_unfilt = omegaA - omegaA_model;
+omegaA_err_filt_raw   = omegaA - omegaA_model2_raw;
+
 figure(10), hold on
-sgtitle('LLS with low-pass filtering (motor A, simplified)')
+sgtitle('LLS comparison with/without low-pass filtering (motor A, simplified)')
 
 subplot(2,1,1)
 plot(timeVectorToPlot, omegaA, 'k-', ...
-     timeVectorToPlot, omegaA_model2, 'k--');
-legend('empirical','estimated','Location','SouthWest')
+     timeVectorToPlot, omegaA_model, 'k--', ...
+     timeVectorToPlot, omegaA_model2_raw, 'k:');
+legend('empirical','model 2(b)','model 2(c)','Location','SouthWest')
 xlabel('time [s]')
 axis tight
 ylabel('omegaA [rad/s]')
 
-subplot(2,1,2),plot(timeVectorToPlot,omegaA-omegaA_model2)
-legend('error')
+subplot(2,1,2)
+plot(timeVectorToPlot, omegaA_err_unfilt, 'k--', ...
+     timeVectorToPlot, omegaA_err_filt_raw, 'k:');
+legend('error 2(b)','error 2(c)','Location','SouthWest')
 xlabel('time [s]')
-ylabel('omegaA-filtered-error [rad/s]')
+ylabel('omegaA error [rad/s]')
 axis tight
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 11: omegaB experiments vs. filtered model %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 11: omegaB experiments vs. filtered + unfiltered models %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+omegaB_err_unfilt = omegaB - omegaB_model;
+omegaB_err_filt_raw   = omegaB - omegaB_model2_raw;
+
 figure(11), hold on
-sgtitle('LLS with low-pass filtering (motor B, simplified)')
+sgtitle('LLS comparison with/without low-pass filtering (motor B, simplified)')
 
 subplot(2,1,1)
 plot(timeVectorToPlot, omegaB, 'k-', ...
-     timeVectorToPlot, omegaB_model2, 'k--');
-legend('empirical','estimated','Location','SouthWest')
+     timeVectorToPlot, omegaB_model, 'k--', ...
+     timeVectorToPlot, omegaB_model2_raw, 'k:');
+legend('empirical','model 2(b)','model 2(c)','Location','SouthWest')
 xlabel('time [s]')
 axis tight
 ylabel('omegaB [rad/s]')
 
-subplot(2,1,2),plot(timeVectorToPlot,omegaB-omegaB_model2)
-legend('error')
+subplot(2,1,2)
+plot(timeVectorToPlot, omegaB_err_unfilt, 'k--', ...
+     timeVectorToPlot, omegaB_err_filt_raw, 'k:');
+legend('error 2(b)','error 2(c)','Location','SouthWest')
 xlabel('time [s]')
-ylabel('omegaB-filtered-error [rad/s]')
+ylabel('omegaB error [rad/s]')
+axis tight
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 12: validation on filtered data (motor A) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(12), hold on
+sgtitle('LLS with low-pass filtering data set (motor A, simplified)')
+
+subplot(2,1,1)
+plot(timeVectorToPlot, omegaA_filt, 'k-', ...
+     timeVectorToPlot, omegaA_model2_filt, 'k--');
+legend('filtered empirical','filtered-model','Location','SouthWest')
+xlabel('time [s]')
+axis tight
+ylabel('omegaA_filt [rad/s]')
+
+subplot(2,1,2)
+plot(timeVectorToPlot, omegaA_filt - omegaA_model2_filt, 'k-')
+legend('filtered error','Location','SouthWest')
+xlabel('time [s]')
+ylabel('omegaA_filt-error [rad/s]')
+axis tight
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FIGURE 13: validation on filtered data (motor B) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(13), hold on
+sgtitle('LLS with low-pass filtering data set (motor B, simplified)')
+
+subplot(2,1,1)
+plot(timeVectorToPlot, omegaB_filt, 'k-', ...
+     timeVectorToPlot, omegaB_model2_filt, 'k--');
+legend('filtered empirical','filtered-model','Location','SouthWest')
+xlabel('time [s]')
+axis tight
+ylabel('omegaB_filt [rad/s]')
+
+subplot(2,1,2)
+plot(timeVectorToPlot, omegaB_filt - omegaB_model2_filt, 'k-')
+legend('filtered error','Location','SouthWest')
+xlabel('time [s]')
+ylabel('omegaB_filt-error [rad/s]')
 axis tight
 
 
@@ -389,9 +448,9 @@ end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 12: step response of the CT system (filtered model, motor A) %%%
+%%% FIGURE 14: step response of the CT system (filtered model, motor A) %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(12)
+figure(14)
 step(sys_d2_A);grid
 xlabel('time')
 ylabel('step response [-]')
@@ -399,9 +458,9 @@ title('Step response of the CT system (filtered model, motor A, simplified)')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 13: step response of the CT system (filtered model, motor B) %%%
+%%% FIGURE 15: step response of the CT system (filtered model, motor B) %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(13)
+figure(15)
 step(sys_d2_B);grid
 xlabel('time')
 ylabel('step response [-]')
@@ -426,5 +485,3 @@ y_ss_model_A = Numc2_A(end)/Denc2_A(end); %DC gain of CT model (evaluating trans
 Numc2_B = Numc2_B{1};
 Denc2_B = Denc2_B{1};
 y_ss_model_B = Numc2_B(end)/Denc2_B(end); %DC gain of CT model (evaluating transfer function at s=0)
-
-

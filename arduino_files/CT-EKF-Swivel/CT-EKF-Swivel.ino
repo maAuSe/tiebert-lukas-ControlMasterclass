@@ -5,6 +5,7 @@ static Robot robot;
 int update() {
   robot.io();
   robot.control();
+  return 0;
 }
 
 void setup() {

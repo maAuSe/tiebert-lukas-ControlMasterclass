@@ -30,11 +30,8 @@ bool Robot::init() {
   resetVelocityController();
 
   // Default state-feedback gains (cart frame) from MATLAB dlqr (Assignment 5 script)
-  float arrayKfbInit[2][3] = {
-    {-3.112673f,  0.0f,        0.0f      },
-    { 0.0f,       3.139305f,  -1.448285f }
-  };
-  Kfb = arrayKfbInit;
+  Kfb = {-3.112673f,  0.0f,        0.0f,
+          0.0f,       3.139305f,  -1.448285f};
 
   resetKalmanFilter();
   return true;
@@ -63,6 +60,8 @@ void Robot::control() {
     } else {
       measurements(0) = NAN;
       measurements(1) = NAN;
+      _nu.Fill(0);
+      _S.Fill(0);
     }
   }
 
@@ -81,10 +80,9 @@ void Robot::control() {
     Matrix<3> ew = xref - _xhat;      // world-frame error
     const float cth = cosf(_xhat(2));
     const float sth = sinf(_xhat(2));
-    float arrayRw2c[3][3]{{ cth,  sth, 0.0f},
-                          {-sth,  cth, 0.0f},
-                          {0.0f,  0.0f, 1.0f}};
-    Matrix<3, 3> Rw2c = arrayRw2c;
+    Matrix<3, 3> Rw2c = { cth,  sth, 0.0f,
+                         -sth,  cth, 0.0f,
+                          0.0f, 0.0f, 1.0f};
     Matrix<3> ec = Rw2c * ew;         // cart-frame error
     ufb = -Kfb * ec;                  // LQR feedback (u = -K * e)
 

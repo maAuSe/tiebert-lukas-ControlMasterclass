@@ -39,20 +39,16 @@ void PredictionUpdate(const Matrix<2> &u, Matrix<3> &xhat, Matrix<3,3> &Phat) {
   xhat(2) += kTs * omega;
 
   // Jacobian of the discretized dynamics: A = I + Ts * df/dx
-  float arrayA[3][3] = {
-    {1.0f, 0.0f, -kTs * v * sth},
-    {0.0f, 1.0f,  kTs * v * cth},
-    {0.0f, 0.0f,  1.0f}
-  };
-  Matrix<3, 3> A = arrayA;
+  Matrix<3, 3> A = {1.0f, 0.0f, -kTs * v * sth,
+                    0.0f, 1.0f,  kTs * v * cth,
+                    0.0f, 0.0f,  1.0f};
 
-  float arrayQ[3][3]{ { kQx,   0.0f,    0.0f},
-                      { 0.0f,  kQy,     0.0f},
-                      { 0.0f,  0.0f, kQtheta}};
-  Matrix<3, 3> Q = arrayQ;
+  Matrix<3, 3> Q = {kQx,   0.0f,    0.0f,
+                    0.0f,  kQy,     0.0f,
+                    0.0f,  0.0f, kQtheta};
 
   // Covariance propagation
-  Phat = A * Phat * A.Transpose() + Q;
+  Phat = A * Phat * ~A + Q;
 }
 
 void CorrectionUpdate(const Matrix<2> &y, Matrix<3> &xhat, Matrix<3,3> &Phat, Matrix<2> &nu, Matrix<2,2> &S) {
@@ -80,23 +76,21 @@ void CorrectionUpdate(const Matrix<2> &y, Matrix<3> &xhat, Matrix<3,3> &Phat, Ma
   const float dx2dtheta = -kBeta * sth - kGamma * cth;
   const float dy2dtheta =  kBeta * cth - kGamma * sth;
 
-  float arrayJh[2][3] = {
-    {-kP1 / n1, -kQ1 / n1, -(kP1 * dx1dtheta + kQ1 * dy1dtheta) / n1},
-    {-kP2 / n2, -kQ2 / n2, -(kP2 * dx2dtheta + kQ2 * dy2dtheta) / n2}
-  };
-  Matrix<2,3> C = arrayJh;
+  Matrix<2,3> C = {-kP1 / n1, -kQ1 / n1, -(kP1 * dx1dtheta + kQ1 * dy1dtheta) / n1,
+                   -kP2 / n2, -kQ2 / n2, -(kP2 * dx2dtheta + kQ2 * dy2dtheta) / n2};
 
   // Measurement noise
-  float arrayR[2][2]{{kRz1, 0.0f},
-                     {0.0f, kRz2}};
-  Matrix<2, 2> R = arrayR;
+  Matrix<2, 2> R = {kRz1, 0.0f,
+                    0.0f, kRz2};
 
   // Innovation and innovation covariance
   nu = y - h;
-  S = C * Phat * C.Transpose() + R;
+  S = C * Phat * ~C + R;
 
   // Kalman gain
-  Matrix<3,2> L = Phat * C.Transpose() * S.Inverse();
+  Matrix<2,2> Sinv = S;
+  Invert(Sinv);
+  Matrix<3,2> L = Phat * ~C * Sinv;
 
   // State and covariance correction
   xhat += L * nu;

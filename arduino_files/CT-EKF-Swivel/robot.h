@@ -13,6 +13,7 @@
 #include "mecotron.h" // Include MECOTRON header
 #include <BasicLinearAlgebra.h> // Include BasicLinearAlgebra to make matrix manipulations easier
 #include "extended_kalman_filter.h" // Include template to make extended Kalman filter implementation easier
+using namespace BLA;
 
 #define SWIVEL
 #include <trajectory.h> // Include trajectory, for assignment 5

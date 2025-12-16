@@ -109,7 +109,7 @@
 	
 	\newpage
 	
-	\section{Discrete-time model structure selection}
+	\section{Discrete-time model structure selection (1a)}
 	
 	We assume that (i) the same voltage is applied to both motors, (ii) no wheel slip occurs, (iii) only longitudinal motion (no turning) is considered, and (iv) the cart mass and ground friction are lumped into the wheel inertia and viscous friction, respectively. Under these assumptions, the lumped-parameter model follows from the balance of angular momentum of the rotor and the conservation of electric charge in the armature circuit. \newline
 
@@ -196,7 +196,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	\noindent with only two parameters.
 	
 	
-	\section{Model parameters estimation}
+	\section{Model parameters estimation (1b)}
 	
 	We estimate the parameters of the third-order discrete-time transfer function $H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$ using linear least squares. The matrix formulation of the parameter estimation problem of the second-order model is presented in Appendix~\ref{app:simplified_model}.
 	
@@ -258,7 +258,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	\section{Identification of the cart by exciting the motors while the cart is on the ground}
 	
-	\subsection{Excitation signal selection}
+	\subsection{Excitation signal selection (2a)}
 	
 	
 	
@@ -291,11 +291,11 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	\end{figure}
 	
 	
-	\subsection{Parameter estimation and model validation for both motors}
+	\subsection{Parameter estimation and model validation for both motors (2b)}
 	
 	Using linear least squares estimation, we identified both the third-order model ($H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$) and the simplified second-order model ($H(z) = \frac{b_1}{z^2 + a_1 z}$) for motors A and B.
 
-\noindent The simplified-model parameter vectors, identified on the unfiltered data set with sampling time $T_s = 0.01$~s, are
+\noindent The simplified-model parameter vectors, identified on the unfiltered data set, are
 \begin{equation}
 \hat{\boldsymbol{\theta}}^{\text{simp}}_A = \begin{bmatrix} -0.6819 \\ 0.6309 \end{bmatrix},\qquad
 \hat{\boldsymbol{\theta}}^{\text{simp}}_B = \begin{bmatrix} -0.6806 \\ 0.6488 \end{bmatrix}.
@@ -314,7 +314,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 \end{equation}
 
 
-\noindent Including the microOS delay yields the corresponding third-order models reported throughout this section:
+\noindent Including the microOS delay yields the corresponding third-order models:
 \begin{align}
 \hat{H}_A(z) &= z^{-1} \hat{H}_{0,A}(z) = \frac{0.007672 z + 0.6589}{z^{3} - 0.5671 z^{2} - 0.09698 z},\\
 \hat{H}_B(z) &= z^{-1} \hat{H}_{0,B}(z) = \frac{0.008073 z + 0.6741}{z^{3} - 0.5762 z^{2} - 0.08815 z}.
@@ -322,19 +322,28 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	\subsubsection{Measured vs simulated response and model error}
 
-Only the results concerning motor A are shown considering redundancy. Figure~\ref{fig:measured_vs_modeled_pair} shows the measured angular velocity compared with the simulated responses for both models, zoomed to clearly reveal differences during transient periods. Figure~\ref{fig:model_error_pair} displays the error (difference) between measurement and simulation for each model.
+Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair} collect the validation plots for both motors. The top row of each figure shows the third-order model, whereas the bottom row shows the simplified model (left column: motor~A, right column: motor~B). All panels are zoomed on the transient windows to expose the small mismatches between the measured data and the simulations.
 
 \begin{figure}[H]
  \centering
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter.png}
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilterA.png}
  \end{minipage}\hfill
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplified.png}
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilterB.png}
  \end{minipage}
- \caption{Measured vs simulated responses (left: third-order; right: simplified). Zoomed-in to highlight differences.}
+
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplifiedA.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_nofilter_simplifiedB.png}
+ \end{minipage}
+ \caption{Measured (solid black) versus simulated (dashed black) responses for both motors. Top row: third-order model; bottom row: simplified model.}
  \label{fig:measured_vs_modeled_pair}
 \end{figure}
 
@@ -342,70 +351,81 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
  \centering
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter.png}
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilterA.png}
  \end{minipage}\hfill
  \begin{minipage}{0.48\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplified.png}
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilterB.png}
  \end{minipage}
- \caption{Prediction error (measurement minus simulation). Left: third-order model; right: simplified model.}
+
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplifiedA.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/model_vs_meas_error_nofilter_simplifiedB.png}
+ \end{minipage}
+ \caption{Prediction error (measurement minus simulation) for both motors. Top row: third-order model; bottom row: simplified model.}
  \label{fig:model_error_pair}
 \end{figure}
 
 \noindent RMS error (motor A, full model): 0.3611~rad/s \newline
 \noindent RMS error (motor B, full model): 0.3644~rad/s \newline
 \noindent RMS error (motor A, simplified model): 0.3723~rad/s \newline
-\noindent RMS error (motor B, simplified model): 0.3758~rad/s
+\noindent RMS error (motor B, simplified model): 0.3758~rad/s \newline
+
+\noindent The two motors therefore behave almost identically: the RMS prediction errors differ by less than 0.004~rad/s (below 1\%) for both model structures, and the identified parameters vary by less than 2\% across motors. The model-measurement errors in Figure~\ref{fig:model_error_pair} overlap as well, showing that the remaining discrepancies stem from shared effects such as sensor resolution/quantization limitations and mechanical eccentricities. Because the validation metrics and visual inspections point to equivalent dynamics, subsequent sections display detailed plots for motor~A only; whenever performance numbers are quoted, both motors are still reported to document their similarity.
 
 	
 	\subsubsection{Transient and steady-state characteristics}
 	
-	\textbf{Transient behavior:} Both models reproduce the measured step-to-step evolution of the angular velocity. The third-order model responds a fraction faster after each voltage transition because the additional pole associated with armature inductance gives a steeper initial slope. The velocity measurements are quantized, so visible level-to-level toggling appears that the continuous models cannot mirror. That discrepancy excites the lightly damped high-frequency mode of the third-order fit and inflates its residuals. With the updated identification, the third-order model attains RMS prediction errors of 0.3611~rad/s for motor~A and 0.3644~rad/s for motor~B—only marginally below the simplified model's 0.3723~rad/s (motor~A) and 0.3758~rad/s (motor~B) while requiring more parameters.
+	Transient behavior: Both models reproduce the measured step-to-step evolution of the angular velocity. The third-order model responds a fraction faster after each voltage transition because the additional pole associated with armature inductance gives a steeper initial slope. The velocity measurements are quantized, so visible level-to-level toggling appears that the continuous models do not mirror. That discrepancy excites the lightly damped high-frequency mode of the third-order fit and inflates its residuals. With the updated identification, the third-order model attains RMS prediction errors of 0.3611~rad/s for motor~A and 0.3644~rad/s for motor~B -only marginally below the simplified model's 0.3723~rad/s (motor~A) and 0.3758~rad/s (motor~B) while requiring more parameters.
 	\newline
 	
 
-	\noindent \textbf{Steady-state behavior:} Both simulations settle to the measured steady-state angular velocities within the sensor resolution. The apparent steady-state ripple arises from the same quantization and is absent in the simulated trajectories, yet the mean levels match within negligible error. 
+	\noindent Steady-state behavior: Both simulations settle to the measured steady-state angular velocities within the sensor resolution. The apparent steady-state ripple arises from the same quantization and is absent in the simulated trajectories, yet the mean levels match within negligible error. 
 	\newline
 	\vspace{1em}
 
-	\noindent Armature inductance therefore has no discernible influence on steady-state gain, and the simplified second-order model is selected for subsequent analysis.
+	\noindent Armature inductance therefore has no discernible influence on steady-state gain, and \textbf{the simplified second-order model is selected for subsequent analysis}.
 	
 	
 	
-	\subsection{Verification of data filtering to improve identification}
+	\subsection{Verification of data filtering to improve identification (2c)}
 	
 	\subsubsection{Motivation for filtering}
 	
-	Pre-filtering measured signals before parameter estimation is a standard technique to suppress high-frequency measurement noise that corrupts the least-squares regression. In principle, applying a low-pass filter to both input and output preserves the frequency-domain ratio $\hat{H}(e^{j\omega})$ while attenuating noise components above the system bandwidth, thereby reducing parameter variance and improving model fidelity.
+	Pre-filtering measured signals before parameter estimation is a standard technique to suppress high-frequency measurement noise that corrupts the least-squares regression. In principle, applying a low-pass filter to both input and output preserves the frequency-domain ratio $\hat{H}(e^{j\omega})$ while attenuating noise components above the system bandwidth, thereby reducing parameter variance and improving model fidelity.\newline
 	
-	We filter both signals:
-	\begin{itemize}
-		\item Input voltage $v[k]$
-		\item Output angular velocity $\omega_A[k]$ (and $\omega_B[k]$ for motor B)
-	\end{itemize}
-	
-	\noindent Filtering only the output would distort the input-output frequency response, biasing the identified transfer function. Filtering both with the same linear-phase filter maintains the correct phase relationship and gain ratio at all frequencies below the cutoff.
+\noindent Filtering both the input voltage ($v[k]$) and output angular velocity ($\omega_A[k]$) with the same linear-phase filter maintains the correct phase relationship and gain ratio at all frequencies below the cutoff.
 	
 	\subsubsection{Filter design}
 	
-	A sixth-order Butterworth low-pass filter was selected for its maximally flat passband magnitude response and straightforward design. The cutoff frequency was chosen empirically by examining the frequency content of the measurement noise visible in Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair}. High-frequency oscillations in the prediction error suggest noise components well above the dominant system pole frequency (approximately 10--15~Hz for the motor dynamics).
+	To investigate whether pre-filtering improves identification accuracy, an eighth-order Butterworth low-pass filter was selected for its maximally flat passband characteristic. The filter was applied using zero-phase filtering (\texttt{filtfilt}) to eliminate phase distortion. We systematically swept the cutoff frequency from 20~Hz to 50~Hz (Nyquist limit) to assess the trade-off between noise suppression and transient preservation.\newline
 	
-	Filter characteristics:
-	\begin{itemize}
-		\item \textbf{Type:} Butterworth low-pass filter
-		\item \textbf{Order:} 8
-		\item \textbf{Cutoff frequency:} 35~Hz (selected to suppress encoder-induced chatter while preserving the dominant dynamics)
-		\item \textbf{Implementation:} Zero-phase filtering using \texttt{filtfilt} to eliminate phase distortion
-	\end{itemize}
+	\noindent We found that every cutoff frequency attenuates useful transient content and phase information across the entire passband, causing the filtered signals to lose the sharp voltage-to-velocity steps that carry the identification information. This systematic loss of informative dynamics outweighs any noise suppression benefit, making filtering counterproductive in this case as seen in the figures below.
 
-\noindent The 35~Hz cutoff attenuates the high-frequency ripple observed in the prediction error while keeping the dynamic range of interest intact. Higher cutoffs offered less noise suppression, whereas more aggressive settings below 30~Hz began to erode the transient content needed for accurate identification.
+\begin{figure}[H]
+ \centering
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_filteredA.png}
+ \end{minipage}\hfill
+ \begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/measured_vs_modeled_filtered_simplifiedA.png}
+ \end{minipage}
+ \caption{Left: full third-order model Right: the same comparison for the simplified model}
+ \label{fig:measured_vs_modeled_filtered}
+\end{figure}
 	
 	\subsubsection{Re-identification with filtered data}
 	
-	After applying the Butterworth filter to both input and output signals using \texttt{filtfilt}, the linear least-squares estimation was repeated. The estimated parameter vectors for the third-order model with filtered data are
+After applying the Butterworth filter to both input and output signals using \texttt{filtfilt}, the linear least-squares estimation was repeated. For motor~A, the estimated parameter vectors with 20~Hz and 35~Hz cutoffs are
 \begin{equation}
-\hat{\boldsymbol{\theta}}^{\text{filt}}_A = \begin{bmatrix} -0.7993 \\ 0.0923 \\ -0.0127 \\ 0.5937 \end{bmatrix}, \quad
-\hat{\boldsymbol{\theta}}^{\text{filt}}_B = \begin{bmatrix} -0.8033 \\ 0.0941 \\ 0.0132 \\ 0.5773 \end{bmatrix}.
+\hat{\boldsymbol{\theta}}^{\text{filt,20}}_A = \begin{bmatrix} -1.3385 \\ 0.4738 \\ 0.3416 \\ -0.0730 \end{bmatrix}, \quad
+\hat{\boldsymbol{\theta}}^{\text{filt,35}}_A = \begin{bmatrix} -0.7993 \\ 0.0923 \\ -0.0127 \\ 0.5937 \end{bmatrix},
 \end{equation}
 
 \noindent These coefficients yield discrete-time transfer functions of the form
@@ -413,45 +433,36 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
 	\hat{H}_{\text{filt}}(z) = \frac{\hat{b}_1 z + \hat{b}_2}{z^3 + \hat{a}_1 z^2 + \hat{a}_2 z}.
 \end{equation}
 
-\noindent Re-identifying the simplified second-order model on the filtered data gives
+\noindent Re-identifying the simplified second-order model on the filtered data gives (motor~A shown with both cutoffs)
 \begin{equation}
-\hat{\boldsymbol{\theta}}^{\text{simp,filt}}_A = \begin{bmatrix} -0.6873 \\ 0.6204 \end{bmatrix},\qquad
-\hat{\boldsymbol{\theta}}^{\text{simp,filt}}_B = \begin{bmatrix} -0.6875 \\ 0.6351 \end{bmatrix},
+\hat{\boldsymbol{\theta}}^{\text{simp,filt,20}}_A = \begin{bmatrix} -0.7007 \\ 0.5940 \end{bmatrix},\qquad
+\hat{\boldsymbol{\theta}}^{\text{simp,filt,35}}_A = \begin{bmatrix} -0.6873 \\ 0.6204 \end{bmatrix},
 \end{equation}
 
 \noindent with corresponding transfer functions
 \begin{align}
-\hat{H}^{\text{simp,filt}}_A(z) &= \frac{0.6204}{z^2 - 0.6873 z}, &
-\hat{H}^{\text{simp,filt}}_B(z) &= \frac{0.6351}{z^2 - 0.6875 z}.
+\hat{H}^{\text{simp,filt,20}}_A(z) &= \frac{0.5940}{z^2 - 0.7007 z}, &
+\hat{H}^{\text{simp,filt,35}}_A(z) &= \frac{0.6204}{z^2 - 0.6873 z}.
 \end{align}
 
-\noindent Figure~\ref{fig:validation_filtered} (Appendix~\ref{app:figures}) compares the measured angular velocity with the simulated response of the filtered-data model. The continuous-time pole locations, damping ratios, natural frequencies, and step-response characteristics (overshoot, peak time, steady-state gain) are computed via Tustin transformation and the \texttt{damp} function, as in the unfiltered case.
 
-\noindent The explicit transfer functions (without the microOS delay) are
+
+\noindent The explicit transfer functions are:
+
 \begin{align}
-\hat{H}_{0,A}^{\text{filt}}(z) &= \frac{-0.01271 z + 0.5937}{z^{2} - 0.7993 z + 0.09234},\\
-\hat{H}_{0,B}^{\text{filt}}(z) &= \frac{0.01315 z + 0.5773}{z^{2} - 0.8033 z + 0.09407},
-\end{align}
-\noindent and reinstating the one-sample delay gives
-\begin{align}
-\hat{H}_{A}^{\text{filt}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt}}(z) = \frac{-0.01271 z + 0.5937}{z^{3} - 0.7993 z^{2} + 0.09234 z},\\
-\hat{H}_{B}^{\text{filt}}(z) &= z^{-1} \hat{H}_{0,B}^{\text{filt}}(z) = \frac{0.01315 z + 0.5773}{z^{3} - 0.8033 z^{2} + 0.09407 z}.
+\hat{H}_{A}^{\text{filt,20}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,20}}(z) = \frac{0.3416 z - 0.07297}{z^{3} - 1.338 z^{2} + 0.4738 z},\\
+\hat{H}_{A}^{\text{filt,35}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,35}}(z) = \frac{-0.01271 z + 0.5937}{z^{3} - 0.7993 z^{2} + 0.09234 z}.
 \end{align}
 	
 	\subsubsection{Comparison and model selection}
 	
-	\textbf{RMS prediction error:} Direct comparison of RMS errors reveals that filtering does \emph{not} improve identification accuracy. For motor~A, the unfiltered third-order model achieves an RMS error of 0.3611~rad/s (0.3644~rad/s for motor~B), whereas the filtered third-order fits rise to 0.3865~rad/s and 0.3875~rad/s, respectively. This degradation indicates that the 35~Hz filter eliminates informative transients together with the noise.
+	\noindent Direct comparison of RMS errors reveals that filtering does \emph{not} improve identification accuracy for motor~A. The unfiltered third-order model achieves an RMS error of 0.3611~rad/s, whereas the filtered third-order fits rise to 0.4255~rad/s (20~Hz) and 0.3865~rad/s (35~Hz). For the simplified motor~A model, filtering yields 0.3682~rad/s (20~Hz) and 0.3706~rad/s (35~Hz), only a marginal change relative to the unfiltered 0.3723~rad/s. \newline
 
-\textbf{Interpretation:} The lack of improvement suggests that the dominant error source is \emph{not} high-frequency additive noise but rather model mismatch (e.g., unmodeled nonlinearities, quantization effects, or the lightly damped pole artifact from encoder resolution). Because the simplified second-order model already achieves 0.3723~rad/s for motor~A with two parameters and outperforms the filtered third-order alternatives, we conclude that the model structure—not the noise level—is the limiting factor.
+\noindent The lack of improvement suggests that the dominant error source is \emph{not} high-frequency additive noise but rather model mismatch (e.g., unmodeled nonlinearities, quantization effects, or the lightly damped pole artifact from encoder resolution). Because the simplified second-order model already achieves 0.3723~rad/s for motor~A with two parameters and outperforms the filtered third-order alternatives, we conclude that the model structure, not the noise level, is the limiting factor. \newline
 
-\textbf{Model preference:} We therefore retain the \textbf{unfiltered simplified second-order model} for all subsequent analysis. This choice is motivated by:
-\begin{enumerate}
-\item Superior or comparable RMS prediction performance (0.3723~rad/s for motor~A) without the error penalty observed for the filtered third-order models (0.3865/0.3875~rad/s).
-\item Simpler structure (two parameters vs.\ four), reducing overfitting risk.
-\item Absence of the spurious high-frequency oscillations that can appear in the higher-order fit due to encoder quantization.
-\end{enumerate}
+\noindent Considering the simpler structure (reduced overfitting risk) and the better RMS error performance, we select the \textbf{unfiltered simplified second-order model} for all subsequent analysis. \newline
 
-\noindent The filtering exercise confirms that the measurement noise is secondary relative to structural mismatch; a parsimonious model on unfiltered data best captures the true system dynamics under the given experimental conditions.
+\noindent The filtering exercise confirms that the measurement noise is secondary relative to structural mismatch; a model on unfiltered data best captures the true system dynamics under the given experimental conditions.
 	
 	\bibliographystyle{plainnat}
 	\bibliography{references}
@@ -498,60 +509,5 @@ Only the results concerning motor A are shown considering redundancy. Figure~\re
 		\label{fig:dc_motor_model}
 	\end{figure}
 
-	\begin{figure}[htbp]
-		\centering
-		% To-do: Insert Figure 1 from MATLAB (voltage vs time)
-		\caption{Input voltage applied to both DC motors over time}
-		\label{fig:voltage_time}
-	\end{figure}
-
-	\begin{figure}[htbp]
-		\centering
-		% To-do: Insert Figure 2 from MATLAB (omegaA and omegaB vs time)
-		\caption{Measured angular velocities for motors A and B}
-		\label{fig:omega_time}
-	\end{figure}
-
-	\begin{figure}[htbp]
-		\centering
-		% To-do: Insert Figure 3 from MATLAB (noise comparison across periods)
-		\caption{Comparison of signals across periods to assess measurement noise}
-		\label{fig:noise_analysis}
-	\end{figure}
-
-	\begin{figure}[htbp]
-		\centering
-		% To-do: Insert Figure 4 from MATLAB (measured vs simulated without filtering)
-		\caption{Model validation without filtering: measured vs simulated response for motor A}
-		\label{fig:validation_unfiltered}
-	\end{figure}
-
-	\begin{figure}[h]
-		\centering
-		% To-do: Insert Figure 5 from MATLAB (step response of sys_d1)
-		\caption{Step response of the discrete-time model (unfiltered)}
-		\label{fig:step_unfiltered}
-	\end{figure}
-
-	\begin{figure}[h]
-		\centering
-		% To-do: Insert Figure 6 from MATLAB (averaged omegaA over one period)
-		\caption{Mean angular velocity for motor A averaged across all measurement periods}
-		\label{fig:omega_mean}
-	\end{figure}
-
-	\begin{figure}[h]
-		\centering
-		% To-do: Insert Figure 7 from MATLAB (measured vs simulated with filtering)
-		\caption{Model validation with filtering: measured vs simulated response for motor A}
-		\label{fig:validation_filtered}
-	\end{figure}
-
-	\begin{figure}[h]
-		\centering
-		% To-do: Insert Figure 8 from MATLAB (step response of sys_d2)
-		\caption{Step response of the discrete-time model (filtered)}
-		\label{fig:step_filtered}
-	\end{figure}
 
 \end{document}

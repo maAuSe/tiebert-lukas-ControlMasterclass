@@ -19,7 +19,7 @@ if ~exist(imgDir, 'dir'), mkdir(imgDir); end
 %  PHYSICAL & GEOMETRIC PARAMETERS (MEASURE ON THE CART)
 %  ========================================================================
 Ts     = 0.010;     % s (sampling time)
-r      = 0.0325;    % m (wheel radius, R_WHEEL)
+r      = 0.0330;    % m (wheel radius, R_WHEEL, per Assignment 3 measurement)
 Lwheel = 0.1660;    % m (wheelbase, WHEELBASE)
 a      = Lwheel/2;  % m, half wheelbase (0.083 m)
 
@@ -31,6 +31,7 @@ gamma = 0.078;      % m, side IR lateral offset from center (positive to left)
 % Walls p*x + q*y = r. Default: corner at (0,0), cart starts in x<0, y<0.
 wall1 = [0, 1, 0];  % y = 0 (front wall W1)
 wall2 = [1, 0, 0];  % x = 0 (side wall W2)
+geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wall2);
 
 %% ========================================================================
 %  NOISE COVARIANCES & INITIAL STATE (PLACEHOLDERS TO TUNE)
@@ -39,10 +40,15 @@ Q_proc_nom = diag([1e-5, 1e-5, 5e-6]);   % process noise (m^2, m^2, rad^2)
 R_meas_nom = diag([1e-4, 1e-4]);         % measurement noise (m^2)
 P0_default = diag([0.04, 0.04, (deg2rad(10))^2]); % initial covariance
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
+R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
 
 %% ========================================================================
 %  MODEL DEFINITIONS
 %  ========================================================================
+% Motor-side relation (spec 1a): v = r/2*(wR + wL), omega = r/L*(wR - wL)
+wheelSpeedsFromVOmega = @(v, omega) [v/r + (Lwheel/(2*r)) * omega;   % right wheel speed [rad/s]
+                                     v/r - (Lwheel/(2*r)) * omega];  % left  wheel speed [rad/s]
+
 % Continuous-time dynamics: xdot = f(x,u)
 f_cont = @(x,u) [ u(1) * cos(x(3));
                   u(1) * sin(x(3));
@@ -58,6 +64,11 @@ jac_f = @(x,u) [1, 0, -Ts * u(1) * sin(x(3));
 
 % Measurement model and Jacobian
 measFun = @(x) measurementModel(x, alpha, beta, gamma, wall1, wall2);
+
+% Rotation matrix for world -> body error conversion (spec 4a)
+rotWorldToBody = @(theta) [ cos(theta),  sin(theta), 0;
+                           -sin(theta),  cos(theta), 0;
+                            0,           0,          1];
 
 %% ========================================================================
 %  EKF Q/R SWEEP PLACEHOLDERS
@@ -96,27 +107,28 @@ lqrRuns = [ ...
 %% ========================================================================
 %  EKF DATA PROCESSING (IF FILES AVAILABLE)
 %  ========================================================================
-statesSweep = struct([]);
+ekfExps = struct([]);
+% Tip (spec 3b): for manual imports you can also call KalmanExperiment.createfromQRC45().
 for k = 1:numel(ekfRuns)
   if ~isfile(ekfRuns(k).file)
     fprintf('>> Missing EKF run: %s\n', ekfRuns(k).file);
     continue;
   end
-  D = readQRC45(ekfRuns(k).file);
-  statesSweep(end+1).label = ekfRuns(k).label; %#ok<SAGROW>
-  statesSweep(end).t       = D.time;
-  statesSweep(end).xhat    = [D.xhat, D.yhat, D.thetahat];
-  statesSweep(end).Pdiag   = [D.Pxx, D.Pyy, D.Ptt];
+  [ke, raw] = loadEkfRun(ekfRuns(k), geom, R_meas_off_factor);
+  ekfExps(end+1).label = ekfRuns(k).label; %#ok<SAGROW>
+  ekfExps(end).ke      = ke;
+  ekfExps(end).raw     = raw;
 end
 
-if ~isempty(statesSweep)
-  plotStateSweep(statesSweep, imgDir);
+if ~isempty(ekfExps)
+  plotEkfStateSweep(ekfExps, imgDir, 0.95);
 end
 
-% Uncertainty plots for nominal run
-if numel(statesSweep) >= ekfNominalIdx
-  Snom = statesSweep(ekfNominalIdx);
-  plotUncertainty(Snom, imgDir);
+% Uncertainty + measurement plots for nominal run
+if numel(ekfExps) >= ekfNominalIdx
+  keNom = ekfExps(ekfNominalIdx).ke;
+  plotEkfNominalBands(keNom, imgDir, 0.95);
+  plotEkfMeasurements(keNom, imgDir, 0.95);
 end
 
 %% ========================================================================
@@ -128,11 +140,17 @@ for k = 1:numel(lqrRuns)
     fprintf('>> Missing LQR run: %s\n', lqrRuns(k).file);
     continue;
   end
-  D = readQRC45(lqrRuns(k).file);
+  D = parseQrcAssignment5(lqrRuns(k).file);
   trackingRuns(end+1).label = lqrRuns(k).label; %#ok<SAGROW>
   trackingRuns(end).t       = D.time;
-  trackingRuns(end).errs    = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPi(D.theta_ref - D.thetahat)];
-  trackingRuns(end).u       = [D.v_ff, D.omega_ff]; % feedforward proxy (replace with u_total if logged)
+  err_world                  = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPi(D.theta_ref - D.thetahat)];
+  err_body                   = zeros(size(err_world));
+  for i = 1:numel(D.time)
+    err_body(i,:) = (rotWorldToBody(D.thetahat(i)) * err_world(i,:).').';
+  end
+  trackingRuns(end).err_world = err_world;
+  trackingRuns(end).err_body  = err_body;
+  trackingRuns(end).u         = [D.v_ff, D.omega_ff]; % feedforward proxy (replace with u_total if logged)
 end
 
 if ~isempty(trackingRuns)
@@ -173,110 +191,182 @@ function [z, C] = measurementModel(x, alpha, beta, gamma, w1, w2)
         -p2/n2, -q2/n2, -(p2*dx2 + q2*dy2)/n2 ];
 end
 
-function D = readQRC45(filename)
-% Import QRC CSV (Assignment 5 mapping). Skips header rows 1-2.
+function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
+% Build a KalmanExperiment from a QRC CSV (assignment 5 mapping).
+  D = parseQrcAssignment5(runCfg.file);
+  N = numel(D.time);
+  xhat = [D.xhat, D.yhat, D.thetahat]';
+  y    = [D.z1, D.z2]';
+  u    = [D.v_ff, D.omega_ff]';
+  nu   = [D.nu1, D.nu2]';
+  hasMeas = D.hasMeas ~= 0;
+
+  P = zeros(3,3,N);
+  for i = 1:N
+    P(:,:,i) = diag([D.Pxx(i), D.Pyy(i), D.Ptt(i)]);
+  end
+
+  Rall = repmat(runCfg.R, [1 1 N]);
+  Rall(:,:,~hasMeas) = runCfg.R * R_off_factor; % mimic sensor drop-out
+  y(:, ~hasMeas) = NaN;                         % show gaps when sensors are disabled
+
+  % Innovation covariance for plotting/consistency
+  S = zeros(2,2,N);
+  for i = 1:N
+    if hasMeas(i)
+      [~, Ck] = measurementModel(xhat(:,i), geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
+    else
+      Ck = zeros(2,3);
+    end
+    S(:,:,i) = Ck * P(:,:,i) * Ck' + Rall(:,:,i);
+  end
+
+  ke = KalmanExperiment(D.time, xhat, P, y, Rall, u, nu, S);
+  raw = struct('t', D.time, 'xhat', xhat, 'Pdiag', [D.Pxx, D.Pyy, D.Ptt], ...
+               'hasMeas', hasMeas, 'y', y, 'u', u);
+end
+
+function D = parseQrcAssignment5(filename)
+% Parse a QRoboticsCenter CSV exported for assignment 5.
   opts = detectImportOptions(filename);
   opts.DataLines = [3 inf];
   opts.VariableNamesLine = 2;
   T = readtable(filename, opts);
+  N = height(T);
+  getv = @(names, default) pickVar(T, names, default, N);
 
-  getv = @(var, default) pickVar(T, var, default);
-
-  D.time      = (T.Time - T.Time(1)) / 1000; % s
-  D.v_ff      = getv('ValueIn0', zeros(height(T),1));
-  D.omega_ff  = getv('ValueIn1', zeros(height(T),1));
-  D.x_ref     = getv('ValueIn2', zeros(height(T),1));
-  D.y_ref     = getv('ValueIn3', zeros(height(T),1));
-  D.theta_ref = getv('ValueIn4', zeros(height(T),1));
-  D.hasMeas   = getv('ValueIn5', zeros(height(T),1));
-  D.speedA    = getv('ValueIn6', zeros(height(T),1));
-  D.speedB    = getv('ValueIn7', zeros(height(T),1));
-  D.z1        = getv('ValueIn8', zeros(height(T),1));
-  D.z2        = getv('ValueIn9', zeros(height(T),1));
-  D.voltA     = getv('ValueIn10', zeros(height(T),1));
-  D.voltB     = getv('ValueIn11', zeros(height(T),1));
-  D.xhat      = getv('ValueIn12', zeros(height(T),1));
-  D.yhat      = getv('ValueIn13', zeros(height(T),1));
-  D.thetahat  = getv('ValueIn14', zeros(height(T),1));
-  D.nu1       = getv('ValueIn15', zeros(height(T),1));
-  D.nu2       = getv('ValueIn16', zeros(height(T),1));
-  D.Pxx       = getv('ValueIn17', zeros(height(T),1));
-  D.Pyy       = getv('ValueIn18', zeros(height(T),1));
-  D.Ptt       = getv('ValueIn19', zeros(height(T),1));
+  D.time      = (T.Time - T.Time(1)) / 1000; D.time = D.time(:); % s
+  D.v_ff      = getv({'ValueIn0','v_ff','v'}, zeros(N,1));
+  D.omega_ff  = getv({'ValueIn1','omega_ff','omega'}, zeros(N,1));
+  D.x_ref     = getv({'ValueIn2','x_ref','xref'}, zeros(N,1));
+  D.y_ref     = getv({'ValueIn3','y_ref','yref'}, zeros(N,1));
+  D.theta_ref = getv({'ValueIn4','theta_ref','thetaref'}, zeros(N,1));
+  D.hasMeas   = getv({'ValueIn5','hasMeas','hasMeasurements'}, ones(N,1));
+  D.speedA    = getv({'ValueIn6','speedA','wA'}, zeros(N,1));
+  D.speedB    = getv({'ValueIn7','speedB','wB'}, zeros(N,1));
+  D.z1        = getv({'ValueIn8','z1','y1'}, zeros(N,1));
+  D.z2        = getv({'ValueIn9','z2','y2'}, zeros(N,1));
+  D.voltA     = getv({'ValueIn10','voltA','uA'}, zeros(N,1));
+  D.voltB     = getv({'ValueIn11','voltB','uB'}, zeros(N,1));
+  D.xhat      = getv({'ValueIn12','xhat','x1'}, zeros(N,1));
+  D.yhat      = getv({'ValueIn13','yhat','x2'}, zeros(N,1));
+  D.thetahat  = getv({'ValueIn14','thetahat','x3'}, zeros(N,1));
+  D.nu1       = getv({'ValueIn15','nu1','innovation1'}, zeros(N,1));
+  D.nu2       = getv({'ValueIn16','nu2','innovation2'}, zeros(N,1));
+  D.Pxx       = getv({'ValueIn17','Pxx','P11'}, 1e-6 * ones(N,1));
+  D.Pyy       = getv({'ValueIn18','Pyy','P22'}, 1e-6 * ones(N,1));
+  D.Ptt       = getv({'ValueIn19','Ptt','P33'}, 1e-6 * ones(N,1));
 end
 
-function out = pickVar(T, name, default)
-  if any(strcmp(T.Properties.VariableNames, name))
-    out = T.(name);
-  else
+function out = pickVar(T, names, default, N)
+% Return first matching column in table T for given candidate names.
+  if ~iscell(names); names = {names}; end
+  out = [];
+  for i = 1:numel(names)
+    if any(strcmp(T.Properties.VariableNames, names{i}))
+      out = T.(names{i});
+      break;
+    end
+  end
+  if isempty(out)
     out = default;
   end
+  if isscalar(out)
+    out = out * ones(N,1);
+  elseif isvector(out)
+    out = out(:);
+  end
 end
 
-function plotStateSweep(statesSweep, imgDir)
-% Overlay x/y/theta estimates for multiple Q/R combinations.
-  labels = {statesSweep.label};
-  colors = lines(numel(statesSweep));
-  fig = figure('Name','EKF State Sweep','Position',[100 100 1100 700]);
+function plotEkfStateSweep(ekfExps, imgDir, confidence)
+% Per-state overlay of EKF estimates for different Q/R choices using plotstates.
+  if nargin < 3, confidence = 0.95; end
+  colors = lines(numel(ekfExps));
   stateNames = {'x_c [m]', 'y_c [m]', '\theta [rad]'};
   for idx = 1:3
-    subplot(3,1,idx); hold on; grid on;
-    for k = 1:numel(statesSweep)
-      plot(statesSweep(k).t, statesSweep(k).xhat(:,idx), 'Color', colors(k,:), 'LineWidth', 1.5, ...
-        'DisplayName', labels{k});
+    fig = figure('Name', sprintf('EKF state %d sweep', idx), 'Position', [100 100 850 500]);
+    hold on; grid on;
+    for k = 1:numel(ekfExps)
+      plotstates(ekfExps(k).ke, idx, confidence);
+      hLine = findobj(gca, 'Type','line', 'DisplayName', sprintf('state %d (%.0f%% interval)', idx, confidence*100));
+      hLine(1).Color = colors(k,:);
+      hLine(1).DisplayName = ekfExps(k).label;
     end
     ylabel(stateNames{idx});
-    if idx == 1
-      title('EKF state trajectories for different Q/R choices');
-    end
-    if idx == 3
-      xlabel('Time [s]');
-      legend('Location','bestoutside');
-    end
+    xlabel('Time [s]');
+    legend('Location','bestoutside');
+    title('EKF state trajectories vs Q/R');
+    exportgraphics(fig, fullfile(imgDir, sprintf('ekf_state%d_QR_sweep.pdf', idx)), 'ContentType','vector');
   end
-  exportgraphics(fig, fullfile(imgDir, 'ekf_states_QR_sweep.pdf'), 'ContentType','vector');
 end
 
-function plotUncertainty(Snom, imgDir)
-% Plot state estimate with 95% CI bands.
-  ci = 1.96 * [sqrt(Snom.Pdiag(:,1)), sqrt(Snom.Pdiag(:,2)), sqrt(Snom.Pdiag(:,3))];
-  fig = figure('Name','EKF Uncertainty','Position',[100 100 1100 700]);
+function plotEkfNominalBands(keNom, imgDir, confidence)
+% Save 95% confidence plots for the nominal EKF run (states).
+  if nargin < 3, confidence = 0.95; end
   stateNames = {'x_c [m]', 'y_c [m]', '\theta [rad]'};
   for idx = 1:3
-    subplot(3,1,idx); hold on; grid on;
-    fill([Snom.t; flipud(Snom.t)], ...
-         [Snom.xhat(:,idx)-ci(:,idx); flipud(Snom.xhat(:,idx)+ci(:,idx))], ...
-         [0.8 0.8 0.9], 'EdgeColor','none', 'FaceAlpha',0.4, 'DisplayName','95% CI');
-    plot(Snom.t, Snom.xhat(:,idx), 'k', 'LineWidth', 1.5, 'DisplayName','Estimate');
+    fig = figure('Name', sprintf('EKF state %d CI', idx), 'Position', [120 120 800 400]);
+    hold on; grid on;
+    plotstates(keNom, idx, confidence);
     ylabel(stateNames{idx});
-    if idx == 1
-      title(sprintf('EKF uncertainty bands (%s)', Snom.label));
-    end
-    if idx == 3, xlabel('Time [s]'); end
+    xlabel('Time [s]');
+    legend('Location','best');
+    exportgraphics(fig, fullfile(imgDir, sprintf('ekf_state%d_95ci_plotstates.pdf', idx)), 'ContentType','vector');
   end
-  exportgraphics(fig, fullfile(imgDir, 'ekf_uncertainty_95ci.pdf'), 'ContentType','vector');
+end
+
+function plotEkfMeasurements(keNom, imgDir, confidence)
+% Save 95% confidence plots for the measurements.
+  if nargin < 3, confidence = 0.95; end
+  measNames = {'z_1 [m]', 'z_2 [m]'};
+  ny = size(keNom.y, 1);
+  for idx = 1:ny
+    fig = figure('Name', sprintf('EKF measurement %d CI', idx), 'Position', [140 140 800 350]);
+    hold on; grid on;
+    plotmeasurements(keNom, idx, confidence);
+    ylabel(measNames{min(idx, numel(measNames))});
+    xlabel('Time [s]');
+    legend('Location','best');
+    exportgraphics(fig, fullfile(imgDir, sprintf('ekf_measurement%d_95ci.pdf', idx)), 'ContentType','vector');
+  end
 end
 
 function plotLqrTracking(trackingRuns, imgDir)
-% Plot tracking errors and control signals for LQR tuning sweep.
+% Plot tracking errors (world + body frames) and control signals for LQR tuning sweep.
   colors = lines(numel(trackingRuns));
-  % Errors
-  fig1 = figure('Name','LQR Errors','Position',[100 100 1100 700]);
-  errNames = {'e_x [m]','e_y [m]','e_\theta [rad]'};
+
+  % World-frame errors
+  figW = figure('Name','LQR Errors (world frame)','Position',[100 100 1100 700]);
+  errNamesW = {'e_x [m]','e_y [m]','e_\theta [rad]'};
   for idx = 1:3
     subplot(3,1,idx); hold on; grid on;
     for k = 1:numel(trackingRuns)
-      plot(trackingRuns(k).t, trackingRuns(k).errs(:,idx), 'Color', colors(k,:), 'LineWidth',1.4, ...
+      plot(trackingRuns(k).t, trackingRuns(k).err_world(:,idx), 'Color', colors(k,:), 'LineWidth',1.4, ...
         'DisplayName', trackingRuns(k).label);
     end
-    ylabel(errNames{idx});
-    if idx == 1, title('Tracking errors vs. LQR weights'); end
+    ylabel(errNamesW{idx});
+    if idx == 1, title('Tracking errors (world frame)'); end
     if idx == 3, xlabel('Time [s]'); legend('Location','bestoutside'); end
   end
-  exportgraphics(fig1, fullfile(imgDir, 'lqr_tracking_errors.pdf'), 'ContentType','vector');
+  exportgraphics(figW, fullfile(imgDir, 'lqr_tracking_errors_world.pdf'), 'ContentType','vector');
+
+  % Body-frame errors (as used by the controller)
+  figB = figure('Name','LQR Errors (body frame)','Position',[100 100 1100 700]);
+  errNamesB = {'e_{x''} [m]','e_{y''} [m]','e_\theta [rad]'};
+  for idx = 1:3
+    subplot(3,1,idx); hold on; grid on;
+    for k = 1:numel(trackingRuns)
+      plot(trackingRuns(k).t, trackingRuns(k).err_body(:,idx), 'Color', colors(k,:), 'LineWidth',1.4, ...
+        'DisplayName', trackingRuns(k).label);
+    end
+    ylabel(errNamesB{idx});
+    if idx == 1, title('Tracking errors (body frame, spec 4a)'); end
+    if idx == 3, xlabel('Time [s]'); legend('Location','bestoutside'); end
+  end
+  exportgraphics(figB, fullfile(imgDir, 'lqr_tracking_errors_body.pdf'), 'ContentType','vector');
 
   % Control signals (feedforward proxy)
-  fig2 = figure('Name','LQR Inputs','Position',[100 100 1100 500]);
+  figU = figure('Name','LQR Inputs','Position',[100 100 1100 500]);
   subplot(2,1,1); hold on; grid on;
   for k = 1:numel(trackingRuns)
     plot(trackingRuns(k).t, trackingRuns(k).u(:,1), 'Color', colors(k,:), 'LineWidth',1.4, ...
@@ -291,5 +381,5 @@ function plotLqrTracking(trackingRuns, imgDir)
       'DisplayName', trackingRuns(k).label);
   end
   ylabel('\omega [rad/s]'); xlabel('Time [s]');
-  exportgraphics(fig2, fullfile(imgDir, 'lqr_control_signals.pdf'), 'ContentType','vector');
+  exportgraphics(figU, fullfile(imgDir, 'lqr_control_signals.pdf'), 'ContentType','vector');
 end

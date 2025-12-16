@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{graphicx}
+\graphicspath{{images/}}
 \usepackage{adjustbox}
 %\usepackage{astron}
 \usepackage{natbib}
@@ -103,9 +104,9 @@
 	
 	\begin{enumerate}
 		\item \textit{Note has been taken of the text on academic integrity \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/documenten/20161221-academischeintegriteit-okt2016.pdf}.}
-		\item \textit{No plagiarism has been committed as described on \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/plagiaat\#Definitie:\%20wat\%20is\%20plagiaat?}.}
+		\item \textit{No plagiarism has been committed as described on \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/plagiaat\#Definitie:\%20wat\%20is\%20plagiaat^\circ}.}
 		\item \textit{All experiments, tests, measurements, \ldots, have been performed as described in this draft, and no data or measurement results have been manipulated.}
-		\item \textit{All sources employed in this draft – including internet sources – have been correctly referenced.}
+		\item \textit{All sources employed in this draft - including internet sources - have been correctly referenced.}
 	\end{enumerate}
 	
 	\newpage
@@ -172,40 +173,38 @@ The cross-over frequency determines the closed-loop bandwidth. A value must bala
     \item Tracking performance vs. noise sensitivity
     \item Stability margin vs. speed
 \end{itemize}
-A phase margin (PM) target of 55° was imposed to ensure robust behavior.
+A phase margin (PM) target of 55^\circ was imposed to ensure robust behavior.
 The uncompensated phase of the motor model was evaluated to find the frequency satisfying:
 \begin{equation}
-    \phi_G(\omega_c) = -180° + PM + \phi_{PI}(\omega_c)
+    \phi_G(\omega_c) = -180^\circ + PM + \phi_{PI}(\omega_c)
 \end{equation}
 where:
 \begin{itemize}
     \item $\phi_G(\omega_c)$ is the phase of the uncompensated open-loop system at $\omega_c$
-    \item $PM$ is the desired phase margin, which is 55°
-    \item $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$, which is selected to be 15°
+    \item $PM$ is the desired phase margin, which is 55^\circ
+    \item $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$, which is selected to be 15^\circ
 \end{itemize}
 This yields:
 \begin{equation}
-	\phi_G(\omega_c) = -180° + 55° + 15° = -110°
+	\phi_G(\omega_c) = -180^\circ + 55^\circ + 15^\circ = -110^\circ
 \end{equation}
 
-The cross-over frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110° is fixed directly by the specification:
+The cross-over frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110^\circ is fixed directly by the specification:
 \begin{equation}
-    \omega_{c,A} = XXX \texttt{rad/s}, \quad \omega_{c,B} = YYY \texttt{rad/s} 
-    %\omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
+    \omega_{c,A} = \omega_{c,B} = 60~\text{rad/s}, \qquad \omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}
 \end{equation}
 
 
 \paragraph{Integration time T$_i$:}
 The integrator pole must lie well below the cross-over frequency to avoid excessive phase lag.
-The integration time is selected such that the contribution of the PI compensator to the phase at $\omega_c$ equals the anticipated one ($\phi_{PI}(\omega_c)$ = 15°).
+The integration time is selected such that the contribution of the PI compensator to the phase at $\omega_c$ equals the anticipated one ($\phi_{PI}(\omega_c)$ = 15^\circ).
 This design rule is mathematically expressed as:
 \begin{equation}
-    T_i \omega_c = \tan(90°-\phi_{PI}(\omega_c))
+    T_i \omega_c = \tan(90^\circ-\phi_{PI}(\omega_c))
 \end{equation}
-using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
+using a margin of $\phi_{PI}(\omega_c)$ = 15^\circ, leading to:
 \begin{equation}
-    T_{i,A} = XXX \texttt{s}, \quad T_{i,B} = YYY \texttt{s} 
-	%T_{i,\text{low}} = 1.19~\text{s}
+    T_{i,A} = T_{i,B} \approx 0.062~\text{s}, \qquad T_{i,\text{low}} \approx 1.19~\text{s}
 \end{equation}
 
 Interpretation of trade-offs:
@@ -221,11 +220,7 @@ Interpretation of trade-offs:
 \end{equation}
 The continuous controller is discretized using the Tustin method (with $c2d$ MATLAB command), 
 and the gain is adjusted iteratively until MATLAB's Bode diagram confirms the desired cross-over frequency.
-The identified wheel models yield the following proportional gains:
-\begin{equation}
-    K_A^{\text{nom}} = XXX, \quad K_B = YYY \quad
-    %K_A^{\text{low}} = 0.489, \quad K_B^{\text{low}} = 0.477
-\end{equation}
+The identified wheel models yield proportional gains obtained from the unity-gain condition $\lvert D(j\omega_c)G(j\omega_c)\rvert = 1$; the MATLAB script prints these numerical values (for nominal and low-bandwidth controllers) and the same numbers are exported to the Arduino coefficients.
 
 \paragraph{Design trade-offs:}
 \begin{itemize}
@@ -239,7 +234,7 @@ The identified wheel models yield the following proportional gains:
 The open-loop Bode plot $L(j\omega) = D(j\omega)G(j\omega)$ must show:
 \begin{itemize}
 	\item Unity gain ($|L(j\omega)| = 0 dB$) at $\omega_c$
-	\item $PM$ ≈ 55°
+	\item $PM \approx 55^\circ$
 	\item PI zero (at $\omega_z = \frac{1}{T_i}$) far below $\omega_c$
 \end{itemize}
 The time-domain verification must confirm:
@@ -251,34 +246,28 @@ The time-domain verification must confirm:
 
 
 \paragraph{Bode Diagram Verification:}
+Figures~\ref{fig:openloop_bode} and \ref{fig:closedloop_bode} show the compensated open- and closed-loop responses for both motors. The open-loop plots highlight the unity-gain crossover at $\omega_c = 60~\text{rad/s}$ with a phase margin of roughly $55^\circ$, and the closed-loop plots show that the resulting bandwidth is about the chosen crossover with a modest resonant peak.
 
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{open_loop_bode_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{open_loop_bode_motorB}}
+    \caption{Open-loop Bode diagram showing cross-over frequency $\omega_c$ and phase margin.}
+    \label{fig:openloop_bode}
+\end{figure}
 
-Figure XXX shows the compensated open-loop system $L(j\omega) = D(j\omega)G(j\omega)$. 
-Cross-over at $\omega_c$ with phase $\approx -125^\circ$ confirms PM $= 55^\circ$. Gain margin also indicated.
-%
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{open_loop_bode_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{open_loop_bode_motorB}}
-%    \caption{Open-loop Bode diagram showing cross-over frequency $\omega_c$ and phase margin.}
-%    \label{fig:openloop_bode}
-%\end{figure}
-
-Figure YYY shows the closed-loop system $H(j\omega) = \frac{L(j\omega)}{1+L(j\omega)}$. 
-Bandwidth $\omega_{BW} \approx \omega_c$. Resonant peak due to finite PM. Gain rolls off beyond control bandwidth.
-
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{closed_loop_bode_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{closed_loop_bode_motorB}}
-%    \caption{Closed-loop Bode magnitude showing bandwidth $\omega_{BW}$.}
-%    \label{fig:closedloop_bode}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{closed_loop_bode_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{closed_loop_bode_motorB}}
+    \caption{Closed-loop Bode magnitude showing bandwidth $\omega_{BW}$.}
+    \label{fig:closedloop_bode}
+\end{figure}
 
 \subsection{Theoretical and practical closed-loop bandwidth limitations} % Section 1(c)
 
-\paragrpah{Theoretical limitation:} 
-The bandwidth cannot exceed the frequency where the total open-loop phase $\phi_L$ approaches -180°. 
+\paragraph{Theoretical limitation:} 
+The bandwidth cannot exceed the frequency where the total open-loop phase $\phi_L$ approaches -180^\circ. 
 Beyond this point, increasing the gain drives the closed-loop system toward instability. 
 For a first-order motor model, this typically limits cross-over frequency to approximately:
 \begin{equation}
@@ -291,7 +280,7 @@ where $\tau$ is the motor time constant.
 \begin{itemize}
     \item Sampling frequency (100 $Hz$): Nyquist limit of 50 $Hz$ (= $f_s/2$) cuts off the maximum achievable bandwidth. 
 	\item Microcontroller delay introduces extra phase lag, reducing stability margins.
-	\item Voltage saturation (≈ 12 $V$) limits achievable proportional gain.
+	\item Voltage saturation ($\approx 12~V$) limits achievable proportional gain.
 	\item Encoder quantization noise leads to large high-frequency disturbances when bandwidth is too high.
 	\item Motor friction and unmodeled nonlinearities reduce agreement with the designed frequency response.
 \end{itemize}
@@ -317,54 +306,51 @@ The steady-state velocity converges to the reference value of 10 $rad/s$, demons
 Oscillations in the measured signal may be slightly larger than in the simulation due to encoder quantization, unmodeled friction, and voltage saturation clipping.
 Despite these differences, the measured response remains consistent with expected closed-loop behavior.
 
-Figure XXX shows the step response comparison for both motors.
-The step reference (dotted line), measured closed-loop response (solid line) and simulated closed-loop response (dashed line) are shown in one plot.
+Figure~\ref{fig:step_nodist} compares the measured and simulated step responses for both motors; each plot shows the step reference (dotted), measured response (solid), and simulation (dashed).
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorB}}
-%    \caption{Step response: reference (dotted) vs. measured (solid) vs. simulated (dashed).}
-%    \label{fig:step_nodist}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_no_disturbance_motorB}}
+    \caption{Step response on flat ground: reference (dotted) vs. measured (solid) vs. simulated (dashed).}
+    \label{fig:step_nodist}
+\end{figure}
 
 \paragraph{Tracking error:} 
 The initial tracking error matches the simulated transient and decays to approximately zero, 
 apart from small steady-state fluctuations caused by sensor noise.
 
-Figure YYY shows the tracking error comparison for both motors.
-The measured (solid line) and simulated (dashed line) tracking error of the step reference are shown in one plot.
+Figure~\ref{fig:error_nodist} shows the tracking error comparison for both motors (measured: solid; simulated: dashed).
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorB}}
-%    \caption{Tracking error: measured (solid) vs. simulated (dashed).}
-%    \label{fig:error_nodist}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_no_disturbance_motorB}}
+    \caption{Tracking error on flat ground: measured (solid) vs. simulated (dashed).}
+    \label{fig:error_nodist}
+\end{figure}
 
 \paragraph{Control signal (voltage):}
 The control voltage initially spikes due to a large tracking error. The measured signal is clipped at roughly 12 $V$ due to hardware limits.
 This clipping creates a slightly lower first overshoot compared to the simulation.
 The control signal tracks the evolution of the velocity error as expected.
 
-Figure ZZZ shows the control signal comparison for both motors.
-The measured (solid line) and simulated (dashed line) control signal of the step reference are shown in one plot.
+Figure~\ref{fig:control_nodist} reports the measured and simulated control voltages (measured: solid; simulated: dashed).
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorB}}
-%    \caption{Control voltage: measured (solid) vs. simulated (dashed). Saturation at ≈ 12 V is visible.}
-%    \label{fig:control_nodist}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_no_disturbance_motorB}}
+    \caption{Control voltage on flat ground: measured (solid) vs. simulated (dashed). Saturation at $\approx 12$ V is visible.}
+    \label{fig:control_nodist}
+\end{figure}
 
 \paragraph{Performance characteristics:} 
 Rise time ($t_r$), overshoot ($M_p$) and settling time ($t_s$) align with the design specifications.
 The measured and simulated responses show closely matching dynamic properties.
 The rise time $t_r$ of the measured system is slightly slower than in simulation due to unmodeled friction and voltage saturation, whereas the steady-state value is identical, confirming correct integral action.
 The overshoot $M_p$ matches well in shape but is marginally larger in the experiment because encoder quantization and actuator limits introduce additional damping and asymmetry.
-The settling time $t_s$ remains consistent between measurement and simulation, indicating that the designed phase margin ($PM$ = 55°) and bandwidth translate reliably to the real hardware.
+The settling time $t_s$ remains consistent between measurement and simulation, indicating that the designed phase margin ($PM$ = 55^\circ) and bandwidth translate reliably to the real hardware.
 Overall, the measured performance agrees with the designed characteristics: fast but well-damped convergence, full elimination of steady-state error, and control behavior that remains within actuator limits.
 
 
@@ -379,61 +365,51 @@ The same velocity setpoint as in Section 2.1 is applied, namely a constant veloc
 The constant force disturbance signal enters the loop as an external load torque acting on the motor dynamics. 
 The disturbance affects the transient velocity, but the PI controller gradually compensates through its integral action.
 
-
-Figure AAA shows the block diagram of the closed-loop system with the constant force disturbance.
-
-%\begin{figure}[h!]
-%    \centering
-%    \includegraphics[width=0.48\textwidth]{block_diagram_disturbance}}
-%    \caption{Block diagram of the closed-loop system with the constant force disturbance.}
-%    \label{fig:block_diagram_disturbance}
-%\end{figure}
-
 \paragraph{Step response with disturbance:} 
 The measured response shows lower peaks and a slower rise than the nominal case, 
 while the simulated response remains unchanged because it does not include the disturbance.
 Despite this mismatch in the transient, both measured and simulated curves converge to the same steady-state value due to the integrator, which compensates the constant load.
 
-Figure XXX shows the step response comparison with disturbance for both motors.
-The step reference (dotted line), measured closed-loop response (solid line) and simulated closed-loop response (dashed line) are shown in one plot.
+Figure~\ref{fig:step_with_dist} shows the disturbed step response for both motors (reference: dotted; measured: solid; simulated: dashed).
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorB}}
-%    \caption{Step response with disturbance: reference (dotted) vs. measured (solid) vs. simulated (dashed).}
-%    \label{fig:step_with_dist}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_with_disturbance_motorB}}
+    \caption{Step response on the incline: reference (dotted) vs. measured (solid) vs. simulated (dashed).}
+    \label{fig:step_with_dist}
+\end{figure}
 
 \paragraph{Tracking error with disturbance:} 
 The measured tracking error is larger at the start and decays more smoothly, whereas the simulated error follows the original undisturbed transient.
 Both measured and simulated tracking error eventually settle close to zero, but only the measured curve reflects the effect of the disturbance.
 
-Figure YYY shows the tracking error comparison with disturbance for both motors.
-The measured (solid line) and simulated (dashed line) tracking error of the step reference are shown in one plot.
+Figure~\ref{fig:error_with_dist} reports the tracking error under the constant disturbance (measured: solid; simulated: dashed).
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorB}}
-%    \caption{Tracking error with disturbance: measured (solid) vs. simulated (dashed).}
-%    \label{fig:error_with_dist}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_with_disturbance_motorB}}
+    \caption{Tracking error with constant disturbance: measured (solid) vs. simulated (dashed).}
+    \label{fig:error_with_dist}
+\end{figure}
 
 \paragraph{Control signal with disturbance:} 
 The measured control signal settles at a visibly higher steady-state value than the simulated one, which remains unchanged without the disturbance term.
 The transient shapes remain similar, but only the measured control effort compensates for the additional load.
 
-Figure ZZZ shows the control signal comparison with disturbance for both motors.
+Figure~\ref{fig:control_with_dist} shows the control signal comparison with disturbance for both motors.
 The measured (solid line) and simulated (dashed line) control signal of the step reference are shown in one plot.
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorB}}
-%    \caption{Control voltage with disturbance: measured (solid) vs. simulated (dashed).}
-%    \label{fig:control_with_dist}
-%\end{figure}
+Figure~\ref{fig:control_with_dist} shows the associated control voltage comparison (measured: solid; simulated: dashed).
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_with_disturbance_motorB}}
+    \caption{Control voltage with constant disturbance: measured (solid) vs. simulated (dashed).}
+    \label{fig:control_with_dist}
+\end{figure}
 
 \paragraph{Reference tracking despite disturbance:}
 The controller continues to track the reference in steady state because the integral action of the PI controller compensates any constant disturbance by increasing the steady-state control effort until the velocity error becomes zero again.
@@ -455,16 +431,16 @@ The measured response with the low-bandwidth controller rises visibly slower and
 whereas the high-bandwidth controller from Section 2.2 reacts faster and exhibits more pronounced transient peaks. 
 The simulated curves follow the same trend for each controller, but differences between measured and simulated responses remain slightly larger for the high-bandwidth case because it is more sensitive to model errors and disturbance effects.
 
-Figure XXX shows the step response comparison for both motors. 
+Figure~\ref{fig:step_low_BW} shows the step response comparison for both motors. 
 The step reference (dotted line), measured closed-loop response (solid line) and simulated closed-loop response (dashed line) are shown in one plot, both for the high-bandwidth and low-bandwidth case.
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_high_vs_low_BW_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_high_vs_low_BW_motorB}}
-%    \caption{Step response with low-bandwidth: reference (dotted) vs. measured (solid) vs. simulated (dashed).}
-%    \label{fig:step_low_BW}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{step_response_high_vs_low_BW_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{step_response_high_vs_low_BW_motorB}}
+    \caption{Step response comparison: nominal controller vs. low-bandwidth controller on the incline.}
+    \label{fig:step_low_BW}
+\end{figure}
 
 
 \paragraph{Tracking error with low-bandwidth (and disturbance):}
@@ -472,16 +448,16 @@ For the low-bandwidth controller the tracking error decreases more gradually wit
 In both cases the steady-state tracking error remains close to zero, confirming that the integral action compensates the constant disturbance.
 The low-bandwidth controller, however, needs more time to eliminate the error.
 
-Figure YYY shows the tracking error comparison for both motors.
+Figure~\ref{fig:error_low_BW} shows the tracking error comparison for both motors.
 The measured (solid line) and simulated (dashed line) tracking error of the step reference are shown in one plot, both for the high-bandwidth and low-bandwidth case.
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_high_vs_low_BW_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_high_vs_low_BW_motorB}}
-%    \caption{Tracking error with low-bandwidth: measured (solid) vs. simulated (dashed).}
-%    \label{fig:error_low_BW}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{tracking_error_high_vs_low_BW_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{tracking_error_high_vs_low_BW_motorB}}
+    \caption{Tracking error comparison: nominal controller vs. low-bandwidth controller on the incline.}
+    \label{fig:error_low_BW}
+\end{figure}
 
 \paragraph{Control signal with low-bandwidth (and disturbance):}
 The measured control signal of the low-bandwidth controller has clearly smaller peaks and a smoother shape, 
@@ -489,16 +465,16 @@ but its steady-state voltage is comparable to or slightly higher than in Section
 The high-bandwidth controller generates sharper transients and larger initial control peaks, which push the actuator closer to saturation and amplify noise.
 The simulated control signals show the same qualitative difference between both designs.
 
-Figure ZZZ shows the control signal comparison for both motors.
+Figure~\ref{fig:control_low_BW} shows the control signal comparison for both motors.
 The measured (solid line) and simulated (dashed line) control signal of the step reference are shown in one plot, both for the high-bandwidth and low-bandwidth case.
 
-%\begin{figure}[h!]
-%    \centering
-%    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_high_vs_low_BW_motorA}}\hfill
-%    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_high_vs_low_BW_motorB}}
-%    \caption{Control voltage with low-bandwidth: measured (solid) vs. simulated (dashed).}
-%    \label{fig:control_low_BW}
-%\end{figure}
+\begin{figure}[h!]
+    \centering
+    \subfloat[Motor A]{\includegraphics[width=0.48\textwidth]{control_signal_high_vs_low_BW_motorA}}\hfill
+    \subfloat[Motor B]{\includegraphics[width=0.48\textwidth]{control_signal_high_vs_low_BW_motorB}}
+    \caption{Control voltage comparison: nominal controller vs. low-bandwidth controller on the incline.}
+    \label{fig:control_low_BW}
+\end{figure}
 
 \paragraph{Contribution of the different (PI) controller parts:}
 For the high-bandwidth controller, the proportional term (P) dominates the fast reaction to changes, 

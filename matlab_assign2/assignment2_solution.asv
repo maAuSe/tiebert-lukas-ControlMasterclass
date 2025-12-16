@@ -49,18 +49,18 @@ Ti_nom = tand(90 - 15) / wc_nom      % integrator time constant (15 deg lag rese
 % Compute gain K so that |L(j*wc)| = 1
 D_nom = tf([Ti_nom 1], [Ti_nom 0]); % PI compensator without gain K (same structure for both wheels)
 
-L_base_nom_A = D_nom * wheelA_cont; % CT compensated system without gain K (K=1) - Wheel A
+L_base_nom_A = 0.8904*D_nom * wheelA_cont; % CT compensated system without gain K (K=1) - Wheel A
 L_base_nom_B = D_nom * wheelB_cont; % CT compensated system without gain K (K=1) - Wheel B
 
 K_nom_A = 1 / abs(evalfr(L_base_nom_A, 1i * wc_nom)); % proportional gain K - Wheel A
 K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom)); % proportional gain K - Wheel B
 
 % Continuous and discrete PI controller
-C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom], [1, 0]); % CT PI compensator with gain K = 0.8904 - Wheel A
-C_nom_disc_A = c2d(C_nom_cont_A, Ts, 'tustin'); % DT PI compensator with gain K = 0.8904 - Wheel A
+C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom], [1, 0]); % CT PI compensator with gain K - Wheel A
+C_nom_disc_A = c2d(C_nom_cont_A, Ts, 'tustin'); % DT PI compensator with gain K - Wheel A
 
-C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]); % CT PI compensator with gain K = 0.8663 - Wheel B
-C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin'); % DT PI compensator with gain K = 0.8663 - Wheel B
+C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]); % CT PI compensator with gain K - Wheel B
+C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin'); % DT PI compensator with gain K - Wheel B
 
 % Open-loop, closed-loop, sensitivity, control TF (Wheel A for simulation)
 L_nom = C_nom_disc_A * wheelA_tf; % DT open-loop compensated system - Wheel A
@@ -92,7 +92,7 @@ for i = 1:length(ax)
         xline(wc_nom, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_nom), 'LabelOrientation', 'horizontal');
     end
 end
-title('Compensated open-loop system D(s)*G_s(s) with gain K = 1 - Wheel A');
+title('Compensated open-loop system D(s)*G_s(s) with gain K = 0.8904 - Wheel A');
 grid on;
 
 % Step 3: Open-loop Bode L = G_c * G_s with annotated design parameters (Section 1b)

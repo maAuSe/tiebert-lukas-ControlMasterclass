@@ -1,7 +1,5 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  16 DEC 2025 22:19
-entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  13 NOV 2025 17:56
+ restricted system commands enabled.
 **assignment2.tex
 (./assignment2.tex
 LaTeX2e <2024-11-01> patch level 2
@@ -491,24 +489,32 @@ Package caption Info: listings package is loaded.
 (./assignment2.aux)
 \openout1 = `assignment2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
-LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 42.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 4
+2.
+
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -532,9 +538,8 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 43.
-
-(./assignment2.out) (./assignment2.out)
+Package hyperref Info: Link coloring OFF on input line 42.
+ (./assignment2.out) (./assignment2.out)
 \@outlinefile=\write3
 \openout3 = `assignment2.out'.
 
@@ -577,856 +582,102 @@ Package hyperref Info: Link coloring OFF on input line 43.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-<sedes.pdf, id=36, 310.15875pt x 521.95pt>
+<sedes.pdf, id=31, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package pdftex.def Info: sedes.pdf  used on input line 54.
-(pdftex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=38, 341.3553pt x 132.0132pt>
+Package luatex.def Info: sedes.pdf  used on input line 53.
+(luatex.def)             Requested size: 33.81467pt x 56.9055pt.
+<logoFirW.jpg, id=33, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
-Package pdftex.def Info: logoFirW.jpg  used on input line 62.
-(pdftex.def)             Requested size: 147.14452pt x 56.9055pt.
-
-
+Package luatex.def Info: logoFirW.jpg  used on input line 61.
+(luatex.def)             Requested size: 147.14452pt x 56.9055pt.
 [1
 
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./sedes
-.pdf> <./logoFirW.jpg>]
+{C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
+/logoFirW.jpg>]
+warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
+[1]
 
+LaTeX Warning: Reference `fig:openloop_bode' on page II undefined on input line
+ 157.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.112 	\newpage
-                [1]
-! Missing $ inserted.
-<inserted text> 
-                $
-l.176 A phase margin (PM) target of 55^
-                                       \circ was imposed to ensure robust be...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
 
+LaTeX Warning: Reference `fig:closedloop_bode' on page II undefined on input li
+ne 167.
 
-! LaTeX Error: Bad math environment delimiter.
+[2]
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.178 \begin{equation}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+LaTeX Warning: Reference `fig:step_nodist' on page III undefined on input line 
+196.
 
-! You can't use `\eqno' in math mode.
-\veqno ->\@kernel@eqno 
-                       \aftergroup \ignorespaces 
-l.180 \end{equation}
-                    
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.180 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
+LaTeX Warning: Reference `fig:error_nodist' on page III undefined on input line
+ 205.
 
 
-! LaTeX Error: \begin{document} ended by \end{equation}.
+LaTeX Warning: Reference `fig:control_nodist' on page III undefined on input li
+ne 215.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.180 \end{equation}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.180 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
+LaTeX Warning: Reference `fig:step_dist' on page III undefined on input line 24
+0.
 
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.180 \end{equation}
-                    
-Things are pretty mixed up, but I think the worst is over.
 
+LaTeX Warning: Reference `fig:error_dist' on page III undefined on input line 2
+49.
 
-Overfull \hbox (277.18402pt too wide) in paragraph at lines 176--182
-\OT1/cmr/m/n/10 A phase mar-gin (PM) tar-get of 55$[]\OML/cmm/m/it/10 wasimpose
-dtoensurerobustbehavior:Theuncompensatedphaseofthemotormodelwasevaluatedtofindt
-hefrequencysatisfying \OT1/cmr/m/n/10 : [][][]\OML/cmm/m/it/10 ^^^[]\OT1/cmr/m/
-n/10 (\OML/cmm/m/it/10 ![]\OT1/cmr/m/n/10 ) =
- []
 
+LaTeX Warning: Reference `fig:control_dist' on page III undefined on input line
+ 259.
 
-
-[2{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-}]
-! Missing $ inserted.
-<inserted text> 
-                $
-l.184 ...is the desired phase margin, which is 55^
-                                                  \circ
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: Command \item invalid in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.185     \item
-                $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI...
-
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.185     \item $
-                 \phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.185 ...t $\omega_c$, which is selected to be 15^
-                                                  \circ
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: Command \end{itemize} invalid in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.186 \end{itemize}
-                   
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.186 \end{itemize}
-                   
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.192 ...compensated open-loop system equals -110^
-                                                  \circ is fixed directly by...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: Bad math environment delimiter.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.193 \begin{equation}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! You can't use `\eqno' in math mode.
-\veqno ->\@kernel@eqno 
-                       \aftergroup \ignorespaces 
-l.195 \end{equation}
-                    
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.195 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-! LaTeX Error: \begin{document} ended by \end{equation}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.195 \end{equation}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.195 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.195 \end{equation}
-                    
-Things are pretty mixed up, but I think the worst is over.
-
-
-Overfull \hbox (150.15314pt too wide) in paragraph at lines 192--196
-[]\OT1/cmr/m/n/10 The cross-over fre-quency $\OML/cmm/m/it/10 ![]$ \OT1/cmr/m/n
-/10 where the phase of the un-com-pen-sated open-loop sys-tem equals -110$[]\OM
-L/cmm/m/it/10 isfixeddirectlybythespecification \OT1/cmr/m/n/10 : [][][]\OML/cm
-m/m/it/10 ![] \OT1/cmr/m/n/10 =
- []
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.200 ...icipated one ($\phi_{PI}(\omega_c)$ = 15^
-                                                  \circ).
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: Bad math environment delimiter.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.202 \begin{equation}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! You can't use `\eqno' in math mode.
-\veqno ->\@kernel@eqno 
-                       \aftergroup \ignorespaces 
-l.204 \end{equation}
-                    
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.204 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-! LaTeX Error: \begin{document} ended by \end{equation}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.204 \end{equation}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.204 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.204 \end{equation}
-                    
-Things are pretty mixed up, but I think the worst is over.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.205 ...g a margin of $\phi_{PI}(\omega_c)$ = 15^
-                                                  \circ, leading to:
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: Bad math environment delimiter.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.206 \begin{equation}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! You can't use `\eqno' in math mode.
-\veqno ->\@kernel@eqno 
-                       \aftergroup \ignorespaces 
-l.208 \end{equation}
-                    
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.208 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-! LaTeX Error: \begin{document} ended by \end{equation}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.208 \end{equation}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.208 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.208 \end{equation}
-                    
-Things are pretty mixed up, but I think the worst is over.
-
-
-
-[3]
-<images/open_loop_bode_motorA.pdf, id=98, 614.295pt x 794.97pt>
-File: images/open_loop_bode_motorA.pdf Graphic file (type pdf)
-<use images/open_loop_bode_motorA.pdf>
-Package pdftex.def Info: images/open_loop_bode_motorA.pdf  used on input line 2
-53.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/open_loop_bode_motorB.pdf, id=99, 614.295pt x 794.97pt>
-File: images/open_loop_bode_motorB.pdf Graphic file (type pdf)
-<use images/open_loop_bode_motorB.pdf>
-Package pdftex.def Info: images/open_loop_bode_motorB.pdf  used on input line 2
-54.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-
-! LaTeX Error: File `closed_loop_bode_motorA' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.261 ...0.48\textwidth]{closed_loop_bode_motorA}}
-                                                  \hfill
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (10.86127pt too wide) in paragraph at lines 261--261
-[]\OT1/cmr/m/n/8 (a)
- []
-
-
-Overfull \hbox (14.86688pt too wide) in paragraph at lines 261--261
-|\OT1/cmr/m/n/8 Mo-
- []
-
-
-Overfull \hbox (10.86821pt too wide) in paragraph at lines 261--261
-\OT1/cmr/m/n/8 tor
- []
-
-
-Overfull \hbox (6.36676pt too wide) in paragraph at lines 261--261
-\OT1/cmr/m/n/8 A| 
- []
-
-
-! LaTeX Error: File `closed_loop_bode_motorB' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.262 ...0.48\textwidth]{closed_loop_bode_motorB}}
-                                                  
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (11.3335pt too wide) in paragraph at lines 262--262
-[]\OT1/cmr/m/n/8 (b)
- []
-
-
-Overfull \hbox (14.86688pt too wide) in paragraph at lines 262--262
-|\OT1/cmr/m/n/8 Mo-
- []
-
-
-Overfull \hbox (10.86821pt too wide) in paragraph at lines 262--262
-\OT1/cmr/m/n/8 tor
- []
-
-
-Overfull \hbox (6.01675pt too wide) in paragraph at lines 262--262
-\OT1/cmr/m/n/8 B| 
- []
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.270 ...open-loop phase $\phi_L$ approaches -180^
-                                                  \circ.
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: Bad math environment delimiter.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.273 \begin{equation}
-                      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! You can't use `\eqno' in math mode.
-\veqno ->\@kernel@eqno 
-                       \aftergroup \ignorespaces 
-l.275 \end{equation}
-                    
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.275 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-! LaTeX Error: \begin{document} ended by \end{equation}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.275 \end{equation}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.275 \end{equation}
-                    
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.275 \end{equation}
-                    
-Things are pretty mixed up, but I think the worst is over.
-
-
-Overfull \hbox (26.44836pt too wide) in paragraph at lines 270--277
-\OT1/cmr/m/n/10 ap-proaches -180$[]\OML/cmm/m/it/10 :Beyondthispoint; increasin
-gthegaindrivestheclosed \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 loopsystemtowardi
-nstability:Forafirst \OMS/cmsy/m/n/10 ^^@
- []
-
-
-
-[4 <./images/open_loop_bode_motorA.pdf> <./images/open_loop_bode_motorB.pdf>]
-<images/step_response_no_disturbance_motorA.pdf, id=125, 614.295pt x 794.97pt>
-File: images/step_response_no_disturbance_motorA.pdf Graphic file (type pdf)
-<use images/step_response_no_disturbance_motorA.pdf>
-Package pdftex.def Info: images/step_response_no_disturbance_motorA.pdf  used o
-n input line 313.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/step_response_no_disturbance_motorB.pdf, id=126, 614.295pt x 794.97pt>
-File: images/step_response_no_disturbance_motorB.pdf Graphic file (type pdf)
-<use images/step_response_no_disturbance_motorB.pdf>
-Package pdftex.def Info: images/step_response_no_disturbance_motorB.pdf  used o
-n input line 314.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/tracking_error_no_disturbance_motorA.pdf, id=128, 614.295pt x 794.97pt>
-
-File: images/tracking_error_no_disturbance_motorA.pdf Graphic file (type pdf)
-<use images/tracking_error_no_disturbance_motorA.pdf>
-Package pdftex.def Info: images/tracking_error_no_disturbance_motorA.pdf  used 
-on input line 327.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/tracking_error_no_disturbance_motorB.pdf, id=129, 614.295pt x 794.97pt>
-
-File: images/tracking_error_no_disturbance_motorB.pdf Graphic file (type pdf)
-<use images/tracking_error_no_disturbance_motorB.pdf>
-Package pdftex.def Info: images/tracking_error_no_disturbance_motorB.pdf  used 
-on input line 328.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/control_signal_no_disturbance_motorA.pdf, id=131, 614.295pt x 794.97pt>
-
-File: images/control_signal_no_disturbance_motorA.pdf Graphic file (type pdf)
-<use images/control_signal_no_disturbance_motorA.pdf>
-Package pdftex.def Info: images/control_signal_no_disturbance_motorA.pdf  used 
-on input line 342.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/control_signal_no_disturbance_motorB.pdf, id=132, 614.295pt x 794.97pt>
-
-File: images/control_signal_no_disturbance_motorB.pdf Graphic file (type pdf)
-<use images/control_signal_no_disturbance_motorB.pdf>
-Package pdftex.def Info: images/control_signal_no_disturbance_motorB.pdf  used 
-on input line 343.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.353 ...hat the designed phase margin ($PM$ = 55^
-                                                  \circ) and bandwidth trans...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.355 
-      
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (103.69864pt too wide) in paragraph at lines 349--355
-\OT1/cmr/m/n/10 55$[])\OML/cmm/m/it/10 andbandwidthtranslatereliablytotherealha
-rdware:Overall; themeasuredperformanceagreeswiththedesignedcharacteristics \OT1
-/cmr/m/n/10 :
- []
-
-
-Overfull \hbox (89.93771pt too wide) in paragraph at lines 349--355
-\OML/cmm/m/it/10 fastbutwell \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 dampedconver
-gence; fulleliminationofsteady \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 stateerror
-; andcontrolbehaviorthatremainswithinactuatorlimits:$ 
- []
-
-
-
-[5]
-<images/step_response_with_disturbance_motorA.pdf, id=149, 614.295pt x 794.97pt
->
-File: images/step_response_with_disturbance_motorA.pdf Graphic file (type pdf)
-<use images/step_response_with_disturbance_motorA.pdf>
-Package pdftex.def Info: images/step_response_with_disturbance_motorA.pdf  used
- on input line 377.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/step_response_with_disturbance_motorB.pdf, id=150, 614.295pt x 794.97pt
->
-File: images/step_response_with_disturbance_motorB.pdf Graphic file (type pdf)
-<use images/step_response_with_disturbance_motorB.pdf>
-Package pdftex.def Info: images/step_response_with_disturbance_motorB.pdf  used
- on input line 378.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/tracking_error_with_disturbance_motorA.pdf, id=152, 614.295pt x 794.97p
-t>
-File: images/tracking_error_with_disturbance_motorA.pdf Graphic file (type pdf)
-
-<use images/tracking_error_with_disturbance_motorA.pdf>
-Package pdftex.def Info: images/tracking_error_with_disturbance_motorA.pdf  use
-d on input line 391.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/tracking_error_with_disturbance_motorB.pdf, id=153, 614.295pt x 794.97p
-t>
-File: images/tracking_error_with_disturbance_motorB.pdf Graphic file (type pdf)
-
-<use images/tracking_error_with_disturbance_motorB.pdf>
-Package pdftex.def Info: images/tracking_error_with_disturbance_motorB.pdf  use
-d on input line 392.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[6 <./images/step_response_no_disturbance_motorA.pdf> <./images/step_response_n
-o_disturbance_motorB.pdf>]
-<images/control_signal_with_disturbance_motorA.pdf, id=198, 614.295pt x 794.97p
-t>
-File: images/control_signal_with_disturbance_motorA.pdf Graphic file (type pdf)
-
-<use images/control_signal_with_disturbance_motorA.pdf>
-Package pdftex.def Info: images/control_signal_with_disturbance_motorA.pdf  use
-d on input line 408.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/control_signal_with_disturbance_motorB.pdf, id=199, 614.295pt x 794.97p
-t>
-File: images/control_signal_with_disturbance_motorB.pdf Graphic file (type pdf)
-
-<use images/control_signal_with_disturbance_motorB.pdf>
-Package pdftex.def Info: images/control_signal_with_disturbance_motorB.pdf  use
-d on input line 409.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 420.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\omega' on input line 420.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 420.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 420.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 420.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 420.
-
-
-Overfull \hbox (9.01192pt too wide) in paragraph at lines 430--433
- []\OT1/cmr/bx/n/10 Step re-sponse with low-bandwidth (and dis-tur-bance):[] \O
-T1/cmr/m/n/10 The mea-sured re-sponse with the low-bandwidth
- []
-
-
-
-[7 <./images/tracking_error_no_disturbance_motorA.pdf> <./images/tracking_error
-_no_disturbance_motorB.pdf>]
-<images/step_response_high_vs_low_BW_motorA.pdf, id=241, 614.295pt x 794.97pt>
-File: images/step_response_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
-<use images/step_response_high_vs_low_BW_motorA.pdf>
-Package pdftex.def Info: images/step_response_high_vs_low_BW_motorA.pdf  used o
-n input line 439.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/step_response_high_vs_low_BW_motorB.pdf, id=242, 614.295pt x 794.97pt>
-File: images/step_response_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
-<use images/step_response_high_vs_low_BW_motorB.pdf>
-Package pdftex.def Info: images/step_response_high_vs_low_BW_motorB.pdf  used o
-n input line 440.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/tracking_error_high_vs_low_BW_motorA.pdf, id=244, 614.295pt x 794.97pt>
-
-File: images/tracking_error_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
-<use images/tracking_error_high_vs_low_BW_motorA.pdf>
-Package pdftex.def Info: images/tracking_error_high_vs_low_BW_motorA.pdf  used 
-on input line 456.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/tracking_error_high_vs_low_BW_motorB.pdf, id=245, 614.295pt x 794.97pt>
-
-File: images/tracking_error_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
-<use images/tracking_error_high_vs_low_BW_motorB.pdf>
-Package pdftex.def Info: images/tracking_error_high_vs_low_BW_motorB.pdf  used 
-on input line 457.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[8 <./images/control_signal_no_disturbance_motorA.pdf> <./images/control_signal
-_no_disturbance_motorB.pdf>]
-<images/control_signal_high_vs_low_BW_motorA.pdf, id=295, 614.295pt x 794.97pt>
-
-File: images/control_signal_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
-<use images/control_signal_high_vs_low_BW_motorA.pdf>
-Package pdftex.def Info: images/control_signal_high_vs_low_BW_motorA.pdf  used 
-on input line 473.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-<images/control_signal_high_vs_low_BW_motorB.pdf, id=296, 614.295pt x 794.97pt>
-
-File: images/control_signal_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
-<use images/control_signal_high_vs_low_BW_motorB.pdf>
-Package pdftex.def Info: images/control_signal_high_vs_low_BW_motorB.pdf  used 
-on input line 474.
-(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-(./assignment2.bbl
+[3] (./assignment2.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
+) [4] (./assignment2.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `assignment2.out' has not changed.
+(rerunfilecheck)             Checksum: DB597F45BF090EE062A608EFD5517339;1352.
 )
 
-[9 <./images/step_response_with_disturbance_motorA.pdf> <./images/step_response
-_with_disturbance_motorB.pdf>]
+Here is how much of LuaTeX's memory you used:
+ 15721 strings out of 476497
+ 125027,1977958 words of node,token memory allocated
+ 556 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 11 attribute, 60 glue_spec
+, 11 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:444,3:280,4:63,5:483,6:43,7:8821,8:109,9:405,10:7,11:866
+ 37433 multiletter control sequences out of 65536+600000
+ 42 fonts using 3422055 bytes
+ 85i,11n,130p,542b,395s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
+regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/
+lm/lmmono10-italic.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opent
+ype/public/lm/lmroman10-italic.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX
+/fonts/opentype/public/lm/lmroman10-bolditalic.otf><//?/c:/users/campa/appdata/l
+ocal/programs/miktex/fonts/opentype/public/lm/lmroman10-regular.otf><//?/c:/user
+s/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-bold.ot
+f><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman
+12-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmex10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/campa/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/campa/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on assignment2.pdf (5 pages, 956061 bytes).
 
-[10 <./images/tracking_error_with_disturbance_motorA.pdf> <./images/tracking_er
-ror_with_disturbance_motorB.pdf>]
-
-[11 <./images/control_signal_with_disturbance_motorA.pdf> <./images/control_sig
-nal_with_disturbance_motorB.pdf>]
-
-[12 <./images/step_response_high_vs_low_BW_motorA.pdf> <./images/step_response_
-high_vs_low_BW_motorB.pdf>]
-
-[13 <./images/tracking_error_high_vs_low_BW_motorA.pdf> <./images/tracking_erro
-r_high_vs_low_BW_motorB.pdf>]
-
-[14 <./images/control_signal_high_vs_low_BW_motorA.pdf> <./images/control_signa
-l_high_vs_low_BW_motorB.pdf>] (./assignment2.aux)
- ***********
-LaTeX2e <2024-11-01> patch level 2
-L3 programming layer <2025-01-18>
- ***********
-Package rerunfilecheck Info: File `assignment2.out' has not changed.
-(rerunfilecheck)             Checksum: D89786E7AD4D594EBFDC8AFB5ECA691F;2640.
- ) 
-Here is how much of TeX's memory you used:
- 15722 strings out of 473190
- 261080 string characters out of 5715799
- 758804 words of memory out of 5000000
- 38684 multiletter control sequences out of 15000+600000
- 563761 words of font info for 53 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 85i,11n,133p,601b,523s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
-sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
-exlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
-ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texli
-ve/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on assignment2.pdf (15 pages, 1173951 bytes).
-PDF statistics:
- 633 PDF objects out of 1000 (max. 8388607)
- 555 compressed objects within 6 object streams
- 96 named destinations out of 1000 (max. 500000)
- 187 words of extra memory for PDF output out of 10000 (max. 10000000)
+PDF statistics: 158 PDF objects out of 1000 (max. 8388607)
+ 21 named destinations out of 1000 (max. 131072)
+ 77 words of extra memory for PDF output out of 10000 (max. 100000000)
 

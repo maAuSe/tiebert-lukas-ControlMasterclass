@@ -161,41 +161,30 @@ The \textbf{unfiltered simplified continuous-time models} are:
 \end{equation}
 
 
-\paragraph{Choice of cross-over frequency $\omega_c$:} The cross-over frequency determines the closed-loop bandwidth. A value must balance: faster response vs. actuator limitations, tracking performance vs. noise sensitivity, and stability margin vs. speed.
-\\ 
-A phase margin ($PM$) target of 55° was imposed to ensure robust behavior.
+\paragraph{Choice of cross-over frequency $\omega_c$:} 
+The cross-over frequency determines the closed-loop bandwidth. A value must balance:
+\begin{itemize}
+    \item Faster response vs. actuator limitations
+    \item Tracking performance vs. noise sensitivity
+    \item Stability margin vs. speed
+\end{itemize}
+A phase margin (PM) target of 55^\circ was imposed to ensure robust behavior.
 The uncompensated phase of the motor model was evaluated to find the frequency satisfying:
 \begin{equation}
     \phi_G(\omega_c) = -180^\circ + PM + \phi_{PI}(\omega_c)
 \end{equation}
-where $\phi_G(\omega_c)$ is the phase of the uncompensated open-loop system at the target cross-over frequency $\omega_c$, $PM$ is the desired phase margin (which is selected as 55°), and $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$ (which is selected to be 15°).
-\\ 
-This yields the following requirement:
+where:
+\begin{itemize}
+    \item $\phi_G(\omega_c)$ is the phase of the uncompensated open-loop system at $\omega_c$
+    \item $PM$ is the desired phase margin, which is 55^\circ
+    \item $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI compensator at $\omega_c$, which is selected to be 15^\circ
+\end{itemize}
+This yields:
 \begin{equation}
 	\phi_G(\omega_c) = -180^\circ + 55^\circ + 15^\circ = -110^\circ
 \end{equation}
 
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Figures_part_1b/Uncompensated-Bode-A.png}
-        \caption{Bode diagram of $G_{s,A}(s)$}
-        \label{fig:Uncompensated-Bode-A}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Figures_part_1b/Uncompensated-Bode-B.png}
-        \caption{Bode diagram of $G_{s,B}(s)$}
-        \label{fig:Uncompensated-Bode-B}
-    \end{subfigure}
-    \caption{Bode diagram of the uncompensated open-loop system $G_s(s)$ for wheel A (left) and wheel B (right)}
-    \label{fig:Uncompensated-Bode}
-\end{figure}
-\noindent Figure \ref{fig:Uncompensated-Bode} shows the Bode diagram of the uncompensated open-loop system $G_s(s)$, both for motor A and motor B. 
-The cross-over frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110° (or where the phase equals -110° + 360° = 250°) is the same for both motors, and fixed directly by the specification:
+The cross-over frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110^\circ is fixed directly by the specification:
 \begin{equation}
     \omega_{c,A} = \omega_{c,B} = 61.7\; \text{rad/s}.
     %\omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
@@ -203,13 +192,13 @@ The cross-over frequency $\omega_c$ where the phase of the uncompensated open-lo
 
 
 \paragraph{Integration time T$_i$:}
-The integrator pole must lie well below the cross-over frequency $\omega_c$ to avoid excessive phase lag.
-The integration time is selected such that the contribution of the PI compensator to the phase at $\omega_c$ equals the anticipated one ($\phi_{PI}(\omega_c)$ = 15°).
+The integrator pole must lie well below the cross-over frequency to avoid excessive phase lag.
+The integration time is selected such that the contribution of the PI compensator to the phase at $\omega_c$ equals the anticipated one ($\phi_{PI}(\omega_c)$ = 15^\circ).
 This design rule is mathematically expressed as:
 \begin{equation}
     T_i \omega_c = \tan(90^\circ-\phi_{PI}(\omega_c)),
 \end{equation}
-using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
+using a margin of $\phi_{PI}(\omega_c)$ = 15^\circ, leading to:
 \begin{equation}
     T_{i,A} = T_{i,B} = 0.0605\; \text{s}.
 	%T_{i,\text{low}} = 1.19~\text{s}
@@ -396,7 +385,7 @@ The step response of the compensated closed-loop system $H(s)$ must show:
 \subsection{Theoretical and practical closed-loop bandwidth limitations (1c)} % Section 1(c)
 
 \paragraph{Theoretical limitation:} 
-The closed-loop bandwidth $\omega_{BW}$ cannot exceed the frequency where the total open-loop phase $\phi_L$ approaches -180°. 
+The bandwidth cannot exceed the frequency where the total open-loop phase $\phi_L$ approaches -180^\circ. 
 Beyond this point, increasing the gain drives the closed-loop system toward instability. 
 For a first-order motor model, this typically limits the cross-over frequency to approximately:
 \begin{equation}
@@ -485,7 +474,7 @@ Rise time ($t_r$), overshoot ($M_p$) and settling time ($t_s$) align with the de
 The measured and simulated responses show closely matching dynamic properties.
 The rise time $t_r$ of the measured system is slightly slower than in simulation due to unmodeled friction and voltage saturation, whereas the steady-state value is identical, confirming correct integral action.
 The overshoot $M_p$ matches well in shape but is marginally larger in the experiment because encoder quantization and actuator limits introduce additional damping and asymmetry.
-The settling time $t_s$ remains consistent between measurement and simulation, indicating that the designed phase margin ($PM$ = 55^\circ) and bandwidth translate reliably to the real hardware.
+The settling time $t_s$ remains consistent between measurement and simulation, indicating that the designed phase margin ($PM$ = $55^\circ$) and bandwidth translate reliably to the real hardware.
 Overall, the measured performance agrees with the designed characteristics: fast but well-damped convergence, full elimination of steady-state error, and control behavior that remains within actuator limits.
 
 

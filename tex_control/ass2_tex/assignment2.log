@@ -1,603 +1,548 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  13 NOV 2025 17:56
- restricted system commands enabled.
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  16 DEC 2025 22:19
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
 **assignment2.tex
 (./assignment2.tex
-LaTeX2e <2023-11-01> patch level 1
-L3 programming layer <2024-01-04>
-Lua module: luaotfload 2023-08-31 3.26 Lua based OpenType font support
-Lua module: lualibs 2023-07-13 2.76 ConTeXt Lua standard libraries.
-Lua module: lualibs-extended 2023-07-13 2.76 ConTeXt Lua libraries -- extended c
-ollection.
-luaotfload | conf : Root cache directory is "C:/Users/campa/AppData/Local/MiKTeX
-/luatex-cache/generic/names".
-luaotfload | init : Loading fontloader "fontloader-2023-08-19.lua" from kpse-res
-olved path "C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/luatex/luaotfload/f
-ontloader-2023-08-19.lua".
-Lua-only attribute luaotfload@noligature = 1
-luaotfload | init : Context OpenType loader version 3.133
-Inserting `luaotfload.node_processor' in `pre_linebreak_filter'.
-Inserting `luaotfload.node_processor' in `hpack_filter'.
-Inserting `luaotfload.glyph_stream' in `glyph_stream_provider'.
-Inserting `luaotfload.define_font' in `define_font'.
-Lua-only attribute luaotfload_color_attribute = 2
-luaotfload | conf : Root cache directory is "C:/Users/campa/AppData/Local/MiKTeX
-/luatex-cache/generic/names".
-Inserting `luaotfload.harf.strip_prefix' in `find_opentype_file'.
-Inserting `luaotfload.harf.strip_prefix' in `find_truetype_file'.
-Removing  `luaotfload.glyph_stream' from `glyph_stream_provider'.
-Inserting `luaotfload.harf.glyphstream' in `glyph_stream_provider'.
-Inserting `luaotfload.harf.finalize_vlist' in `post_linebreak_filter'.
-Inserting `luaotfload.harf.finalize_hlist' in `hpack_filter'.
-Inserting `luaotfload.cleanup_files' in `wrapup_run'.
-Inserting `luaotfload.harf.finalize_unicode' in `finish_pdffile'.
-Inserting `luaotfload.glyphinfo' in `glyph_info'.
-Lua-only attribute luaotfload.letterspace_done = 3
-Inserting `luaotfload.aux.set_sscale_dimens' in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.set_font_index' in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.fixup_fontdata' in `luaotfload.patch_font_unsafe'.
-Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
-Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'.
-Inserting `tracingstacklevels' in `input_level_string'. (C:/Users/campa/AppData
-/Local/Programs/MiKTeX/tex/latex/base/article.cls
-Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/size10.clo
-File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
-luaotfload | db : Font names database loaded from C:/Users/campa/AppData/Local/M
-iKTeX/luatex-cache/generic/names/luaotfload-names.luc.gz)
-\c@part=\count185
-\c@section=\count186
-\c@subsection=\count187
-\c@subsubsection=\count188
-\c@paragraph=\count189
-\c@subparagraph=\count190
-\c@figure=\count191
-\c@table=\count192
-\abovecaptionskip=\skip48
-\belowcaptionskip=\skip49
-\bibindent=\dimen139
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphicx.sty
+\c@part=\count196
+\c@section=\count197
+\c@subsection=\count198
+\c@subsubsection=\count199
+\c@paragraph=\count266
+\c@subparagraph=\count267
+\c@figure=\count268
+\c@table=\count269
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen141
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphics.sty
-Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/trig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/graphics.c
-fg
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: luatex.def on input line 107.
+Package graphics Info: Driver file: pdftex.def on input line 106.
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics-def/luatex.def
-File: luatex.def 2022/09/22 v1.2d Graphics/color driver for luatex
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen140
-\Gin@req@width=\dimen141
+\Gin@req@height=\dimen142
+\Gin@req@width=\dimen143
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/adjustbox.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/adjustbox.sty
 Package: adjustbox 2025/02/26 v1.3c Adjusting TeX boxes (trim, clip, ...)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkeyval.tex
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkvutils.tex
+(/usr/local/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
 \XKV@toks=\toks18
 \XKV@tempa@toks=\toks19
 )
-\XKV@depth=\count193
+\XKV@depth=\count270
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/adjcalc.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/adjcalc.sty
 Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
 -ends (calc, etex, pgfmath)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/trimclip.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/trimclip.sty
 Package: trimclip 2025/02/21 v1.2a Trim and clip general TeX material
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/collectbox/collectbox.s
-ty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/collectbox/collectbox.sty
 Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
-\collectedbox=\box51
+\collectedbox=\box52
 )
-\tc@llx=\dimen142
-\tc@lly=\dimen143
-\tc@urx=\dimen144
-\tc@ury=\dimen145
-Package trimclip Info: Using driver 'tc-luatex.def'.
+\tc@llx=\dimen144
+\tc@lly=\dimen145
+\tc@urx=\dimen146
+\tc@ury=\dimen147
+Package trimclip Info: Using driver 'tc-pdftex.def'.
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/tc-luatex.def
-File: tc-luatex.def 2025/02/26 v1.1 Clipping driver for luatex
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/tc-pdftex.def
+(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
 File: tc-pdftex.def 2025/02/26 v2.3 Clipping driver for pdftex
-)))
-\adjbox@Width=\dimen146
-\adjbox@Height=\dimen147
-\adjbox@Depth=\dimen148
-\adjbox@Totalheight=\dimen149
-\adjbox@pwidth=\dimen150
-\adjbox@pheight=\dimen151
-\adjbox@pdepth=\dimen152
-\adjbox@ptotalheight=\dimen153
+))
+\adjbox@Width=\dimen148
+\adjbox@Height=\dimen149
+\adjbox@Depth=\dimen150
+\adjbox@Totalheight=\dimen151
+\adjbox@pwidth=\dimen152
+\adjbox@pheight=\dimen153
+\adjbox@pdepth=\dimen154
+\adjbox@ptotalheight=\dimen155
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/ifoddpage/ifoddpage.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
-\c@checkoddpage=\count194
-) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty
+\c@checkoddpage=\count271
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box52
-\sift@deathcycles=\count195
-\@vwid@loff=\dimen154
-\@vwid@roff=\dimen155
-)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/natbib/natbib.sty
+\@vwid@box=\box53
+\sift@deathcycles=\count272
+\@vwid@loff=\dimen156
+\@vwid@roff=\dimen157
+))
+(/usr/local/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip50
-\bibsep=\skip51
+\bibhang=\skip51
+\bibsep=\skip52
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count196
+\c@NAT@ctr=\count273
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2023-11-26 v7.01g Hypertext links for LaTeX
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/iftex/iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
+(/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/infwarerr/infwarerr.s
-ty
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/kvsetkeys/kvsetkeys.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/kvdefinekeys/kvdefine
-keys.sty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/pdfescape/pdfescape.s
-ty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/ltxcmds/ltxcmds.sty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/pdftexcmds/pdftexcmds
-.sty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-\pdftexcmds@toks=\toks20
 ))
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hycolor/hycolor.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/letltxmacro/letltxmacro
-.sty
-Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/auxhook/auxhook.sty
-Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/gettitlestring/gettit
-lestring.sty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/kvoptions/kvoptions.sty
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count197
+\c@section@level=\count274
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count198
+(/usr/local/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count275
 )
-\@linkdim=\dimen156
-\Hy@linkcounter=\count199
-\Hy@pagecounter=\count266
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2023-11-26 v7.01g Hyperref: PDFDocEncoding definition (HO)
-)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/intcalc/intcalc.sty
-Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-)
-\Hy@SavedSpaceFactor=\count267
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/puenc.def
-File: puenc.def 2023-11-26 v7.01g Hyperref: PDF Unicode definition (HO)
-)
-Package hyperref Info: Hyper figures OFF on input line 4181.
-Package hyperref Info: Link nesting OFF on input line 4186.
-Package hyperref Info: Hyper index ON on input line 4189.
-Package hyperref Info: Plain pages OFF on input line 4196.
-Package hyperref Info: Backreferencing OFF on input line 4201.
-Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4448.
-\c@Hy@tempcnt=\count268
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty
-\Urlmuskip=\muskip16
-Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-)
-LaTeX Info: Redefining \url on input line 4786.
-\XeTeXLinkMargin=\dimen157
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/bitset/bitset.sty
-Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/bigintcalc/bigintcalc
-.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
-)
-))
-\Fld@menulength=\count269
-\Field@Width=\dimen158
-\Fld@charsize=\dimen159
-Package hyperref Info: Hyper figures OFF on input line 6065.
-Package hyperref Info: Link nesting OFF on input line 6070.
-Package hyperref Info: Hyper index ON on input line 6073.
-Package hyperref Info: backreferencing OFF on input line 6080.
-Package hyperref Info: Link coloring OFF on input line 6085.
-Package hyperref Info: Link coloring with OCG OFF on input line 6090.
-Package hyperref Info: PDF/A mode OFF on input line 6095.
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/atbegshi-ltx.sty
-Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
-package with kernel methods
-)
-\Hy@abspage=\count270
-\c@Item=\count271
-\c@Hfootnote=\count272
-)
-Package hyperref Info: Driver (autodetected): hluatex.
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hluatex.def
-File: hluatex.def 2023-11-26 v7.01g Hyperref driver for luaTeX
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/stringenc/stringenc.s
-ty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/atveryend-ltx.sty
+\@linkdim=\dimen158
+\Hy@linkcounter=\count276
+\Hy@pagecounter=\count277
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count278
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4157.
+Package hyperref Info: Link nesting OFF on input line 4162.
+Package hyperref Info: Hyper index ON on input line 4165.
+Package hyperref Info: Plain pages OFF on input line 4172.
+Package hyperref Info: Backreferencing OFF on input line 4177.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4424.
+\c@Hy@tempcnt=\count279
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen159
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count280
+\Field@Width=\dimen160
+\Fld@charsize=\dimen161
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count281
+\c@Item=\count282
+\c@Hfootnote=\count283
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count273
-\c@bookmark@seq@number=\count274
+\Fld@listcount=\count284
+\c@bookmark@seq@number=\count285
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfil
-echeck.sty
-Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/uniquecounter/uniquec
-ounter.sty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-84.
+85.
 )
-\Hy@SectionHShift=\skip52
-)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/xurl/xurl.sty
+\Hy@SectionHShift=\skip53
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/iftex/ifvtex.sty
+(/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count275
-\Gm@cntv=\count276
-\c@Gm@tempcnt=\count277
-\Gm@bindingoffset=\dimen160
-\Gm@wd@mp=\dimen161
-\Gm@odd@mp=\dimen162
-\Gm@even@mp=\dimen163
-\Gm@layoutwidth=\dimen164
-\Gm@layoutheight=\dimen165
-\Gm@layouthoffset=\dimen166
-\Gm@layoutvoffset=\dimen167
-\Gm@dimlist=\toks21
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.cfg)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2023/05/13 v2.17o AMS math features
-\@mathmargin=\skip53
+\Gm@cnth=\count286
+\Gm@cntv=\count287
+\c@Gm@tempcnt=\count288
+\Gm@bindingoffset=\dimen162
+\Gm@wd@mp=\dimen163
+\Gm@odd@mp=\dimen164
+\Gm@even@mp=\dimen165
+\Gm@layoutwidth=\dimen166
+\Gm@layoutheight=\dimen167
+\Gm@layouthoffset=\dimen168
+\Gm@layoutvoffset=\dimen169
+\Gm@dimlist=\toks20
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip54
 
 For additional information on amsmath, use the `?' option.
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsgen.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks22
-\ex@=\dimen168
+\@emptytoks=\toks21
+\ex@=\dimen170
 ))
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsbsy.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen169
+\pmbraise@=\dimen171
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsopn.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count278
-LaTeX Info: Redefining \frac on input line 236.
-\uproot@=\count279
-\leftroot@=\count280
-LaTeX Info: Redefining \overline on input line 399.
-LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count281
-\DOTSCASE@=\count282
-LaTeX Info: Redefining \ldots on input line 496.
-LaTeX Info: Redefining \dots on input line 499.
-LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box53
-\strutbox@=\box54
-LaTeX Info: Redefining \big on input line 722.
-LaTeX Info: Redefining \Big on input line 723.
-LaTeX Info: Redefining \bigg on input line 724.
-LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen170
-LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count283
-LaTeX Info: Redefining \bmod on input line 905.
-LaTeX Info: Redefining \pmod on input line 910.
-LaTeX Info: Redefining \smash on input line 940.
-LaTeX Info: Redefining \relbar on input line 970.
-LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count284
-\dotsspace@=\muskip17
-\c@parentequation=\count285
-\dspbrk@lvl=\count286
-\tag@help=\toks23
-\row@=\count287
-\column@=\count288
-\maxfields@=\count289
-\andhelp@=\toks24
-\eqnshift@=\dimen171
-\alignsep@=\dimen172
-\tagshift@=\dimen173
-\tagwidth@=\dimen174
-\totwidth@=\dimen175
-\lineht@=\dimen176
-\@envbody=\toks25
-\multlinegap=\skip54
-\multlinetaggap=\skip55
-\mathdisplay@stack=\toks26
+\inf@bad=\count289
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count290
+\leftroot@=\count291
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count292
+\DOTSCASE@=\count293
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box54
+\strutbox@=\box55
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen172
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count294
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count295
+\dotsspace@=\muskip18
+\c@parentequation=\count296
+\dspbrk@lvl=\count297
+\tag@help=\toks22
+\row@=\count298
+\column@=\count299
+\maxfields@=\count300
+\andhelp@=\toks23
+\eqnshift@=\dimen173
+\alignsep@=\dimen174
+\tagshift@=\dimen175
+\tagwidth@=\dimen176
+\totwidth@=\dimen177
+\lineht@=\dimen178
+\@envbody=\toks24
+\multlinegap=\skip55
+\multlinetaggap=\skip56
+\mathdisplay@stack=\toks25
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/booktabs/booktabs.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen177
-\lightrulewidth=\dimen178
-\cmidrulewidth=\dimen179
-\belowrulesep=\dimen180
-\belowbottomsep=\dimen181
-\aboverulesep=\dimen182
-\abovetopsep=\dimen183
-\cmidrulesep=\dimen184
-\cmidrulekern=\dimen185
-\defaultaddspace=\dimen186
-\@cmidla=\count290
-\@cmidlb=\count291
-\@aboverulesep=\dimen187
-\@belowrulesep=\dimen188
-\@thisruleclass=\count292
-\@lastruleclass=\count293
-\@thisrulewidth=\dimen189
+\heavyrulewidth=\dimen179
+\lightrulewidth=\dimen180
+\cmidrulewidth=\dimen181
+\belowrulesep=\dimen182
+\belowbottomsep=\dimen183
+\aboverulesep=\dimen184
+\abovetopsep=\dimen185
+\cmidrulesep=\dimen186
+\cmidrulekern=\dimen187
+\defaultaddspace=\dimen188
+\@cmidla=\count301
+\@cmidlb=\count302
+\@aboverulesep=\dimen189
+\@belowrulesep=\dimen190
+\@thisruleclass=\count303
+\@lastruleclass=\count304
+\@thisrulewidth=\dimen191
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/fancyhdr/fancyhdr.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 
-\f@nch@headwidth=\skip56
-\f@nch@offset@elh=\skip57
-\f@nch@offset@erh=\skip58
-\f@nch@offset@olh=\skip59
-\f@nch@offset@orh=\skip60
-\f@nch@offset@elf=\skip61
-\f@nch@offset@erf=\skip62
-\f@nch@offset@olf=\skip63
-\f@nch@offset@orf=\skip64
-\f@nch@height=\skip65
-\f@nch@footalignment=\skip66
-\f@nch@widthL=\skip67
-\f@nch@widthC=\skip68
-\f@nch@widthR=\skip69
-\@temptokenb=\toks27
+\f@nch@headwidth=\skip57
+\f@nch@offset@elh=\skip58
+\f@nch@offset@erh=\skip59
+\f@nch@offset@olh=\skip60
+\f@nch@offset@orh=\skip61
+\f@nch@offset@elf=\skip62
+\f@nch@offset@erf=\skip63
+\f@nch@offset@olf=\skip64
+\f@nch@offset@orf=\skip65
+\f@nch@height=\skip66
+\f@nch@footalignment=\skip67
+\f@nch@widthL=\skip68
+\f@nch@widthC=\skip69
+\f@nch@widthR=\skip70
+\@temptokenb=\toks26
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/setspace/setspace.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/lipsum/lipsum.sty
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/l3packages/l3keys2e/l3k
-eys2e.sty
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/l3kernel/expl3.sty
-Package: expl3 2024-01-04 L3 programming layer (loader) 
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lipsum/lipsum.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2025-01-18 L3 programming layer (loader) 
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-lua
-tex.def
-File: l3backend-luatex.def 2024-01-04 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count294
-Inserting `l3color' in `luaotfload.parse_color'.
-\l__pdf_internal_box=\box55
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count305
+\l__pdf_internal_box=\box56
 ))
-Package: l3keys2e 2023-10-10 LaTeX2e option processing using LaTeX3 keys
+Package: l3keys2e 2024-08-16 LaTeX2e option processing using LaTeX3 keys
 )
 Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count295
-\l__lipsum_a_int=\count296
-\l__lipsum_b_int=\count297
+\g__lipsum_par_int=\count306
+\l__lipsum_a_int=\count307
+\l__lipsum_b_int=\count308
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex))
+(/usr/local/texlive/2025/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count309
+\lst@gtempboxa=\box57
+\lst@token=\toks27
+\lst@length=\count310
+\lst@currlwidth=\dimen192
+\lst@column=\count311
+\lst@pos=\count312
+\lst@lostspace=\dimen193
+\lst@width=\dimen194
+\lst@newlines=\count313
+\lst@lineno=\count314
+\lst@maxwidth=\dimen195
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/lipsum/lipsum.ltd.tex)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/listings/listings.sty
-\lst@mode=\count298
-\lst@gtempboxa=\box56
-\lst@token=\toks28
-\lst@length=\count299
-\lst@currlwidth=\dimen190
-\lst@column=\count300
-\lst@pos=\count301
-\lst@lostspace=\dimen191
-\lst@width=\dimen192
-\lst@newlines=\count302
-\lst@lineno=\count303
-\lst@maxwidth=\dimen193
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
-\c@lstnumber=\count304
-\lst@skipnumbers=\count305
-\lst@framebox=\box57
+(/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/listings/listings.cfg
-File: listings.cfg 2023/02/27 1.9 listings configuration
+(/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count315
+\lst@skipnumbers=\count316
+\lst@framebox=\box58
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
 ))
-Package: listings 2023/02/27 1.9 (Carsten Heinz)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/color.cfg
+(/usr/local/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: luatex.def on input line 274.
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
-Package xcolor Info: Model `RGB' extended on input line 1366.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
-) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/float/float.sty
-Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count306
-\float@exts=\toks29
-\float@box=\box58
-\@float@everytoks=\toks30
-\@floatcapt=\box59
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 )
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/subfig/subfig.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count317
+\float@exts=\toks28
+\float@box=\box59
+\@float@everytoks=\toks29
+\@floatcapt=\box60
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption3.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen194
-\captionmargin=\dimen195
-\caption@leftmargin=\dimen196
-\caption@rightmargin=\dimen197
-\caption@width=\dimen198
-\caption@indent=\dimen199
-\caption@parindent=\dimen256
-\caption@hangindent=\dimen257
+\caption@tempdima=\dimen196
+\captionmargin=\dimen197
+\caption@leftmargin=\dimen198
+\caption@rightmargin=\dimen199
+\caption@width=\dimen256
+\caption@indent=\dimen257
+\caption@parindent=\dimen258
+\caption@hangindent=\dimen259
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count307
-\c@continuedfloat=\count308
+\c@caption@flags=\count318
+\c@continuedfloat=\count319
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 )
-\c@KVtest=\count309
-\sf@farskip=\skip70
-\sf@captopadj=\dimen258
-\sf@capskip=\skip71
-\sf@nearskip=\skip72
-\c@subfigure=\count310
-\c@subfigure@save=\count311
-\c@lofdepth=\count312
-\c@subtable=\count313
-\c@subtable@save=\count314
-\c@lotdepth=\count315
-\sf@top=\skip73
-\sf@bottom=\skip74
-) (./assignment2.aux)
-\openout1 = assignment2.aux
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 42.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 4
-2.
-
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1cmr.fd
-File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+\c@KVtest=\count320
+\sf@farskip=\skip71
+\sf@captopadj=\dimen260
+\sf@capskip=\skip72
+\sf@nearskip=\skip73
+\c@subfigure=\count321
+\c@subfigure@save=\count322
+\c@lofdepth=\count323
+\c@subtable=\count324
+\c@subtable@save=\count325
+\c@lotdepth=\count326
+\sf@top=\skip74
+\sf@bottom=\skip75
 )
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
+(./assignment2.aux)
+\openout1 = `assignment2.aux'.
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mk
-ii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+
+(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count316
-\scratchdimen=\dimen259
-\scratchbox=\box60
-\nofMPsegments=\count317
-\nofMParguments=\count318
-\everyMPshowfont=\toks31
-\MPscratchCnt=\count319
-\MPscratchDim=\dimen260
-\MPnumerator=\count320
-\makeMPintoPDFobject=\count321
-\everyMPtoPDFconversion=\toks32
-)
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-b
-ase.sty
+\scratchcounter=\count327
+\scratchdimen=\dimen261
+\scratchbox=\box61
+\nofMPsegments=\count328
+\nofMParguments=\count329
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count330
+\MPscratchDim=\dimen262
+\MPnumerator=\count331
+\makeMPintoPDFobject=\count332
+\everyMPtoPDFconversion=\toks31
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 
-(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/00miktex/epstopdf-sys.c
-fg
-File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+(/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
 ))
-Package hyperref Info: Link coloring OFF on input line 42.
- (./assignment2.out) (./assignment2.out)
-\@outlinefile=\write3
+Package hyperref Info: Link coloring OFF on input line 43.
 
-\openout3 = assignment2.out
+(./assignment2.out) (./assignment2.out)
+\@outlinefile=\write3
+\openout3 = `assignment2.out'.
+
 
 *geometry* driver: auto-detecting
-*geometry* detected driver: luatex
+*geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
-* driver: luatex
+* driver: pdftex
 * paper: <default>
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -628,106 +573,860 @@ Package hyperref Info: Link coloring OFF on input line 42.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count322
+\c@lstlisting=\count333
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-<sedes.pdf, id=31, 310.15875pt x 521.95pt>
+<sedes.pdf, id=36, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package luatex.def Info: sedes.pdf  used on input line 53.
-(luatex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=33, 341.3553pt x 132.0132pt>
+Package pdftex.def Info: sedes.pdf  used on input line 54.
+(pdftex.def)             Requested size: 33.81467pt x 56.9055pt.
+<logoFirW.jpg, id=38, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
-Package luatex.def Info: logoFirW.jpg  used on input line 61.
-(luatex.def)             Requested size: 147.14452pt x 56.9055pt.
+Package pdftex.def Info: logoFirW.jpg  used on input line 62.
+(pdftex.def)             Requested size: 147.14452pt x 56.9055pt.
+
+
 [1
 
-{C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
-/logoFirW.jpg>]
-warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
-[1]
-
-LaTeX Warning: Reference `fig:openloop_bode' on page II undefined on input line
- 157.
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./sedes
+.pdf> <./logoFirW.jpg>]
 
 
-LaTeX Warning: Reference `fig:closedloop_bode' on page II undefined on input li
-ne 167.
-
-[2]
-
-LaTeX Warning: Reference `fig:step_nodist' on page III undefined on input line 
-196.
-
-
-LaTeX Warning: Reference `fig:error_nodist' on page III undefined on input line
- 205.
-
-
-LaTeX Warning: Reference `fig:control_nodist' on page III undefined on input li
-ne 215.
+pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.112 	\newpage
+                [1]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.176 A phase margin (PM) target of 55^
+                                       \circ was imposed to ensure robust be...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
 
-LaTeX Warning: Reference `fig:step_dist' on page III undefined on input line 24
-0.
+! LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.178 \begin{equation}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! You can't use `\eqno' in math mode.
+\veqno ->\@kernel@eqno 
+                       \aftergroup \ignorespaces 
+l.180 \end{equation}
+                    
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.180 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
 
 
-LaTeX Warning: Reference `fig:error_dist' on page III undefined on input line 2
-49.
+! LaTeX Error: \begin{document} ended by \end{equation}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.180 \end{equation}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.180 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.180 \end{equation}
+                    
+Things are pretty mixed up, but I think the worst is over.
 
 
-LaTeX Warning: Reference `fig:control_dist' on page III undefined on input line
- 259.
+Overfull \hbox (277.18402pt too wide) in paragraph at lines 176--182
+\OT1/cmr/m/n/10 A phase mar-gin (PM) tar-get of 55$[]\OML/cmm/m/it/10 wasimpose
+dtoensurerobustbehavior:Theuncompensatedphaseofthemotormodelwasevaluatedtofindt
+hefrequencysatisfying \OT1/cmr/m/n/10 : [][][]\OML/cmm/m/it/10 ^^^[]\OT1/cmr/m/
+n/10 (\OML/cmm/m/it/10 ![]\OT1/cmr/m/n/10 ) =
+ []
 
-[3] (./assignment2.bbl
+
+
+[2{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.184 ...is the desired phase margin, which is 55^
+                                                  \circ
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Command \item invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.185     \item
+                $\phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI...
+
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.185     \item $
+                 \phi_{PI}(\omega_c)$ is the anticipated phase lag of the PI...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.185 ...t $\omega_c$, which is selected to be 15^
+                                                  \circ
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Command \end{itemize} invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.186 \end{itemize}
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.186 \end{itemize}
+                   
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.192 ...compensated open-loop system equals -110^
+                                                  \circ is fixed directly by...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.193 \begin{equation}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! You can't use `\eqno' in math mode.
+\veqno ->\@kernel@eqno 
+                       \aftergroup \ignorespaces 
+l.195 \end{equation}
+                    
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.195 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: \begin{document} ended by \end{equation}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.195 \end{equation}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.195 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.195 \end{equation}
+                    
+Things are pretty mixed up, but I think the worst is over.
+
+
+Overfull \hbox (150.15314pt too wide) in paragraph at lines 192--196
+[]\OT1/cmr/m/n/10 The cross-over fre-quency $\OML/cmm/m/it/10 ![]$ \OT1/cmr/m/n
+/10 where the phase of the un-com-pen-sated open-loop sys-tem equals -110$[]\OM
+L/cmm/m/it/10 isfixeddirectlybythespecification \OT1/cmr/m/n/10 : [][][]\OML/cm
+m/m/it/10 ![] \OT1/cmr/m/n/10 =
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.200 ...icipated one ($\phi_{PI}(\omega_c)$ = 15^
+                                                  \circ).
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.202 \begin{equation}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! You can't use `\eqno' in math mode.
+\veqno ->\@kernel@eqno 
+                       \aftergroup \ignorespaces 
+l.204 \end{equation}
+                    
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.204 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: \begin{document} ended by \end{equation}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.204 \end{equation}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.204 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.204 \end{equation}
+                    
+Things are pretty mixed up, but I think the worst is over.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.205 ...g a margin of $\phi_{PI}(\omega_c)$ = 15^
+                                                  \circ, leading to:
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.206 \begin{equation}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! You can't use `\eqno' in math mode.
+\veqno ->\@kernel@eqno 
+                       \aftergroup \ignorespaces 
+l.208 \end{equation}
+                    
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.208 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: \begin{document} ended by \end{equation}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.208 \end{equation}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.208 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.208 \end{equation}
+                    
+Things are pretty mixed up, but I think the worst is over.
+
+
+
+[3]
+<images/open_loop_bode_motorA.pdf, id=98, 614.295pt x 794.97pt>
+File: images/open_loop_bode_motorA.pdf Graphic file (type pdf)
+<use images/open_loop_bode_motorA.pdf>
+Package pdftex.def Info: images/open_loop_bode_motorA.pdf  used on input line 2
+53.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/open_loop_bode_motorB.pdf, id=99, 614.295pt x 794.97pt>
+File: images/open_loop_bode_motorB.pdf Graphic file (type pdf)
+<use images/open_loop_bode_motorB.pdf>
+Package pdftex.def Info: images/open_loop_bode_motorB.pdf  used on input line 2
+54.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+
+! LaTeX Error: File `closed_loop_bode_motorA' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.261 ...0.48\textwidth]{closed_loop_bode_motorA}}
+                                                  \hfill
+I could not locate the file with any of these extensions:
+.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (10.86127pt too wide) in paragraph at lines 261--261
+[]\OT1/cmr/m/n/8 (a)
+ []
+
+
+Overfull \hbox (14.86688pt too wide) in paragraph at lines 261--261
+|\OT1/cmr/m/n/8 Mo-
+ []
+
+
+Overfull \hbox (10.86821pt too wide) in paragraph at lines 261--261
+\OT1/cmr/m/n/8 tor
+ []
+
+
+Overfull \hbox (6.36676pt too wide) in paragraph at lines 261--261
+\OT1/cmr/m/n/8 A| 
+ []
+
+
+! LaTeX Error: File `closed_loop_bode_motorB' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.262 ...0.48\textwidth]{closed_loop_bode_motorB}}
+                                                  
+I could not locate the file with any of these extensions:
+.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (11.3335pt too wide) in paragraph at lines 262--262
+[]\OT1/cmr/m/n/8 (b)
+ []
+
+
+Overfull \hbox (14.86688pt too wide) in paragraph at lines 262--262
+|\OT1/cmr/m/n/8 Mo-
+ []
+
+
+Overfull \hbox (10.86821pt too wide) in paragraph at lines 262--262
+\OT1/cmr/m/n/8 tor
+ []
+
+
+Overfull \hbox (6.01675pt too wide) in paragraph at lines 262--262
+\OT1/cmr/m/n/8 B| 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.270 ...open-loop phase $\phi_L$ approaches -180^
+                                                  \circ.
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+! LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \begin{equation}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! You can't use `\eqno' in math mode.
+\veqno ->\@kernel@eqno 
+                       \aftergroup \ignorespaces 
+l.275 \end{equation}
+                    
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.275 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: \begin{document} ended by \end{equation}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.275 \end{equation}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.275 \end{equation}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.275 \end{equation}
+                    
+Things are pretty mixed up, but I think the worst is over.
+
+
+Overfull \hbox (26.44836pt too wide) in paragraph at lines 270--277
+\OT1/cmr/m/n/10 ap-proaches -180$[]\OML/cmm/m/it/10 :Beyondthispoint; increasin
+gthegaindrivestheclosed \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 loopsystemtowardi
+nstability:Forafirst \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+
+[4 <./images/open_loop_bode_motorA.pdf> <./images/open_loop_bode_motorB.pdf>]
+<images/step_response_no_disturbance_motorA.pdf, id=125, 614.295pt x 794.97pt>
+File: images/step_response_no_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/step_response_no_disturbance_motorA.pdf>
+Package pdftex.def Info: images/step_response_no_disturbance_motorA.pdf  used o
+n input line 313.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/step_response_no_disturbance_motorB.pdf, id=126, 614.295pt x 794.97pt>
+File: images/step_response_no_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/step_response_no_disturbance_motorB.pdf>
+Package pdftex.def Info: images/step_response_no_disturbance_motorB.pdf  used o
+n input line 314.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/tracking_error_no_disturbance_motorA.pdf, id=128, 614.295pt x 794.97pt>
+
+File: images/tracking_error_no_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/tracking_error_no_disturbance_motorA.pdf>
+Package pdftex.def Info: images/tracking_error_no_disturbance_motorA.pdf  used 
+on input line 327.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/tracking_error_no_disturbance_motorB.pdf, id=129, 614.295pt x 794.97pt>
+
+File: images/tracking_error_no_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/tracking_error_no_disturbance_motorB.pdf>
+Package pdftex.def Info: images/tracking_error_no_disturbance_motorB.pdf  used 
+on input line 328.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/control_signal_no_disturbance_motorA.pdf, id=131, 614.295pt x 794.97pt>
+
+File: images/control_signal_no_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/control_signal_no_disturbance_motorA.pdf>
+Package pdftex.def Info: images/control_signal_no_disturbance_motorA.pdf  used 
+on input line 342.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/control_signal_no_disturbance_motorB.pdf, id=132, 614.295pt x 794.97pt>
+
+File: images/control_signal_no_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/control_signal_no_disturbance_motorB.pdf>
+Package pdftex.def Info: images/control_signal_no_disturbance_motorB.pdf  used 
+on input line 343.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.353 ...hat the designed phase margin ($PM$ = 55^
+                                                  \circ) and bandwidth trans...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.355 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (103.69864pt too wide) in paragraph at lines 349--355
+\OT1/cmr/m/n/10 55$[])\OML/cmm/m/it/10 andbandwidthtranslatereliablytotherealha
+rdware:Overall; themeasuredperformanceagreeswiththedesignedcharacteristics \OT1
+/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (89.93771pt too wide) in paragraph at lines 349--355
+\OML/cmm/m/it/10 fastbutwell \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 dampedconver
+gence; fulleliminationofsteady \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 stateerror
+; andcontrolbehaviorthatremainswithinactuatorlimits:$ 
+ []
+
+
+
+[5]
+<images/step_response_with_disturbance_motorA.pdf, id=149, 614.295pt x 794.97pt
+>
+File: images/step_response_with_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/step_response_with_disturbance_motorA.pdf>
+Package pdftex.def Info: images/step_response_with_disturbance_motorA.pdf  used
+ on input line 377.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/step_response_with_disturbance_motorB.pdf, id=150, 614.295pt x 794.97pt
+>
+File: images/step_response_with_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/step_response_with_disturbance_motorB.pdf>
+Package pdftex.def Info: images/step_response_with_disturbance_motorB.pdf  used
+ on input line 378.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/tracking_error_with_disturbance_motorA.pdf, id=152, 614.295pt x 794.97p
+t>
+File: images/tracking_error_with_disturbance_motorA.pdf Graphic file (type pdf)
+
+<use images/tracking_error_with_disturbance_motorA.pdf>
+Package pdftex.def Info: images/tracking_error_with_disturbance_motorA.pdf  use
+d on input line 391.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/tracking_error_with_disturbance_motorB.pdf, id=153, 614.295pt x 794.97p
+t>
+File: images/tracking_error_with_disturbance_motorB.pdf Graphic file (type pdf)
+
+<use images/tracking_error_with_disturbance_motorB.pdf>
+Package pdftex.def Info: images/tracking_error_with_disturbance_motorB.pdf  use
+d on input line 392.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+[6 <./images/step_response_no_disturbance_motorA.pdf> <./images/step_response_n
+o_disturbance_motorB.pdf>]
+<images/control_signal_with_disturbance_motorA.pdf, id=198, 614.295pt x 794.97p
+t>
+File: images/control_signal_with_disturbance_motorA.pdf Graphic file (type pdf)
+
+<use images/control_signal_with_disturbance_motorA.pdf>
+Package pdftex.def Info: images/control_signal_with_disturbance_motorA.pdf  use
+d on input line 408.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/control_signal_with_disturbance_motorB.pdf, id=199, 614.295pt x 794.97p
+t>
+File: images/control_signal_with_disturbance_motorB.pdf Graphic file (type pdf)
+
+<use images/control_signal_with_disturbance_motorB.pdf>
+Package pdftex.def Info: images/control_signal_with_disturbance_motorB.pdf  use
+d on input line 409.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\omega' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+
+Overfull \hbox (9.01192pt too wide) in paragraph at lines 430--433
+ []\OT1/cmr/bx/n/10 Step re-sponse with low-bandwidth (and dis-tur-bance):[] \O
+T1/cmr/m/n/10 The mea-sured re-sponse with the low-bandwidth
+ []
+
+
+
+[7 <./images/tracking_error_no_disturbance_motorA.pdf> <./images/tracking_error
+_no_disturbance_motorB.pdf>]
+<images/step_response_high_vs_low_BW_motorA.pdf, id=241, 614.295pt x 794.97pt>
+File: images/step_response_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
+<use images/step_response_high_vs_low_BW_motorA.pdf>
+Package pdftex.def Info: images/step_response_high_vs_low_BW_motorA.pdf  used o
+n input line 439.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/step_response_high_vs_low_BW_motorB.pdf, id=242, 614.295pt x 794.97pt>
+File: images/step_response_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
+<use images/step_response_high_vs_low_BW_motorB.pdf>
+Package pdftex.def Info: images/step_response_high_vs_low_BW_motorB.pdf  used o
+n input line 440.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/tracking_error_high_vs_low_BW_motorA.pdf, id=244, 614.295pt x 794.97pt>
+
+File: images/tracking_error_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
+<use images/tracking_error_high_vs_low_BW_motorA.pdf>
+Package pdftex.def Info: images/tracking_error_high_vs_low_BW_motorA.pdf  used 
+on input line 456.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/tracking_error_high_vs_low_BW_motorB.pdf, id=245, 614.295pt x 794.97pt>
+
+File: images/tracking_error_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
+<use images/tracking_error_high_vs_low_BW_motorB.pdf>
+Package pdftex.def Info: images/tracking_error_high_vs_low_BW_motorB.pdf  used 
+on input line 457.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+[8 <./images/control_signal_no_disturbance_motorA.pdf> <./images/control_signal
+_no_disturbance_motorB.pdf>]
+<images/control_signal_high_vs_low_BW_motorA.pdf, id=295, 614.295pt x 794.97pt>
+
+File: images/control_signal_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
+<use images/control_signal_high_vs_low_BW_motorA.pdf>
+Package pdftex.def Info: images/control_signal_high_vs_low_BW_motorA.pdf  used 
+on input line 473.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/control_signal_high_vs_low_BW_motorB.pdf, id=296, 614.295pt x 794.97pt>
+
+File: images/control_signal_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
+<use images/control_signal_high_vs_low_BW_motorB.pdf>
+Package pdftex.def Info: images/control_signal_high_vs_low_BW_motorB.pdf  used 
+on input line 474.
+(pdftex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(./assignment2.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-) [4] (./assignment2.aux)
- ***********
-LaTeX2e <2023-11-01> patch level 1
-L3 programming layer <2024-01-04>
- ***********
-
-
-LaTeX Warning: There were undefined references.
-
-Package rerunfilecheck Info: File `assignment2.out' has not changed.
-(rerunfilecheck)             Checksum: DB597F45BF090EE062A608EFD5517339;1352.
 )
 
-Here is how much of LuaTeX's memory you used:
- 15721 strings out of 476497
- 125027,1977958 words of node,token memory allocated
- 556 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 11 attribute, 60 glue_spec
-, 11 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:444,3:280,4:63,5:483,6:43,7:8821,8:109,9:405,10:7,11:866
- 37433 multiletter control sequences out of 65536+600000
- 42 fonts using 3422055 bytes
- 85i,11n,130p,542b,395s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/
-lm/lmmono10-italic.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opent
-ype/public/lm/lmroman10-italic.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX
-/fonts/opentype/public/lm/lmroman10-bolditalic.otf><//?/c:/users/campa/appdata/l
-ocal/programs/miktex/fonts/opentype/public/lm/lmroman10-regular.otf><//?/c:/user
-s/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-bold.ot
-f><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman
-12-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmex10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/campa/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/campa/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on assignment2.pdf (5 pages, 956061 bytes).
+[9 <./images/step_response_with_disturbance_motorA.pdf> <./images/step_response
+_with_disturbance_motorB.pdf>]
 
-PDF statistics: 158 PDF objects out of 1000 (max. 8388607)
- 21 named destinations out of 1000 (max. 131072)
- 77 words of extra memory for PDF output out of 10000 (max. 100000000)
+[10 <./images/tracking_error_with_disturbance_motorA.pdf> <./images/tracking_er
+ror_with_disturbance_motorB.pdf>]
+
+[11 <./images/control_signal_with_disturbance_motorA.pdf> <./images/control_sig
+nal_with_disturbance_motorB.pdf>]
+
+[12 <./images/step_response_high_vs_low_BW_motorA.pdf> <./images/step_response_
+high_vs_low_BW_motorB.pdf>]
+
+[13 <./images/tracking_error_high_vs_low_BW_motorA.pdf> <./images/tracking_erro
+r_high_vs_low_BW_motorB.pdf>]
+
+[14 <./images/control_signal_high_vs_low_BW_motorA.pdf> <./images/control_signa
+l_high_vs_low_BW_motorB.pdf>] (./assignment2.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+Package rerunfilecheck Info: File `assignment2.out' has not changed.
+(rerunfilecheck)             Checksum: D89786E7AD4D594EBFDC8AFB5ECA691F;2640.
+ ) 
+Here is how much of TeX's memory you used:
+ 15722 strings out of 473190
+ 261080 string characters out of 5715799
+ 758804 words of memory out of 5000000
+ 38684 multiletter control sequences out of 15000+600000
+ 563761 words of font info for 53 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 85i,11n,133p,601b,523s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
+sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
+l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
+exlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texli
+ve/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on assignment2.pdf (15 pages, 1173951 bytes).
+PDF statistics:
+ 633 PDF objects out of 1000 (max. 8388607)
+ 555 compressed objects within 6 object streams
+ 96 named destinations out of 1000 (max. 500000)
+ 187 words of extra memory for PDF output out of 10000 (max. 10000000)
 

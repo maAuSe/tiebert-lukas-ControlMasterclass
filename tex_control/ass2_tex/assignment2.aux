@@ -3,17 +3,83 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \providecommand \oddpage@label [2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Design of a velocity controller}{II}{section.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Controller choice}{II}{subsection.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Implementation of the Controller}{II}{subsection.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Phase Margin Selection:}{II}{section*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Crossover Frequency:}{II}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Integral Time Constant:}{II}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Proportional Gain:}{II}{section*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Bandwidth Limitations}{III}{subsection.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Experimental Validation}{III}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Step Response Validation}{III}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Disturbance Rejection (Constant Force)}{III}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Design of a velocity controller using the frequency response method}{II}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Controller type choice}{II}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Design process and design parameters choices}{II}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Choice of cross-over frequency $\omega _c$:}{III}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Integration time T$_i$:}{III}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proportional gain $K$:}{III}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Design trade-offs:}{III}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Verification requirements:}{IV}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Bode Diagram Verification:}{IV}{section*.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Open-loop Bode diagram showing cross-over frequency $\omega _c$ and phase margin.}}{IV}{figure.caption.7}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:openloop_bode}{{1}{IV}{Open-loop Bode diagram showing cross-over frequency $\omega _c$ and phase margin}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{IV}{subfigure.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{IV}{subfigure.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Closed-loop Bode magnitude showing bandwidth $\omega _{BW}$.}}{IV}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:closedloop_bode}{{2}{IV}{Closed-loop Bode magnitude showing bandwidth $\omega _{BW}$}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{IV}{subfigure.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{IV}{subfigure.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Theoretical and practical closed-loop bandwidth limitations}{V}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Theoretical limitation:}{V}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Practical limitations:}{V}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Experimental validation of the designed controller}{V}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Step response validation}{V}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment:}{V}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Step response:}{V}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tracking error:}{V}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Control signal (voltage):}{V}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Performance characteristics:}{V}{section*.18}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Step response on flat ground: reference (dotted) vs. measured (solid) vs. simulated (dashed).}}{VI}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:step_nodist}{{3}{VI}{Step response on flat ground: reference (dotted) vs. measured (solid) vs. simulated (dashed)}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{VI}{subfigure.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{VI}{subfigure.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Steady-state performance under constant force disturbance}{VI}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment:}{VI}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Block diagram:}{VI}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Step response with disturbance:}{VI}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tracking error with disturbance:}{VI}{section*.23}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Tracking error on flat ground: measured (solid) vs. simulated (dashed).}}{VII}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:error_nodist}{{4}{VII}{Tracking error on flat ground: measured (solid) vs. simulated (dashed)}{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{VII}{subfigure.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{VII}{subfigure.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Control signal with disturbance:}{VII}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reference tracking despite disturbance:}{VII}{section*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Controller validation with a cross-over frequency $\omega _c$ of 0.5 $Hz$ (including constant disturbance)}{VII}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment:}{VII}{section*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Step response with low-bandwidth (and disturbance):}{VII}{section*.29}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Control voltage on flat ground: measured (solid) vs. simulated (dashed). Saturation at $\approx 12$ V is visible.}}{VIII}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:control_nodist}{{5}{VIII}{Control voltage on flat ground: measured (solid) vs. simulated (dashed). Saturation at $\approx 12$ V is visible}{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{VIII}{subfigure.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{VIII}{subfigure.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tracking error with low-bandwidth (and disturbance):}{VIII}{section*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Control signal with low-bandwidth (and disturbance):}{VIII}{section*.33}\protected@file@percent }
 \bibstyle{plainnat}
 \bibdata{references}
-\gdef \@abspage@last{5}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Step response on the incline: reference (dotted) vs. measured (solid) vs. simulated (dashed).}}{IX}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:step_with_dist}{{6}{IX}{Step response on the incline: reference (dotted) vs. measured (solid) vs. simulated (dashed)}{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{IX}{subfigure.6.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{IX}{subfigure.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Contribution of the different (PI) controller parts:}{IX}{section*.35}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Tracking error with constant disturbance: measured (solid) vs. simulated (dashed).}}{X}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:error_with_dist}{{7}{X}{Tracking error with constant disturbance: measured (solid) vs. simulated (dashed)}{figure.caption.24}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{X}{subfigure.7.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{X}{subfigure.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Control voltage with constant disturbance: measured (solid) vs. simulated (dashed).}}{XI}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:control_with_dist}{{8}{XI}{Control voltage with constant disturbance: measured (solid) vs. simulated (dashed)}{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{XI}{subfigure.8.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{XI}{subfigure.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Step response comparison: nominal controller vs. low-bandwidth controller on the incline.}}{XII}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:step_low_BW}{{9}{XII}{Step response comparison: nominal controller vs. low-bandwidth controller on the incline}{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{XII}{subfigure.9.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{XII}{subfigure.9.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Tracking error comparison: nominal controller vs. low-bandwidth controller on the incline.}}{XIII}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:error_low_BW}{{10}{XIII}{Tracking error comparison: nominal controller vs. low-bandwidth controller on the incline}{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{XIII}{subfigure.10.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{XIII}{subfigure.10.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Control voltage comparison: nominal controller vs. low-bandwidth controller on the incline.}}{XIV}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:control_low_BW}{{11}{XIV}{Control voltage comparison: nominal controller vs. low-bandwidth controller on the incline}{figure.caption.34}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Motor A}}}{XIV}{subfigure.11.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Motor B}}}{XIV}{subfigure.11.2}\protected@file@percent }
+\gdef \@abspage@last{15}

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  13 NOV 2025 17:56
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  16 DEC 2025 11:20
  restricted system commands enabled.
 **assignment2.tex
 (./assignment2.tex
@@ -536,32 +536,32 @@ Package caption Info: listings package is loaded.
 ) (./assignment2.aux)
 \openout1 = assignment2.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 42.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 4
-2.
+3.
 
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
 
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mk
 ii
@@ -588,7 +588,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 42.
+Package hyperref Info: Link coloring OFF on input line 43.
  (./assignment2.out) (./assignment2.out)
 \@outlinefile=\write3
 
@@ -632,102 +632,298 @@ Package hyperref Info: Link coloring OFF on input line 42.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-<sedes.pdf, id=31, 310.15875pt x 521.95pt>
+<sedes.pdf, id=35, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package luatex.def Info: sedes.pdf  used on input line 53.
+Package luatex.def Info: sedes.pdf  used on input line 54.
 (luatex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=33, 341.3553pt x 132.0132pt>
+<logoFirW.jpg, id=37, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
-Package luatex.def Info: logoFirW.jpg  used on input line 61.
+Package luatex.def Info: logoFirW.jpg  used on input line 62.
 (luatex.def)             Requested size: 147.14452pt x 56.9055pt.
 [1
 
 {C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
 /logoFirW.jpg>]
 warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
-[1]
-
-LaTeX Warning: Reference `fig:openloop_bode' on page II undefined on input line
- 157.
-
-
-LaTeX Warning: Reference `fig:closedloop_bode' on page II undefined on input li
-ne 167.
-
-[2]
-
-LaTeX Warning: Reference `fig:step_nodist' on page III undefined on input line 
-196.
-
-
-LaTeX Warning: Reference `fig:error_nodist' on page III undefined on input line
- 205.
+[1] [2] [3]
+<images/open_loop_bode_motorA.pdf, id=96, 614.295pt x 794.97pt>
+File: images/open_loop_bode_motorA.pdf Graphic file (type pdf)
+<use images/open_loop_bode_motorA.pdf>
+Package luatex.def Info: images/open_loop_bode_motorA.pdf  used on input line 2
+53.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/open_loop_bode_motorB.pdf, id=97, 614.295pt x 794.97pt>
+File: images/open_loop_bode_motorB.pdf Graphic file (type pdf)
+<use images/open_loop_bode_motorB.pdf>
+Package luatex.def Info: images/open_loop_bode_motorB.pdf  used on input line 2
+54.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
 
 
-LaTeX Warning: Reference `fig:control_nodist' on page III undefined on input li
-ne 215.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/closed_loop_bode_motorA.pdf, id=98, 614.295pt x 794.97pt>
+File: images/closed_loop_bode_motorA.pdf Graphic file (type pdf)
+<use images/closed_loop_bode_motorA.pdf>
+Package luatex.def Info: images/closed_loop_bode_motorA.pdf  used on input line
+ 261.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/closed_loop_bode_motorB.pdf, id=99, 614.295pt x 794.97pt>
+File: images/closed_loop_bode_motorB.pdf Graphic file (type pdf)
+<use images/closed_loop_bode_motorB.pdf>
+Package luatex.def Info: images/closed_loop_bode_motorB.pdf  used on input line
+ 262.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4]
+<images/step_response_no_disturbance_motorA.pdf, id=116, 614.295pt x 794.97pt>
+File: images/step_response_no_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/step_response_no_disturbance_motorA.pdf>
+Package luatex.def Info: images/step_response_no_disturbance_motorA.pdf  used o
+n input line 313.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/step_response_no_disturbance_motorB.pdf, id=117, 614.295pt x 794.97pt>
+File: images/step_response_no_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/step_response_no_disturbance_motorB.pdf>
+Package luatex.def Info: images/step_response_no_disturbance_motorB.pdf  used o
+n input line 314.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
 
 
-LaTeX Warning: Reference `fig:step_dist' on page III undefined on input line 24
-0.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/tracking_error_no_disturbance_motorA.pdf, id=119, 614.295pt x 794.97pt>
+
+File: images/tracking_error_no_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/tracking_error_no_disturbance_motorA.pdf>
+Package luatex.def Info: images/tracking_error_no_disturbance_motorA.pdf  used 
+on input line 327.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/tracking_error_no_disturbance_motorB.pdf, id=120, 614.295pt x 794.97pt>
+
+File: images/tracking_error_no_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/tracking_error_no_disturbance_motorB.pdf>
+Package luatex.def Info: images/tracking_error_no_disturbance_motorB.pdf  used 
+on input line 328.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/control_signal_no_disturbance_motorA.pdf, id=122, 614.295pt x 794.97pt>
+
+File: images/control_signal_no_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/control_signal_no_disturbance_motorA.pdf>
+Package luatex.def Info: images/control_signal_no_disturbance_motorA.pdf  used 
+on input line 342.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/control_signal_no_disturbance_motorB.pdf, id=123, 614.295pt x 794.97pt>
+
+File: images/control_signal_no_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/control_signal_no_disturbance_motorB.pdf>
+Package luatex.def Info: images/control_signal_no_disturbance_motorB.pdf  used 
+on input line 343.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5<./images/open_loop_bode_motorA.pdf><./images/open_loop_bode_motorB.pdf>]
+<images/step_response_with_disturbance_motorA.pdf, id=148, 614.295pt x 794.97pt
+>
+File: images/step_response_with_disturbance_motorA.pdf Graphic file (type pdf)
+<use images/step_response_with_disturbance_motorA.pdf>
+Package luatex.def Info: images/step_response_with_disturbance_motorA.pdf  used
+ on input line 377.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/step_response_with_disturbance_motorB.pdf, id=149, 614.295pt x 794.97pt
+>
+File: images/step_response_with_disturbance_motorB.pdf Graphic file (type pdf)
+<use images/step_response_with_disturbance_motorB.pdf>
+Package luatex.def Info: images/step_response_with_disturbance_motorB.pdf  used
+ on input line 378.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
 
 
-LaTeX Warning: Reference `fig:error_dist' on page III undefined on input line 2
-49.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6<./images/closed_loop_bode_motorA.pdf><./images/closed_loop_bode_motorB.pdf>]
+<images/tracking_error_with_disturbance_motorA.pdf, id=230, 614.295pt x 794.97p
+t>
+File: images/tracking_error_with_disturbance_motorA.pdf Graphic file (type pdf)
+
+<use images/tracking_error_with_disturbance_motorA.pdf>
+Package luatex.def Info: images/tracking_error_with_disturbance_motorA.pdf  use
+d on input line 391.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/tracking_error_with_disturbance_motorB.pdf, id=231, 614.295pt x 794.97p
+t>
+File: images/tracking_error_with_disturbance_motorB.pdf Graphic file (type pdf)
+
+<use images/tracking_error_with_disturbance_motorB.pdf>
+Package luatex.def Info: images/tracking_error_with_disturbance_motorB.pdf  use
+d on input line 392.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/control_signal_with_disturbance_motorA.pdf, id=234, 614.295pt x 794.97p
+t>
+File: images/control_signal_with_disturbance_motorA.pdf Graphic file (type pdf)
+
+<use images/control_signal_with_disturbance_motorA.pdf>
+Package luatex.def Info: images/control_signal_with_disturbance_motorA.pdf  use
+d on input line 408.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/control_signal_with_disturbance_motorB.pdf, id=235, 614.295pt x 794.97p
+t>
+File: images/control_signal_with_disturbance_motorB.pdf Graphic file (type pdf)
+
+<use images/control_signal_with_disturbance_motorB.pdf>
+Package luatex.def Info: images/control_signal_with_disturbance_motorB.pdf  use
+d on input line 409.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Reference `fig:control_dist' on page III undefined on input line
- 259.
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
 
-[3] (./assignment2.bbl
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\omega' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 420.
+
+[7<./images/step_response_no_disturbance_motorA.pdf><./images/step_response_no_d
+isturbance_motorB.pdf>]
+Overfull \hbox (9.01163pt too wide) in paragraph at lines 430--433
+[]\TU/lmr/bx/n/10 Step re-sponse with low-bandwidth (and dis-tur-bance):[] \TU/
+lmr/m/n/10 The mea-sured re-sponse with the low-bandwidth
+ []
+
+<images/step_response_high_vs_low_BW_motorA.pdf, id=275, 614.295pt x 794.97pt>
+File: images/step_response_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
+<use images/step_response_high_vs_low_BW_motorA.pdf>
+Package luatex.def Info: images/step_response_high_vs_low_BW_motorA.pdf  used o
+n input line 439.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/step_response_high_vs_low_BW_motorB.pdf, id=276, 614.295pt x 794.97pt>
+File: images/step_response_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
+<use images/step_response_high_vs_low_BW_motorB.pdf>
+Package luatex.def Info: images/step_response_high_vs_low_BW_motorB.pdf  used o
+n input line 440.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/tracking_error_high_vs_low_BW_motorA.pdf, id=278, 614.295pt x 794.97pt>
+
+File: images/tracking_error_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
+<use images/tracking_error_high_vs_low_BW_motorA.pdf>
+Package luatex.def Info: images/tracking_error_high_vs_low_BW_motorA.pdf  used 
+on input line 456.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/tracking_error_high_vs_low_BW_motorB.pdf, id=279, 614.295pt x 794.97pt>
+
+File: images/tracking_error_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
+<use images/tracking_error_high_vs_low_BW_motorB.pdf>
+Package luatex.def Info: images/tracking_error_high_vs_low_BW_motorB.pdf  used 
+on input line 457.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+[8<./images/tracking_error_no_disturbance_motorA.pdf><./images/tracking_error_no
+_disturbance_motorB.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/control_signal_high_vs_low_BW_motorA.pdf, id=320, 614.295pt x 794.97pt>
+
+File: images/control_signal_high_vs_low_BW_motorA.pdf Graphic file (type pdf)
+<use images/control_signal_high_vs_low_BW_motorA.pdf>
+Package luatex.def Info: images/control_signal_high_vs_low_BW_motorA.pdf  used 
+on input line 473.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+<images/control_signal_high_vs_low_BW_motorB.pdf, id=321, 614.295pt x 794.97pt>
+
+File: images/control_signal_high_vs_low_BW_motorB.pdf Graphic file (type pdf)
+<use images/control_signal_high_vs_low_BW_motorB.pdf>
+Package luatex.def Info: images/control_signal_high_vs_low_BW_motorB.pdf  used 
+on input line 474.
+(luatex.def)             Requested size: 225.4804pt x 291.79315pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(./assignment2.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-) [4] (./assignment2.aux)
+) [9<./images/control_signal_no_disturbance_motorA.pdf><./images/control_signal_
+no_disturbance_motorB.pdf>] [10<./images/step_response_with_disturbance_motorA.p
+df><./images/step_response_with_disturbance_motorB.pdf>] [11<./images/tracking_e
+rror_with_disturbance_motorA.pdf><./images/tracking_error_with_disturbance_motor
+B.pdf>] [12<./images/control_signal_with_disturbance_motorA.pdf><./images/contro
+l_signal_with_disturbance_motorB.pdf>] [13<./images/step_response_high_vs_low_BW
+_motorA.pdf><./images/step_response_high_vs_low_BW_motorB.pdf>] [14<./images/tra
+cking_error_high_vs_low_BW_motorA.pdf><./images/tracking_error_high_vs_low_BW_mo
+torB.pdf>] [15<./images/control_signal_high_vs_low_BW_motorA.pdf><./images/contr
+ol_signal_high_vs_low_BW_motorB.pdf>] (./assignment2.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `assignment2.out' has not changed.
-(rerunfilecheck)             Checksum: DB597F45BF090EE062A608EFD5517339;1352.
+(rerunfilecheck)             Checksum: D89786E7AD4D594EBFDC8AFB5ECA691F;2640.
 )
 
 Here is how much of LuaTeX's memory you used:
- 15721 strings out of 476497
+ 16099 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 556 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 11 attribute, 60 glue_spec
-, 11 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:444,3:280,4:63,5:483,6:43,7:8821,8:109,9:405,10:7,11:866
- 37433 multiletter control sequences out of 65536+600000
- 42 fonts using 3422055 bytes
- 85i,11n,130p,542b,395s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/
-lm/lmmono10-italic.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opent
-ype/public/lm/lmroman10-italic.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX
-/fonts/opentype/public/lm/lmroman10-bolditalic.otf><//?/c:/users/campa/appdata/l
-ocal/programs/miktex/fonts/opentype/public/lm/lmroman10-regular.otf><//?/c:/user
-s/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-bold.ot
-f><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman
-12-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmex10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/campa/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/campa/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on assignment2.pdf (5 pages, 956061 bytes).
+ 637 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 30 attribute, 61 glue_spec
+, 30 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:1114,3:333,4:72,5:403,6:70,7:6799,8:109,9:599,10:16,11:564
+ 37669 multiletter control sequences out of 65536+600000
+ 44 fonts using 3423983 bytes
+ 85i,11n,130p,588b,559s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman8-
+regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
+lic/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
+opentype/public/lm/lmmono10-italic.otf><C:/Users/campa/AppData/Local/Programs/Mi
+KTeX/fonts/opentype/public/lm/lmroman10-italic.otf><C:/Users/campa/AppData/Local
+/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-bolditalic.otf><//?/c:/users
+/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-regular.
+otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/l
+mroman10-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/p
+ublic/lm/lmroman12-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/campa/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users
+/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
+7.pfb>
+Output written on assignment2.pdf (16 pages, 1168395 bytes).
 
-PDF statistics: 158 PDF objects out of 1000 (max. 8388607)
- 21 named destinations out of 1000 (max. 131072)
- 77 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 681 PDF objects out of 1000 (max. 8388607)
+ 97 named destinations out of 1000 (max. 131072)
+ 85 words of extra memory for PDF output out of 10000 (max. 100000000)
 

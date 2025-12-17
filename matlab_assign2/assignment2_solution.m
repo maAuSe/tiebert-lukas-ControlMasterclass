@@ -13,7 +13,7 @@ clear; close all; clc;
 
 %% Configuration
 Ts = 0.01;
-dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
+dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign2/data';
 scriptDir = fileparts(mfilename('fullpath'));
 if isempty(scriptDir)
     scriptDir = pwd;
@@ -29,11 +29,11 @@ end
 wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel A
 wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel B
 
-% Convert to continuous for controller design
+% Convert to continuous-time for controller design
 wheelA_cont = d2c(wheelA_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel A
 wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel B
 
-%% Step 1: Bode plot of G(s) - determine w_c where phase = -110 deg (for 55 deg PM)
+%% Step 1: Bode plot of G(s) - Wheel A (determine w_c where phase = -110 deg (for 55 deg PM) )
 % This helps select the crossover frequency from plant characteristics
 fig = new_fig();
 bode(wheelA_cont);
@@ -48,40 +48,62 @@ end
 title('Uncompensated open-loop system G_s(s) - Wheel A');
 grid on;
 save_plot(fig, texImageDir, 'bode_uncompensated_motorA');
-close(fig);
+%close(fig);
+
+%% Bode plot of G(s) - Wheel B
+
+fig = new_fig();
+bode(wheelB_cont);
+hold on;
+ax = findall(fig, 'Type', 'axes');
+for i = 1:length(ax)
+    if contains(ax(i).YLabel.String, 'Phase')
+        axes(ax(i)); hold on;
+        yline(-110, 'r--', '\phi = -110 deg (target for 55 deg PM)', 'LabelHorizontalAlignment', 'left');
+    end
+end
+title('Uncompensated open-loop system G_s(s) - Wheel B');
+grid on;
+save_plot(fig, texImageDir, 'bode_uncompensated_motorB');
+%close(fig);
 
 %% ========================================================================
 %  NOMINAL CONTROLLER (high bandwidth, ~60 rad/s crossover)
 %  ========================================================================
-wc_nom = 60;                          % target crossover [rad/s]
-Ti_nom = tand(90 - 15) / wc_nom;      % integrator time constant (15 deg lag reserve)
+%%% DETERMINE TARGET CROSS-OVER FREQUENCY %%%
+wc_nom = 61.7;  % target cross-over frequency - Wheel A  % target cross-over frequency - Wheel B
+Ti_nom = tand(90 - 15) / wc_nom      % integrator time constant (15 deg lag reserve)
 
 % Compute gain K so that |L(j*wc)| = 1
-D_nom = tf([Ti_nom 1], [Ti_nom 0]); % PI compensator without gain K (same structure for both wheels)
+D_nom = tf([Ti_nom 1], [Ti_nom 0]); % CT PI compensator without gain K (same structure for both wheels)
 
-L_base_nom_A = D_nom * wheelA_cont; % CT compensated system without gain K - Wheel A
-L_base_nom_B = D_nom * wheelB_cont; % CT compensated system without gain K - Wheel B
+L_base_nom_A = D_nom * wheelA_cont; % CT compensated system without gain K (K=1) - Wheel A
+%L_base_nom_A = 0.8904*D_nom * wheelA_cont; % CT compensated system wit gain K = 0.8904 - Wheel A
+
+L_base_nom_B = D_nom * wheelB_cont; % CT compensated system without gain K (K=1) - Wheel B
+%L_base_nom_B = 0.8663*D_nom * wheelB_cont; % CT compensated system with gain K = 0.8663 - Wheel B
+
 
 K_nom_A = 1 / abs(evalfr(L_base_nom_A, 1i * wc_nom)); % proportional gain K - Wheel A
 K_nom_B = 1 / abs(evalfr(L_base_nom_B, 1i * wc_nom)); % proportional gain K - Wheel B
 
 % Continuous and discrete PI controller
-C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom], [1, 0]); % CT PI compensator with gain K - Wheel A
-C_nom_disc_A = c2d(C_nom_cont_A, Ts, 'tustin'); % DT PI compensator with gain K - Wheel A
+C_nom_cont_A = tf([K_nom_A, K_nom_A / Ti_nom], [1, 0]); % CT PI compensator with gain K = 0.8904 - Wheel A
+C_nom_disc_A = c2d(C_nom_cont_A, Ts, 'tustin'); % DT PI compensator with gain K = 0.8904 - Wheel A
 
-C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]); % CT PI compensator with gain K - Wheel B
-C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin'); % DT PI compensator with gain K - Wheel B
+C_nom_cont_B = tf([K_nom_B, K_nom_B / Ti_nom], [1, 0]); % CT PI compensator with gain K = 0.8663 - Wheel B
+C_nom_disc_B = c2d(C_nom_cont_B, Ts, 'tustin'); % DT PI compensator with gain K = 0.8663 - Wheel B
 
 % Open-loop, closed-loop, sensitivity, control TF (Wheel A/B for simulation)
-L_nom_A = C_nom_disc_A * wheelA_tf; % DT open-loop compensated system - Wheel A
-T_nom_A = L_nom_A / (1 + L_nom_A); % DT closed-loop compensated system
-S_nom_A = 1 / (1 + L_nom_A); % Sensitivity TF
-U_nom_A = C_nom_disc_A / (1 + L_nom_A); % Control effort TF
+L_nom_A = C_nom_disc_A * wheelA_tf; % DT open-loop compensated system (full compensator) - Wheel A
+T_nom_A = feedback(L_nom_A, 1) % DT closed-loop compensated system - Wheel A
+S_nom_A = feedback(1, L_nom_A); % Sensitivity TF
+U_nom_A = feedback(C_nom_disc_A, wheelA_tf); % Control effort TF
 
-L_nom_B = C_nom_disc_B * wheelB_tf; % DT open-loop compensated system - Wheel B
-T_nom_B = L_nom_B / (1 + L_nom_B); % DT closed-loop compensated system
-S_nom_B = 1 / (1 + L_nom_B); % Sensitivity TF
-U_nom_B = C_nom_disc_B / (1 + L_nom_B); % Control effort TF
+L_nom_B = C_nom_disc_B * wheelB_tf; % DT open-loop compensated system (full compensator) - Wheel B
+T_nom_B = feedback(L_nom_B, 1) % DT closed-loop compensated system - Wheel B
+S_nom_B = feedback(1, L_nom_B); % Sensitivity TF
+U_nom_B = feedback(C_nom_disc_B, wheelB_tf); % Control effort TF
 
 fprintf('Nominal controller (Wheel A):\n');
 fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_A);
@@ -94,6 +116,7 @@ fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_B);
 [num_nom_B, den_nom_B] = tfdata(C_nom_disc_B, 'v');
 fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_B(1), num_nom_B(2));
 fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
+%% CT open-loop compensated systel without gain K - Wheel A ---> determine proportional gain K
 
 % Step 2: Bode plot of D(s)*G(s) with K=1 - determine gain K where |D*G| = 1 at w_c
 fig = new_fig();
@@ -107,18 +130,46 @@ for i = 1:length(ax)
         xline(wc_nom, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_nom), 'LabelOrientation', 'horizontal');
     end
 end
-title('Compensated open-loop system D(s)*G_s(s) with K=1 - Wheel A');
+title('Compensated open-loop system D(s)*G_s(s) with gain K = 1 - Wheel A');
+%title('Compensated open-loop system D(s)*G_s(s) with gain K = 0.8904 - Wheel A');
 grid on;
 save_plot(fig, texImageDir, 'bode_compensated_nominal_motorA');
-close(fig);
+%close(fig);
+%% CT open-loop compensated system without gain K - Wheel B
+
+% Step 2: Bode plot of D(s)*G(s) with K=1 - determine gain K where |D*G| = 1 at w_c
+fig = new_fig();
+bode(L_base_nom_B);
+hold on;
+ax = findall(fig, 'Type', 'axes');
+for i = 1:length(ax)
+    if contains(ax(i).YLabel.String, 'Magnitude')
+        axes(ax(i)); hold on;
+        yline(0, 'r--', '0 dB (|D*G| = 1)', 'LabelHorizontalAlignment', 'left');
+        xline(wc_nom, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_nom), 'LabelOrientation', 'horizontal');
+    end
+end
+title('Compensated open-loop system D(s)*G_s(s) with gain K = 1 - Wheel B');
+%title('Compensated open-loop system D(s)*G_s(s) with gain K = 0.8663 - Wheel B');
+grid on;
+save_plot(fig, texImageDir, 'bode_compensated_nominal_motorB');
+%close(fig);
+
+
+
+%% Frequency-domain verification: DT open-loop compensated system D(jw)Gs(jw) - Wheel A
 
 % Step 3: Open-loop Bode L = G_c * G_s with annotated design parameters (Section 1b)
 fig = new_fig();
 [mag_nom, phase_nom, w_nom] = bode(L_nom_A);
 margin(L_nom_A);
 hold on;
+%<<<<<<< HEAD
+title('Compensated open-loop system L(s) = D(s)*G_s(s) - Wheel A');
+%=======
 [Gm_nom, Pm_nom, Wcg_nom, Wcp_nom] = margin(L_nom_A);
-%title(sprintf('Compenstaed open-loop system L(s) = G_c(s)*G_s(s) - Wheel A');
+%title(sprintf('Compensated open-loop system L(s) = G_c(s)*G_s(s) - Wheel A');
+%>>>>>>> 1dab60c1f2fde19ada6001fe61199c432ffb7126
 % Add crossover frequency annotation
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
@@ -131,11 +182,16 @@ for i = 1:length(ax)
     end
 end
 save_plot(fig, texImageDir, 'open_loop_bode_motorA');
-close(fig);
+%close(fig);
+
+
+%% Frequency-domain verification: DT open-loop compensated system D(jw)Gs(jw) - Wheel B
 
 fig = new_fig();
+[mag_nom, phase_nom, w_nom] = bode(L_nom_B);
 margin(L_nom_B);
 hold on;
+title('Compensated open-loop system L(s) = D(s)*G_s(s) - Wheel B');
 [~, Pm_nom_B, ~, Wcp_nom_B] = margin(L_nom_B);
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
@@ -148,22 +204,105 @@ for i = 1:length(ax)
     end
 end
 save_plot(fig, texImageDir, 'open_loop_bode_motorB');
-close(fig);
+%close(fig);
+
+
+%% Frequency-domain verification: DT closed-loop compensated system - Wheel A 
 
 % Closed-loop Bode (nominal controller)
 fig = new_fig();
 bode(T_nom_A);
 grid on;
-title('Closed-loop Bode - Wheel A');
+title('Compensated closed-loop system H(s) = L(s) / [1+L(s)] - Wheel A');
 save_plot(fig, texImageDir, 'closed_loop_bode_motorA');
-close(fig);
+
+
+% Time-domain verification (Step Response)
+fig = new_fig();
+step(T_nom_A);
+grid on;
+info_A = stepinfo(T_nom_A);
+dc_A = dcgain(T_nom_A);
+title(sprintf('Step response of H(s) - Wheel A\nt_r = %.3fs (< 0.5s), M_p = %.1f%% (< 20%%)', info_A.RiseTime, info_A.Overshoot));
+save_plot(fig, texImageDir, 'step_response_verification_motorA');
+fprintf('\nTime-domain verification (Wheel A):\n');
+fprintf('  Rise Time: %.4f s (Requirement: < 0.5 s)\n', info_A.RiseTime);
+fprintf('  Overshoot: %.4f %% (Requirement: < 20 %%)\n', info_A.Overshoot);
+fprintf('  DC Gain:   %.4f   (Target: 1.0 -> Zero SSE)\n', dc_A);
+%close(fig);
+
+%% Frequency-domain verification: DT closed-loop compensated system - Wheel B
 
 fig = new_fig();
 bode(T_nom_B);
 grid on;
-title('Closed-loop Bode - Wheel B');
+title('Compensated closed-loop system H(s) - Wheel B');
 save_plot(fig, texImageDir, 'closed_loop_bode_motorB');
-close(fig);
+
+
+% Time-domain verification (Step Response)
+fig = new_fig();
+step(T_nom_B);
+grid on;
+info_B = stepinfo(T_nom_B);
+dc_B = dcgain(T_nom_B);
+title(sprintf('Step response of H(s) - Wheel B\nt_r = %.3fs (< 0.5s), M_p = %.1f%% (< 20%%)', info_B.RiseTime, info_B.Overshoot));
+save_plot(fig, texImageDir, 'step_response_verification_motorB');
+fprintf('\nTime-domain verification (Wheel B):\n');
+fprintf('  Rise Time: %.4f s (Requirement: < 0.5 s)\n', info_B.RiseTime);
+fprintf('  Overshoot: %.4f %% (Requirement: < 20 %%)\n', info_B.Overshoot);
+fprintf('  DC Gain:   %.4f   (Target: 1.0 -> Zero SSE)\n', dc_B);
+%close(fig);
+
+%% Frequency-domain verification: DT PI compensator - Wheel A
+
+% Bode PI controller
+fig = new_fig();
+bode(C_nom_disc_A);
+grid on;
+title('PI compensator D(s) - Wheel A');
+
+% Check PI zero requirement: w_z << w_c
+w_z = 1/Ti_nom;
+fprintf('\nChecking PI zero requirement (Wheel A):\n');
+fprintf('  w_z (1/Ti) = %.2f rad/s\n', w_z);
+fprintf('  w_c        = %.2f rad/s\n', wc_nom);
+fprintf('  Ratio      = %.2f (Target > 10 for "far below", >3 for typical design)\n', wc_nom / w_z);
+
+ax = findall(fig, 'Type', 'axes');
+for i = 1:length(ax)
+    axes(ax(i)); hold on;
+    xline(w_z, 'g--', sprintf('\\omega_z = %.1f', w_z), 'LabelVerticalAlignment', 'bottom');
+    xline(wc_nom, 'r--', sprintf('\\omega_c = %.1f', wc_nom), 'LabelVerticalAlignment', 'bottom');
+end
+save_plot(fig, texImageDir, 'PI_compensator_motorA');
+%close(fig);
+
+
+%% Frequency-domain verification: DT PI compensator - Wheel B
+
+% Bode PI controller
+fig = new_fig();
+bode(C_nom_disc_B);
+grid on;
+title('PI compensator D(s) - Wheel B');
+
+% Check PI zero requirement: w_z << w_c
+w_z = 1/Ti_nom;
+fprintf('\nChecking PI zero requirement (Wheel B):\n');
+fprintf('  w_z (1/Ti) = %.2f rad/s\n', w_z);
+fprintf('  w_c        = %.2f rad/s\n', wc_nom);
+fprintf('  Ratio      = %.2f (Target > 10 for "far below", >3 for typical design)\n', wc_nom / w_z);
+
+% Check PI zero requirement (Visual)
+ax = findall(fig, 'Type', 'axes');
+for i = 1:length(ax)
+    axes(ax(i)); hold on;
+    xline(w_z, 'g--', sprintf('\\omega_z = %.1f', w_z), 'LabelVerticalAlignment', 'bottom');
+    xline(wc_nom, 'r--', sprintf('\\omega_c = %.1f', wc_nom), 'LabelVerticalAlignment', 'bottom');
+end
+save_plot(fig, texImageDir, 'PI_compensator_motorB');
+%close(fig);
 
 %% ========================================================================
 %  LOW-BANDWIDTH CONTROLLER (~0.5 Hz = 3.14 rad/s crossover)
@@ -188,14 +327,14 @@ C_low_disc_B = c2d(C_low_cont_B, Ts, 'tustin'); % DT PI compensator with gain K 
 
 % Open-loop, closed-loop, sensitivity, control TF (Wheel A/B for simulation)
 L_low_A = C_low_disc_A * wheelA_tf; % DT open-loop compensated system - Wheel A
-T_low_A = L_low_A / (1 + L_low_A); % DT closed-loop compensated system
-S_low_A = 1 / (1 + L_low_A); % Sensitivity TF
-U_low_A = C_low_disc_A / (1 + L_low_A); % Control effort TF
+T_low_A = feedback(L_low_A, 1); % DT closed-loop compensated system
+S_low_A = feedback(1, L_low_A); % Sensitivity TF
+U_low_A = feedback(C_low_disc_A, wheelA_tf); % Control effort TF
 
 L_low_B = C_low_disc_B * wheelB_tf; % DT open-loop compensated system - Wheel B
-T_low_B = L_low_B / (1 + L_low_B); % DT closed-loop compensated system
-S_low_B = 1 / (1 + L_low_B); % Sensitivity TF
-U_low_B = C_low_disc_B / (1 + L_low_B); % Control effort TF
+T_low_B = feedback(L_low_B, 1); % DT closed-loop compensated system
+S_low_B = feedback(1, L_low_B); % Sensitivity TF
+U_low_B = feedback(C_low_disc_B, wheelB_tf); % Control effort TF
 
 fprintf('\nLow-bandwidth controller (Wheel A):\n');
 fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low_A);
@@ -231,17 +370,17 @@ for i = 1:length(ax)
         xline(wc_low, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_low), 'LabelOrientation', 'horizontal');
     end
 end
-title(sprintf('Step 2 (Low-BW): D(s)*G(s) with K=1 - Read gain at \\omega_c = %.1f rad/s', wc_low));
+title(sprintf('Low-BW: Open-loop L(s) = D(s)*G(s) with K=1 - Wheel A - Read gain at \\omega_c = %.1f rad/s', wc_low));
 grid on;
 save_plot(fig, texImageDir, 'bode_compensated_lowband_motorA');
-close(fig);
+%close(fig);
 
 % Step 3 (Low-BW): Open-loop Bode L = G_c * G_s - verify PM
 fig = new_fig();
 margin(L_low_A);
 hold on;
 [~, Pm_low, ~, Wcp_low] = margin(L_low_A);
-title(sprintf('Step 3 (Low-BW): Open-loop L(s) - Verify PM = %.1f deg at \\omega_c = %.1f rad/s', Pm_low, Wcp_low));
+title(sprintf('Low-BW: Open-loop L(s)  - Wheel A - Verify PM = %.1f deg at \\omega_c = %.1f rad/s', Pm_low, Wcp_low));
 % Add crossover frequency annotation
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
@@ -254,12 +393,13 @@ for i = 1:length(ax)
     end
 end
 save_plot(fig, texImageDir, 'open_loop_bode_lowband_motorA');
-close(fig);
+%close(fig);
 
 fig = new_fig();
 margin(L_low_B);
 hold on;
 [~, Pm_low_B, ~, Wcp_low_B] = margin(L_low_B);
+title(sprintf('Low-BW: Open-loop L(s)  - Wheel B - Verify PM = %.1f deg at \\omega_c = %.1f rad/s', Pm_low_B, Wcp_low_B));
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
     if contains(ax(i).YLabel.String, 'Magnitude')
@@ -271,7 +411,17 @@ for i = 1:length(ax)
     end
 end
 save_plot(fig, texImageDir, 'open_loop_bode_lowband_motorB');
-close(fig);
+%close(fig);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%
+%%%%%% PART 2 %%%%%%
+%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %% ========================================================================
@@ -305,7 +455,7 @@ if isfile(csvfile_flat)
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
     title('Step response - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_no_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_flat, errorA_flat, 'k-', 'LineWidth', 1.2); hold on;
@@ -313,7 +463,7 @@ if isfile(csvfile_flat)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Tracking error - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_no_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_flat, ctrlA_flat, 'k-', 'LineWidth', 1.2); hold on;
@@ -321,7 +471,7 @@ if isfile(csvfile_flat)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_no_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel B
     fig = new_fig();
@@ -331,7 +481,7 @@ if isfile(csvfile_flat)
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
     title('Step response - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_no_disturbance_motorB');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_flat, errorB_flat, 'k-', 'LineWidth', 1.2); hold on;
@@ -339,7 +489,7 @@ if isfile(csvfile_flat)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Tracking error - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_no_disturbance_motorB');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_flat, ctrlB_flat, 'k-', 'LineWidth', 1.2); hold on;
@@ -347,7 +497,7 @@ if isfile(csvfile_flat)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_no_disturbance_motorB');
-    close(fig);
+    %close(fig);
 else
     fprintf('[INFO] Flat ground data not found: %s\n', csvfile_flat);
 end
@@ -383,7 +533,7 @@ if isfile(csvfile_incline)
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
     title('Step response with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_with_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, errorA_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -391,7 +541,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Tracking error with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_with_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, ctrlA_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -399,7 +549,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_with_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel B
     fig = new_fig();
@@ -409,7 +559,7 @@ if isfile(csvfile_incline)
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
     title('Step response with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_with_disturbance_motorB');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, errorB_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -417,7 +567,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Tracking error with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_with_disturbance_motorB');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, ctrlB_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -425,7 +575,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_with_disturbance_motorB');
-    close(fig);
+    %close(fig);
 else
     fprintf('[INFO] Incline nominal data not found: %s\n', csvfile_incline);
 end
@@ -461,14 +611,15 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
 
     % Wheel A - closed-loop comparison
     fig = new_fig();
-    plot(t_inc, speedA_inc, 'k-', 'LineWidth', 1.2); hold on;
+    plot(t_inc, ref_inc, 'k:', 'LineWidth', 0.7); hold on;
+    plot(t_inc, speedA_inc, 'k-', 'LineWidth', 1.2);
     plot(t_low, speedA_low, 'k-.', 'LineWidth', 1.2);
     plot(t_inc, sim_inc_nom_A, 'k--', 'LineWidth', 1);
     plot(t_low, sim_inc_low_A, 'k:', 'LineWidth', 1.5);
-    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Step response with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    legend('Reference', 'Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Step response with low-bandwidth (and constant disturbance) - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_high_vs_low_BW_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel A - tracking error comparison
     fig = new_fig();
@@ -477,9 +628,9 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_err_nom_A, 'k--', 'LineWidth', 1);
     plot(t_low, sim_err_low_A, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Tracking error with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with low-bandwidth (and constant disturbance) - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_high_vs_low_BW_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel A - control signal comparison
     fig = new_fig();
@@ -488,20 +639,21 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_ctrl_nom_A, 'k--', 'LineWidth', 1);
     plot(t_low, sim_ctrl_low_A, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Control signal with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with low-bandwidth (and constant disturbance) - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_high_vs_low_BW_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel B - closed-loop comparison
     fig = new_fig();
-    plot(t_inc, speedB_inc, 'k-', 'LineWidth', 1.2); hold on;
+    plot(t_inc, ref_inc, 'k:', 'LineWidth', 0.7); hold on;
+    plot(t_inc, speedB_inc, 'k-', 'LineWidth', 1.2);
     plot(t_low, speedB_low, 'k-.', 'LineWidth', 1.2);
     plot(t_inc, sim_inc_nom_B, 'k--', 'LineWidth', 1);
     plot(t_low, sim_inc_low_B, 'k:', 'LineWidth', 1.5);
-    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Step response with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    legend('Reference', 'Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Step response with low-bandwidth (and constant disturbance) - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_high_vs_low_BW_motorB');
-    close(fig);
+    %close(fig);
 
     % Wheel B - tracking error comparison
     fig = new_fig();
@@ -510,9 +662,9 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_err_nom_B, 'k--', 'LineWidth', 1);
     plot(t_low, sim_err_low_B, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Tracking error with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with low-bandwidth (and constant disturbance) - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_high_vs_low_BW_motorB');
-    close(fig);
+    %close(fig);
 
     % Wheel B - control signal comparison
     fig = new_fig();
@@ -521,9 +673,9 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_ctrl_nom_B, 'k--', 'LineWidth', 1);
     plot(t_low, sim_ctrl_low_B, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Control signal with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with low-bandwidth (and constant disturbance) - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_high_vs_low_BW_motorB');
-    close(fig);
+    %close(fig);
 else
     fprintf('[INFO] Missing data for incline comparison (section 2c).\n');
 end
@@ -532,7 +684,7 @@ fprintf('Done.\n');
 
 function fig = new_fig()
 % Helper to create an invisible figure for batch export.
-fig = figure('Visible', 'off', 'Color', 'w');
+fig = figure('Visible', 'on', 'Color', 'w');
 drawnow;
 end
 

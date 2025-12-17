@@ -284,9 +284,9 @@ The Bode plot for the PI controller $D(j\omega)$ must show:
 \end{itemize}
 Finally, the Bode plot for the compensated closed-loop system $H(j\omega) = \frac{L(j\omega)}{1 + L(j\omega)}$ must show:
 \begin{itemize}
-    \item closed-loop bandwidth $\omega_{BW} \approx \omega_c$
-    \item resonant peak caused by finite (moderate) $PM$
-    \item closed-loop gain rolls off beyond control bandwidth
+    \item closed-loop bandwidth $\omega_{BW} \approx \omega_c$,
+    \item resonant peak caused by finite (moderate) $PM$,
+    \item closed-loop gain rolls off beyond control bandwidth.
 \end{itemize}
 Figures \ref{fig:Verification-Open-loop-A} and \ref{fig:Verification-Open-loop-B} show that, both for motor A (left) and motor B (right), the desired phase margin ($PM$) of 55° is approximately obtained, and the gain of $L(j\omega)$ is almost equal to $0\;dB$ at the target cross-over frequency $\omega_c$. The gain margin ($GM$) is also indicated on these plots, which is sufficiently large. In the Bode plot, the -180° phase crossing occurs at a frequency well above the cross-over frequency. At that frequency, the open-loop magnitude is well below $0\;dB$, meaning a substantial increase in gain would be required to reach instability.
 \\

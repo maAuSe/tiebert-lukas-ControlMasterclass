@@ -3,59 +3,30 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \providecommand \oddpage@label [2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1}State estimator and state feedback controller design using pole placement}{II}{section.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Discrete-time state equation}{II}{subsection.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Continuous-time state equation:}{II}{section*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Forward Euler discretization:}{II}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Measurement equation}{III}{subsection.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Design of state feedback controller gain $K$ using pole placement}{III}{subsection.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Derivation of closed-loop pole as function of $K$:}{III}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pole behavior as function of $K$:}{III}{section*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Stability analysis:}{III}{section*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pole-zero map:}{IV}{section*.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Closed-loop pole location $z_\text  {cl}(K) = 1 - T_s r K$ for varying $K$. Unit circle shown for stability reference.}}{IV}{figure.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}State estimator and state feedback controller design using pole placement}{2}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Discrete-time state equation}{2}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Continuous-time state equation:}{2}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Forward Euler discretization:}{2}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Measurement equation}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Design of state feedback controller gain $K$}{2}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Closed-loop pole:}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stability analysis:}{3}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Selected value:}{3}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Design of state estimator gain $L$}{3}{subsection.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Estimator pole:}{3}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stability analysis:}{3}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Pole placement calculation:}{3}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Implementation and testing}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Estimator only: wrong initial estimate}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Measured vs. estimated distance for different $L$.}}{3}{figure.caption.9}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:pole_map_K}{{1}{IV}{Closed-loop pole location $z_\text {cl}(K) = 1 - T_s r K$ for varying $K$. Unit circle shown for stability reference}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{Simulated step responses:}{IV}{section*.8}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Closed-loop poles for different $K$ values.}}{IV}{table.caption.9}\protected@file@percent }
-\newlabel{tab:K_poles}{{1}{IV}{Closed-loop poles for different $K$ values}{table.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Simulated closed-loop step responses. Larger $K$ yields faster convergence but higher peak velocity commands.}}{V}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:step_K_sweep}{{2}{V}{Simulated closed-loop step responses. Larger $K$ yields faster convergence but higher peak velocity commands}{figure.caption.10}{}}
-\@writefile{toc}{\contentsline {paragraph}{Relationship between pole location, $K$, and time response:}{V}{section*.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Choice of $K$:}{V}{section*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Design of state estimator gain $L$ using pole placement}{VI}{subsection.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Derivation of estimator pole as function of $L$:}{VI}{section*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pole behavior as function of $L$:}{VI}{section*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Stability analysis:}{VI}{section*.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Trade-offs in pole placement:}{VII}{section*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pole placement calculation:}{VII}{section*.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Selected value:}{VII}{section*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pole placement and trade-offs.}{VII}{section*.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Chosen gain.}{VII}{section*.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Implementation and testing of state estimator and state feedback controller}{VII}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Estimator only: wrong initial estimate, different $L$}{VIII}{subsection.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Measured vs. estimated distance for different $L$ (wrong initial estimate).}}{VIII}{figure.caption.21}\protected@file@percent }
-\newlabel{fig:estimator_L_sweep}{{3}{VIII}{Measured vs. estimated distance for different $L$ (wrong initial estimate)}{figure.caption.21}{}}
-\@writefile{toc}{\contentsline {paragraph}{Interpretation and link to design of state estimator gain $L$:}{VIII}{section*.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Controller only: proportional feedback for different $K$}{IX}{subsection.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Measured position step responses for different $K$ (estimator disabled).}}{X}{figure.caption.23}\protected@file@percent }
-\newlabel{fig:controller_K_response}{{4}{X}{Measured position step responses for different $K$ (estimator disabled)}{figure.caption.23}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Motor voltage commands for the responses in Fig.~\ref {fig:controller_K_response}.}}{X}{figure.caption.24}\protected@file@percent }
-\newlabel{fig:controller_K_voltage}{{5}{X}{Motor voltage commands for the responses in Fig.~\ref {fig:controller_K_response}}{figure.caption.24}{}}
-\@writefile{toc}{\contentsline {paragraph}{Interpretation and link to design of state feedback controller gain $K$:}{X}{section*.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Choice of $K$:}{XI}{section*.26}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Combined estimator and controller: influence of estimator pole choice}{XI}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Recap of closed-loop poles:}{XII}{section*.27}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Designing the estimator to be 10$\times $ slower:}{XII}{section*.28}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Full closed-loop system poles:}{XII}{section*.29}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Experiments (correct vs. wrong initial estimate):}{XII}{section*.30}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Combined estimator and controller with good initial estimate. The estimator tracks the measurement, and the controller achieves the design settling time.}}{XIII}{figure.caption.31}\protected@file@percent }
-\newlabel{fig:est_ctrl_good}{{6}{XIII}{Combined estimator and controller with good initial estimate. The estimator tracks the measurement, and the controller achieves the design settling time}{figure.caption.31}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Combined estimator and controller with wrong initial estimate. The slow estimator takes a long time to converge, but the control performance remains acceptable.}}{XIII}{figure.caption.32}\protected@file@percent }
-\newlabel{fig:est_ctrl_bad}{{7}{XIII}{Combined estimator and controller with wrong initial estimate. The slow estimator takes a long time to converge, but the control performance remains acceptable}{figure.caption.32}{}}
-\@writefile{toc}{\contentsline {paragraph}{Observed behavior:}{XIV}{section*.33}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Full closed-loop system poles:}{XIV}{section*.34}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Conclusion:}{XV}{section*.35}\protected@file@percent }
+\newlabel{fig:estimator_L_sweep}{{1}{3}{Measured vs. estimated distance for different $L$}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Controller only: proportional feedback}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Measured position step responses for different $K$.}}{4}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:controller_K_response}{{2}{4}{Measured position step responses for different $K$}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Combined estimator and controller}{4}{subsection.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Combined system with wrong initial estimate and slow estimator.}}{4}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:est_ctrl_bad}{{3}{4}{Combined system with wrong initial estimate and slow estimator}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {paragraph}{Conclusion:}{4}{section*.12}\protected@file@percent }
 \bibstyle{plain}
-\bibdata{references}
-\gdef \@abspage@last{17}
+\gdef \@abspage@last{5}

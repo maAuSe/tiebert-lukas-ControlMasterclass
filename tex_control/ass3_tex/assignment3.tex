@@ -107,666 +107,577 @@
 
 
 
-  \section{State estimator and state feedback controller design using pole placement}
+\section{State estimator and state feedback controller design using pole placement}
 
-  The goal of this assignment is to control the position of the cart along a straight line. The state is the cart position $x(t)$ [$m$] along the $x$-axis, with the wall at the origin $x=0m$. 
-  The cart is positioned in front of the wall, so $x<0$. The infrared sensor measures the positive distance to the wall, \ i.e. it measures $-x$.\newline
+The goal of this assignment is to control the position of the cart along a straight line. The state is the cart position $x(t)$ [m] along the $x$-axis, with the wall at the origin $x$ = 0 m. 
+The cart is positioned in front of the wall, so $x<0$. The infrared sensor measures the positive distance to the wall, \ i.e. it measures $-x$.\newline
   
- \noindent The system parameters are:
-  \begin{itemize}
+\noindent The system parameters are:
+\begin{itemize}
     \item Wheel radius: $r = 0.033$~m
     \item Sampling time: $T_s = 0.01$~s (100~Hz control loop)
-  \end{itemize}
+\end{itemize}
 
-  
-  \noindent The input $u(t) = \omega(t)$ [$rad/s$] is the common wheel angular velocity setpoint, applied equally to both motors via the inner velocity controllers designed in Assignment~2. 
-  The velocity control loop is assumed ideal, meaning the actual wheel velocity tracks the setpoint perfectly.
+\noindent The input $u(t) = \omega(t)$ [rad/s] is the common wheel angular velocity setpoint, applied equally to both motors A and B via the inner velocity controllers designed in Assignment~2. 
+The velocity control loop is assumed ideal, meaning the actual wheel velocity tracks the setpoint perfectly.
 
-  \subsection{Discrete-time state equation} % Section 1(a)
+\subsection{Discrete-time state equation (1a)} % Section 1(a)
   
-  \paragraph{Continuous-time state equation:} 
-  The velocity control loop from Assignment~2 is assumed ideal, so the actual cart velocity equals the commanded velocity. The continuous-time kinematic relation is:
-  \begin{equation}
+\paragraph{Continuous-time state equation:} 
+The velocity control loop from Assignment~2 is assumed ideal, so the actual cart velocity equals the commanded velocity. The continuous-time kinematic relation is:
+\begin{equation}
     \dot{x}(t) = v(t) = r \cdot \omega(t) = r \cdot u(t),
-  \end{equation}
-  where $v(t)$ [m/s] is the linear cart velocity and $u(t) = \omega(t)$ [rad/s] is the wheel angular velocity input.\\
+\end{equation}
+where $v(t)$ [m/s] is the linear cart velocity and $u(t) = \omega(t)$ [rad/s] is the wheel angular velocity input.\\
   
-  \noindent In state-space form with scalar state $x(t)$ [m] and input $u(t)$ [rad/s]:
-  \begin{equation}
-    \dot{x}(t) = A_c x(t) + B_c u(t), \quad A_c = 0,\quad B_c = r = 0.033\ \text{m}.
-  \end{equation}
+\noindent In state-space form with scalar state $x(t)$ [m] and input $u(t)$ [rad/s]:
+\begin{equation}
+    \dot{x}(t) = A_c x(t) + B_c u(t), \quad A_c = [0],\quad B_c = [r] = [0.033\; \text{m}].
+\end{equation}
 
-  \paragraph{Forward Euler discretization:} 
-  The forward Euler method approximates the derivative as:
-  \begin{equation}
+\paragraph{Forward Euler discretization:} 
+The forward Euler method approximates the derivative as:
+\begin{equation}
     \dot{x}[k] \approx \frac{x[k+1] - x[k]}{T_s}.
-  \end{equation}
-  Substituting into the continuous-time equation:
-  \begin{equation}
+\end{equation}
+Substituting into the continuous-time equation:
+\begin{equation}
     \frac{x[k+1] - x[k]}{T_s} = A_c x[k] + B_c u[k] = 0 \cdot x[k] + r \cdot u[k].
-  \end{equation}
-  Solving for $x[k+1]$:
-  \begin{equation}
+\end{equation}
+Solving for $x[k+1]$:
+\begin{equation}
     x[k+1] = x[k] + T_s \cdot r \cdot u[k].
-  \end{equation}
+\end{equation}
   
-  \noindent The discrete-time state-space model is:
-  \begin{equation}
+\noindent The discrete-time state-space model is:
+\begin{equation}
     x[k+1] = A_d x[k] + B_d u[k],
-  \end{equation}
-  with the discrete-time system matrices:
-  \begin{equation}
-    \boxed{A_d = 1, \qquad B_d = T_s \cdot r = 0.01 \times 0.033 = 3.3 \times 10^{-4}\ \text{m/(rad/s)}.}
-  \end{equation}
+\end{equation}
+with the discrete-time system matrices:
+\begin{equation}
+    \boxed{A_d = [1], \qquad B_d = [T_s \cdot r] = 0.01 \times 0.033\ = 3.3 \times 10^{-4}\ \text{m/(rad/s)}.}
+\end{equation}
   
-  \noindent Note: In the state estimator implementation, the measured average wheel speed $u[k] = (\omega_A[k] + \omega_B[k])/2$ is used for the prediction step.
+\noindent Note: In the state estimator implementation, the measured average wheel speed $u[k] = (\omega_A[k] + \omega_B[k])/2$ is used for the prediction step.
 
 
-  \subsection{Measurement equation} % Section 1(b)
+\subsection{Measurement equation (1b)} % Section 1(b)
 
-  The front infrared (IR) sensor measures the distance from the cart to the wall. Since the cart is at position $x < 0$ (in front of the wall at $x = 0$), the measured distance is a positive quantity equal to $|x| = -x$.
+The front infrared (IR) sensor measures the distance from the cart to the wall. Since the cart is at position $x < 0$ (in front of the wall at $x$ = 0 m), the measured distance is a positive quantity equal to $|x| = -x$.
   
-  \noindent The measurement equation (ignoring noise) is:
-  \begin{equation}
+\noindent The measurement equation (ignoring noise) is:
+\begin{equation}
     y[k] = -x[k].
-  \end{equation}
+\end{equation}
   
-  \noindent In state-space form:
-  \begin{equation}
+\noindent In state-space form:
+\begin{equation}
     y[k] = C x[k] + D u[k],
-  \end{equation}
-  \noindent with the output matrices:
-  \begin{equation}
-    \boxed{C = -1, \qquad D = 0.}
-  \end{equation}
+\end{equation}
+\noindent with the output matrices:
+\begin{equation}
+    \boxed{C = [-1], \qquad D = [0].}
+\end{equation}
   
-  \noindent Here $C = -1$ because the sensor measures the negation of the state, and $D = 0$ since the input does not directly affect the measurement.
+\noindent Here $C = [-1]$ because the sensor measures the negation of the state, and $D = [0]$ since the input does not directly affect the measurement.
 
 
-  \subsection{Design of state feedback controller gain $K$ using pole placement} % Section 1(c)
+\subsection{Design of state feedback controller gain $K$ using pole placement (1c)} % Section 1(c)
   
-  The position controller outputs the desired wheel angular velocity based on the position error. Assuming full state feedback (no estimator), the control law is:
-  \begin{equation}
+The position controller outputs the desired wheel angular velocity based on the position error. Assuming full state feedback (no estimator), the control law is:
+\begin{equation}
     u[k] = K \cdot (x_\text{ref}[k] - x[k]),
-  \end{equation}
-  where $x_\text{ref}[k]$ [m] is the reference position, $x[k]$ [m] the measured position, $K$ [rad/(s$\cdot$m)] the state feedback gain, and $u[k]$ [rad/s] the commanded wheel angular velocity.
+\end{equation}
+where $x_\text{ref}[k]$ [m] is the reference position, $x[k]$ [m] the measured position, $K$ [rad/(s $\cdot$ m)] the state feedback gain, and $u[k]$ [rad/s] the commanded wheel angular velocity.
 
-  \paragraph{Derivation of closed-loop pole as function of $K$:}
-  Substituting the control law into the discrete-time state equation:
-  \begin{align}
+\paragraph{Derivation of closed-loop pole as function of $K$:}
+Substituting the control law into the discrete-time state equation:
+\begin{align}
     x[k+1] &= A_d x[k] + B_d u[k] \\
            &= x[k] + T_s r \cdot K (x_\text{ref}[k] - x[k]) \\
            &= (1 - T_s r K) x[k] + T_s r K \cdot x_\text{ref}[k].
-  \end{align}
+\end{align}
   
-  \noindent The closed-loop system has the form:
-  \begin{equation}
+\noindent The closed-loop system has the form:
+\begin{equation}
     x[k+1] = A_\text{cl} x[k] + B_\text{cl} x_\text{ref}[k],
-  \end{equation}
-  where the closed-loop system matrix is:
-  \begin{equation}
-    \boxed{A_\text{cl} = 1 - T_s r K.}
-  \end{equation}
+\end{equation}
+where the closed-loop system matrix is:
+\begin{equation}
+    \boxed{A_\text{cl} = [1 - T_s r K].}
+\end{equation}
   
-  \noindent For this first-order system, the closed-loop pole equals the system matrix:
-  \begin{equation}
-    \boxed{z_\text{cl}(K) = 1 - T_s r K = 1 - 0.1\text{s} \cdot 0.033\text{m} \cdot K.}
-  \end{equation}
+\noindent For this first-order system, the closed-loop pole equals the system matrix:
+\begin{equation}
+    \boxed{z_\text{cl}(K) = 1 - T_s r K = 1 - 0.01 \times 0.033 \times K.}
+\end{equation}
 
-  \paragraph{Pole behavior as function of $K$:}
-  At $K = 0$, $z_\text{cl} = 1$ (marginally stable integrator). As $K$ increases, the pole moves left along the real axis, reaching $z_\text{cl} = 0$ (deadbeat) at $K \approx 3030$ rad/(s$\cdot$m) and the stability boundary $z_\text{cl} = -1$ at $K \approx 6060$ rad/(s$\cdot$m).
+\paragraph{Pole behavior as function of $K$:}
+At $K = 0$, $z_\text{cl} = 1$ (marginally stable integrator). As $K$ increases, the pole moves left along the real axis, reaching $z_\text{cl} = 0$ ("deadbeat") at $K \approx 3030$ rad/(s$\cdot$m) and the stability boundary $z_\text{cl} = -1$ at $K \approx 6060$ rad/(s$\cdot$m).
 
-  \paragraph{Stability analysis:}
-  For discrete-time stability, the pole must lie inside the unit circle:
-  \begin{equation}
+\paragraph{Stability analysis:}
+For discrete-time stability, the pole must lie inside the unit circle:
+\begin{equation}
     |z_\text{cl}(K)| = |1 - T_s r K| < 1.
-  \end{equation}
-  This yields the stability condition:
-  \begin{equation}
+\end{equation}
+This yields the stability condition:
+\begin{equation}
     \boxed{0 < K < \frac{2}{T_s r} = \frac{2}{0.01 \cdot 0.033} \approx 6060\ \text{rad/(s$\cdot$m)}.}
-  \end{equation}
+\end{equation}
   
-  \noindent\textbf{Yes, the system can become unstable} if $K > 6060 rad/(s\cdotm)$, causing the pole to exit the unit circle through $z = -1$.
+\noindent This means the system can become unstable if $K$ $>$ 6060 \text{rad/(s $\cdot$ m)}, causing the pole to exit the unit circle through $z = -1$.
 
-  \paragraph{Pole-zero map:}
-  Figure~\ref{fig:pole_map_K} shows the closed-loop pole location for varying $K$. The pole moves along the real axis from $z = 1$ (at $K = 0$) toward $z = -1$ (at $K = K_\text{max}$).
+\paragraph{Pole-zero map:}
+Figure~\ref{fig:pole_map_K} shows the closed-loop pole location for varying $K$. The pole moves along the real axis from $z = 1$ (at $K = 0$) toward $z = -1$ (at $K = K_\text{max}$ = 6060 rad/(s $\cdot$ m)).
 
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.7\textwidth]{images/pole_map_K.pdf}
-    \caption{Closed-loop pole location $z_\text{cl}(K) = 1 - T_s r K$ for varying $K$. Unit circle shown for stability reference.}
+    \caption{Closed-loop pole location $z_\text{cl}(K) = 1 - T_s r K$ for varying $K$. Unit circle is shown for stability reference.}
     \label{fig:pole_map_K}
-  \end{figure}
+\end{figure}
 
-  \paragraph{Simulated step responses:}
-  The discrete-time step response is simulated for $K \in \{20, 40, 80\}$ rad/(s$\cdot$m):
-  \begin{equation}
+\paragraph{Simulated step responses:}
+The discrete-time step response is simulated for $K \in \{20, 40, 80\}$ rad/(s$\cdot$m):
+\begin{equation}
     x[k+1] = (1 - T_s r K) x[k] + T_s r K \cdot x_\text{ref}, \quad x[0] = x_0.
-  \end{equation}
+\end{equation}
   
-  \begin{table}[H]\centering
+\begin{table}[H]\centering
     \begin{tabular}{lccc}
       \toprule
       $K$ [rad/(s$\cdot$m)] & $z_\text{cl}$ & Pole location & Expected behavior \\
       \midrule
-      20  & 0.9934 & Close to 1 & Slow convergence, long settling time \\
-      40  & 0.9868 & Moderate   & Faster response, good compromise \\
-      80  & 0.9736 & Closer to 0 & Fast response, higher control effort \\
+      20  & 0.9934 & close to 1 & slow convergence, long settling time \\
+      40  & 0.9868 & moderate   & faster response, good compromise \\
+      80  & 0.9736 & closer to 0 & fast response, higher control effort \\
       \bottomrule
     \end{tabular}
     \caption{Closed-loop poles for different $K$ values.}
     \label{tab:K_poles}
-  \end{table}
+\end{table}
 
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.8\textwidth]{images/step_K_sweep.pdf}
     \caption{Simulated closed-loop step responses. Larger $K$ yields faster convergence but higher peak velocity commands.}
     \label{fig:step_K_sweep}
-  \end{figure}
+\end{figure}
 
-  \paragraph{Relationship between pole location, $K$, and time response:}
-  \begin{itemize}
-    \item \textbf{Small $K$} ($z_\text{cl} \approx 1$): Slow exponential decay, long settling time, smooth but sluggish response.
-    \item \textbf{Moderate $K$} ($0 < z_\text{cl} < 1$): Faster convergence, monotonic response without oscillation.
-    \item \textbf{Large $K$} ($z_\text{cl} < 0$): Sign-alternating (oscillatory) discrete-time response. If $|z_\text{cl}| < 1$, still stable but with overshoot.
-    \item \textbf{$K > K_\text{max}$} ($|z_\text{cl}| > 1$): Unstable, diverging oscillations.
-  \end{itemize}
+\paragraph{Relationship between pole location, $K$, and time response:}
+\begin{itemize}
+    \item small $K$ ($z_\text{cl} \approx 1$): slow exponential decay, long settling time, smooth but sluggish response
+    \item moderate $K$ ($0 < z_\text{cl} < 1$): faster convergence, monotonic response without oscillation
+    \item large $K$ ($z_\text{cl} < 0$): sign-alternating (oscillatory) discrete-time response; if $|z_\text{cl}| < 1$, still stable but with overshoot
+    \item $K > K_\text{max}$ ($|z_\text{cl}| > 1$): unstable, diverging oscillations
+\end{itemize}
 
-  \paragraph{Choice of $K$:}
-  The theoretical stability limit is $K_\text{max} \approx 6060$ rad/(s$\cdot$m), but practical constraints are more restrictive:
-  \begin{itemize}
-    \item \textbf{Actuator saturation}: The motor voltage is limited to $\pm 11$~V. Large $K$ causes large velocity commands for small position errors, potentially saturating the inner velocity loop.
-    \item \textbf{Sensor noise}: High $K$ amplifies measurement noise into the control signal.
-    \item \textbf{IR sensor range}: The sensor is accurate only for 5--30~cm. Aggressive control may drive the cart outside this range.
-  \end{itemize}
+\paragraph{Choice of $K$:}
+The theoretical stability limit is $K_\text{max} \approx 6060$ rad/(s$\cdot$m), but practical constraints are more restrictive:
+\begin{itemize}
+    \item actuator saturation: the motor voltage is limited to $\approx$ 11--12~V; large $K$ causes large velocity commands for small position errors, potentially saturating the inner velocity loop
+    \item sensor noise: high $K$ amplifies measurement noise into the control signal
+    \item IR sensor range: the sensor is accurate only for 5--30~cm; aggressive control may drive the cart outside this range
+\end{itemize}
   
-  \textbf{Selected value:}
-  \begin{equation}
+\paragraph{Selected value:}
+\begin{equation}
     \boxed{K = 40\ \text{rad/(s$\cdot$m)}.}
-  \end{equation}
-  This gives $z_\text{cl} = 1 - 0.01 \times 0.033 \times 40 = 0.9868$, providing:
-  \begin{itemize}
-    \item Stable operation well within the stability margin
-    \item Reasonable settling time ($\approx 3$--$5$~s for 2\% criterion)
-    \item Control effort within actuator limits for typical position steps (0.1--0.2~m)
-  \end{itemize}
+\end{equation}
+This gives $z_\text{cl} = 1 - 0.01 \times 0.033 \times 40 = 0.9868$, providing:
+\begin{itemize}
+    \item stable operation well within the stability margin,
+    \item reasonable settling time ($\approx 3$--$5$~s for 2\% criterion),
+    \item control effort within actuator limits for typical position steps (0.1--0.2~m).
+\end{itemize}
 
 
 
 
-  \subsection{Design of state estimator gain $L$ using pole placement} % Section 1(d)
+\subsection{Design of state estimator gain $L$ using pole placement (1d)} % Section 1(d)
   
-  A discrete-time Luenberger observer is used to estimate the cart position from the IR sensor measurement:
-  \begin{equation}
+A discrete-time Luenberger observer is used to estimate the cart position from the IR sensor measurement:
+\begin{equation}
     \hat{x}[k+1] = A_d \hat{x}[k] + B_d u[k] + L \cdot \nu[k],
-  \end{equation}
-  where $\nu[k] = y[k] - C\hat{x}[k]$ is the \textbf{innovation} (measurement prediction error).
-  
-  With $A_d = 1$, $B_d = T_s r$, and $C = -1$:
-  \begin{equation}
+\end{equation}
+where $\nu[k] = y[k] - C\hat{x}[k]$ is the innovation (measurement prediction error). \\
+With $A_d = [1]$, $B_d = [T_s r]$, and $C = [-1]$:
+\begin{equation}
     \hat{x}[k+1] = \hat{x}[k] + T_s r \cdot u[k] + L \cdot (y[k] + \hat{x}[k]).
-  \end{equation}
+\end{equation}
 
-  \paragraph{Derivation of estimator pole as function of $L$:}
-  Define the estimation error:
-  \begin{equation}
+\paragraph{Derivation of estimator pole as function of $L$:}
+Define the estimation error:
+\begin{equation}
     e[k] = x[k] - \hat{x}[k].
-  \end{equation}
-  
-  The true state evolves as $x[k+1] = x[k] + T_s r \cdot u[k]$. Subtracting the observer equation:
-  \begin{align}
+\end{equation}
+The true state evolves as $x[k+1] = x[k] + T_s r \cdot u[k]$. Subtracting the observer equation:
+\begin{align}
     e[k+1] &= x[k+1] - \hat{x}[k+1] \\
            &= (x[k] + T_s r \cdot u[k]) - (\hat{x}[k] + T_s r \cdot u[k] + L(y[k] - C\hat{x}[k])) \\
            &= (x[k] - \hat{x}[k]) - L(Cx[k] - C\hat{x}[k]) \\
            &= e[k] - L \cdot C \cdot e[k] \\
            &= (1 - LC) \cdot e[k].
-  \end{align}
-  
-  Substituting $C = -1$:
-  \begin{equation}
+\end{align}
+Substituting $C = [-1]$:
+\begin{equation}
     e[k+1] = (1 - L \cdot (-1)) \cdot e[k] = (1 + L) \cdot e[k].
-  \end{equation}
-  
-  The estimator error dynamics have the closed-loop pole:
-  \begin{equation}
+\end{equation}
+The estimator error dynamics have the closed-loop pole:
+\begin{equation}
     \boxed{z_\text{est}(L) = 1 + L.}
-  \end{equation}
+\end{equation}
 
-  \paragraph{Pole behavior as function of $L$:}
-  \begin{itemize}
-    \item At $L = 0$: $z_\text{est} = 1$ (no correction, estimator ignores measurements)
-    \item As $L$ becomes more negative: pole moves \textbf{left along the real axis}
-    \item At $L = -1$: $z_\text{est} = 0$ (deadbeat estimator, instant convergence)
-    \item At $L = -2$: $z_\text{est} = -1$ (stability boundary)
-  \end{itemize}
+\paragraph{Pole behavior as function of $L$:}
+\begin{itemize}
+    \item at $L = 0$: $z_\text{est} = 1$ (no correction, estimator ignores measurements)
+    \item as $L$ becomes more negative: pole moves left along the real axis
+    \item at $L = -1$: $z_\text{est} = 0$ (deadbeat estimator, instant convergence)
+    \item at $L = -2$: $z_\text{est} = -1$ (stability boundary)
+\end{itemize}
 
-  \paragraph{Stability analysis:}
-  For the estimator to be stable:
-  \begin{equation}
+\paragraph{Stability analysis:}
+For the estimator to be stable:
+\begin{equation}
     |z_\text{est}(L)| = |1 + L| < 1.
-  \end{equation}
-  This yields:
-  \begin{equation}
+\end{equation}
+This yields:
+\begin{equation}
     \boxed{-2 < L < 0.}
-  \end{equation}
-  
-  \textbf{Yes, the estimator can become unstable}:
-  \begin{itemize}
-    \item If $L > 0$: pole $z_\text{est} > 1$, estimation error grows exponentially.
-    \item If $L < -2$: pole $z_\text{est} < -1$, estimation error diverges with oscillations.
-  \end{itemize}
+\end{equation}
+This means the estimator can become unstable:
+\begin{itemize}
+    \item if $L > 0$: pole $z_\text{est} > 1$, estimation error grows exponentially
+    \item if $L < -2$: pole $z_\text{est} < -1$, estimation error diverges with oscillations
+\end{itemize}
 
-  \paragraph{Trade-offs in pole placement:}
-  \begin{itemize}
-    \item \textbf{Faster estimator} (larger $|L|$, pole closer to 0):
-    \begin{itemize}
-      \item[+] Faster convergence from wrong initial estimate
-      \item[+] Quicker correction of model errors
-      \item[$-$] Higher sensitivity to measurement noise (noise is amplified by $L$)
-      \item[$-$] Risk of oscillatory behavior if $z_\text{est} < 0$
+\paragraph{Trade-offs in pole placement:}
+\begin{itemize}
+    \item faster estimator (larger $|L|$, pole closer to 0):
+\begin{itemize}
+      \item [+] faster convergence from wrong initial estimate
+      \item [+] quicker correction of model errors
+      \item [$-$] higher sensitivity to measurement noise (noise is amplified by $L$)
+      \item [$-$] risk of oscillatory behavior if $z_\text{est} < 0$
+\end{itemize}
+    \item slower estimator (smaller $|L|$, pole closer to 1):
+\begin{itemize}
+      \item[+] smoother estimate, better noise rejection
+      \item[$-$] slow convergence from initialization errors
+      \item[$-$] poor tracking of rapid state changes
     \end{itemize}
-    \item \textbf{Slower estimator} (smaller $|L|$, pole closer to 1):
-    \begin{itemize}
-      \item[+] Smoother estimate, better noise rejection
-      \item[$-$] Slow convergence from initialization errors
-      \item[$-$] Poor tracking of rapid state changes
-    \end{itemize}
-  \end{itemize}
+\end{itemize}
   
-  \textbf{Design guideline}: The estimator pole should typically be 2--6 times faster than the controller pole, ensuring the estimation error decays before significantly affecting control performance.
+\paragraph{Design guideline:} The estimator pole should typically be 2--6 times faster than the controller pole, ensuring the estimation error decays before significantly affecting control performance.
 
-  \paragraph{Pole placement calculation:}
-  With the chosen controller gain $K = 40$ rad/(s$\cdot$m), the controller pole is:
-  \begin{equation}
+\paragraph{Pole placement calculation:}
+With the chosen controller gain $K = 40$ rad/(s$\cdot$m), the controller pole is:
+\begin{equation}
     z_\text{cl} = 1 - T_s r K = 1 - 0.01 \times 0.033 \times 40 = 0.9868.
-  \end{equation}
-  
-  To make the estimator 4 times faster (in continuous-time sense), we use:
-  \begin{equation}
+\end{equation}
+To make the estimator 4 times faster (in continuous-time sense), we use:
+\begin{equation}
     z_\text{est} = z_\text{cl}^4 = 0.9868^4 \approx 0.948.
-  \end{equation}
-  
-  Solving for $L$:
-  \begin{equation}
+\end{equation}
+Solving for $L$:
+\begin{equation}
     L = z_\text{est} - 1 = 0.948 - 1 = -0.052.
-  \end{equation}
+\end{equation}
+\paragraph{Selected value:}
+\begin{equation}
+    \boxed{L = -0.05\; \text{[$-$]}.}
+\end{equation}
+dimensionless, because $y[k]$ and $x[k]$ both have units of meters [m].
+This value lies in the range $-2<L<0$, gives a faster pole than the controller, and forms a reasonable compromise between speed and noise sensitivity.
 
-  \paragraph{Selected value:}
-  \begin{equation}
-    \boxed{L = -0.05 \text{ (dimensionless)}.}
-  \end{equation}
-  dimensionless, because $y[k]$ and $x[k]$ both have units of meters [$m$].
-  This value lies in the range $-2<L<0$, gives a faster pole than the controller, and forms a reasonable compromise between speed and noise sensitivity.
 
+\paragraph{Pole placement and trade-offs:} The state estimator gain $L$ is selected such that the estimator is $3$--$5$ times faster than the controller for tasks in Section~2.1--2.2, then set it ten times slower than the controller for Section~2.3 per the specification. The practical limits are set by sensor noise and discretization: $|1+L|<1\Rightarrow -2<L<0$.
 
-  \paragraph{Pole placement and trade-offs.} We select $L$ such that the estimator is $3$--$5$ times faster than the controller for tasks in Section~2(a)--(b), then set it ten times slower than the controller for Section~2(c) per the specification. The practical limits are set by sensor noise and discretization: $|1+L|<1\Rightarrow -2<L<0$.
-  \paragraph{Chosen gain.} A nominal value $L_\text{nom}=-0.18$ gives $p_\text{est}=0.82$ (fast but noise-aware). Alternative gains $L\in\{-0.05,-0.18,-0.35\}$ are swept in the experiments below.
+\paragraph{Chosen gain:} A nominal value $L_\text{nom}=-0.18$ gives $p_\text{est}=0.82$ (fast but noise-aware). Alternative gains $L\in\{-0.05,-0.18,-0.35\}$ are swept in the experiments below.
 
 
 
   
-  \section{Implementation and testing of state estimator and state feedback controller}
+\section{Implementation and testing of state estimator and state feedback controller}
   
-  Now the designed estimator and controller are implemented on the Arduino, following the assignment structure.
-  Data and figures will be populated after running the Arduino experiments and MATLAB post-processing. Each plot placeholder corresponds to a file exported to \texttt{images/}.
+\subsection{Estimator only: wrong initial estimate, different $L$ (2a)} % Section 2(a)
+The controller is disabled; the estimator starts from a wrong initial position $\hat{x}[0]$.
+\\ \\
+Configuration:
+\begin{itemize}
+    \item estimator active, controller off; the cart is moved manually, or driven with a known, simple input signal
+    \item the state estimator is initialized with a wrong position estimate $\hat{x}[0]$ (e.g. 10 cm closer to the wall than reality).
+    \item different values of $L$ are tested (e.g. $L \in$ \{-0.05, -0.18, -0.35\}).
+\end{itemize}
+For each L:
+\begin{itemize}
+    \item the measured distance $y[k]$ (positive, measured by IR sensor) is logged
+    \item the estimated state $\hat{x}[k]$ is logged
+\end{itemize}
 
+\noindent Figure~\ref{fig:estimator_L_sweep} overlays the measured distance $y=-x$ and the estimated distance $-\hat{x}$ for $L\in\{-0.05,-0.18,-0.35\}$. Larger $|L|$ yields faster convergence but more noise on $\hat{x}$ and $\nu$.
 
-  \subsection{Estimator only: wrong initial estimate, different $L$} % Section 2(a)
-  The controller is disabled; the estimator starts from a wrong initial position $\hat{x}[0]$ set via \texttt{readValue(5)} in the Arduino code. 
-  
-  Configuration:
-  \begin{itemize}
-    \item Estimator active, controller off. The cart is moved manually, or driven with a known, simple input signal.
-    \item The state estimator is initialized with a wrong position estimate $\hat{x}[0]$ (e.g. 10$cm$ closer to the wall than reality).
-    \item Different values of $L$ are tested (e.g. $L$ = -0.02, -0.07, -0.15).
-  \end{itemize}
-  For each L:
-  \begin{itemize}
-    \item The measured distance $y[k]$ (positive, measured by IR sensor) is logged.
-    \item The estimated state $\hat{x}[k]$ is logged.
-  \end{itemize}
-
-  %%% FIGURE 4: Measured distance to the wall and estimated distance 
-  %%% (converted to meters along x, i.e. \hat{y}[k] = - \hat{x}[k]) vs. time for several values of L on one figure, 
-  %%% showing how the estimator converges from a wrong initial estimate.
-
-  %\begin{figure}[h!]
-  %  \centering
-  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
-  %  \caption{Cart measuring its distance to a wall.}
-  %  \label{fig:state_feedback_assignment}
-  %\end{figure}
-
-  Figure~\ref{fig:estimator_L_sweep} overlays the measured distance $y=-x$ and the estimated distance $-\hat{x}$ for $L\in\{-0.05,-0.18,-0.35\}$. Larger $|L|$ yields faster convergence but more noise on $\hat{x}$ and $\nu$.
-
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.8\textwidth]{images/estimator_L_sweep.pdf}
     \caption{Measured vs. estimated distance for different $L$ (wrong initial estimate).}
     \label{fig:estimator_L_sweep}
-  \end{figure}
+\end{figure}
 
-  \paragraph{Interpretation and link to design of state estimator gain $L$:}
-  For small $|L|$ (e.g. $L \approx -0.02$, so $z_\text{est} \approx 0.98$):
+\paragraph{Interpretation and link to design of state estimator gain $L$:}
+For small $|L|$ (e.g. $L \approx -0.02$, so $z_\text{est} \approx 0.98$):
+\begin{itemize}
+    \item the estimator reacts slowly to the discrepancy between measurement and prediction
+    \item the estimate converges slowly to the measurement, a substantial transient remains for a long time
+    \item this matches the formula $z_{est} = 1 + L$: pole close to 1 leads to slow dynamics
+\end{itemize}
+For moderate $|L|$ (e.g. the designed $L \approx -0.05$, giving $z_{est} \approx 0.95$):
+\begin{itemize}
+    \item the estimate converges significantly faster to the measurement
+    \item noise on the measurement is visible but not overly amplified
+\end{itemize}
+For large $|L|$ close to -2 (e.g. $L$ = -1.5, so $z_\text{est}$ = -0.5):
+\begin{itemize}
+    \item convergence is very fast, but the estimate closely follows measurement noise, becoming noisy and irregular
+    \item this shows the trade-off: faster convergence vs. noise sensitivity
+\end{itemize}
+Summarized:
   \begin{itemize}
-    \item The estimator reacts slowly to the discrepancy between measurement and prediction.
-    \item The estimate converges slowly to the measurement, a substantial transient remains for a long time.
-    \item This matches the formula $z_{est} = 1 + L$: pole close to 1 leads to slow dynamics.
+    \item convergence speed increases with $|L|$, consistent with $z_\text{est}=1+L$
+    \item noise on $\hat{x}$ and the innovation $\nu$ grows with $|L|$, illustrating the trade-off from Section 1.4 (1d)
+    \item the chosen $L_\text{nom}$ balances settling time $t_s$ and noise
   \end{itemize}
-
-  For moderate $|L|$ (e.g. the designed $L \approx -0.07$, giving $z_{est} \approx 0.93$):
-  \begin{itemize}
-    \item The estimate converges significantly faster to the measurement.
-    \item Noise on the measurement is visible but not overly amplified.
-  \end{itemize}
-
-  For large $|L|$ close to -2 (e.g. $L$ = -1.5, so $z_\text{est}$ = -0.5):
-  \begin{itemize}
-    \item Convergence is very fast, but the estimate closely follows measurement noise, becoming noisy and irregular.
-    \item This shows the trade-off: faster convergence vs. noise sensitivity.
-  \end{itemize}
-
-
-  So:
-  \begin{itemize}
-    \item Convergence speed increases with $|L|$, consistent with $z_\text{est}=1+L$.
-    \item Noise on $\hat{x}$ and the innovation $\nu$ grows with $|L|$, illustrating the trade-off from 1(d).
-    \item The chosen $L_\text{nom}$ balances settling time ($\approx$~TODO~s) and noise (RMS $\approx$~TODO~m).
-  \end{itemize}
-
-  From the plots, one concludes that larger negative $L$ values (closer to −2) give faster convergence of the estimates to the measurements, 
-  consistent with the expression $z_\text{est} = 1 + L$ and the trade-offs discussed in Section 1.4 (design of state estimator gain $L$).
+From the plots, one concludes that larger negative $L$ values (closer to -2) give faster convergence of the estimates to the measurements, 
+consistent with the expression $z_\text{est} = 1 + L$ and the trade-offs discussed in Section 1.4 (design of state estimator gain $L$).
 
 
 
+\subsection{Controller only: proportional feedback for different $K$ (2b)} % Section 2(b)
+The estimator is disabled, feedback uses the raw distance $y[k] = -x[k]$. A 0.25 m step reference is applied for $K\in\{K_{slow}, K_{nominal}, K_{fast}\}$ = \{20, 40, 80\} rad/(s $\cdot m)$. 
+\\ \\
+Configuration:
+\begin{itemize}
+    \item controller active, estimator off; the controller directly uses the IR measurement (converted to position) for feedback
+    \item the control law becomes: $u[k] = K(r[k]-x[k])$, with $x[k]$ obtained from the IR sensor relation $x[k] = -y[k]$ 
+    \item a 0.25 m step in position reference is applied
+\end{itemize}
+This experiment is repeated for several values of $K$ (for $K\in\{20,40,80\}$ rad/(s $\cdot m)$).
 
 
-  \subsection{Controller only: proportional feedback for different $K$} % Section 2(b)
-  The estimator is disabled, feedback uses the raw distance $y[k] = -x[k]$. A 0.15$m$ step reference is applied for $K\in\{K_\text{slow},K_\text{nom},K_\text{fast}\}$. 
-  
-  Configuration:
-  \begin{itemize}
-    \item Controller active, estimator off. The controller directly uses the IR measurement (converted to position) for feedback.
-    \item The control law becomes: $u[k] = K(r[k]-x[k])$, with $x[k]$ obtained from the IR sensor relation $x[k] = -y[k]$. 
-    \item A step in position reference is applied. The car starts at, for example, 30$cm$ from the wall. The reference is stepped from 30$cm$ to 15$cm$ (in x: $x=-0.30$ to $x=-0.15$).
-  \end{itemize}
-  Repeat this experiment for several values of $K$ (e.g. $K$ = 10,50,100 $rad/(s\cdot m)$).
+\noindent Figure~\ref{fig:controller_K_response} shows the step reference (dashed line) and position responses for different values of $K$. Figure~\ref{fig:controller_K_voltage} shows the corresponding motor voltages, for the same values of $K$.
 
-  %%% FIGURE 5: Position step reference and measured position responses 
-  %%% for several K values on a single plot.
-
-  %\begin{figure}[h!]
-  %  \centering
-  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
-  %  \caption{Cart measuring its distance to a wall.}
-  %  \label{fig:state_feedback_assignment}
-  %\end{figure}
-
-
-  %%% FIGURE 6: Corresponding low-level control signals (motor voltages) vs. time 
-  %%% for the same K values.
-
-  %\begin{figure}[h!]
-  %  \centering
-  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
-  %  \caption{Cart measuring its distance to a wall.}
-  %  \label{fig:state_feedback_assignment}
-  %\end{figure}
-
-  Figure~\ref{fig:controller_K_response} shows position responses and Figure~\ref{fig:controller_K_voltage} the corresponding motor voltages.
-
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.8\textwidth]{images/controller_K_response.pdf}
     \caption{Measured position step responses for different $K$ (estimator disabled).}
     \label{fig:controller_K_response}
-  \end{figure}
+\end{figure}
 
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.8\textwidth]{images/controller_K_voltage.pdf}
-    \caption{Motor voltage commands for the responses in Fig.~\ref{fig:controller_K_response}.}
+    \caption{Motor voltage commands for the responses in Figure~\ref{fig:controller_K_response}.}
     \label{fig:controller_K_voltage}
-  \end{figure}
+\end{figure}
 
-  \paragraph{Interpretation and link to design of state feedback controller gain $K$:}
-  As shown analytically, the closed-loop pole is
-  \begin{equation}
+\paragraph{Interpretation and link to design of state feedback controller gain $K$:}
+As shown analytically, the closed-loop pole is
+\begin{equation}
     z_\text{cl}(K) = 1 - T_s r K.
-  \end{equation}
-  
-  For small $K$ (e.g. $K$ = 20 $rad/(s\cdot m)$):
+\end{equation}
+For small $K$ (e.g. $K_{slow}$ = 20 rad/(s$\cdot$m)):
+\begin{itemize}
+    \item pole $z_{cl}$ close to 1: slow rise, long settling time, very smooth control signal
+    \item this matches time-responses with slow approach to the reference
+\end{itemize}
+For moderate $K$ (e.g. the designed $K_{nominal}$ = 40 rad/(s$\cdot$m)):
   \begin{itemize}
-    \item Pole close to 1: slow rise, long settling time, very smooth control signal.
-    \item This matches time-responses with slow approach to the reference.
-  \end{itemize}
+    \item pole closer to zero: faster response, reduced settling time
+    \item acceptable overshoot and control signals well within approximately 11--12 V
+    \item good tracking performance
+\end{itemize}
+For large $K$ close to the theoretical maximum $\frac{2}{T_s r}$ (e.g. $K_{fast}$ = 80 rad/(s$\cdot$m)):
+\begin{itemize}
+    \item pole approaches -1: discrete-time oscillatory response and possibly overshoot
+    \item the control signals reach or exceed saturation ($\approx$ 11--12 V), so the inner velocity loop cannot follow the demanded angular velocity
+\end{itemize}
+Summarized: 
+\begin{itemize}
+    \item rise time and steady-state error match the simulated trend from Section 1.3 (design of state feedback controller gain $K$), higher $K$ speeds up the response but increases peak voltage
+    \item for $K=K_\text{fast}$ = 80 rad/(s$\cdot$m), the voltage briefly saturates, explaining the mild overshoot; this bounds feasible $K$ in practice
+    \item the selected $K_\text{nom}$ = 40 rad/(s$\cdot$m) avoids saturation while providing acceptable settling time $t_s$ and negligible steady-state error
+\end{itemize}
+These observations correspond to the theoretical dependence $z_{cl}(K) = 1 - T_s r K$: as $K$ increases, the closed-loop pole $z_{cl}$ moves left towards -1, giving faster dynamics until saturation and discrete oscillations become limiting.
 
-  For moderate $K$ (e.g. the designed $K$ = 50 $rad/(s\cdot m)$):
-  \begin{itemize}
-    \item Pole closer to zero: faster response, reduced settling time.
-    \item Acceptable overshoot and control signals well within approximately 12$V$.
-    \item Good tracking performance.
-  \end{itemize}
-
-  For large $K$ close to theoretical maximum $\frac{2}{T_s r}$ (e.g. $K$ = 100 $rad/(s\cdot m)$):
-  \begin{itemize}
-    \item Pole approaches -1: discrete-time oscillatory response and possibly overshoot.
-    \item The control signals reach or exceed saturation (12$V$), so the inner velocity loop cannot follow the demanded angular velocity.
-  \end{itemize}
-
-
-  So: 
-  \begin{itemize}
-    \item Rise time and steady-state error match the simulated trend from Section 1.3 (design of state feedback controller gain $K$), higher $K$ speeds up the response but increases peak voltage.
-    \item For $K=K_\text{fast}$ the voltage briefly saturates, explaining the mild overshoot; this bounds feasible $K$ in practice.
-    \item The selected $K_\text{nom}$ avoids saturation while providing $t_s\approx$~TODO~s and negligible steady-state error.
-  \end{itemize}
-
-  These observations correspond to the theoretical dependence $z_{cl}(K) = 1 - T_s r K$:
-  as $K$ increases, the closed-loop pole moves left towards -1, giving faster dynamics until saturation and discrete oscillations become limiting.
-
-  \paragraph{Choice of $K$:}
-  There are both theoretical and practical limits for $K$.
-  Theoretical limit: stability in discrete-time requires
-  \begin{equation}
+\paragraph{Choice of $K$:}
+There are both theoretical and practical limits for $K$.
+\\ \\
+Theoretical limit: stability in discrete-time requires
+\begin{equation}
     0 < K < \frac{2}{T_s r} \approx 6060\ \text{rad/(s$\cdot$m)}.
-  \end{equation}
-
-  Practical limits:
-  \begin{itemize}
-    \item The low-level motor voltage is bounded: too large $K$ causes saturation, making the actual behavior deviate from the linear model.
-    \item Large $K$ amplifies sensor noise and model errors.
-    \item The IR sensor has a limited range (approximately 5-30$cm$). Overshoot may drive the cart outside this range, resulting in invalid measurements.
-  \end{itemize}
-  In light of these constraints, a value around
-  \begin{equation}
-    K = 40\text{rad/(s\cdot m)}
-  \end{equation}
-  offers a good compromise between tracking performance and actuator/sensor limitations, 
-  and is therefore used in the remainder of the assignment.
+\end{equation}
+\\ \\
+Practical limits:
+\begin{itemize}
+    \item the low-level motor voltage is bounded: too large $K$ causes saturation, making the actual behavior deviate from the linear model
+    \item large $K$ amplifies sensor noise and model errors
+    \item the IR sensor has a limited range (approximately 5--30 cm); overshoot may drive the cart outside this range, resulting in invalid measurements.
+\end{itemize}
+In light of these constraints, a value around
+\begin{equation}
+    K = 40\; \text{rad/(s$\cdot$m)}
+\end{equation}
+offers a good compromise between tracking performance and actuator/sensor limitations, and is therefore used in the remainder of the assignment.
 
   
 
 
 
-
-  \subsection{Combined estimator and controller: influence of estimator pole choice} % Section 2(c)
-  
-  In this experiment, both the state feedback controller and the state estimator are active. The controller uses the estimated position $\hat{x}[k]$ instead of the true position:
-  \begin{equation}
+\subsection{Combined estimator and controller: influence of estimator pole choice (2c)} % Section 2(c)
+In this experiment, both the state feedback controller and the state estimator are active. The controller uses the estimated position $\hat{x}[k]$ instead of the true position:
+\begin{equation}
     u[k] = K(x_\text{ref}[k] - \hat{x}[k]).
-  \end{equation}
-  
-  Per the assignment specification, the estimator is designed to be \textbf{10 times slower} than the controller.
-
-  \paragraph{Recap of closed-loop poles:}
-  From Sections 1(c) and 1(d), the closed-loop poles are:
-  \begin{itemize}
-    \item \textbf{Controller pole}: $z_\text{cl}(K) = 1 - T_s r K$
-    \item \textbf{Estimator pole}: $z_\text{est}(L) = 1 + L$
-  \end{itemize}
-  
-  With $K = 40$ rad/(s$\cdot$m):
-  \begin{equation}
+\end{equation}
+Per the assignment specification, the estimator is designed to be 10 times slower than the controller.
+\paragraph{Recap of closed-loop poles:}
+ From Sections 1.3 (1c) and 1.4 (1d), the closed-loop poles are:
+\begin{itemize}
+    \item controller pole: $z_\text{cl}(K) = 1 - T_s r K$
+    \item estimator pole: $z_\text{est}(L) = 1 + L$
+\end{itemize}
+With $K = 40$ rad/(s$\cdot$m):
+\begin{equation}
     z_\text{cl} = 1 - 0.01 \times 0.033 \times 40 = 0.9868.
-  \end{equation}
-
-  \paragraph{Designing the estimator to be 10$\times$ slower:}
-  A pole closer to 1 corresponds to slower dynamics. To make the estimator 10 times slower in continuous-time:
-  \begin{enumerate}
-    \item Convert controller pole to continuous-time: $s_\text{cl} = \frac{\ln(z_\text{cl})}{T_s} = \frac{\ln(0.9868)}{0.01} \approx -1.33$ rad/s
-    \item Estimator pole 10$\times$ slower: $s_\text{est} = \frac{s_\text{cl}}{10} = -0.133$ rad/s
-    \item Convert back to discrete-time: $z_\text{est} = e^{s_\text{est} \cdot T_s} = e^{-0.00133} \approx 0.9987$
-  \end{enumerate}
-  
-  Solving for $L$ using $z_\text{est} = 1 + L$:
-  \begin{equation}
+\end{equation}
+\paragraph{Designing the estimator to be 10$\times$ slower than the controller:}
+A pole closer to 1 corresponds to slower dynamics. To make the estimator 10 times slower in continuous-time:
+\begin{enumerate}
+    \item convert controller pole to continuous-time: $s_\text{cl} = \frac{\ln(z_\text{cl})}{T_s} = \frac{\ln(0.9868)}{0.01} \approx -1.33$ rad/s
+    \item estimator pole 10$\times$ slower: $s_\text{est} = \frac{s_\text{cl}}{10} = -0.133$ rad/s
+    \item convert back to discrete-time: $z_\text{est} = e^{s_\text{est} \cdot T_s} = e^{-0.00133} \approx 0.9987$
+\end{enumerate}
+Solving for $L$ using $z_\text{est} = 1 + L$:
+\begin{equation}
     L = z_\text{est} - 1 = 0.9987 - 1 = -0.0013.
-  \end{equation}
+\end{equation}
   
-  \textbf{Selected slow estimator gain}:
+\paragraph{Selected slow estimator gain:}
   \begin{equation}
-    \boxed{L_\text{slow} = -0.00132 \text{ (dimensionless)}.}
+    \boxed{L_\text{slow} = -0.0013\; \text{[$-$]}.}
   \end{equation}
-  This matches the value used in the Arduino code for Section 2(c).
+This value for $L$ will be used in the remainder of Section 2.3 (2c) during the experiments.
 
-  \paragraph{Full closed-loop system poles:}
-  The combined system (controller + estimator) has two poles:
-  \begin{equation}
-    \boxed{\lambda_1 = z_\text{cl} = 0.9868, \qquad \lambda_2 = z_\text{est} = 0.9987.}
-  \end{equation}
-  This gain is used during the experiments.
+\paragraph{Full closed-loop system poles:}
+The combined system (controller + estimator) has two poles:
+\begin{equation}
+    \boxed{\lambda_1 = z_\text{cl} = 0.9868, \qquad \lambda_2 = z_\text{est} = 0.9987,}
+\end{equation}
+which corresponds to
+\begin{equation}
+    \boxed{K = 40\; \text{rad/(s$\cdot$m)}, \qquad L = -0.0013}
+\end{equation}
 
-  \paragraph{Experiments (correct vs. wrong initial estimate):}
-  Two runs are performed:
-  \begin{enumerate}
-    \item Correct initial estimate: $\hat{x}[0] = x[0]$.
-    \item Incorrect initial estimate: $\hat{x}[0] = x[0] + \Delta x$, with $\Delta x$ several $cm$.
-  \end{enumerate}
-  In both cases, the measured signal $y[k] = -x[k]$ and the estimated output $\hat{y}[k] = -\hat{x}[k]$ are plotted.
+\paragraph{Experiments (correct vs. wrong initial estimate):}
+Two runs are performed:
+\begin{enumerate}
+    \item correct initial estimate: $\hat{x}[0] = x[0]$.
+    \item incorrect initial estimate: $\hat{x}[0] = x[0] + \Delta x$, with $\Delta x$ several cm.
+\end{enumerate}
+In both cases, the measured signal $y[k] = -x[k]$ and the estimated output $\hat{y}[k] = -\hat{x}[k]$ are plotted.
 
-  %%% FIGURE 6: Measured vs. estimated distance with slow estimator, 
-  %%% correct initial estimate
-
-  %\begin{figure}[h!]
-  %  \centering
-  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
-  %  \caption{Cart measuring its distance to a wall.}
-  %  \label{fig:state_feedback_assignment}
-  %\end{figure}
-
-
-  %%% FIGURE 7: Same but with incorrect initial estimate
-  %%% 
-
-  %\begin{figure}[h!]
-  %  \centering
-  %  \includegraphics[width=0.48\textwidth]{state_feedback_assignment}}
-  %  \caption{Cart measuring its distance to a wall.}
-  %  \label{fig:state_feedback_assignment}
-  %\end{figure}
-
-
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.8\textwidth]{images/est_ctrl_good.pdf}
-    \caption{Combined estimator and controller with good initial estimate. The estimator tracks the measurement, and the controller achieves the design settling time.}
+    \caption{Combined estimator and controller with good initial estimate. The estimator tracks the measurement, and the controller achieves the design settling time $t_s$.}
     \label{fig:est_ctrl_good}
-  \end{figure}
+\end{figure}
 
-  \begin{figure}[H]\centering
+\begin{figure}[H]\centering
     \includegraphics[width=0.8\textwidth]{images/est_ctrl_bad.pdf}
     \caption{Combined estimator and controller with wrong initial estimate. The slow estimator takes a long time to converge, but the control performance remains acceptable.}
     \label{fig:est_ctrl_bad}
-  \end{figure}
+\end{figure}
 
 
 
 
-  \paragraph{Observed behavior:}
+\paragraph{Observed behavior:}
+\begin{enumerate}
+    \item \textbf{Correct initial estimate:}
+        If $\hat{x}[0] \approx x[0]$, the estimator error is nearly zero, so:
+        \begin{itemize}
+            \item the estimator output $\hat{x}[k]$ is immediately accurate
+            \item the controller behaves almost exactly as in the no-estimator case
+            \item the step response closely matches the ideal closed-loop behavior governed by $z_{cl}$
+        \end{itemize}
+    \item \textbf{Incorrect initial estimate:}
+            Because the chosen estimator pole is very slow:
+            \begin{equation}
+                e[k+1] = z_{est} \cdot e[k], \quad \text{with} \quad z_{est} \approx z_{cl}^{1/10} \approx 0.9987,
+            \end{equation}
+            the error decays only gradually. During this long transient, the controller acts on:
+            \begin{equation}
+                x_{ref}[k] - \hat{x}[k],
+            \end{equation}
+            which may be very different from the true distance error. \\
+            Consequences of the incorrect initial estimate are:
+            \begin{itemize}
+                \item delayed motion toward the setpoint
+                \item possible motion in the wrong direction initially
+                \item slow convergence to the correct position
+                \item degraded control performance even though the controller gain $K$ is unchanged 
+            \end{itemize}
+            This demonstrates that a too-slow estimator harms the transient performance, especially when initial estimation erros are present.
+    \item \textbf{If you designing a state estimator yourself (using pole placement):}
+            Instead of making the estimator slower, the closed-loop estimator pole would be placed faster than the controller pole, 
+            typically 2--5 times faster in continuous-time terms. 
+            For example, if the controller pole is $z_{cl} = 0.2$, a good choice for the estimator pole is around $z_{est} \approx 0.1$ (or even smaller), which corresponds to an $L$ that gives very quick convergence of $\hat{x}[k]$ without excessive noise amplification.
+\end{enumerate}
 
-  1. Correct initial estimate
-  If $\hat{x}[0] ≈ x[0]$, the estimator error is nearly zero, so:
-  \begin{itemize}
-    \item the estimator output $\hat{x}[k]$ is immediately accurate,
-    \item the controller behaves almost exactly as in the no-estimator case,
-    \item the step response closely matches the ideal closed-loop behavior governed by $z_{cl}$.
-  \end{itemize}
-
-  2. Incorrect initial estimate
-  Because the chosen estimator pole is very slow:
-  \begin{equation}
-    e[k+1] = z_{est} e[k], \quad \text{with} z_{est} ≈ z_{cl}^{1/10} ≈ XXX,
-  \end{equation}
-  the error decays only gradually.
-  During this long transient, the controller acts on:
-  \begin{equation}
-    x_{ref}[k] - \hat{x}[k],
-  \end{equation}
-  which may be very different from the true distance error.
-  Consequences:
-  \begin{itemize}
-    \item delayed motion toward the setpoint,
-    \item possible motion in the wrong direction initially,
-    \item slow convergence to the correct position,
-    \item degraded control performance even though the controller gain $K$ is unchanged. 
-  \end{itemize}
-
-  This demonstrates that a too-slow estimator harms the transient performance,
-  especially when initial estimation erros are present.
-
-  3. If you designing a state estimator yourself (using pole placement):
-  Instead of making the estimator slower, the closed-loop estimator pole would be placed faster than the controller pole, 
-  typically 2-5 times faster in continuous-time terms. 
-  For example, if the controller pole is $z_{cl} = 0.2$, a good choice for the estimator pole is around $z_{est} ≈ 0.1$ (or even smaller),
-  which corresponds to an $L$ that gives very quick convergence of $\hat{x}[k]$ without excessive noise amplification.
-
-  \paragraph{Full closed-loop system poles:}
-  The combined controller-estimator system in $[x[k], \hat{x}[k]]^T$ has the update matrix:
-  \begin{equation}
-    A_{\text{full}} =
+\paragraph{Full closed-loop system poles:}
+The combined controller-estimator system in $[\,x[k],\, \hat{x}[k]\,]^T$ has the update matrix:
+\begin{equation}
+    A_{\text{full}} = 
     \begin{bmatrix}
-      1 - T_s r K & T_s r K \\ 
-      -L & 1 - L - T_s r K
+    1 - T_s r K & T_s r K \\ 
+    -L & 1 - L - T_s r K
     \end{bmatrix}
-  \end{equation}
-  Its eigenvalues are:
-  \begin{equation}
-    \lambda_{1} = 1 - T_s r K = z_{\text{cl}} \text{(controller pole)}, \quad \lambda_{2} = 1 + L = z_{\text{est}} \text{(estimator pole)}.
-  \end{equation}
-  So the full closed-loop system has two poles: one equal to the controller pole and one equal to the estimator pole.
-  They appear separately and are not coupled.
-  This matches the separation principle: for linear systems with full-order observers, the controller and estimator can be designed independently,
-  and their poles show up unchanged in the combined system:
-  \begin{itemize}
-    \item modifying $K$ moves only $z_{cl}$,
-    \item modifying $L$ moves only $z_{est}$.
-  \end{itemize}
-
-  However, the estimator performance does influence the control performance in practice.
-  Even though the controller pole $z_{cl}$ is unchanged, the controller acts on $\hat{x}[k]$ rather than on the true state $x[k]$. 
-  If the estimator is very slow or starts from a wrong initial condition, $\hat{x}[k]$ can be far from $x[k]$ for a long time,
-  and the control input is based on this wrong information. 
-  The result is a poor transient response (slow, possibly with motion in the wrong direction) even though the poles of the closed-loop system are identical.
-
-  The closed-loop transfer function from reference $x_{ref}$ to output $y$ only describes the asymptotic dynamics
-  assuming the internal states are already consistent (i.e. $\hat{x} ≈ x$). 
-  The poles show how fast modes decay, but they do not encode the effect of wrong initial conditions in the internal estimator.
-  The estimator performance depends on the estimator pole $z_{cl}$ \textit{and} the initial estimation error $e[0] = x[0] - \hat{x}[0]$,
-  which only appears in the time-domain solution, not in the pole values themselves.
-  Therefore, the poor transient behaviour seen with a slow estimator and wrong $\hat{x}[0]$
-  cannot be predicted from the closed-loop poles alone. Time-domain simulations or experimental plots of $x[k]$ and $\hat{x}[k]$
-  are needed to fully assess the control performance.
-
-
-  \paragraph{Conclusion:}
-  Although both poles $z_{cl}$ and $z_{est}$ lie inside the unit circle, meaning the closed-loop system is formally stable,
-  choosing $z_{est}$ much slower than $z_{cl}$:
-  \begin{itemize}
-    \item severely reduces closed-loop performance,
-    \item introduces long transients when $\hat{x}[0]$ is wrong,
-    \item demonstrates why estimators are typically placed faster than controllers, not slower.
-  \end{itemize}
+\end{equation}
+The eigenvalues of $A_{full}$ are:
+\begin{equation}
+    \lambda_{1} = 1 - T_s K = z_{cl} \quad \text{(controller pole)}, \qquad \lambda_{2} = 1 - L C = z_{est} \quad \text{(estimator pole)}.
+\end{equation}
+The full closed-loop system has two poles: one equal to the controller pole and one equal to the estimator pole.
+They appear separately and are not coupled.
+This matches the separation principle: for linear systems with full-order observers, the controller and estimator can be designed independently,
+and their poles show up unchanged in the combined system:
+\begin{itemize}
+    \item modifying $K$ moves only $z_{cl}$
+    \item modifying $L$ moves only $z_{est}$
+\end{itemize}
+However, the estimator performance does influence the control performance in practice.
+Even though the controller pole $z_{cl}$ is unchanged, the controller acts on $\hat{x}[k]$ rather than on the true state $x[k]$. 
+If the estimator is very slow or starts from a wrong initial condition, $\hat{x}[k]$ can be far from $x[k]$ for a long time,
+and the control input is based on this wrong information. 
+The result is a poor transient response (slow, possibly with motion in the wrong direction) even though the poles of the closed-loop system are identical.
+\\ \\
+The closed-loop transfer function from reference $x_{ref}$ to output $y$ only describes the asymptotic dynamics
+assuming the internal states are already consistent (i.e. $\hat{x} \approx x$). 
+The poles show how fast modes decay, but they do not encode the effect of wrong initial conditions in the internal estimator.
+The estimator performance depends on the estimator pole $z_{cl}$ \textbf{and} the initial estimation error $e[0] = x[0] - \hat{x}[0]$,
+which only appears in the time-domain solution, not in the pole values themselves.
+Therefore, the poor transient behaviour seen with a slow estimator and wrong $\hat{x}[0]$
+cannot be predicted from the closed-loop poles alone. Time-domain simulations or experimental plots of $x[k]$ and $\hat{x}[k]$
+are needed to fully assess the control performance.
 
 
+\paragraph{Conclusion:}
+Although both poles $z_{cl}$ and $z_{est}$ lie inside the unit circle, meaning the closed-loop system is formally stable,
+choosing $z_{est}$ much slower (e.g. 10 times slower) than $z_{cl}$:
+\begin{itemize}
+    \item severely reduces closed-loop performance
+    \item introduces long transients when $\hat{x}[0]$ is wrong
+    \item demonstrates why estimators are typically placed \textbf{faster} than controllers, not slower
+\end{itemize}
 
-  \newpage
-  \bibliographystyle{plain}
-  \bibliography{references}
+
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}

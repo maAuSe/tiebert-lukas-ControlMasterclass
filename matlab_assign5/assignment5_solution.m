@@ -36,8 +36,9 @@ geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wal
 %% ========================================================================
 %  NOISE COVARIANCES & INITIAL STATE (PLACEHOLDERS TO TUNE)
 %  ========================================================================
-Q_proc_nom = diag([1e-5, 1e-5, 5e-6]);   % process noise (m^2, m^2, rad^2)
-R_meas_nom = diag([1e-4, 1e-4]);         % measurement noise (m^2)
+% Nominal EKF covariances (must match Arduino firmware: arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp)
+Q_proc_nom = diag([2e-4, 2e-4, 8e-4]);   % process noise (m^2, m^2, rad^2)
+R_meas_nom = diag([4e-4, 4e-4]);         % measurement noise (m^2)
 P0_default = diag([0.04, 0.04, (deg2rad(10))^2]); % initial covariance
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
 R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
@@ -143,14 +144,14 @@ for k = 1:numel(lqrRuns)
   D = parseQrcAssignment5(lqrRuns(k).file);
   trackingRuns(end+1).label = lqrRuns(k).label; %#ok<SAGROW>
   trackingRuns(end).t       = D.time;
-  err_world                  = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPi(D.theta_ref - D.thetahat)];
+  err_world                  = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPiLocal(D.theta_ref - D.thetahat)];
   err_body                   = zeros(size(err_world));
   for i = 1:numel(D.time)
     err_body(i,:) = (rotWorldToBody(D.thetahat(i)) * err_world(i,:).').';
   end
   trackingRuns(end).err_world = err_world;
   trackingRuns(end).err_body  = err_body;
-  trackingRuns(end).u         = [D.v_ff, D.omega_ff]; % feedforward proxy (replace with u_total if logged)
+  trackingRuns(end).u         = [D.v, D.omega];
 end
 
 if ~isempty(trackingRuns)
@@ -197,9 +198,12 @@ function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
   N = numel(D.time);
   xhat = [D.xhat, D.yhat, D.thetahat]';
   y    = [D.z1, D.z2]';
-  u    = [D.v_ff, D.omega_ff]';
-  nu   = [D.nu1, D.nu2]';
+  u    = [D.v, D.omega]';
   hasMeas = D.hasMeas ~= 0;
+
+  if ~any(hasMeas)
+    warning('loadEkfRun:NoMeasurements', 'No measurements enabled in %s (hasMeas is always 0). EKF will be effectively open-loop and measurement plots will be empty.', runCfg.file);
+  end
 
   P = zeros(3,3,N);
   for i = 1:N
@@ -207,16 +211,24 @@ function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
   end
 
   Rall = repmat(runCfg.R, [1 1 N]);
-  Rall(:,:,~hasMeas) = runCfg.R * R_off_factor; % mimic sensor drop-out
+  idxNoMeas = find(~hasMeas);
+  if ~isempty(idxNoMeas)
+    Rall(:,:,idxNoMeas) = repmat(runCfg.R * R_off_factor, [1 1 numel(idxNoMeas)]); % mimic sensor drop-out
+  end
   y(:, ~hasMeas) = NaN;                         % show gaps when sensors are disabled
 
   % Innovation covariance for plotting/consistency
   S = zeros(2,2,N);
+  nu = zeros(2,N);
   for i = 1:N
     if hasMeas(i)
-      [~, Ck] = measurementModel(xhat(:,i), geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
+      [zPred, Ck] = measurementModel(xhat(:,i), geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
     else
       Ck = zeros(2,3);
+      zPred = zeros(2,1);
+    end
+    if hasMeas(i)
+      nu(:,i) = y(:,i) - zPred;
     end
     S(:,:,i) = Ck * P(:,:,i) * Ck' + Rall(:,:,i);
   end
@@ -235,27 +247,77 @@ function D = parseQrcAssignment5(filename)
   N = height(T);
   getv = @(names, default) pickVar(T, names, default, N);
 
-  D.time      = (T.Time - T.Time(1)) / 1000; D.time = D.time(:); % s
-  D.v_ff      = getv({'ValueIn0','v_ff','v'}, zeros(N,1));
-  D.omega_ff  = getv({'ValueIn1','omega_ff','omega'}, zeros(N,1));
-  D.x_ref     = getv({'ValueIn2','x_ref','xref'}, zeros(N,1));
-  D.y_ref     = getv({'ValueIn3','y_ref','yref'}, zeros(N,1));
-  D.theta_ref = getv({'ValueIn4','theta_ref','thetaref'}, zeros(N,1));
-  D.hasMeas   = getv({'ValueIn5','hasMeas','hasMeasurements'}, ones(N,1));
-  D.speedA    = getv({'ValueIn6','speedA','wA'}, zeros(N,1));
-  D.speedB    = getv({'ValueIn7','speedB','wB'}, zeros(N,1));
-  D.z1        = getv({'ValueIn8','z1','y1'}, zeros(N,1));
-  D.z2        = getv({'ValueIn9','z2','y2'}, zeros(N,1));
-  D.voltA     = getv({'ValueIn10','voltA','uA'}, zeros(N,1));
-  D.voltB     = getv({'ValueIn11','voltB','uB'}, zeros(N,1));
-  D.xhat      = getv({'ValueIn12','xhat','x1'}, zeros(N,1));
-  D.yhat      = getv({'ValueIn13','yhat','x2'}, zeros(N,1));
-  D.thetahat  = getv({'ValueIn14','thetahat','x3'}, zeros(N,1));
-  D.nu1       = getv({'ValueIn15','nu1','innovation1'}, zeros(N,1));
-  D.nu2       = getv({'ValueIn16','nu2','innovation2'}, zeros(N,1));
-  D.Pxx       = getv({'ValueIn17','Pxx','P11'}, 1e-6 * ones(N,1));
-  D.Pyy       = getv({'ValueIn18','Pyy','P22'}, 1e-6 * ones(N,1));
-  D.Ptt       = getv({'ValueIn19','Ptt','P33'}, 1e-6 * ones(N,1));
+  tRaw = T.Time;
+  tRaw = tRaw(:);
+  tRel = tRaw - tRaw(1);
+  dtMed = median(diff(tRel), 'omitnan');
+  if ~isfinite(dtMed)
+    dtMed = NaN;
+  end
+
+  if ~isnan(dtMed) && dtMed > 500
+    D.time = tRel / 1e6;
+  elseif ~isnan(dtMed) && dtMed > 0.5
+    D.time = tRel / 1000;
+  else
+    D.time = tRel;
+  end
+  D.time = D.time(:);
+  D.v_ff      = getv({'ValueIn0','v_ff'}, zeros(N,1));
+  D.omega_ff  = getv({'ValueIn1','omega_ff'}, zeros(N,1));
+  D.z1        = getv({'ValueIn2','z1','y1'}, NaN(N,1));
+  D.z2        = getv({'ValueIn3','z2','y2'}, NaN(N,1));
+  D.xhat      = getv({'ValueIn4','xhat','x1'}, zeros(N,1));
+  D.yhat      = getv({'ValueIn5','yhat','x2'}, zeros(N,1));
+  D.thetahat  = getv({'ValueIn6','thetahat','x3'}, zeros(N,1));
+  D.Pxx       = getv({'ValueIn7','Pxx','P11'}, 1e-6 * ones(N,1));
+  D.Pyy       = getv({'ValueIn8','Pyy','P22'}, 1e-6 * ones(N,1));
+  D.Ptt       = getv({'ValueIn9','Ptt','P33'}, 1e-6 * ones(N,1));
+  D.v         = getv({'ValueIn10','v','v_applied'}, D.v_ff);
+  D.omega     = getv({'ValueIn11','omega','omega_applied'}, D.omega_ff);
+
+  D.hasMeas = isfinite(D.z1) & isfinite(D.z2);
+
+  x0 = -0.30;
+  y0 = -0.20;
+  theta0 = 0.0;
+  [D.x_ref, D.y_ref, D.theta_ref] = reconstructReferenceFromVOmega(D.time, D.v_ff, D.omega_ff, x0, y0, theta0);
+end
+
+function [x_ref, y_ref, theta_ref] = reconstructReferenceFromVOmega(t, v, omega, x0, y0, theta0)
+  t = t(:);
+  v = v(:);
+  omega = omega(:);
+  N = numel(t);
+
+  x_ref = zeros(N,1);
+  y_ref = zeros(N,1);
+  theta_ref = zeros(N,1);
+
+  x_ref(1) = x0;
+  y_ref(1) = y0;
+  theta_ref(1) = theta0;
+
+  if N < 2
+    return;
+  end
+
+  dt = diff(t);
+  dt(~isfinite(dt)) = 0;
+  dt(dt < 0) = 0;
+  dt = min(dt, 0.1);
+
+  for k = 2:N
+    theta_ref(k) = theta_ref(k-1) + dt(k-1) * omega(k-1);
+    x_ref(k) = x_ref(k-1) + dt(k-1) * v(k-1) * cos(theta_ref(k-1));
+    y_ref(k) = y_ref(k-1) + dt(k-1) * v(k-1) * sin(theta_ref(k-1));
+  end
+
+  theta_ref = wrapToPiLocal(theta_ref);
+end
+
+function th = wrapToPiLocal(th)
+  th = mod(th + pi, 2*pi) - pi;
 end
 
 function out = pickVar(T, names, default, N)

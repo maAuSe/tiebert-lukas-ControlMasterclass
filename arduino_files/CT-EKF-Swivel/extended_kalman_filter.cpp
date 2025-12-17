@@ -9,16 +9,20 @@ constexpr float kAlpha = 0.075f;  // front sensor offset along X' from cart cent
 constexpr float kBeta  = 0.065f;  // longitudinal offset of side sensor from cart center
 constexpr float kGamma = 0.078f;  // lateral offset of side sensor from cart center (positive to the left)
 
+// Scalars to quickly sweep Q/R ratios for spec 3(b)
+constexpr float kQScale = 5.0f;
+constexpr float kRScale = 5.0f;
+
 // Walls: p*x + q*y = r  (default: W1 is y=0, W2 is x=0, robot starts in x<0, y<0 quadrant)
 constexpr float kP1 = 0.0f; constexpr float kQ1 = 1.0f; constexpr float kR1 = 0.0f;  // W1: y = 0
 constexpr float kP2 = 1.0f; constexpr float kQ2 = 0.0f; constexpr float kR2 = 0.0f;  // W2: x = 0
 
 // Noise covariances (tune experimentally; units: m^2 for position, rad^2 for heading)
-constexpr float kQx = 1.0e-5f;
-constexpr float kQy = 1.0e-5f;
-constexpr float kQtheta = 5.0e-6f;
-constexpr float kRz1 = 1.0e-4f;
-constexpr float kRz2 = 1.0e-4f;
+constexpr float kQx = kQScale * 2.0e-4f;
+constexpr float kQy = kQScale * 2.0e-4f;
+constexpr float kQtheta = kQScale * 8.0e-4f;
+constexpr float kRz1 = kRScale * 4.0e-4f;
+constexpr float kRz2 = kRScale * 4.0e-4f;
 
 inline float wallNorm(float p, float q) {
   return sqrtf(p * p + q * q);

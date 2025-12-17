@@ -41,10 +41,8 @@ class Robot : public MECOtron {
     Matrix<2> _nu;         // innovation vector
     Matrix<2,2> _S;        // innovation covariance
 
-    // Position controller
-    Matrix<3> xref;        // reference state
-    Matrix<2> desiredVelocityCart; // control signal
-    Matrix<2,3> Kfb;       // state feedback gains (cart frame)
+    // Feedforward velocity commands for the cart
+    Matrix<2> desiredVelocityCart;
 
     // Velocity controller
     PiState piStateA;

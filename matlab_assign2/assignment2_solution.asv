@@ -13,10 +13,7 @@ clear; close all; clc;
 
 %% Configuration
 Ts = 0.01;
-%<<<<<<< HEAD
 dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign2/data';
-%=======
-dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
 scriptDir = fileparts(mfilename('fullpath'));
 if isempty(scriptDir)
     scriptDir = pwd;
@@ -26,7 +23,6 @@ texImageDir = fullfile(projectRoot, 'tex_control', 'ass2_tex', 'images');
 if ~exist(texImageDir, 'dir')
     mkdir(texImageDir);
 end
-%>>>>>>> 1dab60c1f2fde19ada6001fe61199c432ffb7126
 
 %% Motor models from .csvAssignment 1 (simplified 2nd-order model)
 % H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
@@ -34,8 +30,8 @@ wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts); % DT transfer function (simplifie
 wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel B
 
 % Convert to continuous-time for controller design
-wheelA_cont = d2c(wheelA_tf, 'tustin') % CT transfer function (simplified model, filtered) - Wheel A
-wheelB_cont = d2c(wheelB_tf, 'tustin') % CT transfer function (simplified model, filtered) - Wheel B
+wheelA_cont = d2c(wheelA_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel A
+wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel B
 
 %% Step 1: Bode plot of G(s) - Wheel A (determine w_c where phase = -110 deg (for 55 deg PM) )
 % This helps select the crossover frequency from plant characteristics
@@ -374,17 +370,17 @@ for i = 1:length(ax)
         xline(wc_low, 'b--', sprintf('\\omega_c = %.1f rad/s', wc_low), 'LabelOrientation', 'horizontal');
     end
 end
-%title(sprintf('Step 2 (Low-BW): D(s)*G(s) with K=1 - Read gain at \\omega_c = %.1f rad/s', wc_low));
+title(sprintf('Low-BW: Open-loop L(s) = D(s)*G(s) with K=1 - Wheel A - Read gain at \\omega_c = %.1f rad/s', wc_low));
 grid on;
 save_plot(fig, texImageDir, 'bode_compensated_lowband_motorA');
-close(fig);
+%close(fig);
 
 % Step 3 (Low-BW): Open-loop Bode L = G_c * G_s - verify PM
 fig = new_fig();
 margin(L_low_A);
 hold on;
 [~, Pm_low, ~, Wcp_low] = margin(L_low_A);
-title(sprintf('Step 3 (Low-BW): Open-loop L(s) - Verify PM = %.1f deg at \\omega_c = %.1f rad/s', Pm_low, Wcp_low));
+title(sprintf('Low-BW: Open-loop L(s)  - Wheel A - Verify PM = %.1f deg at \\omega_c = %.1f rad/s', Pm_low, Wcp_low));
 % Add crossover frequency annotation
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
@@ -397,12 +393,13 @@ for i = 1:length(ax)
     end
 end
 save_plot(fig, texImageDir, 'open_loop_bode_lowband_motorA');
-close(fig);
+%close(fig);
 
 fig = new_fig();
 margin(L_low_B);
 hold on;
 [~, Pm_low_B, ~, Wcp_low_B] = margin(L_low_B);
+title(sprintf('Low-BW: Open-loop L(s)  - Wheel B - Verify PM = %.1f deg at \\omega_c = %.1f rad/s', Pm_low_B, Wcp_low_B));
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
     if contains(ax(i).YLabel.String, 'Magnitude')
@@ -414,7 +411,17 @@ for i = 1:length(ax)
     end
 end
 save_plot(fig, texImageDir, 'open_loop_bode_lowband_motorB');
-close(fig);
+%close(fig);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%
+%%%%%% PART 2 %%%%%%
+%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %% ========================================================================
@@ -490,7 +497,7 @@ if isfile(csvfile_flat)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_no_disturbance_motorB');
-    close(fig);
+    %close(fig);
 else
     fprintf('[INFO] Flat ground data not found: %s\n', csvfile_flat);
 end

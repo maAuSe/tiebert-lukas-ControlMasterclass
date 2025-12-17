@@ -13,10 +13,7 @@ clear; close all; clc;
 
 %% Configuration
 Ts = 0.01;
-%<<<<<<< HEAD
 dataDir = '/Users/tiebertlefebure/Documents/Master of Mechanical Engineering/Control Theory/Arduino/matlab_assign2/data';
-%=======
-dataDir = 'C:\Users\campa\Documents\Arduino\matlab_assign2\data';
 scriptDir = fileparts(mfilename('fullpath'));
 if isempty(scriptDir)
     scriptDir = pwd;
@@ -26,7 +23,6 @@ texImageDir = fullfile(projectRoot, 'tex_control', 'ass2_tex', 'images');
 if ~exist(texImageDir, 'dir')
     mkdir(texImageDir);
 end
-%>>>>>>> 1dab60c1f2fde19ada6001fe61199c432ffb7126
 
 %% Motor models from .csvAssignment 1 (simplified 2nd-order model)
 % H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
@@ -34,8 +30,8 @@ wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts); % DT transfer function (simplifie
 wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel B
 
 % Convert to continuous-time for controller design
-wheelA_cont = d2c(wheelA_tf, 'tustin') % CT transfer function (simplified model, filtered) - Wheel A
-wheelB_cont = d2c(wheelB_tf, 'tustin') % CT transfer function (simplified model, filtered) - Wheel B
+wheelA_cont = d2c(wheelA_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel A
+wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel B
 
 %% Step 1: Bode plot of G(s) - Wheel A (determine w_c where phase = -110 deg (for 55 deg PM) )
 % This helps select the crossover frequency from plant characteristics
@@ -537,7 +533,7 @@ if isfile(csvfile_incline)
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
     title('Step response with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_with_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, errorA_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -545,7 +541,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Tracking error with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_with_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, ctrlA_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -553,7 +549,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal with constant disturbance - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_with_disturbance_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel B
     fig = new_fig();
@@ -563,7 +559,7 @@ if isfile(csvfile_incline)
     legend('Reference', 'Measured', 'Simulated', 'Location', 'southeast');
     title('Step response with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_with_disturbance_motorB');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, errorB_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -571,7 +567,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Tracking error with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_with_disturbance_motorB');
-    close(fig);
+    %close(fig);
 
     fig = new_fig();
     plot(t_inc, ctrlB_inc, 'k-', 'LineWidth', 1.2); hold on;
@@ -579,7 +575,7 @@ if isfile(csvfile_incline)
     legend('Measured', 'Simulated', 'Location', 'southeast');
     title('Control signal with constant disturbance - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_with_disturbance_motorB');
-    close(fig);
+    %close(fig);
 else
     fprintf('[INFO] Incline nominal data not found: %s\n', csvfile_incline);
 end
@@ -615,14 +611,15 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
 
     % Wheel A - closed-loop comparison
     fig = new_fig();
-    plot(t_inc, speedA_inc, 'k-', 'LineWidth', 1.2); hold on;
+    plot(t_inc, ref_inc, 'k:', 'LineWidth', 0.7); hold on;
+    plot(t_inc, speedA_inc, 'k-', 'LineWidth', 1.2);
     plot(t_low, speedA_low, 'k-.', 'LineWidth', 1.2);
     plot(t_inc, sim_inc_nom_A, 'k--', 'LineWidth', 1);
     plot(t_low, sim_inc_low_A, 'k:', 'LineWidth', 1.5);
-    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Step response with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    legend('Reference', 'Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Step response with low-bandwidth (and constant disturbance) - Wheel A'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_high_vs_low_BW_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel A - tracking error comparison
     fig = new_fig();
@@ -631,9 +628,9 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_err_nom_A, 'k--', 'LineWidth', 1);
     plot(t_low, sim_err_low_A, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Tracking error with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with low-bandwidth (and constant disturbance) - Wheel A'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_high_vs_low_BW_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel A - control signal comparison
     fig = new_fig();
@@ -642,20 +639,21 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_ctrl_nom_A, 'k--', 'LineWidth', 1);
     plot(t_low, sim_ctrl_low_A, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Control signal with low-bandwidth (and constant disurbance) - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with low-bandwidth (and constant disturbance) - Wheel A'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_high_vs_low_BW_motorA');
-    close(fig);
+    %close(fig);
 
     % Wheel B - closed-loop comparison
     fig = new_fig();
-    plot(t_inc, speedB_inc, 'k-', 'LineWidth', 1.2); hold on;
+    plot(t_inc, ref_inc, 'k:', 'LineWidth', 0.7); hold on;
+    plot(t_inc, speedB_inc, 'k-', 'LineWidth', 1.2);
     plot(t_low, speedB_low, 'k-.', 'LineWidth', 1.2);
     plot(t_inc, sim_inc_nom_B, 'k--', 'LineWidth', 1);
     plot(t_low, sim_inc_low_B, 'k:', 'LineWidth', 1.5);
-    legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Step response with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
+    legend('Reference', 'Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
+    title('Step response with low-bandwidth (and constant disturbance) - Wheel B'); xlabel('Time [s]'); ylabel('Velocity [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'step_response_high_vs_low_BW_motorB');
-    close(fig);
+    %close(fig);
 
     % Wheel B - tracking error comparison
     fig = new_fig();
@@ -664,9 +662,9 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_err_nom_B, 'k--', 'LineWidth', 1);
     plot(t_low, sim_err_low_B, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Tracking error with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
+    title('Tracking error with low-bandwidth (and constant disturbance) - Wheel B'); xlabel('Time [s]'); ylabel('Error [rad/s]'); grid on;
     save_plot(fig, texImageDir, 'tracking_error_high_vs_low_BW_motorB');
-    close(fig);
+    %close(fig);
 
     % Wheel B - control signal comparison
     fig = new_fig();
@@ -675,9 +673,9 @@ if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     plot(t_inc, sim_ctrl_nom_B, 'k--', 'LineWidth', 1);
     plot(t_low, sim_ctrl_low_B, 'k:', 'LineWidth', 1.5);
     legend('Nominal (meas)', 'Low-BW (meas)', 'Nominal (sim)', 'Low-BW (sim)', 'Location', 'southeast');
-    title('Control signal with low-bandwidth (and constant disurbance) - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
+    title('Control signal with low-bandwidth (and constant disturbance) - Wheel B'); xlabel('Time [s]'); ylabel('Voltage [V]'); grid on;
     save_plot(fig, texImageDir, 'control_signal_high_vs_low_BW_motorB');
-    close(fig);
+    %close(fig);
 else
     fprintf('[INFO] Missing data for incline comparison (section 2c).\n');
 end

@@ -119,10 +119,10 @@ void Robot::resetController(){
 
 void Robot::resetKalmanFilter() {
   _Phat.Fill(0);      // Initialize the covariance matrix
-  // Initial covariance per spec: diag(1e-8, 1e-8, 1e-8)
-  _Phat(0,0) = 1.0e-8f;     // (m^2)
-  _Phat(1,1) = 1.0e-8f;     // (m^2)
-  _Phat(2,2) = 1.0e-8f;     // (rad^2)
+  // Initial covariance (reflects a few cm and ~5 deg uncertainty)
+  _Phat(0,0) = 1.0e-3f;     // (m^2) -> std ≈ 3.2 cm
+  _Phat(1,1) = 1.0e-3f;     // (m^2) -> std ≈ 3.2 cm
+  _Phat(2,2) = 7.6e-3f;     // (rad^2) -> std ≈ 5 deg
 
   // Initialize state estimate near starting pose (-0.30, -0.20) m, heading aligned with +X
   _xhat(0) = -0.30f;

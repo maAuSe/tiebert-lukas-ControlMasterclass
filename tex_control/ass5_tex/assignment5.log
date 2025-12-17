@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  11 DEC 2025 10:39
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 00:53
  restricted system commands enabled.
 **assignment5.tex
 (./assignment5.tex
@@ -582,12 +582,12 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<sedes.pdf, id=19, 310.15875pt x 521.95pt>
+<sedes.pdf, id=15, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
 Package luatex.def Info: sedes.pdf  used on input line 21.
 (luatex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=20, 341.3553pt x 132.0132pt>
+<logoFirW.jpg, id=16, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
 Package luatex.def Info: logoFirW.jpg  used on input line 23.
@@ -596,53 +596,138 @@ Package luatex.def Info: logoFirW.jpg  used on input line 23.
 [1
 
 {C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
-/logoFirW.jpg>] [1] [2] [3] [4] (./assignment5.aux)
+/logoFirW.jpg>] [1]
+Overfull \hbox (41.33989pt too wide) in paragraph at lines 131--132
+\TU/lmtt/m/n/10 ekf_Q1_R1.csv\TU/lmr/m/n/10 , \TU/lmtt/m/n/10 ekf_Q5_R1.csv\TU/
+lmr/m/n/10 , \TU/lmtt/m/n/10 ekf_Q1_R5.csv\TU/lmr/m/n/10 , \TU/lmtt/m/n/10 ekf_Q
+5_R5.csv\TU/lmr/m/n/10 . The MAT-LAB script (\TU/lmtt/m/n/10 assignment5_solutio
+n.m\TU/lmr/m/n/10 )
+ []
+
+<images/ekf_state1_QR_sweep.pdf, id=56, 560.0925pt x 351.3125pt>
+File: images/ekf_state1_QR_sweep.pdf Graphic file (type pdf)
+<use images/ekf_state1_QR_sweep.pdf>
+Package luatex.def Info: images/ekf_state1_QR_sweep.pdf  used on input line 135
+.
+(luatex.def)             Requested size: 446.26582pt x 279.93001pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/ekf_state2_QR_sweep.pdf, id=57, 560.0925pt x 351.3125pt>
+File: images/ekf_state2_QR_sweep.pdf Graphic file (type pdf)
+<use images/ekf_state2_QR_sweep.pdf>
+Package luatex.def Info: images/ekf_state2_QR_sweep.pdf  used on input line 140
+.
+(luatex.def)             Requested size: 446.26582pt x 279.93001pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/ekf_state3_QR_sweep.pdf, id=58, 549.05125pt x 351.3125pt>
+File: images/ekf_state3_QR_sweep.pdf Graphic file (type pdf)
+<use images/ekf_state3_QR_sweep.pdf>
+Package luatex.def Info: images/ekf_state3_QR_sweep.pdf  used on input line 145
+.
+(luatex.def)             Requested size: 446.26582pt x 285.55327pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/ekf_state1_95ci_plotstates.pdf, id=59, 518.93875pt x 281.05pt>
+File: images/ekf_state1_95ci_plotstates.pdf Graphic file (type pdf)
+<use images/ekf_state1_95ci_plotstates.pdf>
+Package luatex.def Info: images/ekf_state1_95ci_plotstates.pdf  used on input l
+ine 155.
+(luatex.def)             Requested size: 446.26582pt x 241.70256pt.
+<images/ekf_state2_95ci_plotstates.pdf, id=60, 518.93875pt x 281.05pt>
+File: images/ekf_state2_95ci_plotstates.pdf Graphic file (type pdf)
+<use images/ekf_state2_95ci_plotstates.pdf>
+Package luatex.def Info: images/ekf_state2_95ci_plotstates.pdf  used on input l
+ine 160.
+(luatex.def)             Requested size: 446.26582pt x 241.70256pt.
+<images/ekf_state3_95ci_plotstates.pdf, id=61, 507.8975pt x 281.05pt>
+File: images/ekf_state3_95ci_plotstates.pdf Graphic file (type pdf)
+<use images/ekf_state3_95ci_plotstates.pdf>
+Package luatex.def Info: images/ekf_state3_95ci_plotstates.pdf  used on input l
+ine 165.
+(luatex.def)             Requested size: 446.26582pt x 246.95166pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2]
+
+LaTeX Warning: Text page 3 contains only floats.
+
+[3<./images/ekf_state1_QR_sweep.pdf><./images/ekf_state2_QR_sweep.pdf>]
+[4<./images/ekf_state3_QR_sweep.pdf><./images/ekf_state1_95ci_plotstates.pdf>]
+<images/ekf_measurement1_95ci.pdf, id=201, 512.91624pt x 246.9225pt>
+File: images/ekf_measurement1_95ci.pdf Graphic file (type pdf)
+<use images/ekf_measurement1_95ci.pdf>
+Package luatex.def Info: images/ekf_measurement1_95ci.pdf  used on input line 1
+75.
+(luatex.def)             Requested size: 446.26582pt x 214.83966pt.
+<images/ekf_measurement2_95ci.pdf, id=202, 517.935pt x 246.9225pt>
+File: images/ekf_measurement2_95ci.pdf Graphic file (type pdf)
+<use images/ekf_measurement2_95ci.pdf>
+Package luatex.def Info: images/ekf_measurement2_95ci.pdf  used on input line 1
+80.
+(luatex.def)             Requested size: 446.26582pt x 212.76364pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5<./images/ekf_state2_95ci_plotstates.pdf><./images/ekf_state3_95ci_plotstates.
+pdf>] [6<./images/ekf_measurement1_95ci.pdf><./images/ekf_measurement2_95ci.pdf>
+] (./assignment5.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `assignment5.out' has not changed.
-(rerunfilecheck)             Checksum: 97797853181797922F3292550F3D405A;1093.
+(rerunfilecheck)             Checksum: 5B0A2F85BF8C0D89E5AB95F814885FEA;723.
 )
 
 Here is how much of LuaTeX's memory you used:
- 15778 strings out of 476497
+ 15860 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 738 words of node memory still in use:
-   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 6 sub_mlist, 1 glyph, 59 attribute,
- 55 glue_spec, 59 attribute_list, 1 write nodes
-   avail lists: 2:699,3:222,4:36,5:607,6:41,7:7803,8:56,9:1061,10:7,11:520
- 37512 multiletter control sequences out of 65536+600000
- 60 fonts using 4136063 bytes
- 72i,17n,75p,1180b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmrom
-an7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/pub
-lic/lm/lmmono10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fo
-nts/opentype/public/lm/lmroman10-regular.otf><C:/Users/campa/AppData/Local/Progr
-ams/MiKTeX/fonts/opentype/public/lm/lmroman12-regular.otf><C:/Users/campa/AppDat
-a/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/ca
-mpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/
-Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cm
-ex7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmmi12.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/campa/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/campa/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/campa
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users
-/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:
-/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
-m/cmsy5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmsy7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmsy8.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/symbols/msbm10.pfb>
-Output written on assignment5.pdf (5 pages, 1038537 bytes).
+ 565 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 19 attribute, 56 glue_spec
+, 19 attribute_list, 1 write nodes
+   avail lists: 2:877,3:240,4:40,5:554,6:37,7:8416,8:72,9:1386,10:7,11:503
+ 37566 multiletter control sequences out of 65536+600000
+ 61 fonts using 4267751 bytes
+ 72i,17n,75p,619b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
+regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/pub
+lic/lm/lmroman10-bold.otf><//?/c:/users/campa/appdata/local/programs/miktex/font
+s/opentype/public/lm/lmroman10-regular.otf><C:/Users/campa/AppData/Local/Program
+s/MiKTeX/fonts/opentype/public/lm/lmroman12-regular.otf><C:/Users/campa/AppData/
+Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/camp
+a/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Us
+ers/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex
+7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmmi12.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/campa/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/campa/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/campa/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/
+campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:
+/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.
+pfb>
+Output written on assignment5.pdf (7 pages, 1726176 bytes).
 
-PDF statistics: 192 PDF objects out of 1000 (max. 8388607)
- 39 named destinations out of 1000 (max. 131072)
- 33 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 379 PDF objects out of 1000 (max. 8388607)
+ 43 named destinations out of 1000 (max. 131072)
+ 25 words of extra memory for PDF output out of 10000 (max. 100000000)
 

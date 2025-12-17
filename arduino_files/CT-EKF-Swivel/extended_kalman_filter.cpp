@@ -11,8 +11,8 @@ constexpr float kGamma = 0.078f;  // lateral offset of side sensor from cart cen
 
 // Scalars to quickly sweep Q/R ratios for spec 3(b)
 // Keep these at 1 and apply tuning directly on Q/R entries below.
-constexpr float kQScale = 1.0e-3f;
-constexpr float kRScale = 5.0e+3f;
+constexpr float kQScale = 1.0e+2f;  // boosts process noise to 1e-6 range
+constexpr float kRScale = 1.0f;
 
 // Walls: p*x + q*y = r  (default: W1 is y=0, W2 is x=0, robot starts in x<0, y<0 quadrant)
 constexpr float kP1 = 0.0f; constexpr float kQ1 = 1.0f; constexpr float kR1 = 0.0f;  // W1: y = 0
@@ -23,8 +23,10 @@ constexpr float kP2 = 1.0f; constexpr float kQ2 = 0.0f; constexpr float kR2 = 0.
 constexpr float kQx = kQScale * (1.0e-8f);
 constexpr float kQy = kQScale * (1.0e-8f);
 constexpr float kQtheta = kQScale * (1.0e-8f);
-constexpr float kRz1 = kRScale * (1.0e-8f);
-constexpr float kRz2 = kRScale * (1.0e-8f);
+
+// Empirical IR noise (from logged scatter): z1 ~3.5 cm, z2 ~3.6 mm
+constexpr float kRz1 = kRScale * (1.2e-3f);  // (0.035 m)^2
+constexpr float kRz2 = kRScale * (1.3e-5f);  // (0.0036 m)^2
 
 inline float wallNorm(float p, float q) {
   return sqrtf(p * p + q * q);

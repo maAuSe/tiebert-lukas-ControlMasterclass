@@ -37,16 +37,16 @@ geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wal
 %  NOISE COVARIANCES & INITIAL STATE (PLACEHOLDERS TO TUNE)
 %  ========================================================================
 % Nominal EKF covariances (must match Arduino firmware: arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp)
-% Set per attached spec: diag(1e-8, 1e-8, 1e-8) in SI units.
-Q_proc_base = diag([1e-8, 1e-8, 1e-8]);   % process noise (m^2, m^2, rad^2)
-R_meas_base = diag([1e-8, 1e-8]);         % measurement noise (m^2)
+% Q scaled up to 1e-6 range to avoid overconfidence; R from empirical sensor scatter.
+Q_proc_base = diag([1e-6, 1e-6, 1e-6]);   % process noise (m^2, m^2, rad^2)
+R_meas_base = diag([1.2e-3, 1.3e-5]);     % measurement noise (m^2)
 
 firmware_Q_scale = 1.0;      % keep unity so MATLAB/Arduino match exactly
 firmware_R_scale = 1.0;
 
 Q_proc_nom = Q_proc_base * firmware_Q_scale;
 R_meas_nom = R_meas_base * firmware_R_scale;
-P0_default = diag([1e-8, 1e-8, 1e-8]); % must match resetKalmanFilter() on Arduino
+P0_default = diag([1e-3, 1e-3, 7.6e-3]); % must match resetKalmanFilter() on Arduino
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
 R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
 
@@ -140,150 +140,60 @@ if numel(ekfExps) >= ekfNominalIdx
 end
 
 %% ========================================================================
-%  OPTIONAL: OFFLINE EKF RE-RUN (RETROACTIVE Q/R SWEEPS ON ONE LOG)
+%  OPTIONAL: OFFLINE EKF RE-RUN (Q SWEEP TO PICK BEST)
 %  ========================================================================
-% This section re-runs the EKF in MATLAB using the logged inputs/measurements,
-% so you can study the effect of Q/R without reflashing the Arduino.
-% It only plots theta-hat trajectories (per your request).
-doOfflineEkfSweeps = true;
+% Re-run the EKF in MATLAB using the logged inputs/measurements and a wide
+% sweep of Q scaling values. The "best" run is the one with the smallest
+% summed whitened innovation + log(|S|) score (approx. negative log-lik.).
+doOfflineEkfSweep = true;
 offlineEkfFile = fullfile(dataDir, 'ekf_Q1_R1.csv');
-if doOfflineEkfSweeps && isfile(offlineEkfFile)
+Q_sweep_scales = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 4, 8]; % wide range
+
+if doOfflineEkfSweep && isfile(offlineEkfFile)
   Doff = parseQrcAssignment5(offlineEkfFile);
+  colors = lines(numel(Q_sweep_scales));
+  offlineRuns = struct([]);
 
-  % Wider sweeps (6 orders of magnitude) for independent Q and R scaling
-  qScales = logspace(-3, 3, 13); % 1e-3 ... 1e3
-  rScales = logspace(-3, 3, 13); % 1e-3 ... 1e3
-
-  xHat_Q     = zeros(numel(qScales), numel(Doff.time));
-  yHat_Q     = zeros(numel(qScales), numel(Doff.time));
-  thetaHat_Q = zeros(numel(qScales), numel(Doff.time));
-  xHat_R     = zeros(numel(rScales), numel(Doff.time));
-  yHat_R     = zeros(numel(rScales), numel(Doff.time));
-  thetaHat_R = zeros(numel(rScales), numel(Doff.time));
-
-  for i = 1:numel(qScales)
-    xhatOff = rerunEkfOffline(Doff, Ts, geom, x0_default, P0_default, Q_proc_nom * qScales(i), R_meas_nom);
-    xHat_Q(i,:)     = xhatOff(1,:);
-    yHat_Q(i,:)     = xhatOff(2,:);
-    thetaHat_Q(i,:) = xhatOff(3,:);
+  for k = 1:numel(Q_sweep_scales)
+    Qk = Q_proc_nom * Q_sweep_scales(k);
+    [xhatOff, diagOff] = rerunEkfOffline(Doff, Ts, geom, x0_default, P0_default, Qk, R_meas_nom);
+    offlineRuns(k).scale = Q_sweep_scales(k); %#ok<SAGROW>
+    offlineRuns(k).xhat  = xhatOff;
+    offlineRuns(k).score = diagOff.negLogLik;
+    offlineRuns(k).scoreInnov = diagOff.whitenedInnovSum;
   end
 
-  for i = 1:numel(rScales)
-    xhatOff = rerunEkfOffline(Doff, Ts, geom, x0_default, P0_default, Q_proc_nom, R_meas_nom * rScales(i));
-    xHat_R(i,:)     = xhatOff(1,:);
-    yHat_R(i,:)     = xhatOff(2,:);
-    thetaHat_R(i,:) = xhatOff(3,:);
-  end
+  [~, bestIdx] = min([offlineRuns.score]);
 
-  % -- Q sweep plots (x, y, theta)
-  figure('Name', 'Offline EKF: x sweep vs Q scale', 'Position', [160 140 900 420]);
-  hold on; grid on;
-  cmap = lines(numel(qScales));
-  for i = 1:numel(qScales)
-    plot(Doff.time, xHat_Q(i,:), 'Color', cmap(i,:), 'DisplayName', sprintf('Q x %.2g', qScales(i)));
-  end
-  xlabel('Time [s]'); ylabel('\hat{x} [m]');
-  title('Offline EKF re-run: effect of Q scaling on \hat{x} (R fixed)');
-  legend('Location', 'bestoutside');
-
-  figure('Name', 'Offline EKF: y sweep vs Q scale', 'Position', [170 150 900 420]);
-  hold on; grid on;
-  cmap = lines(numel(qScales));
-  for i = 1:numel(qScales)
-    plot(Doff.time, yHat_Q(i,:), 'Color', cmap(i,:), 'DisplayName', sprintf('Q x %.2g', qScales(i)));
-  end
-  xlabel('Time [s]'); ylabel('\hat{y} [m]');
-  title('Offline EKF re-run: effect of Q scaling on \hat{y} (R fixed)');
-  legend('Location', 'bestoutside');
-
-  figure('Name', 'Offline EKF: \theta sweep vs Q scale', 'Position', [180 160 900 420]);
-  hold on; grid on;
-  cmap = lines(numel(qScales));
-  for i = 1:numel(qScales)
-    plot(Doff.time, thetaHat_Q(i,:), 'Color', cmap(i,:), 'DisplayName', sprintf('Q x %.2g', qScales(i)));
-  end
-  xlabel('Time [s]'); ylabel('\hat{\theta} [rad]');
-  title('Offline EKF re-run: effect of Q scaling on \hat{\theta} (R fixed)');
-  legend('Location', 'bestoutside');
-
-  % -- R sweep plots (x, y, theta)
-  figure('Name', 'Offline EKF: x sweep vs R scale', 'Position', [160 180 900 420]);
-  hold on; grid on;
-  cmap = lines(numel(rScales));
-  for i = 1:numel(rScales)
-    plot(Doff.time, xHat_R(i,:), 'Color', cmap(i,:), 'DisplayName', sprintf('R x %.2g', rScales(i)));
-  end
-  xlabel('Time [s]'); ylabel('\hat{x} [m]');
-  title('Offline EKF re-run: effect of R scaling on \hat{x} (Q fixed)');
-  legend('Location', 'bestoutside');
-
-  figure('Name', 'Offline EKF: y sweep vs R scale', 'Position', [170 200 900 420]);
-  hold on; grid on;
-  cmap = lines(numel(rScales));
-  for i = 1:numel(rScales)
-    plot(Doff.time, yHat_R(i,:), 'Color', cmap(i,:), 'DisplayName', sprintf('R x %.2g', rScales(i)));
-  end
-  xlabel('Time [s]'); ylabel('\hat{y} [m]');
-  title('Offline EKF re-run: effect of R scaling on \hat{y} (Q fixed)');
-  legend('Location', 'bestoutside');
-
-  figure('Name', 'Offline EKF: \theta sweep vs R scale', 'Position', [180 200 900 420]);
-  hold on; grid on;
-  cmap = lines(numel(rScales));
-  for i = 1:numel(rScales)
-    plot(Doff.time, thetaHat_R(i,:), 'Color', cmap(i,:), 'DisplayName', sprintf('R x %.2g', rScales(i)));
-  end
-  xlabel('Time [s]'); ylabel('\hat{\theta} [rad]');
-  title('Offline EKF re-run: effect of R scaling on \hat{\theta} (Q fixed)');
-  legend('Location', 'bestoutside');
-
-  % -- Joint Q/R sweep (vary both simultaneously over a grid)
-  qrScales = logspace(-3, 3, 5); % coarser grid to keep plots readable
-  qrPairs = struct('q', {}, 'r', {});
-  for iq = 1:numel(qrScales)
-    for ir = 1:numel(qrScales)
-      qrPairs(end+1).q = qrScales(iq); %#ok<SAGROW>
-      qrPairs(end).r   = qrScales(ir);
+  figure('Name', 'Offline EKF (Q sweep): x,y,\theta', 'Position', [140 160 920 460]);
+  tiledlayout(3,1, 'TileSpacing','compact', 'Padding','compact');
+  stateNames = {'\hat{x} [m]', '\hat{y} [m]', '\hat{\theta} [rad]'};
+  for sIdx = 1:3
+    nexttile; hold on; grid on;
+    for k = 1:numel(offlineRuns)
+      lw = 0.8 + 0.8 * (k == bestIdx);
+      plot(Doff.time, offlineRuns(k).xhat(sIdx,:), 'Color', colors(k,:), ...
+        'LineWidth', lw, 'DisplayName', sprintf('Q x%.2g', offlineRuns(k).scale));
+    end
+    ylabel(stateNames{sIdx});
+    if sIdx == 1
+      title(sprintf('Offline EKF Q sweep (best: Q x%.2g)', offlineRuns(bestIdx).scale));
+    end
+    if sIdx == 3
+      xlabel('Time [s]');
+      legend('Location','eastoutside');
     end
   end
 
-  xHat_QR = cell(numel(qrPairs),1);
-  yHat_QR = cell(numel(qrPairs),1);
-  thetaHat_QR = cell(numel(qrPairs),1);
-  for k = 1:numel(qrPairs)
-    xhatOff = rerunEkfOffline(Doff, Ts, geom, x0_default, P0_default, Q_proc_nom * qrPairs(k).q, R_meas_nom * qrPairs(k).r);
-    xHat_QR{k}     = xhatOff(1,:);
-    yHat_QR{k}     = xhatOff(2,:);
-    thetaHat_QR{k} = xhatOff(3,:);
-  end
-
-  colorsQR = lines(numel(qrPairs));
-  figure('Name', 'Offline EKF: x sweep vs Q/R grid', 'Position', [150 220 900 420]);
+  figure('Name', 'Offline EKF Q sweep score', 'Position', [180 180 720 320]);
   hold on; grid on;
-  for k = 1:numel(qrPairs)
-    plot(Doff.time, xHat_QR{k}, 'Color', colorsQR(k,:), 'DisplayName', sprintf('Q x %.2g, R x %.2g', qrPairs(k).q, qrPairs(k).r));
-  end
-  xlabel('Time [s]'); ylabel('\hat{x} [m]');
-  title('Offline EKF re-run: \hat{x} trajectories for joint Q/R scaling');
-  legend('Location', 'bestoutside');
-
-  figure('Name', 'Offline EKF: y sweep vs Q/R grid', 'Position', [160 240 900 420]);
-  hold on; grid on;
-  for k = 1:numel(qrPairs)
-    plot(Doff.time, yHat_QR{k}, 'Color', colorsQR(k,:), 'DisplayName', sprintf('Q x %.2g, R x %.2g', qrPairs(k).q, qrPairs(k).r));
-  end
-  xlabel('Time [s]'); ylabel('\hat{y} [m]');
-  title('Offline EKF re-run: \hat{y} trajectories for joint Q/R scaling');
-  legend('Location', 'bestoutside');
-
-  figure('Name', 'Offline EKF: theta sweep vs Q/R grid', 'Position', [170 260 900 420]);
-  hold on; grid on;
-  for k = 1:numel(qrPairs)
-    plot(Doff.time, thetaHat_QR{k}, 'Color', colorsQR(k,:), 'DisplayName', sprintf('Q x %.2g, R x %.2g', qrPairs(k).q, qrPairs(k).r));
-  end
-  xlabel('Time [s]'); ylabel('\hat{\theta} [rad]');
-  title('Offline EKF re-run: \hat{\theta} trajectories for joint Q/R scaling');
-  legend('Location', 'bestoutside');
+  bar(Q_sweep_scales, [offlineRuns.score]);
+  set(gca, 'XScale','log');
+  xticks(Q_sweep_scales);
+  xticklabels(compose('%.2g', Q_sweep_scales));
+  xlabel('Q scaling factor (diag)');
+  ylabel('0.5 \cdot \Sigma ( \nu^T S^{-1} \nu + \log|S| )');
+  title('Offline EKF Q sweep score (lower is better)');
 end
 
 %% ========================================================================
@@ -474,7 +384,7 @@ function th = wrapToPiLocal(th)
   th = mod(th + pi, 2*pi) - pi;
 end
 
-function xhat = rerunEkfOffline(D, Ts, geom, x0, P0, Qk, Rk)
+function [xhat, diagOut] = rerunEkfOffline(D, Ts, geom, x0, P0, Qk, Rk)
 % Re-run the same EKF structure as the Arduino firmware, using logged u/y.
 % Returns xhat as 3xN (x,y,theta).
 
@@ -482,6 +392,9 @@ function xhat = rerunEkfOffline(D, Ts, geom, x0, P0, Qk, Rk)
   xhat = zeros(3, N);
   x = x0(:);
   P = P0;
+  innov = NaN(2, N);
+  innovCost = NaN(1, N);
+  logdetS = NaN(1, N);
 
   for k = 1:N
     if k > 1
@@ -491,11 +404,30 @@ function xhat = rerunEkfOffline(D, Ts, geom, x0, P0, Qk, Rk)
 
     if isfinite(D.z1(k)) && isfinite(D.z2(k))
       y = [D.z1(k); D.z2(k)];
-      [x, P] = ekfCorrectWallRanges(x, P, y, geom, Rk);
+      [x, P, nu, S] = ekfCorrectWallRanges(x, P, y, geom, Rk);
+      innov(:,k) = nu;
+      innovCost(k) = nu' * (S \ nu);
+      try
+        L = chol(S, 'lower');
+        logdetS(k) = 2 * sum(log(diag(L)));
+      catch
+        logdetS(k) = log(det(S));
+      end
     end
 
     x(3) = wrapToPiLocal(x(3));
     xhat(:,k) = x;
+  end
+
+  measMask = isfinite(innovCost);
+  diagOut = struct();
+  diagOut.innov = innov;
+  diagOut.innovRms = sqrt(nanmean(innov(:).^2));
+  diagOut.whitenedInnovSum = nansum(innovCost);
+  if any(measMask)
+    diagOut.negLogLik = 0.5 * nansum(innovCost(measMask) + logdetS(measMask));
+  else
+    diagOut.negLogLik = Inf;
   end
 end
 
@@ -518,7 +450,7 @@ function [x, P] = ekfPredictEuler(x, P, u, Ts, Qk)
   P = A * P * A' + Qk;
 end
 
-function [x, P] = ekfCorrectWallRanges(x, P, y, geom, Rk)
+function [x, P, nu, S] = ekfCorrectWallRanges(x, P, y, geom, Rk)
   [zPred, C] = measurementModel(x, geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
   nu = y - zPred;
   S = C * P * C' + Rk;

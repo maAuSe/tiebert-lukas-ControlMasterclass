@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  17 DEC 2025 15:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  17 DEC 2025 22:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -565,24 +565,38 @@ Package hyperref Info: Link coloring OFF on input line 41.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
+<sedes.pdf, id=40, 310.15875pt x 521.95pt>
+File: sedes.pdf Graphic file (type pdf)
+<use sedes.pdf>
+Package pdftex.def Info: sedes.pdf  used on input line 51.
+(pdftex.def)             Requested size: 33.81467pt x 56.9055pt.
+<logoFirW.jpg, id=42, 341.3553pt x 132.0132pt>
+File: logoFirW.jpg Graphic file (type jpg)
+<use logoFirW.jpg>
+Package pdftex.def Info: logoFirW.jpg  used on input line 57.
+(pdftex.def)             Requested size: 147.14452pt x 56.9055pt.
 
 
 [1
 
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./sedes
+.pdf> <./logoFirW.jpg>]
 
-[1]
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.106   \newpage
+                 [1]
+Underfull \hbox (badness 10000) in paragraph at lines 112--114
 
  []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 158.
+Underfull \hbox (badness 10000) in paragraph at lines 130--132
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 158.
+ []
 
 
 
@@ -596,43 +610,181 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 185.
 
+<images/pole_map_K.pdf, id=92, 452.69125pt x 382.42876pt>
+File: images/pole_map_K.pdf Graphic file (type pdf)
+<use images/pole_map_K.pdf>
+Package pdftex.def Info: images/pole_map_K.pdf  used on input line 234.
+(pdftex.def)             Requested size: 328.82707pt x 277.78767pt.
 
 
 [3]
+<images/step_K_sweep.pdf, id=113, 452.69125pt x 318.18875pt>
+File: images/step_K_sweep.pdf Graphic file (type pdf)
+<use images/step_K_sweep.pdf>
+Package pdftex.def Info: images/step_K_sweep.pdf  used on input line 260.
+(pdftex.def)             Requested size: 375.80544pt x 264.14513pt.
 
-[4] (./assignment3.aux)
+
+[4 <./images/pole_map_K.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 295.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 295.
+
+
+
+[5 <./images/step_K_sweep.pdf>]
+
+[6]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 389.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 389.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 390--393
+
+ []
+
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 3
+96.
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 396.
+
+Overfull \hbox (0.65985pt too wide) in paragraph at lines 404--405
+\OT1/cmr/m/n/10 Figure []3[] over-lays the mea-sured dis-tance $\OML/cmm/m/it/1
+0 y \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 x$ \OT1/cmr/m/n/10 a
+nd the es-ti-mated dis-tance $\OMS/cmsy/m/n/10 ^^@[]$ \OT1/cmr/m/n/10 for $\OML
+/cmm/m/it/10 L \OMS/cmsy/m/n/10 2 f^^@\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/c
+mr/m/n/10 05\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 0\OML/cmm/m/
+it/10 :\OT1/cmr/m/n/10 18\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10
+ 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 35\OMS/cmsy/m/n/10 g$\OT1/cmr/m/n/10 .
+ []
+
+<images/estimator_L_sweep.pdf, id=191, 510.90875pt x 349.305pt>
+File: images/estimator_L_sweep.pdf Graphic file (type pdf)
+<use images/estimator_L_sweep.pdf>
+Package pdftex.def Info: images/estimator_L_sweep.pdf  used on input line 407.
+(pdftex.def)             Requested size: 375.80544pt x 256.93596pt.
+
+
+[7]
+
+[8 <./images/estimator_L_sweep.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 444.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 444.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 445--448
+
+ []
+
+<images/controller_K_response.pdf, id=229, 510.90875pt x 349.305pt>
+File: images/controller_K_response.pdf Graphic file (type pdf)
+<use images/controller_K_response.pdf>
+Package pdftex.def Info: images/controller_K_response.pdf  used on input line 4
+59.
+(pdftex.def)             Requested size: 375.80544pt x 256.93596pt.
+<images/controller_K_voltage.pdf, id=230, 502.87875pt x 288.07625pt>
+File: images/controller_K_voltage.pdf Graphic file (type pdf)
+<use images/controller_K_voltage.pdf>
+Package pdftex.def Info: images/controller_K_voltage.pdf  used on input line 46
+5.
+(pdftex.def)             Requested size: 375.80544pt x 215.27861pt.
+
+
+[9 <./images/controller_K_response.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 500--503
+
+ []
+
+
+
+[10 <./images/controller_K_voltage.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 505--508
+
+ []
+
+
+
+[11]
+<images/est_ctrl_good.pdf, id=301, 450.68375pt x 318.18875pt>
+File: images/est_ctrl_good.pdf Graphic file (type pdf)
+<use images/est_ctrl_good.pdf>
+Package pdftex.def Info: images/est_ctrl_good.pdf  used on input line 576.
+(pdftex.def)             Requested size: 375.80544pt x 265.33464pt.
+<images/est_ctrl_bad.pdf, id=302, 450.68375pt x 318.18875pt>
+File: images/est_ctrl_bad.pdf Graphic file (type pdf)
+<use images/est_ctrl_bad.pdf>
+Package pdftex.def Info: images/est_ctrl_bad.pdf  used on input line 582.
+(pdftex.def)             Requested size: 375.80544pt x 265.33464pt.
+
+
+[12 <./images/est_ctrl_good.pdf>]
+
+[13 <./images/est_ctrl_bad.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 644--658
+
+ []
+
+
+
+[14] (./assignment3.bbl
+
+Package natbib Warning: Empty `thebibliography' environment on input line 3.
+
+)
+
+[15] (./assignment3.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `assignment3.out' has not changed.
-(rerunfilecheck)             Checksum: 25C8135DF5B7B29D8DF3AAE80DD2158D;2240.
+(rerunfilecheck)             Checksum: 9049E74C34BE8F446E9719F1ED0926CC;3327.
  ) 
 Here is how much of TeX's memory you used:
- 14971 strings out of 473190
- 237158 string characters out of 5715799
- 659333 words of memory out of 5000000
- 37993 multiletter control sequences out of 15000+600000
+ 15153 strings out of 473190
+ 240858 string characters out of 5715799
+ 663143 words of memory out of 5000000
+ 38093 multiletter control sequences out of 15000+600000
  565735 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 85i,10n,133p,481b,479s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 85i,12n,133p,511b,571s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
-sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
-al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
-texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on assignment3.pdf (5 pages, 161526 bytes).
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local
+/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
+ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texliv
+e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on assignment3.pdf (16 pages, 1210586 bytes).
 PDF statistics:
- 181 PDF objects out of 1000 (max. 8388607)
- 146 compressed objects within 2 object streams
- 47 named destinations out of 1000 (max. 500000)
- 73 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 473 PDF objects out of 1000 (max. 8388607)
+ 364 compressed objects within 4 object streams
+ 123 named destinations out of 1000 (max. 500000)
+ 130 words of extra memory for PDF output out of 10000 (max. 10000000)
 

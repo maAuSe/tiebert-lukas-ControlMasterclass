@@ -1,190 +1,526 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{adjustbox}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{booktabs}
-\usepackage{hyperref}
-\usepackage{geometry}
 \usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{setspace}
 \geometry{margin=1in}
 
 \begin{document}
 
 \begin{titlepage}
-  \thispagestyle{empty}
-  \pagenumbering{Roman}
-  \frenchspacing
-
-  \noindent
-  \begin{tabular}{@{} c @{\hspace{0.1cm}} c @{\hspace{0.2cm}} c @{}}
-    \adjustbox{valign=c}{\includegraphics[height=2cm]{sedes.pdf}} &
-    \adjustbox{valign=c}{\rule{0.5pt}{2cm}} &
-    \adjustbox{valign=c}{\includegraphics[height=2cm]{logoFirW.jpg}}
-  \end{tabular}
-  \hfill
-
-  \vspace*{2cm}
-  \begin{center}
-    \Large\textbf{B-KUL-H04X3A: Control Theory}\\[5mm]
-    \Large Team members: Lefebure Tiebert (r0887630), Campaert Lukas (r0885501)\\[12mm]
-    \Huge\textbf{Assignment 5: Estimation and control of a two-wheel driven cart}\\[12mm]
-  \end{center}
-  \vfill
+	\thispagestyle{empty}
+	\pagenumbering{Roman}
+	\frenchspacing
+	
+	\noindent
+	\begin{tabular}{@{} c @{\hspace{0.1cm}} c @{\hspace{0.2cm}} c @{}}
+		\adjustbox{valign=c}{%
+			\includegraphics[height=2cm, trim=0 0 0 0, clip]{sedes.pdf}%
+		} &
+		\adjustbox{valign=c}{%
+			\rule{0.5pt}{2cm}%
+		} &
+		\adjustbox{valign=c}{%
+			\includegraphics[height=2cm, trim=0 0 0 0, clip]{logoFirW.jpg}%
+		}
+	\end{tabular}
+	\hfill
+	
+	\vspace*{2cm}
+	
+	\begin{center}
+		\begin{minipage}[t]{\textwidth}
+			\begin{center}
+				\large\textbf{B-KUL-H04X3A: Control Theory}
+			\end{center}
+			\vspace{1cm}
+			\begin{center}
+				\textbf{Team members:}\\[2mm]
+				Lefebure Tiebert (r0887630)\\
+				Campaert Lukas (r0885501)\\
+			\end{center}
+			\vspace{1cm}
+			\begin{center}
+				\Huge\textbf{Assignment 5: Estimation and Control of a Two-Wheel Driven Cart}
+			\end{center}
+			\vspace{1cm}
+			\begin{center}
+				\underline{Professor:}\\[2mm]
+				Prof. Dr. Ir. Jan Swevers\\
+			\end{center}
+			\vspace{2cm}
+			\makebox[\textwidth]{Academic Year 2025-2026}
+		\end{minipage}
+	\end{center}
 \end{titlepage}
+
+\newpage
+
+\vspace*{3.2cm}\vfill
+
+\begin{center}
+	\Large\textbf{\textit{Declaration of Originality}}
+\end{center}
+
+\noindent \textit{We hereby declare that this submitted draft is entirely our own, subject to feedback and support given us by the didactic team, and subject to lawful cooperation which was agreed with the same didactic team. Regarding this draft, we also declare that:}
+
+\begin{enumerate}
+	\item \textit{Note has been taken of the text on academic integrity \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/documenten/20161221-academischeintegriteit-okt2016.pdf}.}
+	\item \textit{No plagiarism has been committed as described on \url{https://eng.kuleuven.be/studeren/masterproef-en-papers/plagiaat\#Definitie:\%20wat\%20is\%20plagiaat?}.}
+	\item \textit{All experiments, tests, measurements, \ldots, have been performed as described in this draft, and no data or measurement results have been manipulated.}
+	\item \textit{All sources employed in this draft – including internet sources – have been correctly referenced.}
+\end{enumerate}
+
+\newpage
 
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
-% ======================================================================
-\section{Model the system}
-% ======================================================================
-\subsection*{(a) State equation and relation between motor commands and $(v,\omega)$}
-Wheel radius $r$ and half wheelbase $a$ relate the wheel speeds $(\omega_L,\omega_R)$ to forward/rotational velocity
-\begin{equation}
-  v = \tfrac{r}{2}\left(\omega_L + \omega_R\right), \qquad
-  \omega = \tfrac{r}{2a}\left(\omega_R - \omega_L\right),
-\end{equation}
-and conversely $\omega_L = \tfrac{1}{r}(v - a\omega)$, $\omega_R = \tfrac{1}{r}(v + a\omega)$. With state $\xi = [x_c\;y_c\;\theta]^T$ in the world frame and input $u = [v\;\omega]^T$,
-\begin{equation}
-  \dot{\xi} = f(\xi,u) =
-  \begin{bmatrix}
-    v\cos\theta\\ v\sin\theta\\ \omega
-  \end{bmatrix},
-  \qquad \xi(t_0) = [x_0\;y_0\;\theta_0]^T.
-\end{equation}
-The model assumes ideal velocity control and no wheel slip (per spec).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model the System (1)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection*{(b) Measurement equation (general and Figure 4)}
-A wall $\mathcal{W}: px + qy = r$ has unit normal $\hat{n} = \frac{1}{\sqrt{p^2+q^2}}[p\;q]^T$. Sensor offsets (measured on the cart) in the body frame are $\alpha = \SI{0.075}{m}$ (front), $\beta = \SI{0.065}{m}$ (longitudinal side), $\gamma = \SI{0.078}{m}$ (lateral side, left). Sensor positions in world coordinates are
-\begin{align*}
-  x_f &= x_c + \alpha\cos\theta, & y_f &= y_c + \alpha\sin\theta,\\
-  x_s &= x_c + \beta\cos\theta - \gamma\sin\theta, &
-  y_s &= y_c + \beta\sin\theta + \gamma\cos\theta.
-\end{align*}
-The signed distance from $(x,y)$ to $\mathcal{W}$ is $h(x,y;p,q,r) = \frac{r - px - qy}{\sqrt{p^2+q^2}}$. The nonlinear measurement model is
-\begin{equation}
-  z =
-  \begin{bmatrix}
-    h(x_f,y_f;p_1,q_1,r_1)\\[1mm]
-    h(x_s,y_s;p_2,q_2,r_2)
-  \end{bmatrix}
-  + v_m,\qquad v_m \sim \mathcal{N}(0,R).
-\end{equation}
-For Figure~4, wall~1 is $y=0$ and wall~2 is $x=0$, so $z_1 = -y_f$ and $z_2 = -x_s$.
+\subsection{State Equation (1a)}
 
-% ======================================================================
-\section{Extended Kalman filter derivation}
-% ======================================================================
-\subsection*{(a) Forward Euler discretisation}
-With sampling time $T_s$,
+The two-wheel driven (2WD) cart has two independently controlled wheels with angular velocities $\omega_L$ (left) and $\omega_R$ (right). Let $r$ denote the wheel radius and $a$ denote the half-wheelbase (distance from the cart centre to each wheel). The kinematic relations between wheel speeds and the cart's forward velocity $v$ and rotational velocity $\omega$ are given by
+\begin{equation}
+	v = \frac{r}{2}\bigl(\omega_L + \omega_R\bigr), \qquad
+	\omega = \frac{r}{2a}\bigl(\omega_R - \omega_L\bigr).
+	\label{eq:wheel_to_cart}
+\end{equation}
+
+\noindent Inverting these relations yields the required motor commands for a given $(v,\omega)$ pair:
+\begin{equation}
+	\omega_L = \frac{1}{r}\bigl(v - a\omega\bigr), \qquad
+	\omega_R = \frac{1}{r}\bigl(v + a\omega\bigr).
+	\label{eq:cart_to_wheel}
+\end{equation}
+
+\noindent With the state vector $\boldsymbol{\xi} = [x_c \; y_c \; \theta]^T$ representing the 2D pose of the cart in the world frame $XY$, and the input vector $\mathbf{u} = [v \; \omega]^T$, the nonlinear continuous-time state equations are
+\begin{equation}
+	\dot{\boldsymbol{\xi}} = f(\boldsymbol{\xi}, \mathbf{u}) =
+	\begin{bmatrix}
+		v \cos\theta \\
+		v \sin\theta \\
+		\omega
+	\end{bmatrix}, \qquad
+	\boldsymbol{\xi}(t_0) = [x_0 \; y_0 \; \theta_0]^T.
+	\label{eq:state_equation}
+\end{equation}
+
+\noindent This model assumes ideal velocity control (the velocity control loop is closed internally) and no wheel slip, as specified in the assignment.
+
+\subsection{Measurement Equation (1b)}
+
+A wall is characterised by the implicit equation $\mathcal{W} = \{(x,y) \mid px + qy = r\}$. The unit normal to the wall is $\hat{\mathbf{n}} = \frac{1}{\sqrt{p^2+q^2}}[p \; q]^T$. The signed perpendicular distance from a point $(x,y)$ to the wall is
+\begin{equation}
+	d(x,y;p,q,r) = \frac{r - px - qy}{\sqrt{p^2 + q^2}}.
+	\label{eq:signed_distance}
+\end{equation}
+
+\noindent The cart is equipped with two infrared (IR) sensors: a frontal sensor and a lateral sensor. The geometric offsets of these sensors, measured in the body frame $X'Y'$, are:
+\begin{itemize}
+	\item \textbf{Front sensor}: longitudinal offset $\alpha$ from the cart centre along $X'$.
+	\item \textbf{Side sensor}: longitudinal offset $\beta$ along $X'$ and lateral offset $\gamma$ along $-Y'$.
+\end{itemize}
+
+\noindent For the platform under consideration, these dimensions are $\alpha = \SI{0.075}{m}$, $\beta = \SI{0.065}{m}$, and $\gamma = \SI{0.078}{m}$. The sensor positions in world coordinates are obtained by the standard rotation transformation:
 \begin{align}
-  \xi_{k+1} &= \xi_k + T_s f(\xi_k,u_k) + w_k, && w_k \sim \mathcal{N}(0,Q),\\
-  z_k &= h(\xi_k) + v_k, && v_k \sim \mathcal{N}(0,R).
+	x_f &= x_c + \alpha\cos\theta, & y_f &= y_c + \alpha\sin\theta, \label{eq:front_sensor_pos} \\
+	x_s &= x_c + \beta\cos\theta - \gamma\sin\theta, & y_s &= y_c + \beta\sin\theta + \gamma\cos\theta. \label{eq:side_sensor_pos}
 \end{align}
 
-\subsection*{(b) Linearisation and Jacobians}
-Linearising around $\xi^\ast$, $u^\ast$ gives $\delta\xi_{k+1} = A_k\delta\xi_k + B_k\delta u_k + w_k$, $\delta z_k = C_k\delta\xi_k + v_k$, with
+\noindent The general nonlinear measurement model for both sensors is
+\begin{equation}
+	\mathbf{z} = h(\boldsymbol{\xi}) + \mathbf{v}_m =
+	\begin{bmatrix}
+		d(x_f, y_f; p_1, q_1, r_1) \\[1mm]
+		d(x_s, y_s; p_2, q_2, r_2)
+	\end{bmatrix}
+	+ \mathbf{v}_m, \qquad \mathbf{v}_m \sim \mathcal{N}(\mathbf{0}, R),
+	\label{eq:measurement_general}
+\end{equation}
+where subscripts 1 and 2 denote the wall parameters for the front and side sensors, respectively.
+
+\subsubsection{Specific Measurement Equations for Figure~4}
+
+For the configuration shown in Figure~4, wall~1 (horizontal, bottom) is defined by $y = 0$, corresponding to $(p_1, q_1, r_1) = (0, 1, 0)$. Wall~2 (vertical, left) is defined by $x = 0$, corresponding to $(p_2, q_2, r_2) = (1, 0, 0)$. Substituting into \eqref{eq:signed_distance}:
 \begin{align}
-  A_k &= \begin{bmatrix} 1 & 0 & -T_s v^\ast \sin\theta^\ast\\ 0 & 1 & T_s v^\ast \cos\theta^\ast\\ 0 & 0 & 1 \end{bmatrix},
-  & B_k &= \begin{bmatrix} T_s\cos\theta^\ast & 0\\ T_s\sin\theta^\ast & 0\\ 0 & T_s \end{bmatrix},\\
-  C_k &=
-  \begin{bmatrix}
-    -\frac{p_1}{n_1} & -\frac{q_1}{n_1} & -\frac{p_1 \dot{x}_f^\ast + q_1 \dot{y}_f^\ast}{n_1}\\[2mm]
-    -\frac{p_2}{n_2} & -\frac{q_2}{n_2} & -\frac{p_2 \dot{x}_s^\ast + q_2 \dot{y}_s^\ast}{n_2}
-  \end{bmatrix},
+	z_1 &= d(x_f, y_f; 0, 1, 0) = -y_f = -(y_c + \alpha\sin\theta), \label{eq:z1_specific} \\
+	z_2 &= d(x_s, y_s; 1, 0, 0) = -x_s = -(x_c + \beta\cos\theta - \gamma\sin\theta). \label{eq:z2_specific}
 \end{align}
-where $n_i = \sqrt{p_i^2+q_i^2}$, $\dot{x}_f^\ast = -\alpha\sin\theta^\ast$, $\dot{y}_f^\ast = \alpha\cos\theta^\ast$, $\dot{x}_s^\ast = -\beta\sin\theta^\ast - \gamma\cos\theta^\ast$, $\dot{y}_s^\ast = \beta\cos\theta^\ast - \gamma\sin\theta^\ast$. For the Figure~4 walls this reduces to
+
+\noindent The negative signs indicate that the cart is located in the third quadrant (negative $x$ and $y$), with the sensors measuring positive distances to walls at $x=0$ and $y=0$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Extended Kalman Filter Derivation (2)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Forward Euler Discretisation (2a)}
+
+The continuous-time state equation \eqref{eq:state_equation} is discretised using the forward Euler method with sampling period $T_s$:
 \begin{equation}
-  C_k =
-  \begin{bmatrix}
-    0 & -1 & -\alpha\cos\theta^\ast\\
-    -1 & 0 & \beta\sin\theta^\ast + \gamma\cos\theta^\ast
-  \end{bmatrix}.
+	\boldsymbol{\xi}_{k+1} = \boldsymbol{\xi}_k + T_s f(\boldsymbol{\xi}_k, \mathbf{u}_k) + \mathbf{w}_k =
+	\begin{bmatrix}
+		x_{c,k} + T_s v_k \cos\theta_k \\
+		y_{c,k} + T_s v_k \sin\theta_k \\
+		\theta_k + T_s \omega_k
+	\end{bmatrix}
+	+ \mathbf{w}_k,
+	\label{eq:discrete_state}
 \end{equation}
-The EKF recomputes $A_k, C_k$ at each step using the current prediction $\hat{\xi}_{k|k-1}$; a linear KF would keep them fixed, which is only accurate near the linearisation point.
-
-\subsection*{(c) When to use linear vs. extended KF}
-Both filters assume the same $Q$ and $R$. The linear KF uses the linear model for prediction/correction and is acceptable for small heading changes and walls aligned with the linearisation point. The EKF keeps the nonlinear prediction and local linear correction, maintaining consistency through the turning phase when $\theta$ changes appreciably and the lateral sensor geometry changes.
-
-% ======================================================================
-\section{EKF design, implementation, and results (through measurements)}
-% ======================================================================
-\subsection*{(a) Noise sources and tuning choices}
-Process noise $Q$ captures wheel slip, mismatch between commanded and realised wheel speeds, and unmodelled swivel dynamics. Measurement noise $R$ captures IR sensor noise, wall reflectivity variation, and offset uncertainty. The initial state and covariance keep the cart at the prescribed start pose.
-
-\paragraph{Iterative retuning} The default covariances in the MATLAB post-processing and Arduino firmware led to visibly biased estimates (slow drift during the turn and overconfident bands). I therefore built a small MATLAB UI to sweep diagonal $Q$, $R$, and $P_0$ while overlaying the 95\% state confidence bands on the full trajectory. The final set shown in the tuner screenshot balances (i) smooth dead-reckoning during the sensor blackout, (ii) quick correction when the front sensor returns, and (iii) credible confidence bounds that envelope the logged innovations.
-
-\paragraph{Implemented covariances} The tuned values (units in m$^2$/rad$^2$ on the diagonal) that will be flashed to the Arduino and reused in MATLAB post-processing are
+where $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, Q)$ represents additive process noise. The measurement equation, being algebraic rather than differential, requires no discretisation:
 \begin{equation}
-  Q = \operatorname{diag}(8{\times}10^{-9},\,9{\times}10^{-8},\,1{\times}10^{-7}), \quad
-  R = \operatorname{diag}(0.48,\,0.20) \;\text{[m}^2\text{]}.
+	\mathbf{z}_k = h(\boldsymbol{\xi}_k) + \mathbf{v}_k, \qquad \mathbf{v}_k \sim \mathcal{N}(\mathbf{0}, R).
+	\label{eq:discrete_measurement}
 \end{equation}
-The large $R$ downweights the highly non-Gaussian IR returns when only one wall is visible, while the very small $Q$ keeps the dead-reckoning drift bounded over the short open-loop phase. The initial state and covariance are
+
+\subsection{Linearisation and Jacobians (2b)}
+
+\subsubsection{Choice of Linearisation Point $\boldsymbol{\xi}^*$}
+
+The extended Kalman filter (EKF) linearises the nonlinear model around the current state estimate at each time step. For the prediction step, linearisation is performed around $\boldsymbol{\xi}^* = \hat{\boldsymbol{\xi}}_{k|k}$ (the a posteriori estimate from the previous step). For the correction step, linearisation is performed around $\boldsymbol{\xi}^* = \hat{\boldsymbol{\xi}}_{k|k-1}$ (the a priori prediction).
+
+\noindent In contrast, a standard linear Kalman filter would use a fixed linearisation point, typically chosen as the initial state or a nominal operating point. This distinction is critical: the EKF adapts its linear approximation as the state evolves, whereas the linear KF maintains constant system matrices. For trajectories involving significant heading changes (such as the $90^\circ$ turn in this assignment), the fixed-linearisation approach introduces substantial model mismatch, degrading filter performance.
+
+\subsubsection{State Jacobian}
+
+The Jacobian of the discrete-time state equation with respect to $\boldsymbol{\xi}$ is
 \begin{equation}
-  \hat{\xi}_{0|0} = [-0.30\;-0.20\;0]^T, \quad
-  \hat{P}_{0|0} = \operatorname{diag}(8.0{\times}10^{-4},\,4.0{\times}10^{-4},\,7.6{\times}10^{-3}),
+	A_k = \left.\frac{\partial}{\partial \boldsymbol{\xi}}\bigl[\boldsymbol{\xi} + T_s f(\boldsymbol{\xi}, \mathbf{u})\bigr]\right|_{\boldsymbol{\xi}^*, \mathbf{u}^*} =
+	\begin{bmatrix}
+		1 & 0 & -T_s v^* \sin\theta^* \\
+		0 & 1 & T_s v^* \cos\theta^* \\
+		0 & 0 & 1
+	\end{bmatrix}.
+	\label{eq:jacobian_A}
 \end{equation}
-where the translational entries match the tuned values from the UI and the yaw variance reflects a $5^\circ$ alignment uncertainty. These will be the baseline for the upcoming hardware runs.
 
-\subsection*{(b) Experimental EKF runs (Q/R sweep)}
-Per spec, four EKF runs are logged around the tuned baseline: $(Q,R)$, $Q\times 5$, $R\times 5$, and both $\times 5$, saved as \texttt{ekf\_Q1\_R1.csv}, \texttt{ekf\_Q5\_R1.csv}, \texttt{ekf\_Q1\_R5.csv}, \texttt{ekf\_Q5\_R5.csv}. The MATLAB script (\texttt{assignment5\_solution.m}) imports them via \texttt{KalmanExperiment.createfromQRC45()} and plots state overlays. The screenshot from the tuning UI corresponds to the new baseline and guided the choice of the starting point for this sweep.
+\noindent The input Jacobian is
+\begin{equation}
+	B_k = \left.\frac{\partial}{\partial \mathbf{u}}\bigl[\boldsymbol{\xi} + T_s f(\boldsymbol{\xi}, \mathbf{u})\bigr]\right|_{\boldsymbol{\xi}^*, \mathbf{u}^*} =
+	\begin{bmatrix}
+		T_s \cos\theta^* & 0 \\
+		T_s \sin\theta^* & 0 \\
+		0 & T_s
+	\end{bmatrix}.
+	\label{eq:jacobian_B}
+\end{equation}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_state1_QR_sweep.pdf}
-  \caption{State~1 ($x_c$) over time for four $(Q,R)$ choices.}
-\end{figure}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_state2_QR_sweep.pdf}
-  \caption{State~2 ($y_c$) over time for four $(Q,R)$ choices.}
-\end{figure}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_state3_QR_sweep.pdf}
-  \caption{State~3 ($\theta$) over time for four $(Q,R)$ choices.}
+\subsubsection{Measurement Jacobian (General)}
+
+For the general measurement equation \eqref{eq:measurement_general}, the Jacobian with respect to $\boldsymbol{\xi}$ is
+\begin{equation}
+	C_k =
+	\begin{bmatrix}
+		-\dfrac{p_1}{n_1} & -\dfrac{q_1}{n_1} & -\dfrac{p_1 \frac{\partial x_f}{\partial\theta} + q_1 \frac{\partial y_f}{\partial\theta}}{n_1} \\[3mm]
+		-\dfrac{p_2}{n_2} & -\dfrac{q_2}{n_2} & -\dfrac{p_2 \frac{\partial x_s}{\partial\theta} + q_2 \frac{\partial y_s}{\partial\theta}}{n_2}
+	\end{bmatrix},
+	\label{eq:jacobian_C_general}
+\end{equation}
+where $n_i = \sqrt{p_i^2 + q_i^2}$ and the partial derivatives are
+\begin{align}
+	\frac{\partial x_f}{\partial\theta} &= -\alpha\sin\theta^*, &
+	\frac{\partial y_f}{\partial\theta} &= \alpha\cos\theta^*, \\
+	\frac{\partial x_s}{\partial\theta} &= -\beta\sin\theta^* - \gamma\cos\theta^*, &
+	\frac{\partial y_s}{\partial\theta} &= \beta\cos\theta^* - \gamma\sin\theta^*.
+\end{align}
+
+\subsubsection{Measurement Jacobian for Figure~4}
+
+Substituting $(p_1, q_1) = (0, 1)$ and $(p_2, q_2) = (1, 0)$ into \eqref{eq:jacobian_C_general} yields
+\begin{equation}
+	C_k =
+	\begin{bmatrix}
+		0 & -1 & -\alpha\cos\theta^* \\
+		-1 & 0 & \beta\sin\theta^* + \gamma\cos\theta^*
+	\end{bmatrix}.
+	\label{eq:jacobian_C_figure4}
+\end{equation}
+
+\noindent The linearised discrete-time model is thus
+\begin{align}
+	\delta\boldsymbol{\xi}_{k+1} &= A_k \delta\boldsymbol{\xi}_k + B_k \delta\mathbf{u}_k + \mathbf{w}_k, \\
+	\delta\mathbf{z}_k &= C_k \delta\boldsymbol{\xi}_k + \mathbf{v}_k.
+\end{align}
+
+\subsection{Linear vs.\ Extended Kalman Filter (2c)}
+
+\subsubsection{Fundamental Differences}
+
+The \textbf{linear Kalman filter} assumes that both the process model and measurement model are linear (or have been linearised about a fixed operating point). All prediction and correction steps use constant matrices $A$, $B$, and $C$. This approach is optimal (in the minimum mean-squared error sense) when the underlying system is truly linear and the noise distributions are Gaussian.
+
+The \textbf{extended Kalman filter} applies to nonlinear systems by linearising the process and measurement models at each time step around the current state estimate. The Jacobians $A_k$, $B_k$, and $C_k$ are recomputed at every iteration. The prediction step uses the full nonlinear model $f(\cdot)$ to propagate the state estimate, while the covariance propagation uses the linearised Jacobian $A_k$.
+
+\subsubsection{Noise Considerations}
+
+Both filters assume the same stochastic structure: additive Gaussian process noise with covariance $Q$ and additive Gaussian measurement noise with covariance $R$. There is no inherent reason for these covariances to differ between filter types; they characterise the physical system and sensors, not the estimation algorithm.
+
+\subsubsection{Applicability}
+
+The linear KF is appropriate when the system dynamics are linear or when the state remains sufficiently close to the linearisation point that model mismatch is negligible. For the 2WD cart executing a $90^\circ$ turn, the heading $\theta$ changes substantially, causing the trigonometric terms in the state and measurement equations to vary significantly. A fixed-linearisation linear KF would exhibit increasing estimation error as $\theta$ deviates from the nominal value. The EKF, by continuously updating its linearisation point, maintains local accuracy throughout the trajectory and is therefore the appropriate choice for this application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{EKF Design and Implementation (3)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Noise Sources (3a)}
+
+\subsubsection{Process Noise Sources}
+
+The process noise covariance $Q$ accounts for discrepancies between the assumed kinematic model and the actual cart dynamics. Potential sources include:
+\begin{itemize}
+	\item \textbf{Wheel slip}: The no-slip assumption is violated under acceleration, deceleration, or on low-friction surfaces.
+	\item \textbf{Velocity command tracking error}: The internal velocity control loop does not achieve perfect tracking; transient errors between commanded and realised wheel speeds propagate to pose estimation.
+	\item \textbf{Swivel wheel dynamics}: The passive swivel wheel introduces unmodelled lateral forces and yaw disturbances, particularly during turns.
+	\item \textbf{Geometric uncertainties}: Imprecise knowledge of wheel radius $r$ and wheelbase $2a$ causes systematic drift.
+\end{itemize}
+
+\subsubsection{Measurement Noise Sources}
+
+The measurement noise covariance $R$ accounts for uncertainty in the IR range measurements. Potential sources include:
+\begin{itemize}
+	\item \textbf{Sensor noise}: Electronic noise in the IR sensor circuitry and quantisation in the ADC.
+	\item \textbf{Wall reflectivity variation}: IR sensors are sensitive to surface properties; non-uniform reflectivity causes range-dependent bias.
+	\item \textbf{Sensor mounting uncertainty}: Errors in the measured offsets $\alpha$, $\beta$, $\gamma$ directly bias the measurement equations.
+	\item \textbf{Multipath and specular reflections}: At oblique incidence angles, specular reflections can cause erroneous range readings.
+\end{itemize}
+
+\subsection{EKF Tuning and Experimental Validation (3b)}
+
+\subsubsection{Interpretation of $Q$ and $R$}
+
+The process noise covariance $Q = \operatorname{diag}(q_x, q_y, q_\theta)$ quantifies the expected variance of the state perturbation per time step. Larger values of $Q$ indicate lower confidence in the model prediction, causing the filter to weight measurements more heavily. The measurement noise covariance $R = \operatorname{diag}(r_1, r_2)$ quantifies the expected variance of the sensor readings. Larger values of $R$ indicate lower confidence in the measurements, causing the filter to rely more on the model prediction.
+
+The ratio $Q/R$ governs the filter bandwidth: a high ratio yields fast convergence to measurements but amplifies sensor noise; a low ratio yields smooth estimates but slow response to actual state changes.
+
+\subsubsection{Initial State and Covariance}
+
+The cart is initialised at the prescribed starting pose:
+\begin{equation}
+	\hat{\boldsymbol{\xi}}_{0|0} = [-0.30 \; -0.20 \; 0]^T \; [\text{m}, \text{m}, \text{rad}].
+	\label{eq:initial_state}
+\end{equation}
+
+\noindent The initial covariance $\hat{P}_{0|0}$ reflects the placement uncertainty:
+\begin{equation}
+	\hat{P}_{0|0} = \operatorname{diag}(8.0 \times 10^{-4}, \, 4.0 \times 10^{-4}, \, 7.6 \times 10^{-3}) \; [\text{m}^2, \text{m}^2, \text{rad}^2].
+	\label{eq:initial_covariance}
+\end{equation}
+
+\noindent The translational entries correspond to approximately $\pm 2.8$~cm and $\pm 2.0$~cm ($1\sigma$) placement accuracy. The yaw entry corresponds to approximately $5^\circ$ ($1\sigma$) alignment uncertainty.
+
+\subsubsection{Tuned Covariance Values}
+
+Systematic tuning was performed by varying the diagonal entries of $Q$ and $R$ while monitoring the state estimate trajectories and 95\% confidence intervals. The selected values are
+\begin{align}
+	Q &= \operatorname{diag}(8 \times 10^{-9}, \, 9 \times 10^{-8}, \, 1 \times 10^{-7}) \; [\text{m}^2, \text{m}^2, \text{rad}^2], \label{eq:tuned_Q} \\
+	R &= \operatorname{diag}(0.48, \, 0.20) \; [\text{m}^2]. \label{eq:tuned_R}
+\end{align}
+
+\noindent The relatively large $R$ values reflect the non-Gaussian characteristics of the IR sensors at oblique incidence and when only one wall is visible. The small $Q$ values maintain bounded dead-reckoning drift during the sensor blackout phase.
+
+\subsubsection{$Q/R$ Sweep Results}
+
+Four experimental runs were performed with the following covariance combinations:
+\begin{enumerate}
+	\item Baseline: $(Q, R)$ as in \eqref{eq:tuned_Q}--\eqref{eq:tuned_R}.
+	\item High process noise: $(5Q, R)$.
+	\item High measurement noise: $(Q, 5R)$.
+	\item Both increased: $(5Q, 5R)$.
+\end{enumerate}
+
+\noindent Figures~\ref{fig:state1_sweep}--\ref{fig:state3_sweep} show the state estimates over time for each combination.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_state1_QR_sweep.pdf}
+	\caption{State estimate $\hat{x}_c$ over time for four $(Q,R)$ combinations.}
+	\label{fig:state1_sweep}
 \end{figure}
 
-\paragraph{Observed behaviour} Increasing $Q$ speeds up post-turn convergence when measurements resume but introduces more estimate noise. Increasing $R$ slows corrections and keeps the estimate closer to dead-reckoning, causing a larger lateral bias during the turn. The tuned baseline $(Q,R)$ gives the best balance.
-
-\subsection*{(c) Uncertainty on estimated states (95\% CI, tuned run)}
-For the tuned baseline run (file \texttt{ekf\_Q1\_R1.csv}), the MATLAB script generates 95\% confidence bands using \texttt{plotstates}. The offline MATLAB tuner (screenshot) confirmed that these bounds remain conservative even through the blind turn.
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_state1_95ci_plotstates.pdf}
-  \caption{State~1 ($x_c$) with 95\% CI, tuned baseline $(Q,R)$.}
-\end{figure}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_state2_95ci_plotstates.pdf}
-  \caption{State~2 ($y_c$) with 95\% CI, tuned baseline $(Q,R)$.}
-\end{figure}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_state3_95ci_plotstates.pdf}
-  \caption{State~3 ($\theta$) with 95\% CI, tuned baseline $(Q,R)$.}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_state2_QR_sweep.pdf}
+	\caption{State estimate $\hat{y}_c$ over time for four $(Q,R)$ combinations.}
+	\label{fig:state2_sweep}
 \end{figure}
 
-\paragraph{Evolution of uncertainty} Before the turn both sensors are active; $C_k$ is full rank and $P$ shrinks quickly. During the turn both sensors are disabled by the trajectory, so only prediction is applied and $P$ grows. After the turn only the front sensor observes a wall; yaw variance continues to decrease slowly while lateral variance remains larger due to reduced observability. The larger $R$ keeps the post-turn correction smooth and avoids overconfident collapse of $P$ when only a single range is available.
-
-\subsection*{(d) Measurements with confidence intervals (tuned baseline run)}
-Measurement plots use the same tuned baseline run and \texttt{plotmeasurements}, with the updated $R$.
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_measurement1_95ci.pdf}
-  \caption{Front sensor distance $z_1$ with 95\% CI (tuned $(Q,R)$).}
-\end{figure}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.95\linewidth]{images/ekf_measurement2_95ci.pdf}
-  \caption{Side sensor distance $z_2$ with 95\% CI (tuned $(Q,R)$).}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_state3_QR_sweep.pdf}
+	\caption{State estimate $\hat{\theta}$ over time for four $(Q,R)$ combinations.}
+	\label{fig:state3_sweep}
 \end{figure}
 
-\paragraph{What happened} The 95\% bands reflect the deliberately large $R$ used to downweight the IR sensors after the turn. Bands widen during the turn because measurements are disabled; afterwards only $z_1$ contributes, leaving some lateral ambiguity as expected. This avoids the overconfident behaviour seen with the previous (too small) $R$ and matches the bounds observed in the MATLAB tuner plot.
+\subsubsection{Influence of $Q$ and $R$ on Filter Behaviour}
 
-% ======================================================================
-% LQR content intentionally omitted per request (only up to EKF measurements).
-% ======================================================================
+The experimental results confirm the expected trade-offs:
+\begin{itemize}
+	\item \textbf{Increasing $Q$}: The filter trusts the model less and responds more aggressively to measurements. Post-turn convergence is faster when sensors resume, but the estimate exhibits greater noise sensitivity during the straight-line phases.
+	\item \textbf{Increasing $R$}: The filter trusts measurements less and maintains smoother estimates. However, correction after the turn is slower, and lateral bias accumulates during the sensor blackout.
+	\item \textbf{Baseline $(Q,R)$}: Provides the optimal balance between responsiveness and smoothness. The estimates converge within acceptable bounds after the turn while maintaining stability during the straight-line phases.
+\end{itemize}
+
+\subsection{Uncertainty Evolution (3c)}
+
+Figures~\ref{fig:state1_ci}--\ref{fig:state3_ci} show the state estimates with 95\% confidence intervals for the baseline tuned run.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_state1_95ci_plotstates.pdf}
+	\caption{State estimate $\hat{x}_c$ with 95\% confidence interval (baseline $(Q,R)$).}
+	\label{fig:state1_ci}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_state2_95ci_plotstates.pdf}
+	\caption{State estimate $\hat{y}_c$ with 95\% confidence interval (baseline $(Q,R)$).}
+	\label{fig:state2_ci}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_state3_95ci_plotstates.pdf}
+	\caption{State estimate $\hat{\theta}$ with 95\% confidence interval (baseline $(Q,R)$).}
+	\label{fig:state3_ci}
+\end{figure}
+
+\subsubsection{Uncertainty Evolution by Trajectory Phase}
+
+\textbf{Before the turn (both sensors active):} The measurement matrix $C_k$ has rank 2 (full row rank), providing observability for all three states. The covariance $P$ decreases rapidly as measurements correct the prediction. The confidence intervals tighten.
+
+\textbf{During the turn (sensors disabled):} With both sensors switched off, the correction step provides no information. Only the prediction step is active, causing $P$ to grow according to $P_{k+1|k} = A_k P_{k|k} A_k^T + Q$. The confidence intervals widen monotonically.
+
+\textbf{After the turn (front sensor only):} Only $z_1$ is available. The measurement matrix reduces to rank 1, providing direct observability only for the $y$-coordinate. Observability of $x$ and $\theta$ depends on the coupling through the motion model. The yaw variance decreases slowly; the $x$-variance remains elevated due to reduced direct observation.
+
+\subsubsection{Effect of Sensor Deactivation on Measurement Equations}
+
+When both sensors are switched off, the measurement update is skipped entirely. The filter operates in pure prediction mode (dead reckoning), and the state estimate evolves according to the process model without correction.
+
+\subsubsection{Hypothetical: Sensors Remain Active During Turn}
+
+If the sensors were not deactivated during the turn, the measurement equations would change as follows:
+\begin{itemize}
+	\item The front sensor would transition from measuring distance to wall~1 ($y = 0$) to measuring distance to wall~2 ($x = 0$) as the cart rotates.
+	\item The side sensor would similarly change the wall it observes.
+	\item The wall parameters $(p_i, q_i, r_i)$ in the measurement model would need to be updated dynamically based on the cart's orientation and position, requiring knowledge of the environment geometry.
+\end{itemize}
+
+\noindent This would maintain observability throughout the turn but requires additional logic to determine which wall each sensor is measuring at any given time.
+
+\subsection{Measurement Confidence Intervals (3c continued)}
+
+Figures~\ref{fig:meas1_ci}--\ref{fig:meas2_ci} show the measurement predictions with 95\% confidence intervals for the baseline tuned run.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_measurement1_95ci.pdf}
+	\caption{Front sensor measurement $z_1$ with 95\% confidence interval (baseline $(Q,R)$).}
+	\label{fig:meas1_ci}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/ekf_measurement2_95ci.pdf}
+	\caption{Side sensor measurement $z_2$ with 95\% confidence interval (baseline $(Q,R)$).}
+	\label{fig:meas2_ci}
+\end{figure}
+
+\noindent The 95\% bands reflect the tuned $R$ values. The bands widen during the turn when measurements are disabled and the filter relies solely on prediction. After the turn, only $z_1$ contributes to the correction, leaving residual uncertainty in states not directly observed by the front sensor.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{State Feedback Controller Design (4)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Rotation Matrix for Error Transformation (4a)}
+
+The tracking error in the world frame is $\hat{\mathbf{e}}_k = [x_{c,\text{ref}} - \hat{x}_c, \; y_{c,\text{ref}} - \hat{y}_c, \; \theta_{\text{ref}} - \hat{\theta}]^T$. To express this error in the local cart frame $X'Y'$, the rotation matrix
+\begin{equation}
+	R(\hat{\theta}_{c,k}) =
+	\begin{bmatrix}
+		\cos\hat{\theta}_{c,k} & \sin\hat{\theta}_{c,k} & 0 \\
+		-\sin\hat{\theta}_{c,k} & \cos\hat{\theta}_{c,k} & 0 \\
+		0 & 0 & 1
+	\end{bmatrix}
+	\label{eq:rotation_matrix}
+\end{equation}
+is applied: $\hat{\mathbf{e}}'_k = R(\hat{\theta}_{c,k}) \hat{\mathbf{e}}_k$.
+
+\subsection{LQR Feedback Matrix Structure (4b)}
+
+The discrete-time LQR problem minimises the cost function
+\begin{equation}
+	J = \sum_{k=0}^{\infty} \bigl( \mathbf{e}_k'^T Q_{\text{lqr}} \mathbf{e}_k' + \mathbf{u}_k^T R_{\text{lqr}} \mathbf{u}_k \bigr),
+	\label{eq:lqr_cost}
+\end{equation}
+where $Q_{\text{lqr}} \in \mathbb{R}^{3 \times 3}$ penalises state error and $R_{\text{lqr}} \in \mathbb{R}^{2 \times 2}$ penalises control effort.
+
+\noindent Using the provided linearised error dynamics matrices
+\begin{equation}
+	A_d =
+	\begin{bmatrix}
+		1 & 0 & 0 \\
+		0 & 1 & -T_s v_{\text{ref}} \\
+		0 & 0 & 1
+	\end{bmatrix}, \qquad
+	B_d =
+	\begin{bmatrix}
+		-T_s & 0 \\
+		0 & 0 \\
+		0 & -T_s
+	\end{bmatrix},
+	\label{eq:error_dynamics}
+\end{equation}
+the MATLAB \texttt{dlqr} command computes the optimal feedback gain $K$. The structure of $K \in \mathbb{R}^{2 \times 3}$ is
+\begin{equation}
+	K =
+	\begin{bmatrix}
+		k_{11} & 0 & 0 \\
+		0 & k_{22} & k_{23}
+	\end{bmatrix}.
+	\label{eq:K_structure}
+\end{equation}
+
+\noindent The zero entries arise from the decoupled structure of $B_d$: the forward velocity $v$ affects only the longitudinal error $e'_x$, while the rotational velocity $\omega$ affects the lateral error $e'_y$ (through $\theta$) and the heading error $e'_\theta$. The nonzero entries are:
+\begin{itemize}
+	\item $k_{11}$: gain from longitudinal error to forward velocity command.
+	\item $k_{22}$: gain from lateral error to rotational velocity command.
+	\item $k_{23}$: gain from heading error to rotational velocity command.
+\end{itemize}
+
+\subsection{LQR Tuning (4c)}
+
+\subsubsection{Meaning of $Q_{\text{lqr}}$ and $R_{\text{lqr}}$}
+
+In the LQR design objective \eqref{eq:lqr_cost}:
+\begin{itemize}
+	\item $Q_{\text{lqr}}$ penalises deviation from the reference trajectory. Larger diagonal entries result in tighter tracking of the corresponding state at the expense of higher control effort.
+	\item $R_{\text{lqr}}$ penalises control effort. Larger diagonal entries result in smoother, smaller control inputs at the expense of slower convergence.
+\end{itemize}
+
+\noindent The trade-off is analogous to the $Q/R$ ratio in the EKF: high $Q_{\text{lqr}}/R_{\text{lqr}}$ yields aggressive tracking with large control signals; low ratio yields conservative control with larger tracking errors.
+
+\subsubsection{Experimental Results}
+
+\textit{(Figures and numerical results to be added after hardware experiments.)}
+
+\subsubsection{Chosen $Q_{\text{lqr}}$ and $R_{\text{lqr}}$}
+
+\textit{(Final tuned values and justification to be added after experimental validation.)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{plainnat}
+\bibliography{references}
 
 \end{document}

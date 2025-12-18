@@ -3,13 +3,82 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \providecommand \oddpage@label [2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Model the system}{1}{section.1}\protected@file@percent }
-\newlabel{eq:inputs_to_wheels}{{1}{1}{(a) State equation and relation between motor commands and $(v,\omega )$}{equation.1.1}{}}
-\newlabel{eq:state_equation}{{3}{1}{(a) State equation and relation between motor commands and $(v,\omega )$}{equation.1.3}{}}
-\newlabel{eq:measurement_equation}{{7}{1}{(b) Measurement equation (general and Figure 4)}{equation.1.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Derive and discuss the extended Kalman filter}{1}{section.2}\protected@file@percent }
-\newlabel{eq:discrete_state}{{8}{1}{(a) Forward Euler discretisation of model and measurements}{equation.2.8}{}}
-\newlabel{eq:discrete_measurement}{{9}{1}{(a) Forward Euler discretisation of model and measurements}{equation.2.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Design and implementation of the extended Kalman filter}{2}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Design and implementation of the LQR trajectory tracker}{3}{section.4}\protected@file@percent }
-\gdef \@abspage@last{5}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Model the System (1)}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}State Equation (1a)}{1}{subsection.1.1}\protected@file@percent }
+\newlabel{eq:wheel_to_cart}{{1}{1}{State Equation (1a)}{equation.1.1}{}}
+\newlabel{eq:cart_to_wheel}{{2}{1}{State Equation (1a)}{equation.1.2}{}}
+\newlabel{eq:state_equation}{{3}{1}{State Equation (1a)}{equation.1.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Measurement Equation (1b)}{1}{subsection.1.2}\protected@file@percent }
+\newlabel{eq:signed_distance}{{4}{1}{Measurement Equation (1b)}{equation.1.4}{}}
+\newlabel{eq:front_sensor_pos}{{5}{1}{Measurement Equation (1b)}{equation.1.5}{}}
+\newlabel{eq:side_sensor_pos}{{6}{1}{Measurement Equation (1b)}{equation.1.6}{}}
+\newlabel{eq:measurement_general}{{7}{1}{Measurement Equation (1b)}{equation.1.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1}Specific Measurement Equations for Figure~4}{2}{subsubsection.1.2.1}\protected@file@percent }
+\newlabel{eq:z1_specific}{{8}{2}{Specific Measurement Equations for Figure~4}{equation.1.8}{}}
+\newlabel{eq:z2_specific}{{9}{2}{Specific Measurement Equations for Figure~4}{equation.1.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Extended Kalman Filter Derivation (2)}{2}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Forward Euler Discretisation (2a)}{2}{subsection.2.1}\protected@file@percent }
+\newlabel{eq:discrete_state}{{10}{2}{Forward Euler Discretisation (2a)}{equation.2.10}{}}
+\newlabel{eq:discrete_measurement}{{11}{2}{Forward Euler Discretisation (2a)}{equation.2.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Linearisation and Jacobians (2b)}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Choice of Linearisation Point $\boldsymbol  {\xi }^*$}{2}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}State Jacobian}{2}{subsubsection.2.2.2}\protected@file@percent }
+\newlabel{eq:jacobian_A}{{12}{2}{State Jacobian}{equation.2.12}{}}
+\newlabel{eq:jacobian_B}{{13}{2}{State Jacobian}{equation.2.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Measurement Jacobian (General)}{3}{subsubsection.2.2.3}\protected@file@percent }
+\newlabel{eq:jacobian_C_general}{{14}{3}{Measurement Jacobian (General)}{equation.2.14}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Measurement Jacobian for Figure~4}{3}{subsubsection.2.2.4}\protected@file@percent }
+\newlabel{eq:jacobian_C_figure4}{{17}{3}{Measurement Jacobian for Figure~4}{equation.2.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Linear vs.\ Extended Kalman Filter (2c)}{3}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Fundamental Differences}{3}{subsubsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Noise Considerations}{3}{subsubsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Applicability}{3}{subsubsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}EKF Design and Implementation (3)}{4}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Noise Sources (3a)}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Process Noise Sources}{4}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Measurement Noise Sources}{4}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}EKF Tuning and Experimental Validation (3b)}{4}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Interpretation of $Q$ and $R$}{4}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Initial State and Covariance}{4}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{eq:initial_state}{{20}{4}{Initial State and Covariance}{equation.3.20}{}}
+\newlabel{eq:initial_covariance}{{21}{4}{Initial State and Covariance}{equation.3.21}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Tuned Covariance Values}{5}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{eq:tuned_Q}{{22}{5}{Tuned Covariance Values}{equation.3.22}{}}
+\newlabel{eq:tuned_R}{{23}{5}{Tuned Covariance Values}{equation.3.23}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}$Q/R$ Sweep Results}{5}{subsubsection.3.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces State estimate $\hat  {x}_c$ over time for four $(Q,R)$ combinations.}}{5}{figure.1}\protected@file@percent }
+\newlabel{fig:state1_sweep}{{1}{5}{State estimate $\hat {x}_c$ over time for four $(Q,R)$ combinations}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces State estimate $\hat  {y}_c$ over time for four $(Q,R)$ combinations.}}{6}{figure.2}\protected@file@percent }
+\newlabel{fig:state2_sweep}{{2}{6}{State estimate $\hat {y}_c$ over time for four $(Q,R)$ combinations}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces State estimate $\hat  {\theta }$ over time for four $(Q,R)$ combinations.}}{6}{figure.3}\protected@file@percent }
+\newlabel{fig:state3_sweep}{{3}{6}{State estimate $\hat {\theta }$ over time for four $(Q,R)$ combinations}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Influence of $Q$ and $R$ on Filter Behaviour}{6}{subsubsection.3.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Uncertainty Evolution (3c)}{7}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces State estimate $\hat  {x}_c$ with 95\% confidence interval (baseline $(Q,R)$).}}{7}{figure.4}\protected@file@percent }
+\newlabel{fig:state1_ci}{{4}{7}{State estimate $\hat {x}_c$ with 95\% confidence interval (baseline $(Q,R)$)}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces State estimate $\hat  {y}_c$ with 95\% confidence interval (baseline $(Q,R)$).}}{8}{figure.5}\protected@file@percent }
+\newlabel{fig:state2_ci}{{5}{8}{State estimate $\hat {y}_c$ with 95\% confidence interval (baseline $(Q,R)$)}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces State estimate $\hat  {\theta }$ with 95\% confidence interval (baseline $(Q,R)$).}}{8}{figure.6}\protected@file@percent }
+\newlabel{fig:state3_ci}{{6}{8}{State estimate $\hat {\theta }$ with 95\% confidence interval (baseline $(Q,R)$)}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Uncertainty Evolution by Trajectory Phase}{8}{subsubsection.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Effect of Sensor Deactivation on Measurement Equations}{9}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Hypothetical: Sensors Remain Active During Turn}{9}{subsubsection.3.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Measurement Confidence Intervals (3c continued)}{9}{subsection.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Front sensor measurement $z_1$ with 95\% confidence interval (baseline $(Q,R)$).}}{9}{figure.7}\protected@file@percent }
+\newlabel{fig:meas1_ci}{{7}{9}{Front sensor measurement $z_1$ with 95\% confidence interval (baseline $(Q,R)$)}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Side sensor measurement $z_2$ with 95\% confidence interval (baseline $(Q,R)$).}}{10}{figure.8}\protected@file@percent }
+\newlabel{fig:meas2_ci}{{8}{10}{Side sensor measurement $z_2$ with 95\% confidence interval (baseline $(Q,R)$)}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}State Feedback Controller Design (4)}{10}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Rotation Matrix for Error Transformation (4a)}{10}{subsection.4.1}\protected@file@percent }
+\newlabel{eq:rotation_matrix}{{24}{10}{Rotation Matrix for Error Transformation (4a)}{equation.4.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}LQR Feedback Matrix Structure (4b)}{10}{subsection.4.2}\protected@file@percent }
+\newlabel{eq:lqr_cost}{{25}{10}{LQR Feedback Matrix Structure (4b)}{equation.4.25}{}}
+\newlabel{eq:error_dynamics}{{26}{10}{LQR Feedback Matrix Structure (4b)}{equation.4.26}{}}
+\newlabel{eq:K_structure}{{27}{10}{LQR Feedback Matrix Structure (4b)}{equation.4.27}{}}
+\bibstyle{plainnat}
+\bibdata{references}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}LQR Tuning (4c)}{11}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Meaning of $Q_{\text  {lqr}}$ and $R_{\text  {lqr}}$}{11}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Experimental Results}{11}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Chosen $Q_{\text  {lqr}}$ and $R_{\text  {lqr}}$}{11}{subsubsection.4.3.3}\protected@file@percent }
+\gdef \@abspage@last{13}

@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{setspace}
+\usepackage{subcaption}
 \geometry{margin=1in}
 
 \begin{document}
@@ -127,13 +128,7 @@ A wall is characterised by the implicit equation $\mathcal{W} = \{(x,y) \mid px 
 	\label{eq:signed_distance}
 \end{equation}
 
-\noindent The cart is equipped with two infrared (IR) sensors: a frontal sensor and a lateral sensor. The geometric offsets of these sensors, measured in the body frame $X'Y'$, are:
-\begin{itemize}
-	\item \textbf{Front sensor}: longitudinal offset $\alpha$ from the cart centre along $X'$.
-	\item \textbf{Side sensor}: longitudinal offset $\beta$ along $X'$ and lateral offset $\gamma$ along $-Y'$.
-\end{itemize}
-
-\noindent For the platform under consideration, these dimensions are $\alpha = \SI{0.075}{m}$, $\beta = \SI{0.065}{m}$, and $\gamma = \SI{0.078}{m}$. The sensor positions in world coordinates are obtained by the standard rotation transformation:
+The cart is equipped with two infrared (IR) sensors: a frontal sensor and a lateral sensor. The geometric offsets of these sensors, measured in the body frame $X'Y'$, are as follows. The front sensor has a longitudinal offset $\alpha$ from the cart centre along the $X'$-axis, while the side sensor has a longitudinal offset $\beta$ along $X'$ combined with a lateral offset $\gamma$ along $-Y'$. For the platform under consideration, these dimensions are $\alpha = \SI{0.075}{m}$, $\beta = \SI{0.065}{m}$, and $\gamma = \SI{0.078}{m}$. The sensor positions in world coordinates are obtained by the standard rotation transformation:
 \begin{align}
 	x_f &= x_c + \alpha\cos\theta, & y_f &= y_c + \alpha\sin\theta, \label{eq:front_sensor_pos} \\
 	x_s &= x_c + \beta\cos\theta - \gamma\sin\theta, & y_s &= y_c + \beta\sin\theta + \gamma\cos\theta. \label{eq:side_sensor_pos}
@@ -275,25 +270,9 @@ The linear KF is appropriate when the system dynamics are linear or when the sta
 
 \subsection{Noise Sources (3a)}
 
-\subsubsection{Process Noise Sources}
+The process noise covariance $Q$ accounts for discrepancies between the assumed kinematic model and the actual cart dynamics. Wheel slip constitutes a primary source, as the no-slip assumption is violated under acceleration, deceleration, or on low-friction surfaces. Velocity command tracking error also contributes, since the internal velocity control loop does not achieve perfect tracking and transient errors between commanded and realised wheel speeds propagate to pose estimation. Furthermore, the passive swivel wheel introduces unmodelled lateral forces and yaw disturbances, particularly during turns. Finally, geometric uncertainties arising from imprecise knowledge of wheel radius $r$ and wheelbase $2a$ cause systematic drift that manifests as process noise.
 
-The process noise covariance $Q$ accounts for discrepancies between the assumed kinematic model and the actual cart dynamics. Potential sources include:
-\begin{itemize}
-	\item \textbf{Wheel slip}: The no-slip assumption is violated under acceleration, deceleration, or on low-friction surfaces.
-	\item \textbf{Velocity command tracking error}: The internal velocity control loop does not achieve perfect tracking; transient errors between commanded and realised wheel speeds propagate to pose estimation.
-	\item \textbf{Swivel wheel dynamics}: The passive swivel wheel introduces unmodelled lateral forces and yaw disturbances, particularly during turns.
-	\item \textbf{Geometric uncertainties}: Imprecise knowledge of wheel radius $r$ and wheelbase $2a$ causes systematic drift.
-\end{itemize}
-
-\subsubsection{Measurement Noise Sources}
-
-The measurement noise covariance $R$ accounts for uncertainty in the IR range measurements. Potential sources include:
-\begin{itemize}
-	\item \textbf{Sensor noise}: Electronic noise in the IR sensor circuitry and quantisation in the ADC.
-	\item \textbf{Wall reflectivity variation}: IR sensors are sensitive to surface properties; non-uniform reflectivity causes range-dependent bias.
-	\item \textbf{Sensor mounting uncertainty}: Errors in the measured offsets $\alpha$, $\beta$, $\gamma$ directly bias the measurement equations.
-	\item \textbf{Multipath and specular reflections}: At oblique incidence angles, specular reflections can cause erroneous range readings.
-\end{itemize}
+The measurement noise covariance $R$ accounts for uncertainty in the IR range measurements. Electronic noise in the IR sensor circuitry and quantisation in the ADC represent inherent sensor noise. Wall reflectivity variation poses an additional challenge, as IR sensors are sensitive to surface properties and non-uniform reflectivity causes range-dependent bias. Sensor mounting uncertainty, specifically errors in the measured offsets $\alpha$, $\beta$, and $\gamma$, directly biases the measurement equations. At oblique incidence angles, multipath and specular reflections can also cause erroneous range readings.
 
 \subsection{EKF Tuning and Experimental Validation (3b)}
 
@@ -313,63 +292,54 @@ The cart is initialised at the prescribed starting pose:
 
 \noindent The initial covariance $\hat{P}_{0|0}$ reflects the placement uncertainty:
 \begin{equation}
-	\hat{P}_{0|0} = \operatorname{diag}(8.0 \times 10^{-4}, \, 4.0 \times 10^{-4}, \, 7.6 \times 10^{-3}) \; [\text{m}^2, \text{m}^2, \text{rad}^2].
+	\hat{P}_{0|0} = \operatorname{diag}(1 \times 10^{-7}, \, 1 \times 10^{-7}, \, 1 \times 10^{-7}) \; [\text{m}^2, \text{m}^2, \text{rad}^2].
 	\label{eq:initial_covariance}
 \end{equation}
 
-\noindent The translational entries correspond to approximately $\pm 2.8$~cm and $\pm 2.0$~cm ($1\sigma$) placement accuracy. The yaw entry corresponds to approximately $5^\circ$ ($1\sigma$) alignment uncertainty.
+These values reflect the practical placement accuracy achievable when positioning the cart manually: the translational entries correspond to approximately $\pm 0.3$~mm ($1\sigma$) placement accuracy, while the yaw entry corresponds to approximately $0.02^\circ$ ($1\sigma$) alignment uncertainty. These conservative initial variances ensure the filter rapidly converges to the true state once measurements become available.
 
 \subsubsection{Tuned Covariance Values}
 
 Systematic tuning was performed by varying the diagonal entries of $Q$ and $R$ while monitoring the state estimate trajectories and 95\% confidence intervals. The selected values are
 \begin{align}
-	Q &= \operatorname{diag}(8 \times 10^{-9}, \, 9 \times 10^{-8}, \, 1 \times 10^{-7}) \; [\text{m}^2, \text{m}^2, \text{rad}^2], \label{eq:tuned_Q} \\
-	R &= \operatorname{diag}(0.48, \, 0.20) \; [\text{m}^2]. \label{eq:tuned_R}
+	Q &= \operatorname{diag}(8 \times 10^{-9}, \, 9 \times 10^{-8}, \, 9 \times 10^{-7}) \; [\text{m}^2, \text{m}^2, \text{rad}^2], \label{eq:tuned_Q} \\
+	R &= \operatorname{diag}(0.0198, \, 0.09) \; [\text{m}^2]. \label{eq:tuned_R}
 \end{align}
 
-\noindent The relatively large $R$ values reflect the non-Gaussian characteristics of the IR sensors at oblique incidence and when only one wall is visible. The small $Q$ values maintain bounded dead-reckoning drift during the sensor blackout phase.
+The relatively large $R$ values reflect the non-Gaussian characteristics of the IR sensors at oblique incidence and when only one wall is visible. The small $Q$ values were chosen to maintain bounded dead-reckoning drift during the sensor blackout phase while ensuring the filter remains responsive to measurements during the observation phases.
 
 \subsubsection{$Q/R$ Sweep Results}
 
-Four experimental runs were performed with the following covariance combinations:
-\begin{enumerate}
-	\item Baseline: $(Q, R)$ as in \eqref{eq:tuned_Q}--\eqref{eq:tuned_R}.
-	\item High process noise: $(5Q, R)$.
-	\item High measurement noise: $(Q, 5R)$.
-	\item Both increased: $(5Q, 5R)$.
-\end{enumerate}
-
-\noindent Figures~\ref{fig:state1_sweep}--\ref{fig:state3_sweep} show the state estimates over time for each combination.
+Four experimental runs were performed with distinct covariance combinations to characterise the sensitivity of the EKF to the $Q/R$ ratio. These configurations comprise the baseline $(Q, R)$ as specified in~\eqref{eq:tuned_Q}--\eqref{eq:tuned_R}, a high process noise case $(5Q, R)$, a high measurement noise case $(Q, 5R)$, and a configuration with both increased $(5Q, 5R)$. The resulting state estimates over time for each combination are shown in Figures~\ref{fig:state1_sweep}--\ref{fig:state3_sweep}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_state1_QR_sweep.pdf}
-	\caption{State estimate $\hat{x}_c$ over time for four $(Q,R)$ combinations.}
-	\label{fig:state1_sweep}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_state2_QR_sweep.pdf}
-	\caption{State estimate $\hat{y}_c$ over time for four $(Q,R)$ combinations.}
-	\label{fig:state2_sweep}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_state3_QR_sweep.pdf}
-	\caption{State estimate $\hat{\theta}$ over time for four $(Q,R)$ combinations.}
-	\label{fig:state3_sweep}
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_state1_QR_sweep.pdf}
+		\caption{$\hat{x}_c$}
+		\label{fig:state1_sweep}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_state2_QR_sweep.pdf}
+		\caption{$\hat{y}_c$}
+		\label{fig:state2_sweep}
+	\end{subfigure}
+	\par\medskip
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_state3_QR_sweep.pdf}
+		\caption{$\hat{\theta}$}
+		\label{fig:state3_sweep}
+	\end{subfigure}
+	\caption{State estimates over time for four $(Q,R)$ combinations: (a) $x$-position, (b) $y$-position, (c) heading.}
+	\label{fig:QR_sweep_all}
 \end{figure}
 
 \subsubsection{Influence of $Q$ and $R$ on Filter Behaviour}
 
-The experimental results confirm the expected trade-offs:
-\begin{itemize}
-	\item \textbf{Increasing $Q$}: The filter trusts the model less and responds more aggressively to measurements. Post-turn convergence is faster when sensors resume, but the estimate exhibits greater noise sensitivity during the straight-line phases.
-	\item \textbf{Increasing $R$}: The filter trusts measurements less and maintains smoother estimates. However, correction after the turn is slower, and lateral bias accumulates during the sensor blackout.
-	\item \textbf{Baseline $(Q,R)$}: Provides the optimal balance between responsiveness and smoothness. The estimates converge within acceptable bounds after the turn while maintaining stability during the straight-line phases.
-\end{itemize}
+The experimental results confirm the expected trade-offs. Increasing $Q$ causes the filter to trust the model less and respond more aggressively to measurements; post-turn convergence is faster when sensors resume, but the estimate exhibits greater noise sensitivity during the straight-line phases. Conversely, increasing $R$ causes the filter to trust measurements less, yielding smoother estimates at the cost of slower correction after the turn and accumulated lateral bias during the sensor blackout. The baseline $(Q,R)$ configuration provides the optimal balance between responsiveness and smoothness, with estimates converging within acceptable bounds after the turn while maintaining stability during the straight-line phases.
 
 \subsection{Uncertainty Evolution (3c)}
 
@@ -377,32 +347,32 @@ Figures~\ref{fig:state1_ci}--\ref{fig:state3_ci} show the state estimates with 9
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_state1_95ci_plotstates.pdf}
-	\caption{State estimate $\hat{x}_c$ with 95\% confidence interval (baseline $(Q,R)$).}
-	\label{fig:state1_ci}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_state2_95ci_plotstates.pdf}
-	\caption{State estimate $\hat{y}_c$ with 95\% confidence interval (baseline $(Q,R)$).}
-	\label{fig:state2_ci}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_state3_95ci_plotstates.pdf}
-	\caption{State estimate $\hat{\theta}$ with 95\% confidence interval (baseline $(Q,R)$).}
-	\label{fig:state3_ci}
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_state1_95ci_plotstates.pdf}
+		\caption{$\hat{x}_c$}
+		\label{fig:state1_ci}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_state2_95ci_plotstates.pdf}
+		\caption{$\hat{y}_c$}
+		\label{fig:state2_ci}
+	\end{subfigure}
+	\par\medskip
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_state3_95ci_plotstates.pdf}
+		\caption{$\hat{\theta}$}
+		\label{fig:state3_ci}
+	\end{subfigure}
+	\caption{State estimates with 95\% confidence intervals for the baseline $(Q,R)$ tuning: (a) $x$-position, (b) $y$-position, (c) heading.}
+	\label{fig:ci_all}
 \end{figure}
 
 \subsubsection{Uncertainty Evolution by Trajectory Phase}
 
-\textbf{Before the turn (both sensors active):} The measurement matrix $C_k$ has rank 2 (full row rank), providing observability for all three states. The covariance $P$ decreases rapidly as measurements correct the prediction. The confidence intervals tighten.
-
-\textbf{During the turn (sensors disabled):} With both sensors switched off, the correction step provides no information. Only the prediction step is active, causing $P$ to grow according to $P_{k+1|k} = A_k P_{k|k} A_k^T + Q$. The confidence intervals widen monotonically.
-
-\textbf{After the turn (front sensor only):} Only $z_1$ is available. The measurement matrix reduces to rank 1, providing direct observability only for the $y$-coordinate. Observability of $x$ and $\theta$ depends on the coupling through the motion model. The yaw variance decreases slowly; the $x$-variance remains elevated due to reduced direct observation.
+The uncertainty evolution exhibits distinct behaviour across the three trajectory phases. Before the turn, when both sensors are active, the measurement matrix $C_k$ has rank~2 (full row rank), providing observability for all three states; consequently, the covariance $P$ decreases rapidly as measurements correct the prediction and the confidence intervals tighten. During the turn, with both sensors switched off, the correction step provides no information and only the prediction step is active, causing $P$ to grow according to $P_{k+1|k} = A_k P_{k|k} A_k^T + Q$ and the confidence intervals to widen monotonically. After the turn, only the front sensor measurement $z_1$ is available; the measurement matrix reduces to rank~1, providing direct observability only for the $y$-coordinate. Observability of $x$ and $\theta$ depends on the coupling through the motion model, resulting in slow decrease of the yaw variance and elevated $x$-variance due to reduced direct observation.
 
 \subsubsection{Effect of Sensor Deactivation on Measurement Equations}
 
@@ -410,34 +380,31 @@ When both sensors are switched off, the measurement update is skipped entirely. 
 
 \subsubsection{Hypothetical: Sensors Remain Active During Turn}
 
-If the sensors were not deactivated during the turn, the measurement equations would change as follows:
-\begin{itemize}
-	\item The front sensor would transition from measuring distance to wall~1 ($y = 0$) to measuring distance to wall~2 ($x = 0$) as the cart rotates.
-	\item The side sensor would similarly change the wall it observes.
-	\item The wall parameters $(p_i, q_i, r_i)$ in the measurement model would need to be updated dynamically based on the cart's orientation and position, requiring knowledge of the environment geometry.
-\end{itemize}
+If the sensors were not deactivated during the turn, the measurement equations would change in a non-trivial manner. The front sensor would transition from measuring the distance to wall~1 ($y = 0$) to measuring the distance to wall~2 ($x = 0$) as the cart rotates, and the side sensor would similarly change the wall it observes. Consequently, the wall parameters $(p_i, q_i, r_i)$ in the measurement model would need to be updated dynamically based on the cart's orientation and position, requiring prior knowledge of the environment geometry. While this approach would maintain observability throughout the turn, it necessitates additional logic to determine which wall each sensor is measuring at any given time.
 
-\noindent This would maintain observability throughout the turn but requires additional logic to determine which wall each sensor is measuring at any given time.
+\subsection{Measurement Predictions and Confidence Intervals}
 
-\subsection{Measurement Confidence Intervals (3c continued)}
-
-Figures~\ref{fig:meas1_ci}--\ref{fig:meas2_ci} show the measurement predictions with 95\% confidence intervals for the baseline tuned run.
+Figures~\ref{fig:meas1_ci} and~\ref{fig:meas2_ci} show the measurement predictions with 95\% confidence intervals for the baseline tuned run.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_measurement1_95ci.pdf}
-	\caption{Front sensor measurement $z_1$ with 95\% confidence interval (baseline $(Q,R)$).}
-	\label{fig:meas1_ci}
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_measurement1_95ci.pdf}
+		\caption{Front sensor $z_1$}
+		\label{fig:meas1_ci}
+	\end{subfigure}\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/ekf_measurement2_95ci.pdf}
+		\caption{Side sensor $z_2$}
+		\label{fig:meas2_ci}
+	\end{subfigure}
+	\caption{Measurement predictions with 95\% confidence intervals for the baseline $(Q,R)$ tuning: (a) front sensor, (b) side sensor.}
+	\label{fig:meas_ci_all}
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\linewidth]{images/ekf_measurement2_95ci.pdf}
-	\caption{Side sensor measurement $z_2$ with 95\% confidence interval (baseline $(Q,R)$).}
-	\label{fig:meas2_ci}
-\end{figure}
-
-\noindent The 95\% bands reflect the tuned $R$ values. The bands widen during the turn when measurements are disabled and the filter relies solely on prediction. After the turn, only $z_1$ contributes to the correction, leaving residual uncertainty in states not directly observed by the front sensor.
+The 95\% bands reflect the tuned $R$ values. The bands widen during the turn when measurements are disabled and the filter relies solely on prediction. After the turn, only $z_1$ contributes to the correction, leaving residual uncertainty in states not directly observed by the front sensor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{State Feedback Controller Design (4)}
@@ -492,24 +459,13 @@ the MATLAB \texttt{dlqr} command computes the optimal feedback gain $K$. The str
 	\label{eq:K_structure}
 \end{equation}
 
-\noindent The zero entries arise from the decoupled structure of $B_d$: the forward velocity $v$ affects only the longitudinal error $e'_x$, while the rotational velocity $\omega$ affects the lateral error $e'_y$ (through $\theta$) and the heading error $e'_\theta$. The nonzero entries are:
-\begin{itemize}
-	\item $k_{11}$: gain from longitudinal error to forward velocity command.
-	\item $k_{22}$: gain from lateral error to rotational velocity command.
-	\item $k_{23}$: gain from heading error to rotational velocity command.
-\end{itemize}
+The zero entries arise from the decoupled structure of $B_d$: the forward velocity $v$ affects only the longitudinal error $e'_x$, while the rotational velocity $\omega$ affects the lateral error $e'_y$ (through $\theta$) and the heading error $e'_\theta$. The nonzero entry $k_{11}$ represents the gain from longitudinal error to the forward velocity command, $k_{22}$ represents the gain from lateral error to the rotational velocity command, and $k_{23}$ represents the gain from heading error to the rotational velocity command.
 
 \subsection{LQR Tuning (4c)}
 
 \subsubsection{Meaning of $Q_{\text{lqr}}$ and $R_{\text{lqr}}$}
 
-In the LQR design objective \eqref{eq:lqr_cost}:
-\begin{itemize}
-	\item $Q_{\text{lqr}}$ penalises deviation from the reference trajectory. Larger diagonal entries result in tighter tracking of the corresponding state at the expense of higher control effort.
-	\item $R_{\text{lqr}}$ penalises control effort. Larger diagonal entries result in smoother, smaller control inputs at the expense of slower convergence.
-\end{itemize}
-
-\noindent The trade-off is analogous to the $Q/R$ ratio in the EKF: high $Q_{\text{lqr}}/R_{\text{lqr}}$ yields aggressive tracking with large control signals; low ratio yields conservative control with larger tracking errors.
+In the LQR design objective~\eqref{eq:lqr_cost}, the weighting matrix $Q_{\text{lqr}}$ penalises deviation from the reference trajectory, with larger diagonal entries resulting in tighter tracking of the corresponding state at the expense of higher control effort. Conversely, $R_{\text{lqr}}$ penalises control effort, and larger diagonal entries yield smoother, smaller control inputs at the expense of slower convergence. The trade-off is analogous to the $Q/R$ ratio in the EKF: a high $Q_{\text{lqr}}/R_{\text{lqr}}$ ratio yields aggressive tracking with large control signals, while a low ratio yields conservative control with larger tracking errors.
 
 \subsubsection{Experimental Results}
 

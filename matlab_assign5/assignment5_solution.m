@@ -37,16 +37,16 @@ geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wal
 %  NOISE COVARIANCES & INITIAL STATE (PLACEHOLDERS TO TUNE)
 %  ========================================================================
 % Nominal EKF covariances (must match Arduino firmware: arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp)
-% Q scaled up to 1e-6 range to avoid overconfidence; R from empirical sensor scatter.
-Q_proc_base = diag([1e-6, 1e-6, 1e-6]);   % process noise (m^2, m^2, rad^2)
-R_meas_base = diag([1.2e-3, 1.3e-5]);     % measurement noise (m^2)
+% Tuned values from assignment5.tex eq. (14)-(15)
+Q_proc_base = diag([8e-9, 9e-8, 9e-7]);   % process noise (m^2, m^2, rad^2)
+R_meas_base = diag([0.0198, 0.09]);       % measurement noise (m^2)
 
 firmware_Q_scale = 1.0;      % keep unity so MATLAB/Arduino match exactly
 firmware_R_scale = 1.0;
 
 Q_proc_nom = Q_proc_base * firmware_Q_scale;
 R_meas_nom = R_meas_base * firmware_R_scale;
-P0_default = diag([1e-3, 1e-3, 7.6e-3]); % must match resetKalmanFilter() on Arduino
+P0_default = diag([1e-7, 1e-7, 1e-7]); % must match resetKalmanFilter() on Arduino (eq. 16)
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
 R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
 

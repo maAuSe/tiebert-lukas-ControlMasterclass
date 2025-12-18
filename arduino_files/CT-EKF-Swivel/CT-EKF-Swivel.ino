@@ -11,7 +11,7 @@ int update() {
 void setup() {
   System.setHAL(&robot);
   System.setCommunicator(robot.getCommunicator());
-  System.addThread(ABOVENORMAL, 10000, &updac:\Users\campa\Downloadste, false);
+  System.addThread(ABOVENORMAL, 10000, &update, false);
   System.start(SEQUENTIAL);
 }
 

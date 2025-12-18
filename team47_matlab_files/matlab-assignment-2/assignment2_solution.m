@@ -1,15 +1,6 @@
 %% Assignment 2 - Velocity control of the cart
-% Simplified procedural script for PI controller design and validation.
-% Covers sections 2(a), 2(b), and 2(c) of the report.
 
-clear; close all; clc;
-
-%% ========================================================================
-%  ARDUINO COEFFICIENT CALCULATION - RUN THIS SECTION FIRST
-%  ========================================================================
-%  This section computes the discrete PI controller coefficients.
-%  Copy the output to assignment2.cpp lines 13-18.
-%  ========================================================================
+clear; close all; clc; 
 
 %% Configuration
 Ts = 0.01;
@@ -24,7 +15,7 @@ if ~exist(texImageDir, 'dir')
     mkdir(texImageDir);
 end
 
-%% Motor models from .csvAssignment 1 (simplified 2nd-order model)
+%% Motor models from Assignment 1 (simplified 2nd-order model)
 % H(z) = b1 / (z^2 + a1*z)  =>  tf([b1], [1, a1, 0], Ts)
 wheelA_tf = tf([0.6309], [1, -0.6819, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel A
 wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplified model, filtered) - Wheel B
@@ -33,8 +24,13 @@ wheelB_tf = tf([0.6488], [1, -0.6806, 0], Ts); % DT transfer function (simplifie
 wheelA_cont = d2c(wheelA_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel A
 wheelB_cont = d2c(wheelB_tf, 'tustin'); % CT transfer function (simplified model, filtered) - Wheel B
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 1(b) - CONTROLLER DESIGN PROCESS AND DESIGN PARAMETERS CHOICES 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% Step 1: Bode plot of G(s) - Wheel A (determine w_c where phase = -110 deg (for 55 deg PM) )
-% This helps select the crossover frequency from plant characteristics
 fig = new_fig();
 bode(wheelA_cont);
 hold on;
@@ -67,9 +63,10 @@ grid on;
 save_plot(fig, texImageDir, 'bode_uncompensated_motorB');
 %close(fig);
 
-%% ========================================================================
-%  NOMINAL CONTROLLER (high bandwidth, ~60 rad/s crossover)
-%  ========================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  NOMINAL CONTROLLER (high bandwidth, 61.7 rad/s crossover)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
 %%% DETERMINE TARGET CROSS-OVER FREQUENCY %%%
 wc_nom = 61.7;  % target cross-over frequency - Wheel A  % target cross-over frequency - Wheel B
 Ti_nom = tand(90 - 15) / wc_nom      % integrator time constant (15 deg lag reserve)
@@ -105,17 +102,10 @@ T_nom_B = feedback(L_nom_B, 1) % DT closed-loop compensated system - Wheel B
 S_nom_B = feedback(1, L_nom_B); % Sensitivity TF
 U_nom_B = feedback(C_nom_disc_B, wheelB_tf); % Control effort TF
 
-fprintf('Nominal controller (Wheel A):\n');
-fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_A);
 [num_nom_A, den_nom_A] = tfdata(C_nom_disc_A, 'v');
-fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_A(1), num_nom_A(2));
-fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_A(1), den_nom_A(2));
 
-fprintf('Nominal controller (Wheel B):\n');
-fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_nom, Ti_nom, K_nom_B);
 [num_nom_B, den_nom_B] = tfdata(C_nom_disc_B, 'v');
-fprintf('  Discrete num: [%.6f, %.6f]\n', num_nom_B(1), num_nom_B(2));
-fprintf('  Discrete den: [%.6f, %.6f]\n', den_nom_B(1), den_nom_B(2));
+
 %% CT open-loop compensated systel without gain K - Wheel A ---> determine proportional gain K
 
 % Step 2: Bode plot of D(s)*G(s) with K=1 - determine gain K where |D*G| = 1 at w_c
@@ -137,7 +127,7 @@ save_plot(fig, texImageDir, 'bode_compensated_nominal_motorA');
 %close(fig);
 %% CT open-loop compensated system without gain K - Wheel B
 
-% Step 2: Bode plot of D(s)*G(s) with K=1 - determine gain K where |D*G| = 1 at w_c
+% Step 2: Bode plot of D(s)*G(s) with K=1 - wheel B - determine gain K where |D*G| = 1 at w_c
 fig = new_fig();
 bode(L_base_nom_B);
 hold on;
@@ -164,12 +154,10 @@ fig = new_fig();
 [mag_nom, phase_nom, w_nom] = bode(L_nom_A);
 margin(L_nom_A);
 hold on;
-%<<<<<<< HEAD
 title('Compensated open-loop system L(s) = D(s)*G_s(s) - Wheel A');
-%=======
 [Gm_nom, Pm_nom, Wcg_nom, Wcp_nom] = margin(L_nom_A);
 %title(sprintf('Compensated open-loop system L(s) = G_c(s)*G_s(s) - Wheel A');
-%>>>>>>> 1dab60c1f2fde19ada6001fe61199c432ffb7126
+
 % Add crossover frequency annotation
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
@@ -217,7 +205,7 @@ title('Compensated closed-loop system H(s) = L(s) / [1+L(s)] - Wheel A');
 save_plot(fig, texImageDir, 'closed_loop_bode_motorA');
 
 
-% Time-domain verification (Step Response)
+% Time-domain verification (step response)
 fig = new_fig();
 step(T_nom_A);
 grid on;
@@ -225,10 +213,6 @@ info_A = stepinfo(T_nom_A);
 dc_A = dcgain(T_nom_A);
 title(sprintf('Step response of H(s) - Wheel A\nt_r = %.3fs (< 0.5s), M_p = %.1f%% (< 20%%)', info_A.RiseTime, info_A.Overshoot));
 save_plot(fig, texImageDir, 'step_response_verification_motorA');
-fprintf('\nTime-domain verification (Wheel A):\n');
-fprintf('  Rise Time: %.4f s (Requirement: < 0.5 s)\n', info_A.RiseTime);
-fprintf('  Overshoot: %.4f %% (Requirement: < 20 %%)\n', info_A.Overshoot);
-fprintf('  DC Gain:   %.4f   (Target: 1.0 -> Zero SSE)\n', dc_A);
 %close(fig);
 
 %% Frequency-domain verification: DT closed-loop compensated system - Wheel B
@@ -240,7 +224,7 @@ title('Compensated closed-loop system H(s) - Wheel B');
 save_plot(fig, texImageDir, 'closed_loop_bode_motorB');
 
 
-% Time-domain verification (Step Response)
+% Time-domain verification (step response)
 fig = new_fig();
 step(T_nom_B);
 grid on;
@@ -248,10 +232,6 @@ info_B = stepinfo(T_nom_B);
 dc_B = dcgain(T_nom_B);
 title(sprintf('Step response of H(s) - Wheel B\nt_r = %.3fs (< 0.5s), M_p = %.1f%% (< 20%%)', info_B.RiseTime, info_B.Overshoot));
 save_plot(fig, texImageDir, 'step_response_verification_motorB');
-fprintf('\nTime-domain verification (Wheel B):\n');
-fprintf('  Rise Time: %.4f s (Requirement: < 0.5 s)\n', info_B.RiseTime);
-fprintf('  Overshoot: %.4f %% (Requirement: < 20 %%)\n', info_B.Overshoot);
-fprintf('  DC Gain:   %.4f   (Target: 1.0 -> Zero SSE)\n', dc_B);
 %close(fig);
 
 %% Frequency-domain verification: DT PI compensator - Wheel A
@@ -264,10 +244,6 @@ title('PI compensator D(s) - Wheel A');
 
 % Check PI zero requirement: w_z << w_c
 w_z = 1/Ti_nom;
-fprintf('\nChecking PI zero requirement (Wheel A):\n');
-fprintf('  w_z (1/Ti) = %.2f rad/s\n', w_z);
-fprintf('  w_c        = %.2f rad/s\n', wc_nom);
-fprintf('  Ratio      = %.2f (Target > 10 for "far below", >3 for typical design)\n', wc_nom / w_z);
 
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
@@ -289,12 +265,8 @@ title('PI compensator D(s) - Wheel B');
 
 % Check PI zero requirement: w_z << w_c
 w_z = 1/Ti_nom;
-fprintf('\nChecking PI zero requirement (Wheel B):\n');
-fprintf('  w_z (1/Ti) = %.2f rad/s\n', w_z);
-fprintf('  w_c        = %.2f rad/s\n', wc_nom);
-fprintf('  Ratio      = %.2f (Target > 10 for "far below", >3 for typical design)\n', wc_nom / w_z);
 
-% Check PI zero requirement (Visual)
+% Check PI zero requirement 
 ax = findall(fig, 'Type', 'axes');
 for i = 1:length(ax)
     axes(ax(i)); hold on;
@@ -304,9 +276,10 @@ end
 save_plot(fig, texImageDir, 'PI_compensator_motorB');
 %close(fig);
 
-%% ========================================================================
-%  LOW-BANDWIDTH CONTROLLER (~0.5 Hz = 3.14 rad/s crossover)
-%  ========================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  LOW-BANDWIDTH CONTROLLER (0.5 Hz = 3.14 rad/s crossover)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 wc_low = 2 * pi * 0.5;                % ~3.14 rad/s
 Ti_low = tand(90 - 15) / wc_low;
 
@@ -336,27 +309,9 @@ T_low_B = feedback(L_low_B, 1); % DT closed-loop compensated system
 S_low_B = feedback(1, L_low_B); % Sensitivity TF
 U_low_B = feedback(C_low_disc_B, wheelB_tf); % Control effort TF
 
-fprintf('\nLow-bandwidth controller (Wheel A):\n');
-fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low_A);
 [num_low_A, den_low_A] = tfdata(C_low_disc_A, 'v');
-fprintf('  Discrete num: [%.6f, %.6f]\n', num_low_A(1), num_low_A(2));
-fprintf('  Discrete den: [%.6f, %.6f]\n', den_low_A(1), den_low_A(2));
 
-fprintf('Low-bandwidth controller (Wheel B):\n');
-fprintf('  wc = %.2f rad/s, Ti = %.4f s, K = %.4f\n', wc_low, Ti_low, K_low_B);
 [num_low_B, den_low_B] = tfdata(C_low_disc_B, 'v');
-fprintf('  Discrete num: [%.6f, %.6f]\n', num_low_B(1), num_low_B(2));
-fprintf('  Discrete den: [%.6f, %.6f]\n', den_low_B(1), den_low_B(2));
-
-%% ========================================================================
-%  ARDUINO COEFFICIENTS - COPY THESE TO assignment2.cpp (lines 13-18)
-%  ========================================================================
-fprintf('\n=== COPY TO assignment2.cpp ===\n\n');
-fprintf('  coeffsA[MODE_NOMINAL]  = {%.6ff, %.6ff, 1.0f};\n', num_nom_A(1), num_nom_A(2));
-fprintf('  coeffsB[MODE_NOMINAL]  = {%.6ff, %.6ff, 1.0f};\n', num_nom_B(1), num_nom_B(2));
-fprintf('  coeffsA[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_A(1), num_low_A(2));
-fprintf('  coeffsB[MODE_LOW_BAND] = {%.6ff, %.6ff, 1.0f};\n', num_low_B(1), num_low_B(2));
-fprintf('\n================================\n');
 
 % Step 2 (Low-BW): Bode plot of D(s)*G(s) with K=1 - determine gain K
 fig = new_fig();
@@ -414,19 +369,11 @@ save_plot(fig, texImageDir, 'open_loop_bode_lowband_motorB');
 %close(fig);
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%
-%%%%%% PART 2 %%%%%%
-%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 2(a) - FLAT GROUND STEP RESPONSE VALIDATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%% ========================================================================
-%  SECTION 2(a): Flat ground step response
-%  ========================================================================
 csvfile_flat = fullfile(dataDir, 'cart_flat_step3.csv');
 if isfile(csvfile_flat)
     raw_flat = readmatrix(csvfile_flat, 'NumHeaderLines', 2);
@@ -502,14 +449,15 @@ else
     fprintf('[INFO] Flat ground data not found: %s\n', csvfile_flat);
 end
 
-%% ========================================================================
-%  SECTION 2(b): Incline with nominal controller
-%  ========================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 2(b) - STEADY-STATE PERFORMANCE UNDER CONSTANT FORCE DISTURBANCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 csvfile_incline = fullfile(dataDir, 'cart_incline_nominal.csv');
 if isfile(csvfile_incline)
     raw_inc = readmatrix(csvfile_incline, 'NumHeaderLines', 2);
-    raw_inc = raw_inc(71:371, :);  % Clip to relevant range
-    t_inc = 0:Ts:3; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_inc = raw_inc(71:371, :); 
+    t_inc = 0:Ts:3; 
     ref_inc = raw_inc(:, 2);
     speedA_inc = raw_inc(:, 3);
     speedB_inc = raw_inc(:, 4);
@@ -580,14 +528,15 @@ else
     fprintf('[INFO] Incline nominal data not found: %s\n', csvfile_incline);
 end
 
-%% ========================================================================
-%  SECTION 2(c): Incline comparison - nominal vs low-bandwidth
-%  ========================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 2(c) -  LOW-BANDWIDTH CONTROLLER VALIDATION UNDER CONSTANT FORCE DISTURBANCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+
 csvfile_incline_low = fullfile(dataDir, 'cart_incline_lowband.csv');
 if isfile(csvfile_incline) && isfile(csvfile_incline_low)
     raw_low = readmatrix(csvfile_incline_low, 'NumHeaderLines', 2);
-    raw_low = raw_low(331:631, :);  % Clip to relevant range
-    t_low = 0:Ts:3; %(raw_flat(:,1) - raw_flat(1,1)) * 1e-3;
+    raw_low = raw_low(331:631, :);  
+    t_low = 0:Ts:3; 
     ref_low = raw_low(:, 2);
     speedA_low = raw_low(:, 3);
     speedB_low = raw_low(:, 4);
@@ -683,13 +632,11 @@ end
 fprintf('Done.\n');
 
 function fig = new_fig()
-% Helper to create an invisible figure for batch export.
 fig = figure('Visible', 'on', 'Color', 'w');
 drawnow;
 end
 
 function save_plot(figHandle, outDir, baseName)
-% Export figure to the LaTeX images directory as vector PDF via print.
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end

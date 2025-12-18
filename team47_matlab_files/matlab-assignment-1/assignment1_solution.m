@@ -1,11 +1,13 @@
+%% Assignment 1 - Identification of the cart
+
 clear all
 close all
 clear global
 clc
 
-
-%% 2.1.2 Loading, plotting and noise detection
-% -------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 2(a) - EXCITATION SIGNAL SELECTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % plot time domain data
 %load assignment1_data.m
@@ -18,9 +20,11 @@ points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;
 timeVectorInSec= [0:0.01:27.99]' ;
 timeVectorToPlot = timeVectorInSec;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 %%% FIGURE 1: input voltage plotted over time
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 figure(1),hold on
 sgtitle('Excitation voltage to motors')
 plot(timeVectorInSec, voltage, 'LineWidth', 1)
@@ -30,9 +34,9 @@ xlabel('t [s]')
 ylabel('voltage [V]')
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%% FIGURE 2: outputs omegaA,omegaB plotted over time
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 figure(2),hold on
 sgtitle('Measured output data in time domain')
 
@@ -68,9 +72,10 @@ dvoltage_matrix = voltage_matrix - repmat(voltage_mean,1,num_periods);
 
 % plotting some interesting comparisons
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %%% FIGURE 3: omegaA,omegaB,voltage noise plotted over 1 period 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 figure(3),hold on
 sgtitle('Comparison across periods to assess noise')
 
@@ -110,8 +115,11 @@ axis tight
 xlabel('t  [s]')
 ylabel('\Delta voltage [V]')
 
-%% 2.1.3 LLS without data filtering
-% -------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 2(b) - PARAMETER ESTIMATION AND MODEL VALIDATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % assume the model to have the same shape of the discrete model we obtained
 
 % H(z) = (b1 z + b2)/(z^3 + a1 z^2 + a2 z)
@@ -161,9 +169,9 @@ fprintf('RMS error (omegaA vs. model): %.4f rad/s\n', omegaA_rms_error);
 fprintf('RMS error (omegaB vs. model): %.4f rad/s\n', omegaB_rms_error);
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 4: omegaA experiments vs. model %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% FIGURE 4: omegaA experiments vs. model 
+
 figure(4), hold on
 sgtitle('LLS without low-pass filtering (motor A)')
 
@@ -181,9 +189,10 @@ xlabel('time [s]')
 ylabel('omegaA-error [rad/s]')
 axis tight
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 5: omegaB experiments vs. model %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% FIGURE 5: omegaB experiments vs. model 
+
 figure(5), hold on
 sgtitle('LLS without low-pass filtering (motor B)')
 
@@ -227,9 +236,9 @@ wd1_B = abs(imag(pc1_B(1)));
 [wn1_B,zeta1_B] = damp(sys_c1_B);
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 6: step response of the CT system (motor A) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% FIGURE 6: step response of the CT system (motor A) 
+
 figure(6)
 step(sys_d1_A), grid  
 xlabel('time')
@@ -237,9 +246,9 @@ ylabel('step response [-]')
 title('Step response of the CT system (motor A)')
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 7: step response of the CT system motor B %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% FIGURE 7: step response of the CT system motor B 
+
 figure(7)
 step(sys_d1_B), grid  
 xlabel('time')
@@ -247,9 +256,9 @@ ylabel('step response [-]')
 title('Step response of the CT system (motor B)')
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 8: omegaA averaged over the periods %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% FIGURE 8: omegaA averaged over the periods 
+
 figure(8)
 sgtitle('Velocity of wheel A averaged over the periods')
 plot(timeVectorToPlot(1:points_per_period),omegaA_mean) 
@@ -258,9 +267,9 @@ ylabel('omegaA-mean [rad/s]')
 grid
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 9: omegaB averaged over the periods %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% FIGURE 9: omegaB averaged over the periods 
+
 figure(9)
 sgtitle('Velocity of wheel B averaged over the periods')
 plot(timeVectorToPlot(1:points_per_period),omegaB_mean) 
@@ -314,11 +323,10 @@ y_ss1_model_B = Numc1_B(end)/Denc1_B(end); % DC gain of CT model motor B (evalua
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 2(c) - VERIFICATION OF DATA FILTERING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-%% 2.1.4 LLS with low-pass filter applied to the input and output data
-% -------------------------------------------------------------------
 % identify two filtered models: cutoff at 20 Hz and 35 Hz
 cutoff_freq_20 = 20;  % Hz
 cutoff_freq_35 = 35;  % Hz
@@ -397,15 +405,9 @@ omegaA_rms_error_model35 = sqrt(mean((omegaA - omegaA_model35_measured).^2));
 omegaB_rms_error_model20 = sqrt(mean((omegaB - omegaB_model20_measured).^2));
 omegaB_rms_error_model35 = sqrt(mean((omegaB - omegaB_model35_measured).^2));
 
-fprintf('RMS error (omegaA vs. model 2(c) with 20 Hz cutoff on measured input): %.4f rad/s\n', omegaA_rms_error_model20);
-fprintf('RMS error (omegaA vs. model 2(c) with 35 Hz cutoff on measured input): %.4f rad/s\n', omegaA_rms_error_model35);
-fprintf('RMS error (omegaB vs. model 2(c) with 20 Hz cutoff on measured input): %.4f rad/s\n', omegaB_rms_error_model20);
-fprintf('RMS error (omegaB vs. model 2(c) with 35 Hz cutoff on measured input): %.4f rad/s\n', omegaB_rms_error_model35);
 
+%%% FIGURE 10: measured response vs. models (motor A) 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 10: measured response vs. models (motor A) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 omegaA_err_unfilt = omegaA - omegaA_model;
 omegaA_err_20     = omegaA - omegaA_model20_measured;
 omegaA_err_35     = omegaA - omegaA_model35_measured;
@@ -433,9 +435,9 @@ ylabel('omegaA error [rad/s]')
 axis tight
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 11: measured response vs. models (motor B) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% FIGURE 11: measured response vs. models (motor B) 
+
 omegaB_err_unfilt = omegaB - omegaB_model;
 omegaB_err_20     = omegaB - omegaB_model20_measured;
 omegaB_err_35     = omegaB - omegaB_model35_measured;
@@ -487,20 +489,19 @@ wd2_B = abs(imag(pc2_B(2)));
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 16: step response of the CT system (filtered model, motor A) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(16)
+%%% FIGURE 12: step response of the CT system (filtered model, motor A) 
+
+figure(12)
 step(sys_d2_A35);grid
 xlabel('time')
 ylabel('step response [-]')
 title('Step response of the CT system (filtered model, motor A)')
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FIGURE 17: step response of the CT system (filtered model, motor B) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure(17)
+
+%%% FIGURE 13: step response of the CT system (filtered model, motor B) 
+
+figure(13)
 step(sys_d2_B35);grid
 xlabel('time')
 ylabel('step response [-]')

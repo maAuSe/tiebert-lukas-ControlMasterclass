@@ -172,8 +172,9 @@ The continuous-time state equation \eqref{eq:state_equation} is discretised usin
 	+ \mathbf{w}_k,
 	\label{eq:discrete_state}
 \end{equation}
-where $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, Q)$ represents additive process noise. \\ \\
-The measurement equation, being algebraic rather than differential, requires no discretisation:
+where $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, Q)$ represents additive process noise.
+
+\noindent The measurement equation, being algebraic rather than differential, requires no discretisation:
 \begin{equation}
 	\mathbf{z}_k = h(\boldsymbol{\xi}_k) + \mathbf{v}_k, \qquad \mathbf{v}_k \sim \mathcal{N}(\mathbf{0}, R).
 	\label{eq:discrete_measurement}
@@ -252,8 +253,9 @@ Substituting $(p_1, q_1) = (0, 1)$ and $(p_2, q_2) = (1, 0)$ into \eqref{eq:jaco
 
 \subsubsection{Fundamental differences}
 
-The \textbf{linear Kalman filter} assumes that both the process model and measurement model are linear (or have been linearised about a fixed operating point). All prediction and correction steps use constant matrices $A$, $B$, and $C$. This approach is optimal (in the minimum mean-squared error sense) when the underlying system is truly linear and the noise distributions are Gaussian. \\ \\
-The \textbf{extended Kalman filter} applies to nonlinear systems by linearising the process and measurement models at each time step around the current state estimate. The Jacobians $A_k$, $B_k$, and $C_k$ are recomputed at every iteration. The prediction step uses the full nonlinear model $f(\cdot)$ to propagate the state estimate, while the covariance propagation uses the linearised Jacobian $A_k$.
+The \textbf{linear Kalman filter} assumes that both the process model and measurement model are linear (or have been linearised about a fixed operating point). All prediction and correction steps use constant matrices $A$, $B$, and $C$. This approach is optimal (in the minimum mean-squared error sense) when the underlying system is truly linear and the noise distributions are Gaussian.
+
+\noindent The \textbf{extended Kalman filter} applies to nonlinear systems by linearising the process and measurement models at each time step around the current state estimate. The Jacobians $A_k$, $B_k$, and $C_k$ are recomputed at every iteration. The prediction step uses the full nonlinear model $f(\cdot)$ to propagate the state estimate, while the covariance propagation uses the linearised Jacobian $A_k$.
 
 \subsubsection{Noise considerations}
 
@@ -278,8 +280,8 @@ The measurement noise covariance $R$ accounts for uncertainty in the IR range me
 \subsubsection{Interpretation of $Q$ and $R$}
 
 The process noise covariance $Q = \operatorname{diag}(q_x, q_y, q_\theta)$ quantifies the expected variance of the state perturbation per time step. Larger values of $Q$ indicate lower confidence in the model prediction, causing the filter to weight measurements more heavily. The measurement noise covariance $R = \operatorname{diag}(r_1, r_2)$ quantifies the expected variance of the sensor readings. Larger values of $R$ indicate lower confidence in the measurements, causing the filter to rely more on the model prediction.
-\\ \\
-The ratio $Q/R$ governs the filter bandwidth: a high ratio yields fast convergence to measurements but amplifies sensor noise; a low ratio yields smooth estimates but slow response to actual state changes.
+
+\noindent The ratio $Q/R$ governs the filter bandwidth: a high ratio yields fast convergence to measurements but amplifies sensor noise; a low ratio yields smooth estimates but slow response to actual state changes.
 
 \subsubsection{Initial state estimate covariance $\hat{P}_{0|0}$ }
 
@@ -471,26 +473,30 @@ Four LQR tuning configurations were tested experimentally, differing in their $Q
 	\item \textbf{LQR-C} (doubled input penalty): $Q_{\text{lqr}} = \operatorname{diag}(16, 16, 4)$, $R_{\text{lqr}} = \operatorname{diag}(0.2, 0.2)$
 	\item \textbf{LQR-D} (aggressive): $Q_{\text{lqr}} = \operatorname{diag}(64, 64, 16)$, $R_{\text{lqr}} = \operatorname{diag}(0.05, 0.05)$
 \end{itemize}
-No feedforward signals were applied; the closed-loop system relied exclusively on state feedback. The resulting tracking errors in the world frame and body frame are shown in Figures~\ref{fig:lqr_errors_world} and~\ref{fig:lqr_errors_body}, respectively. The corresponding control signals are shown in Figure~\ref{fig:lqr_control}.
+No feedforward signals were applied; the closed-loop system relied exclusively on state feedback. The resulting tracking errors in the world frame and body frame are shown in Figure~\ref{fig:lqr_errors}, and the corresponding control signals are shown in Figure~\ref{fig:lqr_control}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\linewidth]{images/lqr_tracking_errors_world.pdf}
-	\caption{World-frame tracking errors $e_x$, $e_y$, $e_\theta$ for four LQR tuning configurations. The trajectory comprises an initial transient, a straight segment ($t < 5$~s), a $90^\circ$ turn ($5 < t < 9$~s), and a final straight segment ($t > 9$~s).}
-	\label{fig:lqr_errors_world}
+	\begin{subfigure}[t]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/lqr_tracking_errors_world.pdf}
+		\caption{World frame ($e_x$, $e_y$, $e_\theta$)}
+		\label{fig:lqr_errors_world}
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/lqr_tracking_errors_body.pdf}
+		\caption{Body frame ($e'_x$, $e'_y$, $e'_\theta$)}
+		\label{fig:lqr_errors_body}
+	\end{subfigure}
+	\caption{Tracking errors for four LQR tuning configurations. The trajectory comprises a straight segment ($t < 5$~s), a $90^\circ$ turn ($5 < t < 9$~s), and a final straight segment.}
+	\label{fig:lqr_errors}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\linewidth]{images/lqr_tracking_errors_body.pdf}
-	\caption{Body-frame tracking errors $e'_x$, $e'_y$, $e'_\theta$ for the same four LQR configurations. These errors are the inputs to the LQR controller after the rotation~\eqref{eq:rotation_matrix}.}
-	\label{fig:lqr_errors_body}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.95\linewidth]{images/lqr_control_signals.pdf}
-	\caption{Control signals $v$ and $\omega$ for the four LQR configurations. The signals reflect the feedback corrections applied to track the reference trajectory.}
+	\includegraphics[width=0.65\linewidth]{images/lqr_control_signals.pdf}
+	\caption{Control signals $v$ and $\omega$ for the four LQR configurations.}
 	\label{fig:lqr_control}
 \end{figure}
 

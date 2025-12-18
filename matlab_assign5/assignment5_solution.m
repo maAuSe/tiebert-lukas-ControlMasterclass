@@ -633,16 +633,18 @@ end
 function plotLqrTracking(trackingRuns, imgDir)
 % Plot tracking errors (world + body frames) and control signals for LQR tuning sweep.
 % Black & white compatible: uses distinct line styles and markers for print clarity.
+% Square aspect ratio figures for side-by-side LaTeX layout.
   lineStyles = {'-', '--', ':', '-.'};
   markers    = {'none', 'o', 's', '^'};
-  markerStep = 120;  % sparse markers to avoid clutter
+  markerStep = 100;  % sparse markers to avoid clutter
   nRuns = numel(trackingRuns);
 
-  % World-frame errors
-  figW = figure('Name','LQR Errors (world frame)','Position',[100 100 1100 700]);
+  % World-frame errors (square figure)
+  figW = figure('Name','LQR Errors (world frame)','Position',[100 100 520 560]);
+  tiledlayout(3,1,'TileSpacing','compact','Padding','compact');
   errNamesW = {'e_x [m]','e_y [m]','e_\theta [rad]'};
   for idx = 1:3
-    subplot(3,1,idx); hold on; grid on;
+    nexttile; hold on; grid on;
     for k = 1:nRuns
       styleIdx = mod(k-1, numel(lineStyles)) + 1;
       markIdx  = mod(k-1, numel(markers)) + 1;
@@ -650,19 +652,24 @@ function plotLqrTracking(trackingRuns, imgDir)
       plot(t, trackingRuns(k).err_world(:,idx), ...
            'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
            'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
-           'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
+           'MarkerSize', 3, 'LineWidth', 1.1, 'DisplayName', trackingRuns(k).label);
     end
-    ylabel(errNamesW{idx});
-    if idx == 1, title('Tracking errors (world frame)'); end
-    if idx == 3, xlabel('Time [s]'); legend('Location','bestoutside'); end
+    ylabel(errNamesW{idx}, 'FontSize', 9);
+    set(gca, 'FontSize', 8);
+    if idx == 3
+      xlabel('Time [s]', 'FontSize', 9);
+      lgd = legend('Location','southeast','FontSize',7);
+      lgd.ItemTokenSize = [12,8];
+    end
   end
   exportgraphics(figW, fullfile(imgDir, 'lqr_tracking_errors_world.pdf'), 'ContentType','vector');
 
-  % Body-frame errors (as used by the controller)
-  figB = figure('Name','LQR Errors (body frame)','Position',[100 100 1100 700]);
+  % Body-frame errors (square figure)
+  figB = figure('Name','LQR Errors (body frame)','Position',[100 100 520 560]);
+  tiledlayout(3,1,'TileSpacing','compact','Padding','compact');
   errNamesB = {'e_{x''} [m]','e_{y''} [m]','e_\theta [rad]'};
   for idx = 1:3
-    subplot(3,1,idx); hold on; grid on;
+    nexttile; hold on; grid on;
     for k = 1:nRuns
       styleIdx = mod(k-1, numel(lineStyles)) + 1;
       markIdx  = mod(k-1, numel(markers)) + 1;
@@ -670,17 +677,22 @@ function plotLqrTracking(trackingRuns, imgDir)
       plot(t, trackingRuns(k).err_body(:,idx), ...
            'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
            'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
-           'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
+           'MarkerSize', 3, 'LineWidth', 1.1, 'DisplayName', trackingRuns(k).label);
     end
-    ylabel(errNamesB{idx});
-    if idx == 1, title('Tracking errors (body frame)'); end
-    if idx == 3, xlabel('Time [s]'); legend('Location','bestoutside'); end
+    ylabel(errNamesB{idx}, 'FontSize', 9);
+    set(gca, 'FontSize', 8);
+    if idx == 3
+      xlabel('Time [s]', 'FontSize', 9);
+      lgd = legend('Location','southeast','FontSize',7);
+      lgd.ItemTokenSize = [12,8];
+    end
   end
   exportgraphics(figB, fullfile(imgDir, 'lqr_tracking_errors_body.pdf'), 'ContentType','vector');
 
-  % Control signals
-  figU = figure('Name','LQR Inputs','Position',[100 100 1100 500]);
-  subplot(2,1,1); hold on; grid on;
+  % Control signals (compact figure)
+  figU = figure('Name','LQR Inputs','Position',[100 100 600 380]);
+  tiledlayout(2,1,'TileSpacing','compact','Padding','compact');
+  nexttile; hold on; grid on;
   for k = 1:nRuns
     styleIdx = mod(k-1, numel(lineStyles)) + 1;
     markIdx  = mod(k-1, numel(markers)) + 1;
@@ -688,12 +700,13 @@ function plotLqrTracking(trackingRuns, imgDir)
     plot(t, trackingRuns(k).u(:,1), ...
          'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
          'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
-         'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
+         'MarkerSize', 3, 'LineWidth', 1.1, 'DisplayName', trackingRuns(k).label);
   end
-  ylabel('v [m/s]');
-  title('Control signals');
-  legend('Location','bestoutside');
-  subplot(2,1,2); hold on; grid on;
+  ylabel('v [m/s]', 'FontSize', 9);
+  set(gca, 'FontSize', 8);
+  lgd = legend('Location','northeast','FontSize',7);
+  lgd.ItemTokenSize = [12,8];
+  nexttile; hold on; grid on;
   for k = 1:nRuns
     styleIdx = mod(k-1, numel(lineStyles)) + 1;
     markIdx  = mod(k-1, numel(markers)) + 1;
@@ -701,8 +714,10 @@ function plotLqrTracking(trackingRuns, imgDir)
     plot(t, trackingRuns(k).u(:,2), ...
          'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
          'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
-         'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
+         'MarkerSize', 3, 'LineWidth', 1.1, 'DisplayName', trackingRuns(k).label);
   end
-  ylabel('\omega [rad/s]'); xlabel('Time [s]');
+  ylabel('\omega [rad/s]', 'FontSize', 9);
+  xlabel('Time [s]', 'FontSize', 9);
+  set(gca, 'FontSize', 8);
   exportgraphics(figU, fullfile(imgDir, 'lqr_control_signals.pdf'), 'ContentType','vector');
 end

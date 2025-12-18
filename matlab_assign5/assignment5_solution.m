@@ -103,24 +103,28 @@ Bd      = [-Ts, 0;
            0,   0;
            0,  -Ts];
 
-Q_lqr = diag([4, 4, 0.8]);            % placeholder state penalty
-R_lqr = diag([0.4, 0.4]);             % placeholder input penalty
-K_dlqr = dlqr(Ad, Bd, Q_lqr, R_lqr);  % dlqr returns K for u = -K*x convention
+Q_lqr_A = diag([16, 16, 4]);
+R_lqr_A = diag([0.1, 0.1]);
 
-% IMPORTANT: Firmware uses u = K*e', so negate K_dlqr for Arduino!
-K_firmware = -K_dlqr;                 % Copy these values to robot.cpp
+lqrRuns = [ ...
+  struct('label','LQR-A','Q',Q_lqr_A,          'R',R_lqr_A,            'file',fullfile(dataDir,'lqr_A.csv')); ...
+  struct('label','LQR-B','Q',Q_lqr_A*2,        'R',R_lqr_A,            'file',fullfile(dataDir,'lqr_B.csv')); ...
+  struct('label','LQR-C','Q',Q_lqr_A,          'R',R_lqr_A*2,          'file',fullfile(dataDir,'lqr_C.csv')); ...
+  struct('label','LQR-D','Q',Q_lqr_A*4,        'R',R_lqr_A*0.5,        'file',fullfile(dataDir,'lqr_D.csv'))  ...
+];
+
+lqrActiveIdx = 4;
+Q_lqr = lqrRuns(lqrActiveIdx).Q;
+R_lqr = lqrRuns(lqrActiveIdx).R;
+K_dlqr = dlqr(Ad, Bd, Q_lqr, R_lqr);
+
+K_firmware = -K_dlqr;
+fprintf('Active LQR run: %s\n', lqrRuns(lqrActiveIdx).label);
 fprintf('K_firmware (copy to Arduino):\n');
 fprintf('  _Klqr = {%.4ff, %.4ff, %.4ff,\n', K_firmware(1,1), K_firmware(1,2), K_firmware(1,3));
 fprintf('           %.4ff, %.4ff, %.4ff};\n', K_firmware(2,1), K_firmware(2,2), K_firmware(2,3));
 
-K_lqr = K_dlqr;  % Keep original for MATLAB analysis (uses standard convention)
-
-lqrRuns = [ ...
-  struct('label','LQR-A','Q',Q_lqr,          'R',R_lqr,            'file',fullfile(dataDir,'lqr_A.csv')); ...
-  struct('label','LQR-B','Q',Q_lqr*2,        'R',R_lqr,            'file',fullfile(dataDir,'lqr_B.csv')); ...
-  struct('label','LQR-C','Q',Q_lqr,          'R',R_lqr*2,          'file',fullfile(dataDir,'lqr_C.csv')); ...
-  struct('label','LQR-D','Q',Q_lqr*4,        'R',R_lqr*0.5,        'file',fullfile(dataDir,'lqr_D.csv'))  ...
-];
+K_lqr = K_dlqr;
 
 %% ========================================================================
 %  EKF DATA PROCESSING (IF FILES AVAILABLE)

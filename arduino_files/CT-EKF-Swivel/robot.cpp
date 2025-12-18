@@ -134,12 +134,12 @@ void Robot::resetController(){
 
 void Robot::resetLqrController() {
   // LQR gain matrix K (2x3) from dlqr(Ad, Bd, Q_lqr, R_lqr)
-  // Computed in MATLAB: Q_lqr = diag([4, 4, 0.8]), R_lqr = diag([0.4, 0.4])
+  // Computed in MATLAB: Q_lqr = diag([16, 16, 4]), R_lqr = diag([0.1, 0.1])
   // IMPORTANT: dlqr returns K for u = -K*x, but we use u = K*e', so NEGATE!
   // K_firmware = -K_dlqr
-  // UPDATE THESE VALUES when tuning in MATLAB!
-  _Klqr = {3.1127f, 0.0f, 0.0f,
-           0.0f, -3.1393f, 1.4483f};
+  // Aggressive tuning: ~4x gains for faster tracking
+  _Klqr = {29.9450f, -0.0000f, -0.0000f,
+           -0.0000f, -32.7134f, 16.3999f};
   _errorBody.Fill(0);
 }
 

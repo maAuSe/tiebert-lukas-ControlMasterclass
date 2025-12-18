@@ -33,7 +33,7 @@ Workflow to collect LQR tracking data for `specs_assignment5.md` Section 4c, pro
 ## 1. LQR Tracking Experiments (Spec 4c)
 Goal: closed-loop tracking of the **same reference trajectory** as in the EKF experiment, with different LQR weightings `Q_lqr, R_lqr`, **without feedforward** for these tests.
 
-> **FIRMWARE STATUS**: LQR feedback is now fully implemented in `robot.cpp`. All configuration is centralized in `extended_kalman_filter.cpp`.
+> **FIRMWARE STATUS**: LQR feedback is implemented in `robot.cpp` (see `resetLqrController()`). EKF configuration lives in `extended_kalman_filter.cpp`.
 
 ### 1.1 Firmware Configuration
 
@@ -41,8 +41,8 @@ The LQR gains are set directly in `arduino_files/CT-EKF-Swivel/robot.cpp` in `re
 
 ```cpp
 // LQR gain matrix K (2x3) from dlqr(Ad, Bd, Q_lqr, R_lqr)
-_Klqr = {-3.1127f, 0.0f, 0.0f,
-          0.0f, 3.1393f, -1.4483f};
+_Klqr = {11.8744f, 0.0f, 0.0f,
+          0.0f, -12.2530f, 6.1676f};
 ```
 
 The firmware is **feedback-only** (no feedforward). This matches spec 4c requirements.
@@ -53,8 +53,8 @@ The firmware is **feedback-only** (no feedforward). This matches spec 4c require
 2. Set `Q_lqr` and `R_lqr` for the current run:
    ```matlab
    % Run A: baseline
-   Q_lqr = diag([4, 4, 0.8]);      % penalize position/heading errors
-   R_lqr = diag([0.4, 0.4]);       % penalize control effort
+   Q_lqr = diag([16, 16, 4]);      % penalize position/heading errors
+   R_lqr = diag([0.1, 0.1]);       % penalize control effort
    K_dlqr = dlqr(Ad, Bd, Q_lqr, R_lqr);
    K_firmware = -K_dlqr;           % NEGATE! See note below.
    disp(K_firmware);               % Copy these values to firmware
@@ -71,10 +71,10 @@ The firmware is **feedback-only** (no feedforward). This matches spec 4c require
 
 | Run   | Q_lqr                    | R_lqr              | Expected Behavior                    |
 |-------|--------------------------|--------------------|------------------------------------- |
-| **A** | `diag([4, 4, 0.8])`      | `diag([0.4, 0.4])` | Baseline: balanced tracking          |
-| **B** | `diag([8, 8, 1.6])`      | `diag([0.4, 0.4])` | Higher state penalty → faster conv.  |
-| **C** | `diag([4, 4, 0.8])`      | `diag([0.8, 0.8])` | Higher input penalty → slower/smooth |
-| **D** | `diag([16, 16, 3.2])`    | `diag([0.2, 0.2])` | Aggressive: fast but may overshoot   |
+| **A** | `diag([16, 16, 4])`      | `diag([0.1, 0.1])` | Baseline (current): aggressive/fast  |
+| **B** | `diag([32, 32, 8])`      | `diag([0.1, 0.1])` | Higher state penalty → faster conv.  |
+| **C** | `diag([16, 16, 4])`      | `diag([0.2, 0.2])` | Higher input penalty → slower/smooth |
+| **D** | `diag([64, 64, 16])`     | `diag([0.05, 0.05])` | Very aggressive: fast but may overshoot/saturate |
 
 ### 1.4 Physical Execution Checklist (Per LQR Run)
 

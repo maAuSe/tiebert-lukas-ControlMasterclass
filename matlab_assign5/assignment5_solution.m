@@ -28,9 +28,11 @@ alpha = 0.075;      % m, front IR along X' from cart center to sensor
 beta  = 0.065;      % m, side IR longitudinal offset from center
 gamma = 0.078;      % m, side IR lateral offset from center (positive to left)
 
-% Walls p*x + q*y = r. Default: corner at (0,0), cart starts in x<0, y<0.
-wall1 = [0, 1, 0];  % y = 0 (front wall W1)
-wall2 = [1, 0, 0];  % x = 0 (side wall W2)
+% Walls p*x + q*y = r. Corner at (0,0), cart starts in x<0, y<0 facing +X.
+% W1: front sensor measures to wall x=0 (AHEAD of robot)
+% W2: side sensor measures to wall y=0 (to the LEFT of robot)
+wall1 = [1, 0, 0];  % x = 0 (front wall W1)
+wall2 = [0, 1, 0];  % y = 0 (side wall W2)
 geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wall2);
 
 %% ========================================================================

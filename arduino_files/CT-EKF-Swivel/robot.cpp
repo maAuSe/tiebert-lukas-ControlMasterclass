@@ -40,6 +40,7 @@ void Robot::control() {
   float volt_B = 0.0f;
   Matrix<2> measurements; measurements.Fill(0);
   const bool hasMeas = trajectory.hasMeasurements();
+  const bool trajectoryEnabled = _button_states[2];
 
   const float speedA = getSpeedMotorA();
   const float speedB = getSpeedMotorB();
@@ -66,12 +67,17 @@ void Robot::control() {
   const float y_ref     = trajectory.Y();
   const float theta_ref = trajectory.Theta();
 
-  // Compute body-frame tracking error for LQR (spec 4a)
-  computeBodyFrameError(x_ref, y_ref, theta_ref, _xhat(0), _xhat(1), _xhat(2), _errorBody);
-
-  // LQR state feedback: u = K * e' (spec 4c, feedback-only)
   Matrix<2> uApplied;
-  uApplied = _Klqr * _errorBody;
+  uApplied.Fill(0);
+  if(trajectoryEnabled) {
+    // Compute body-frame tracking error for LQR (spec 4a)
+    computeBodyFrameError(x_ref, y_ref, theta_ref, _xhat(0), _xhat(1), _xhat(2), _errorBody);
+
+    // LQR state feedback: u = K * e' (spec 4c, feedback-only)
+    uApplied = _Klqr * _errorBody;
+  } else {
+    _errorBody.Fill(0);
+  }
 
   if(controlEnabled()) {
     // Map cart velocities to wheel angular velocities (rad/s)

@@ -14,9 +14,11 @@ constexpr float kGamma = 0.078f;  // lateral offset of side sensor from cart cen
 constexpr float kQScale = 1.0f;
 constexpr float kRScale = 1.0f;
 
-// Walls: p*x + q*y = r  (default: W1 is y=0, W2 is x=0, robot starts in x<0, y<0 quadrant)
-constexpr float kP1 = 0.0f; constexpr float kQ1 = 1.0f; constexpr float kR1 = 0.0f;  // W1: y = 0
-constexpr float kP2 = 1.0f; constexpr float kQ2 = 0.0f; constexpr float kR2 = 0.0f;  // W2: x = 0
+// Walls: p*x + q*y = r  (robot starts in x<0, y<0 quadrant facing +X)
+// W1: front sensor measures distance to wall at x=0 (wall is AHEAD of robot)
+// W2: side sensor measures distance to wall at y=0 (wall is to the LEFT of robot)
+constexpr float kP1 = 1.0f; constexpr float kQ1 = 0.0f; constexpr float kR1 = 0.0f;  // W1: x = 0 (front)
+constexpr float kP2 = 0.0f; constexpr float kQ2 = 1.0f; constexpr float kR2 = 0.0f;  // W2: y = 0 (side)
 
 // Noise covariances (tune experimentally; units: m^2 for position, rad^2 for heading)
 // Tuned values from assignment5.tex eq. (14)-(15)

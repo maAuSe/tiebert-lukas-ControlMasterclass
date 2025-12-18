@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  18 DEC 2025 01:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  18 DEC 2025 01:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -404,35 +404,18 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 (/usr/local/texlive/2025/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/lipsum/lipsum.sty
-(/usr/local/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
-(/usr/local/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2025-01-18 L3 programming layer (loader) 
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count309
-\l__pdf_internal_box=\box56
-))
-Package: l3keys2e 2024-08-16 LaTeX2e option processing using LaTeX3 keys
-)
-Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count310
-\l__lipsum_a_int=\count311
-\l__lipsum_b_int=\count312
-(/usr/local/texlive/2025/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex))
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count313
-\lst@gtempboxa=\box57
+\lst@mode=\count309
+\lst@gtempboxa=\box56
 \lst@token=\toks27
-\lst@length=\count314
+\lst@length=\count310
 \lst@currlwidth=\dimen256
-\lst@column=\count315
-\lst@pos=\count316
+\lst@column=\count311
+\lst@pos=\count312
 \lst@lostspace=\dimen257
 \lst@width=\dimen258
-\lst@newlines=\count317
-\lst@lineno=\count318
+\lst@newlines=\count313
+\lst@lineno=\count314
 \lst@maxwidth=\dimen259
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstpatch.sty
@@ -440,9 +423,9 @@ File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count319
-\lst@skipnumbers=\count320
-\lst@framebox=\box58
+\c@lstnumber=\count315
+\lst@skipnumbers=\count316
+\lst@framebox=\box57
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2024/09/23 1.10c listings configuration
@@ -470,56 +453,59 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count321
+\c@float@type=\count317
 \float@exts=\toks28
-\float@box=\box59
+\float@box=\box58
 \@float@everytoks=\toks29
-\@floatcapt=\box60
+\@floatcapt=\box59
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/subfig/subfig.sty
-Package: subfig 2005/06/28 ver: 1.3 subfig package
-\c@KVtest=\count322
-\sf@farskip=\skip71
-\sf@captopadj=\dimen260
-\sf@capskip=\skip72
-\sf@nearskip=\skip73
-\sf@top=\skip74
-\sf@bottom=\skip75
+\citation{*}
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count318
+\l__pdf_internal_box=\box60
 )
-(./assignment2.aux)
+(./assignment2.aux
+
+LaTeX Warning: Label `fig:control_signal_high_vs_low_BW_A' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:control_signal_high_vs_low_BW_A' multiply defined
+.
+
+)
 \openout1 = `assignment2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-
-(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+ (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count323
-\scratchdimen=\dimen261
+\scratchcounter=\count319
+\scratchdimen=\dimen260
 \scratchbox=\box61
-\nofMPsegments=\count324
-\nofMParguments=\count325
+\nofMPsegments=\count320
+\nofMParguments=\count321
 \everyMPshowfont=\toks30
-\MPscratchCnt=\count326
-\MPscratchDim=\dimen262
-\MPnumerator=\count327
-\makeMPintoPDFobject=\count328
+\MPscratchCnt=\count322
+\MPscratchDim=\dimen261
+\MPnumerator=\count323
+\makeMPintoPDFobject=\count324
 \everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -531,12 +517,11 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 44.
+Package hyperref Info: Link coloring OFF on input line 43.
 
 (./assignment2.out) (./assignment2.out)
 \@outlinefile=\write3
@@ -577,27 +562,16 @@ Package hyperref Info: Link coloring OFF on input line 44.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count329
-! Undefined control sequence.
-<argument> \sf@counterlist 
-                           
-l.44 \begin{document}
-                     
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
+\c@lstlisting=\count325
 <sedes.pdf, id=40, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package pdftex.def Info: sedes.pdf  used on input line 55.
+Package pdftex.def Info: sedes.pdf  used on input line 54.
 (pdftex.def)             Requested size: 33.81467pt x 56.9055pt.
 <logoFirW.jpg, id=42, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
-Package pdftex.def Info: logoFirW.jpg  used on input line 63.
+Package pdftex.def Info: logoFirW.jpg  used on input line 62.
 (pdftex.def)             Requested size: 147.14452pt x 56.9055pt.
 
 
@@ -611,46 +585,17 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.113 	\newpage
+l.112 	\newpage
                 [1]
 
 [1{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }]
-
-LaTeX Warning: Reference `fig:Uncompensated-Bode' on page 2 undefined on input 
-line 181.
-
-
-LaTeX Warning: Reference `eq: CT PI controller' on page 2 undefined on input li
-ne 207.
-
-
-LaTeX Warning: Reference `fig:Compensated-Bode-A-B' on page 2 undefined on inpu
-t line 210.
-
-
-LaTeX Warning: Reference `fig:Compensated-Bode-without-K-A' on page 2 undefined
- on input line 211.
-
-
-LaTeX Warning: Reference `fig:Compensated-Bode-with-K-A' on page 2 undefined on
- input line 211.
-
-
-LaTeX Warning: Reference `fig:Compensated-Bode-without-K-B' on page 2 undefined
- on input line 212.
-
-
-LaTeX Warning: Reference `fig:Compensated-Bode-with-K-B' on page 2 undefined on
- input line 212.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 206--214
+Underfull \hbox (badness 10000) in paragraph at lines 205--213
 
  []
 
 
-Overfull \hbox (17.36737pt too wide) in paragraph at lines 237--238
+Overfull \hbox (17.36737pt too wide) in paragraph at lines 236--237
  []\OT1/cmr/bx/n/10 Frequency-domain ver-i-fi-ca-tion:[] \OT1/cmr/m/n/10 The Bo
 de plot for the com-pen-sated open-loop sys-tem $\OML/cmm/m/it/10 L\OT1/cmr/m/n
 /10 (\OML/cmm/m/it/10 j!\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/10 D\OT1/cmr/m/n/10 (
@@ -661,86 +606,54 @@ de plot for the com-pen-sated open-loop sys-tem $\OML/cmm/m/it/10 L\OT1/cmr/m/n
 
 
 [2]
-
-LaTeX Warning: Reference `fig:Verification-Open-loop-A' on page 3 undefined on 
-input line 252.
-
-
-LaTeX Warning: Reference `fig:Verification-Open-loop-B' on page 3 undefined on 
-input line 252.
-
-
-LaTeX Warning: Reference `fig:Verification-PI-A' on page 3 undefined on input l
-ine 254.
-
-
-LaTeX Warning: Reference `fig:Verification-PI-B' on page 3 undefined on input l
-ine 254.
-
-
-LaTeX Warning: Reference `fig:Verification-Closed-loop-A' on page 3 undefined o
-n input line 256.
-
-
-LaTeX Warning: Reference `fig:Verification-Closed-loop-B' on page 3 undefined o
-n input line 256.
-
-<Figures_part_1b/Verification-Open-loop-A.png, id=103, 952.55875pt x 634.37pt>
+<Figures_part_1b/Verification-Open-loop-A.png, id=118, 952.55875pt x 634.37pt>
 File: Figures_part_1b/Verification-Open-loop-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-Open-loop-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Open-loop-A.png  used on 
-input line 265.
+input line 264.
 (pdftex.def)             Requested size: 225.4804pt x 150.16109pt.
-<Figures_part_1b/Verification-PI-A.png, id=105, 954.56625pt x 642.4pt>
+<Figures_part_1b/Verification-PI-A.png, id=120, 954.56625pt x 642.4pt>
 File: Figures_part_1b/Verification-PI-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-PI-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-PI-A.png  used on input l
-ine 272.
+ine 271.
 (pdftex.def)             Requested size: 225.4804pt x 151.73839pt.
 File: Figures_part_1b/Verification-PI-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-PI-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-PI-A.png  used on input l
-ine 282.
+ine 281.
 (pdftex.def)             Requested size: 225.4804pt x 151.73839pt.
-<Figures_part_1b/Verification-PI-B.png, id=106, 946.53625pt x 641.39626pt>
+<Figures_part_1b/Verification-PI-B.png, id=121, 946.53625pt x 641.39626pt>
 File: Figures_part_1b/Verification-PI-B.png Graphic file (type png)
 <use Figures_part_1b/Verification-PI-B.png>
 Package pdftex.def Info: Figures_part_1b/Verification-PI-B.png  used on input l
-ine 289.
+ine 288.
 (pdftex.def)             Requested size: 225.4804pt x 152.78339pt.
-<Figures_part_1b/Verification-Closed-loop-A.png, id=107, 969.6225pt x 644.4075p
+<Figures_part_1b/Verification-Closed-loop-A.png, id=122, 969.6225pt x 644.4075p
 t>
 File: Figures_part_1b/Verification-Closed-loop-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-Closed-loop-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Closed-loop-A.png  used o
-n input line 299.
+n input line 298.
 (pdftex.def)             Requested size: 225.4804pt x 149.85269pt.
-<Figures_part_1b/Verification-Closed-loop-B.png, id=108, 956.57375pt x 636.3775
+<Figures_part_1b/Verification-Closed-loop-B.png, id=123, 956.57375pt x 636.3775
 pt>
 File: Figures_part_1b/Verification-Closed-loop-B.png Graphic file (type png)
 <use Figures_part_1b/Verification-Closed-loop-B.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Closed-loop-B.png  used o
-n input line 306.
+n input line 305.
 (pdftex.def)             Requested size: 225.4804pt x 150.00511pt.
-
-LaTeX Warning: Reference `fig:Verification-Time-A' on page 3 undefined on input
- line 323.
-
-
-LaTeX Warning: Reference `fig:Verification-Time-B' on page 3 undefined on input
- line 323.
-
-<Figures_part_1b/Verification-Time-A.png, id=109, 1005.7575pt x 647.41875pt>
+<Figures_part_1b/Verification-Time-A.png, id=126, 1005.7575pt x 647.41875pt>
 File: Figures_part_1b/Verification-Time-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-Time-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Time-A.png  used on input
- line 329.
+ line 328.
 (pdftex.def)             Requested size: 230.18253pt x 148.16226pt.
-<Figures_part_1b/Verification-Time-B.png, id=110, 981.6675pt x 635.37375pt>
+<Figures_part_1b/Verification-Time-B.png, id=127, 981.6675pt x 635.37375pt>
 File: Figures_part_1b/Verification-Time-B.png Graphic file (type png)
 <use Figures_part_1b/Verification-Time-B.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Time-B.png  used on input
- line 336.
+ line 335.
 (pdftex.def)             Requested size: 230.18253pt x 148.98322pt.
 
 
@@ -750,50 +663,38 @@ Package pdftex.def Info: Figures_part_1b/Verification-Time-B.png  used on input
 tion-PI-A.png> <./Figures_part_1b/Verification-PI-B.png> <./Figures_part_1b/Ver
 ification-Closed-loop-A.png> <./Figures_part_1b/Verification-Closed-loop-B.png>
 ]
-
-LaTeX Warning: Reference `fig:step_response_no_disturbance' on page 5 undefined
- on input line 378.
-
-<Figures_part_2a/step_response_no_disturbance_A.png, id=132, 961.5925pt x 626.3
+<Figures_part_2a/step_response_no_disturbance_A.png, id=151, 961.5925pt x 626.3
 4pt>
 File: Figures_part_2a/step_response_no_disturbance_A.png Graphic file (type png
 )
 <use Figures_part_2a/step_response_no_disturbance_A.png>
 Package pdftex.def Info: Figures_part_2a/step_response_no_disturbance_A.png  us
-ed on input line 389.
+ed on input line 388.
 (pdftex.def)             Requested size: 230.18253pt x 149.93282pt.
-<Figures_part_2a/step_response_no_disturbance_B.png, id=133, 947.54pt x 625.336
+<Figures_part_2a/step_response_no_disturbance_B.png, id=152, 947.54pt x 625.336
 24pt>
 File: Figures_part_2a/step_response_no_disturbance_B.png Graphic file (type png
 )
 <use Figures_part_2a/step_response_no_disturbance_B.png>
 Package pdftex.def Info: Figures_part_2a/step_response_no_disturbance_B.png  us
-ed on input line 396.
+ed on input line 395.
 (pdftex.def)             Requested size: 230.18253pt x 151.90625pt.
-
-LaTeX Warning: Reference `fig:tracking_error_no_disturbance' on page 5 undefine
-d on input line 405.
-
-<Figures_part_2a/tracking_error_no_disturbance_A.png, id=134, 974.64125pt x 630
+<Figures_part_2a/tracking_error_no_disturbance_A.png, id=154, 974.64125pt x 630
 .355pt>
 File: Figures_part_2a/tracking_error_no_disturbance_A.png Graphic file (type pn
 g)
 <use Figures_part_2a/tracking_error_no_disturbance_A.png>
 Package pdftex.def Info: Figures_part_2a/tracking_error_no_disturbance_A.png  u
-sed on input line 413.
+sed on input line 412.
 (pdftex.def)             Requested size: 230.18253pt x 148.86444pt.
-<Figures_part_2a/tracking_error_no_disturbance_B.png, id=135, 948.54375pt x 622
+<Figures_part_2a/tracking_error_no_disturbance_B.png, id=155, 948.54375pt x 622
 .325pt>
 File: Figures_part_2a/tracking_error_no_disturbance_B.png Graphic file (type pn
 g)
 <use Figures_part_2a/tracking_error_no_disturbance_B.png>
 Package pdftex.def Info: Figures_part_2a/tracking_error_no_disturbance_B.png  u
-sed on input line 420.
+sed on input line 419.
 (pdftex.def)             Requested size: 230.18253pt x 151.01334pt.
-
-LaTeX Warning: Reference `fig:control_signal_no_disturbance' on page 5 undefine
-d on input line 428.
-
 
 
 [5 <./Figures_part_1b/Verification-Time-A.png> <./Figures_part_1b/Verification-
@@ -802,110 +703,94 @@ Time-B.png>]
 [6 <./Figures_part_2a/step_response_no_disturbance_A.png> <./Figures_part_2a/st
 ep_response_no_disturbance_B.png> <./Figures_part_2a/tracking_error_no_disturba
 nce_A.png> <./Figures_part_2a/tracking_error_no_disturbance_B.png>]
-<Figures_part_2a/control_signal_no_disturbance_A.png, id=158, 948.54375pt x 625
+<Figures_part_2a/control_signal_no_disturbance_A.png, id=179, 948.54375pt x 625
 .33624pt>
 File: Figures_part_2a/control_signal_no_disturbance_A.png Graphic file (type pn
 g)
 <use Figures_part_2a/control_signal_no_disturbance_A.png>
 Package pdftex.def Info: Figures_part_2a/control_signal_no_disturbance_A.png  u
-sed on input line 438.
+sed on input line 437.
 (pdftex.def)             Requested size: 230.18253pt x 151.74405pt.
-<Figures_part_2a/control_signal_no_disturbance_B.png, id=159, 952.55875pt x 624
+<Figures_part_2a/control_signal_no_disturbance_B.png, id=180, 952.55875pt x 624
 .3325pt>
 File: Figures_part_2a/control_signal_no_disturbance_B.png Graphic file (type pn
 g)
 <use Figures_part_2a/control_signal_no_disturbance_B.png>
 Package pdftex.def Info: Figures_part_2a/control_signal_no_disturbance_B.png  u
-sed on input line 445.
+sed on input line 444.
 (pdftex.def)             Requested size: 230.18253pt x 150.8622pt.
-
-
-LaTeX Warning: Reference `fig:block_diagram_constant_disturbance' on page 7 und
-efined on input line 471.
-
-<Figures_part_2b/block_diagram_constant_disturbance.png, id=160, 1147.28625pt x
+<Figures_part_2b/block_diagram_constant_disturbance.png, id=182, 1147.28625pt x
  375.4025pt>
 File: Figures_part_2b/block_diagram_constant_disturbance.png Graphic file (type
  png)
 <use Figures_part_2b/block_diagram_constant_disturbance.png>
 Package pdftex.def Info: Figures_part_2b/block_diagram_constant_disturbance.png
-  used on input line 478.
+  used on input line 477.
 (pdftex.def)             Requested size: 375.80544pt x 122.96669pt.
 
+
 LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: Reference `fig:step_response_with_disturbance' on page 7 undefin
-ed on input line 484.
 
 
 
 [7 <./Figures_part_2a/control_signal_no_disturbance_A.png> <./Figures_part_2a/c
 ontrol_signal_no_disturbance_B.png>]
-<Figures_part_2b/step_response_with_disturbance_A.png, id=174, 952.55875pt x 61
+<Figures_part_2b/step_response_with_disturbance_A.png, id=198, 952.55875pt x 61
 8.31pt>
 File: Figures_part_2b/step_response_with_disturbance_A.png Graphic file (type p
 ng)
 <use Figures_part_2b/step_response_with_disturbance_A.png>
 Package pdftex.def Info: Figures_part_2b/step_response_with_disturbance_A.png  
-used on input line 494.
+used on input line 493.
 (pdftex.def)             Requested size: 230.18253pt x 149.40694pt.
-<Figures_part_2b/step_response_with_disturbance_B.png, id=175, 956.57375pt x 62
+<Figures_part_2b/step_response_with_disturbance_B.png, id=199, 956.57375pt x 62
 0.3175pt>
 File: Figures_part_2b/step_response_with_disturbance_B.png Graphic file (type p
 ng)
 <use Figures_part_2b/step_response_with_disturbance_B.png>
 Package pdftex.def Info: Figures_part_2b/step_response_with_disturbance_B.png  
-used on input line 501.
+used on input line 500.
 (pdftex.def)             Requested size: 230.18253pt x 149.26732pt.
-
-
-LaTeX Warning: Reference `fig:tracking_error_with_disturbance' on page 8 undefi
-ned on input line 510.
-
-<Figures_part_2b/tracking_error_with_disturbance_A.png, id=176, 964.60374pt x 6
+<Figures_part_2b/tracking_error_with_disturbance_A.png, id=201, 964.60374pt x 6
 28.3475pt>
 File: Figures_part_2b/tracking_error_with_disturbance_A.png Graphic file (type 
 png)
 <use Figures_part_2b/tracking_error_with_disturbance_A.png>
 Package pdftex.def Info: Figures_part_2b/tracking_error_with_disturbance_A.png 
- used on input line 519.
+ used on input line 518.
 (pdftex.def)             Requested size: 230.18253pt x 149.93399pt.
-<Figures_part_2b/tracking_error_with_disturbance_B.png, id=177, 947.54pt x 622.
+<Figures_part_2b/tracking_error_with_disturbance_B.png, id=202, 947.54pt x 622.
 325pt>
 File: Figures_part_2b/tracking_error_with_disturbance_B.png Graphic file (type 
 png)
 <use Figures_part_2b/tracking_error_with_disturbance_B.png>
 Package pdftex.def Info: Figures_part_2b/tracking_error_with_disturbance_B.png 
- used on input line 526.
+ used on input line 525.
 (pdftex.def)             Requested size: 230.18253pt x 151.17476pt.
-
-LaTeX Warning: Reference `fig:control_signal_with_disturbance' on page 8 undefi
-ned on input line 537.
-
-<Figures_part_2b/control_signal_with_disturbance_A.png, id=178, 953.5625pt x 61
+<Figures_part_2b/control_signal_with_disturbance_A.png, id=204, 953.5625pt x 61
 9.31375pt>
 File: Figures_part_2b/control_signal_with_disturbance_A.png Graphic file (type 
 png)
 <use Figures_part_2b/control_signal_with_disturbance_A.png>
 Package pdftex.def Info: Figures_part_2b/control_signal_with_disturbance_A.png 
- used on input line 546.
+ used on input line 545.
 (pdftex.def)             Requested size: 230.18253pt x 149.49828pt.
-<Figures_part_2b/control_signal_with_disturbance_B.png, id=179, 950.55125pt x 6
+<Figures_part_2b/control_signal_with_disturbance_B.png, id=205, 950.55125pt x 6
 21.32124pt>
 File: Figures_part_2b/control_signal_with_disturbance_B.png Graphic file (type 
 png)
 <use Figures_part_2b/control_signal_with_disturbance_B.png>
 Package pdftex.def Info: Figures_part_2b/control_signal_with_disturbance_B.png 
- used on input line 553.
+ used on input line 552.
 (pdftex.def)             Requested size: 230.18253pt x 150.45691pt.
 
+
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 568.
+(hyperref)                removing `math shift' on input line 567.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 568.
+(hyperref)                removing `math shift' on input line 567.
 
 
 
@@ -916,126 +801,115 @@ isturbance_B.png>]
 [9 <./Figures_part_2b/tracking_error_with_disturbance_A.png> <./Figures_part_2b
 /tracking_error_with_disturbance_B.png> <./Figures_part_2b/control_signal_with_
 disturbance_A.png> <./Figures_part_2b/control_signal_with_disturbance_B.png>]
-
-LaTeX Warning: Reference `fig:step_response_high_vs_low_BW' on page 10 undefine
-d on input line 585.
-
-<Figures_part_2c/step_response_high_vs_low_BW_A.png, id=202, 976.64874pt x 628.
+<Figures_part_2c/step_response_high_vs_low_BW_A.png, id=227, 976.64874pt x 628.
 3475pt>
 File: Figures_part_2c/step_response_high_vs_low_BW_A.png Graphic file (type png
 )
 <use Figures_part_2c/step_response_high_vs_low_BW_A.png>
 Package pdftex.def Info: Figures_part_2c/step_response_high_vs_low_BW_A.png  us
-ed on input line 595.
+ed on input line 594.
 (pdftex.def)             Requested size: 230.18253pt x 148.09312pt.
-<Figures_part_2c/step_response_high_vs_low_BW_B.png, id=203, 966.61125pt x 625.
+<Figures_part_2c/step_response_high_vs_low_BW_B.png, id=228, 966.61125pt x 625.
 33624pt>
 File: Figures_part_2c/step_response_high_vs_low_BW_B.png Graphic file (type png
 )
 <use Figures_part_2c/step_response_high_vs_low_BW_B.png>
 Package pdftex.def Info: Figures_part_2c/step_response_high_vs_low_BW_B.png  us
-ed on input line 602.
+ed on input line 601.
 (pdftex.def)             Requested size: 230.18253pt x 148.91011pt.
-
-LaTeX Warning: Reference `fig:tracking_error_high_vs_low_BW' on page 10 undefin
-ed on input line 612.
-
-<Figures_part_2c/tracking_error_high_vs_low_BW_A.png, id=204, 949.5475pt x 617.
+<Figures_part_2c/tracking_error_high_vs_low_BW_A.png, id=230, 949.5475pt x 617.
 30624pt>
 File: Figures_part_2c/tracking_error_high_vs_low_BW_A.png Graphic file (type pn
 g)
 <use Figures_part_2c/tracking_error_high_vs_low_BW_A.png>
 Package pdftex.def Info: Figures_part_2c/tracking_error_high_vs_low_BW_A.png  u
-sed on input line 622.
+sed on input line 621.
 (pdftex.def)             Requested size: 230.18253pt x 149.64478pt.
-<Figures_part_2c/tracking_error_high_vs_low_BW_B.png, id=205, 968.61874pt x 617
+<Figures_part_2c/tracking_error_high_vs_low_BW_B.png, id=231, 968.61874pt x 617
 .30624pt>
 File: Figures_part_2c/tracking_error_high_vs_low_BW_B.png Graphic file (type pn
 g)
 <use Figures_part_2c/tracking_error_high_vs_low_BW_B.png>
 Package pdftex.def Info: Figures_part_2c/tracking_error_high_vs_low_BW_B.png  u
-sed on input line 629.
+sed on input line 628.
 (pdftex.def)             Requested size: 230.18253pt x 146.69652pt.
-
-LaTeX Warning: Reference `fig:control_signal_high_vs_low_BW' on page 10 undefin
-ed on input line 638.
-
 
 
 [10 <./Figures_part_2c/step_response_high_vs_low_BW_A.png> <./Figures_part_2c/s
 tep_response_high_vs_low_BW_B.png>]
-<Figures_part_2c/control_signal_high_vs_low_BW_A.png, id=219, 950.55125pt x 624
+<Figures_part_2c/control_signal_high_vs_low_BW_A.png, id=247, 950.55125pt x 624
 .3325pt>
 File: Figures_part_2c/control_signal_high_vs_low_BW_A.png Graphic file (type pn
 g)
 <use Figures_part_2c/control_signal_high_vs_low_BW_A.png>
 Package pdftex.def Info: Figures_part_2c/control_signal_high_vs_low_BW_A.png  u
-sed on input line 649.
+sed on input line 648.
 (pdftex.def)             Requested size: 230.18253pt x 151.1861pt.
-<Figures_part_2c/control_signal_high_vs_low_BW_B.png, id=220, 960.58875pt x 623
+<Figures_part_2c/control_signal_high_vs_low_BW_B.png, id=248, 960.58875pt x 623
 .32875pt>
 File: Figures_part_2c/control_signal_high_vs_low_BW_B.png Graphic file (type pn
 g)
 <use Figures_part_2c/control_signal_high_vs_low_BW_B.png>
 Package pdftex.def Info: Figures_part_2c/control_signal_high_vs_low_BW_B.png  u
-sed on input line 656.
+sed on input line 655.
 (pdftex.def)             Requested size: 230.18253pt x 149.36417pt.
 
 
 [11 <./Figures_part_2c/tracking_error_high_vs_low_BW_A.png> <./Figures_part_2c/
 tracking_error_high_vs_low_BW_B.png> <./Figures_part_2c/control_signal_high_vs_
 low_BW_A.png> <./Figures_part_2c/control_signal_high_vs_low_BW_B.png>]
-(./assignment2.bbl
+
+[12] (./assignment2.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
 )
-<Figures_part_1b/Uncompensated-Bode-A.png, id=234, 961.5925pt x 650.43pt>
+<Figures_part_1b/Uncompensated-Bode-A.png, id=265, 961.5925pt x 650.43pt>
 File: Figures_part_1b/Uncompensated-Bode-A.png Graphic file (type png)
 <use Figures_part_1b/Uncompensated-Bode-A.png>
 Package pdftex.def Info: Figures_part_1b/Uncompensated-Bode-A.png  used on inpu
-t line 689.
+t line 688.
 (pdftex.def)             Requested size: 230.18253pt x 155.69946pt.
-<Figures_part_1b/Uncompensated-Bode-B.png, id=235, 943.525pt x 647.41875pt>
+<Figures_part_1b/Uncompensated-Bode-B.png, id=266, 943.525pt x 647.41875pt>
 File: Figures_part_1b/Uncompensated-Bode-B.png Graphic file (type png)
 <use Figures_part_1b/Uncompensated-Bode-B.png>
 Package pdftex.def Info: Figures_part_1b/Uncompensated-Bode-B.png  used on inpu
-t line 696.
+t line 695.
 (pdftex.def)             Requested size: 230.18253pt x 157.94228pt.
-<Figures_part_1b/Compensated-Bode-without-K-A.png, id=236, 952.55875pt x 645.41
+<Figures_part_1b/Compensated-Bode-without-K-A.png, id=267, 952.55875pt x 645.41
 125pt>
 File: Figures_part_1b/Compensated-Bode-without-K-A.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-without-K-A.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-without-K-A.png  used
- on input line 713.
+ on input line 712.
 (pdftex.def)             Requested size: 225.4804pt x 152.77466pt.
-<Figures_part_1b/Compensated-Bode-with-K-A.png, id=237, 953.5625pt x 645.41125p
+<Figures_part_1b/Compensated-Bode-with-K-A.png, id=268, 953.5625pt x 645.41125p
 t>
 File: Figures_part_1b/Compensated-Bode-with-K-A.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-with-K-A.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-with-K-A.png  used on
- input line 720.
+ input line 719.
 (pdftex.def)             Requested size: 225.4804pt x 152.60724pt.
-<Figures_part_1b/Compensated-Bode-without-K-B.png, id=238, 962.59625pt x 647.41
+<Figures_part_1b/Compensated-Bode-without-K-B.png, id=269, 962.59625pt x 647.41
 875pt>
 File: Figures_part_1b/Compensated-Bode-without-K-B.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-without-K-B.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-without-K-B.png  used
- on input line 730.
+ on input line 729.
 (pdftex.def)             Requested size: 225.4804pt x 151.64948pt.
-<Figures_part_1b/Compensated-Bode-with-K-B.png, id=239, 946.53625pt x 640.3925p
+<Figures_part_1b/Compensated-Bode-with-K-B.png, id=270, 946.53625pt x 640.3925p
 t>
 File: Figures_part_1b/Compensated-Bode-with-K-B.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-with-K-B.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-with-K-B.png  used on
- input line 737.
+ input line 736.
 (pdftex.def)             Requested size: 225.4804pt x 152.54428pt.
 
 
-[12 <./Figures_part_1b/Uncompensated-Bode-A.png> <./Figures_part_1b/Uncompensat
+[13 <./Figures_part_1b/Uncompensated-Bode-A.png> <./Figures_part_1b/Uncompensat
 ed-Bode-B.png>]
 
-[13 <./Figures_part_1b/Compensated-Bode-without-K-A.png> <./Figures_part_1b/Com
+[14 <./Figures_part_1b/Compensated-Bode-without-K-A.png> <./Figures_part_1b/Com
 pensated-Bode-with-K-A.png> <./Figures_part_1b/Compensated-Bode-without-K-B.png
 > <./Figures_part_1b/Compensated-Bode-with-K-B.png>] (./assignment2.aux)
  ***********
@@ -1044,28 +918,19 @@ L3 programming layer <2025-01-18>
  ***********
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `assignment2.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `assignment2.out':
-(rerunfilecheck)             Before: 34793ABB2E717E819564D3EA07378F4E;2386
-(rerunfilecheck)             After:  0DEC3A40A6B4EF35675B6BD6B664D47D;3032.
+Package rerunfilecheck Info: File `assignment2.out' has not changed.
+(rerunfilecheck)             Checksum: 0DEC3A40A6B4EF35675B6BD6B664D47D;3032.
  ) 
 Here is how much of TeX's memory you used:
- 15821 strings out of 473190
- 264965 string characters out of 5715799
- 759891 words of memory out of 5000000
- 38788 multiletter control sequences out of 15000+600000
- 565735 words of font info for 60 fonts, out of 8000000 for 9000
+ 15279 strings out of 473190
+ 252279 string characters out of 5715799
+ 666011 words of memory out of 5000000
+ 38259 multiletter control sequences out of 15000+600000
+ 566872 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,11n,93p,690b,683s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,691b,674s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
@@ -1075,18 +940,18 @@ Here is how much of TeX's memory you used:
 /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
 sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
 /local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loc
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loc
 al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
 /texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
+xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
 2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
 025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on assignment2.pdf (15 pages, 3367418 bytes).
+Output written on assignment2.pdf (16 pages, 3369845 bytes).
 PDF statistics:
- 351 PDF objects out of 1000 (max. 8388607)
- 228 compressed objects within 3 object streams
- 83 named destinations out of 1000 (max. 500000)
+ 380 PDF objects out of 1000 (max. 8388607)
+ 256 compressed objects within 3 object streams
+ 84 named destinations out of 1000 (max. 500000)
  255 words of extra memory for PDF output out of 10000 (max. 10000000)
 

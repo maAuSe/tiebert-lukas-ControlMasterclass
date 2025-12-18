@@ -74,7 +74,7 @@
         \end{center}
         \vspace{1cm}
         \begin{center}
-          \Huge\textbf{Assignment 3: State Feedback and State Estimation}
+          \Huge\textbf{Assignment 3: State feedback and state estimation}
         \end{center}
         \vspace{1cm}
         \begin{center}
@@ -105,7 +105,8 @@
 
   \newpage
 
-
+\setcounter{page}{1}
+\pagenumbering{arabic}
 
 \section{State estimator and state feedback controller design using pole placement}
 
@@ -130,7 +131,7 @@ The velocity control loop from Assignment~2 is assumed ideal, so the actual cart
 \end{equation}
 where $v(t)$ [m/s] is the linear cart velocity and $u(t) = \omega(t)$ [rad/s] is the wheel angular velocity input.\\
   
-\noindent In state-space form with scalar state $x(t)$ [m] and input $u(t)$ [rad/s]:
+\noindent In state-space form \cite{CT-slides-C9} with scalar state $x(t)$ [m] and input $u(t)$ [rad/s]:
 \begin{equation}
     \dot{x}(t) = A_c x(t) + B_c u(t), \quad A_c = [0],\quad B_c = [r] = [0.033\; \text{m}].
 \end{equation}
@@ -670,6 +671,6 @@ choosing $z_{est}$ much slower (e.g. 10 times slower) than $z_{cl}$:
 
 \newpage
 \bibliographystyle{plain}
-\bibliography{references}
+\bibliography{references-assign-3}
 
 \end{document}

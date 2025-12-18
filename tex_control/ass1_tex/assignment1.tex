@@ -111,7 +111,8 @@
     
 \setcounter{page}{1}
 \pagenumbering{arabic}
-	\section{Discrete-time model structure selection (1a)}
+	\section{Model structure selection for the cart}
+	\subsection{Discrete-time model structure selection (1a)}
 	
 	We assume that (i) the same voltage is applied to both motors, (ii) no wheel slip occurs, (iii) only longitudinal motion (no turning) is considered, and (iv) the cart mass and ground friction are lumped into the wheel inertia and viscous friction, respectively. Under these assumptions, the lumped-parameter model follows from the balance of angular momentum of the rotor and the conservation of electric charge in the armature circuit. \newline
 
@@ -147,7 +148,7 @@
 	
 
 	
-	\subsection{Discrete-time transfer function}
+	\subsubsection{Discrete-time transfer function}
 	
 	The discrete-time transfer function with computational delay is:
 	\begin{equation}
@@ -155,7 +156,7 @@
 	\end{equation}
 	This is a third-order model with numerator order 1, denominator order 3, and relative order 2 (indicating two delays: one from motor dynamics and one from microOS latency).
 	
-	\subsection{Model derivation}
+	\subsubsection{Model derivation}
 	
 	To obtain a discrete-time model, the continuous-time system
 
@@ -189,7 +190,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 
 \noindent During identification these four parameters are estimated directly from the measured input-output data, so no explicit mapping back to the continuous-time coefficients is required.
 	
-	\subsection{Model structure motivation}
+	\subsubsection{Model structure motivation}
 	
 	We consider two candidate model structures: (i) the full third-order model above, which accounts for armature inductance, and (ii) a reduced second-order model obtained by neglecting the armature inductance \(L_a\), leading to
 	\[
@@ -198,11 +199,11 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	\noindent with only two parameters.
 	
 	
-	\section{Model parameters estimation (1b)}
+	\subsection{Model parameters estimation (1b)}
 	
 	We estimate the parameters of the third-order discrete-time transfer function $H(z) = \frac{b_1 z + b_2}{z^3 + a_1 z^2 + a_2z}$ using linear least squares. The matrix formulation of the parameter estimation problem of the second-order model is presented in Appendix~\ref{app:simplified_model}.
 	
-	\subsection{Recursion expression and error criterion}
+	\subsubsection{Recursion expression and error criterion}
 	
 	The difference equation for the third-order model is \cite{CT-slides-C4}:
 	\begin{equation}
@@ -234,7 +235,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	\label{eq: LS criterion}
 \end{equation}
 	
-	\subsection{Matrix formulation}
+	\subsubsection{Matrix formulation}
 	
 	For $N$ measurements with maximum delay of 3 samples, the output vector (starting from $k=4$) and regression matrix are:
 	\begin{equation}

@@ -3,49 +3,53 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \providecommand \oddpage@label [2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Discrete-time model structure selection (1a)}{II}{section.1}\protected@file@percent }
-\newlabel{eq:CT_transfer_function_DC}{{1}{II}{Discrete-time model structure selection (1a)}{equation.1.1}{}}
-\newlabel{tab:laplace_variables}{{1}{II}{Discrete-time model structure selection (1a)}{equation.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Discrete-time transfer function}{II}{subsection.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Model derivation}{II}{subsection.1.2}\protected@file@percent }
-\newlabel{eq:discrete_base_model}{{4}{II}{Model derivation}{equation.1.4}{}}
-\newlabel{eq:discrete_full_model}{{5}{III}{Model derivation}{equation.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Model structure motivation}{III}{subsection.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Model parameters estimation (1b)}{III}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Recursion expression and error criterion}{III}{subsection.2.1}\protected@file@percent }
-\newlabel{eq: difference eq ARX}{{6}{III}{Recursion expression and error criterion}{equation.2.6}{}}
-\newlabel{eq: difference eq simple}{{8}{III}{Recursion expression and error criterion}{equation.2.8}{}}
-\newlabel{eq: LS criterion}{{10}{III}{Recursion expression and error criterion}{equation.2.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Matrix formulation}{IV}{subsection.2.2}\protected@file@percent }
-\newlabel{eq: LS solution}{{12}{IV}{Matrix formulation}{equation.2.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Identification of the cart by exciting the motors while the cart is on the ground}{IV}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Excitation signal selection (2a)}{IV}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Motivation for excitation signal}{IV}{subsubsection.3.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Excitation signal design and implementation}{IV}{subsubsection.3.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Applied excitation signal over 2 complete periods (28 seconds)}}{IV}{figure.1}\protected@file@percent }
-\newlabel{fig:excitation_signal}{{1}{IV}{Applied excitation signal over 2 complete periods (28 seconds)}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Parameter estimation and model validation for both motors (2b)}{V}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Measured vs simulated response and model error}{V}{subsubsection.3.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Measured (solid black) versus simulated (dashed black) responses for both motors. Top row: third-order model; bottom row: simplified model.}}{V}{figure.2}\protected@file@percent }
-\newlabel{fig:measured_vs_modeled_pair}{{2}{V}{Measured (solid black) versus simulated (dashed black) responses for both motors. Top row: third-order model; bottom row: simplified model}{figure.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Prediction error (measurement minus simulation) for both motors. Top row: third-order model; bottom row: simplified model.}}{VI}{figure.3}\protected@file@percent }
-\newlabel{fig:model_error_pair}{{3}{VI}{Prediction error (measurement minus simulation) for both motors. Top row: third-order model; bottom row: simplified model}{figure.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Transient and steady-state characteristics}{VI}{subsubsection.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Verification of data filtering to improve identification (2c)}{VII}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Motivation for filtering}{VII}{subsubsection.3.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Filter design}{VII}{subsubsection.3.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Left: full third-order model Right: the same comparison for the simplified model}}{VII}{figure.4}\protected@file@percent }
-\newlabel{fig:measured_vs_modeled_filtered}{{4}{VII}{Left: full third-order model Right: the same comparison for the simplified model}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Re-identification with filtered data}{VII}{subsubsection.3.3.3}\protected@file@percent }
-\bibstyle{plainnat}
-\bibdata{references}
-\bibcite{DC_motor_model}{{1}{2020}{{Franklin}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Model structure selection for the cart}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Discrete-time model structure selection (1a)}{1}{subsection.1.1}\protected@file@percent }
+\newlabel{eq:CT_transfer_function_DC}{{1}{1}{Discrete-time model structure selection (1a)}{equation.1}{}}
+\newlabel{tab:laplace_variables}{{1.1}{1}{Discrete-time model structure selection (1a)}{equation.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.1}Discrete-time transfer function}{1}{subsubsection.1.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.2}Model derivation}{1}{subsubsection.1.1.2}\protected@file@percent }
+\newlabel{eq:discrete_base_model}{{4}{1}{Model derivation}{equation.4}{}}
+\citation{CT-slides-C4}
+\newlabel{eq:discrete_full_model}{{5}{2}{Model derivation}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.3}Model structure motivation}{2}{subsubsection.1.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Model parameters estimation (1b)}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1}Recursion expression and error criterion}{2}{subsubsection.1.2.1}\protected@file@percent }
+\newlabel{eq: difference eq ARX}{{6}{2}{Recursion expression and error criterion}{equation.6}{}}
+\newlabel{eq: difference eq simple}{{8}{2}{Recursion expression and error criterion}{equation.8}{}}
+\newlabel{eq: LS criterion}{{10}{2}{Recursion expression and error criterion}{equation.10}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.2}Matrix formulation}{3}{subsubsection.1.2.2}\protected@file@percent }
+\newlabel{eq: LS solution}{{12}{3}{Matrix formulation}{equation.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Identification of the cart by exciting the motors while the cart is on the ground}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Excitation signal selection (2a)}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Motivation for excitation signal}{3}{subsubsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Excitation signal design and implementation}{3}{subsubsection.2.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Applied excitation signal over 2 complete periods (28 seconds)}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:excitation_signal}{{1}{3}{Applied excitation signal over 2 complete periods (28 seconds)}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Parameter estimation and model validation for both motors (2b)}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Measured vs simulated response and model error}{4}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Measured (solid black) versus simulated (dashed black) responses for both motors. Top row: third-order model; bottom row: simplified model.}}{4}{figure.2}\protected@file@percent }
+\newlabel{fig:measured_vs_modeled_pair}{{2}{4}{Measured (solid black) versus simulated (dashed black) responses for both motors. Top row: third-order model; bottom row: simplified model}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Prediction error (measurement minus simulation) for both motors. Top row: third-order model; bottom row: simplified model.}}{5}{figure.3}\protected@file@percent }
+\newlabel{fig:model_error_pair}{{3}{5}{Prediction error (measurement minus simulation) for both motors. Top row: third-order model; bottom row: simplified model}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Transient and steady-state characteristics}{5}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Verification of data filtering to improve identification (2c)}{6}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Motivation for filtering}{6}{subsubsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Filter design}{6}{subsubsection.2.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Left: full third-order model; Right: the same comparison for the simplified model}}{6}{figure.4}\protected@file@percent }
+\newlabel{fig:measured_vs_modeled_filtered}{{4}{6}{Left: full third-order model; Right: the same comparison for the simplified model}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Re-identification with filtered data}{6}{subsubsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.4}Comparison and model selection}{7}{subsubsection.2.3.4}\protected@file@percent }
+\bibstyle{plain}
+\bibdata{references-assign-1}
+\bibcite{DC_motor_model}{{1}{}{{}}{{}}}
+\bibcite{CT-slides-C4}{{2}{}{{}}{{}}}
 \citation{DC_motor_model}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Comparison and model selection}{VIII}{subsubsection.3.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Simplified second-order model (armature inductance neglected)}{VIII}{appendix.A}\protected@file@percent }
-\newlabel{app:simplified_model}{{A}{VIII}{Simplified second-order model (armature inductance neglected)}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Figures}{IX}{appendix.B}\protected@file@percent }
-\newlabel{app:figures}{{B}{IX}{Figures}{appendix.B}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Model of the DC motor \cite  {DC_motor_model}}}{IX}{figure.5}\protected@file@percent }
-\newlabel{fig:dc_motor_model}{{5}{IX}{Model of the DC motor \cite {DC_motor_model}}{figure.5}{}}
-\gdef \@abspage@last{10}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\@writefile{toc}{\contentsline {section}{\numberline {A}Simplified second-order model (armature inductance neglected)}{9}{appendix.A}\protected@file@percent }
+\newlabel{app:simplified_model}{{A}{9}{Simplified second-order model (armature inductance neglected)}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Figures}{9}{appendix.B}\protected@file@percent }
+\newlabel{app:figures}{{B}{9}{Figures}{appendix.B}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Model of the DC motor \cite  {DC_motor_model}}}{9}{figure.5}\protected@file@percent }
+\newlabel{fig:dc_motor_model}{{5}{9}{Model of the DC motor \cite {DC_motor_model}}{figure.5}{}}
+\gdef \@abspage@last{11}

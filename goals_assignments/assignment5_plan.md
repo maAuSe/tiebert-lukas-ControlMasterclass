@@ -24,27 +24,24 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
      - When placing the cart, align the **geometric center** of the axle with this cross and point the cart along `+X` (front sensor facing the `y=0` wall).
    - Optionally mark the **target pose** near `(-0.15, -0.35)` m to visually check end position.
 
-3. **Firmware focus (Section 3b only)**
-   - Firmware is currently *feedforward-only* with the EKF (no LQR/state feedback). For the four Q/R sweeps, edit `arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp` and set:
-     - `kQScale` and `kRScale` to `1` or `5` per run (multipliers on the diagonal Q/R values).
-   - If you later need LQR experiments (spec 4c), restore the LQR feedback code before running those tests.
+3. **Firmware configuration**
+   - EKF tuning: `arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp` → `kQScale`, `kRScale`
+   - LQR gains: `arduino_files/CT-EKF-Swivel/robot.cpp` → `resetLqrController()` → `_Klqr`
 
-4. **QRC channel map (configure once, log for every run)**
-   - Current firmware (`arduino_files/CT-EKF-Swivel/robot.cpp`) streams **12** general-purpose outputs (`ValueIn0`…`ValueIn11`), which is what `matlab_assign5/assignment5_solution.m` parses:
-     - ch0: `v_ff` = `trajectory.v()`
-     - ch1: `omega_ff` = `trajectory.omega()`
-     - ch2: `z1` (front IR distance), `NaN` when sensors are off
-     - ch3: `z2` (side IR distance), `NaN` when sensors are off
-     - ch4: `xhat` (EKF)
-     - ch5: `yhat` (EKF)
-     - ch6: `thetahat` (EKF)
-     - ch7: `Pxx` (EKF covariance diagonal)
-     - ch8: `Pyy` (EKF covariance diagonal)
-     - ch9: `Ptt` (EKF covariance diagonal)
-     - ch10: `v` (applied input), `0` when control is disabled
-     - ch11: `omega` (applied input), `0` when control is disabled
-   - In MATLAB, `hasMeas` is inferred from `isfinite(z1) & isfinite(z2)`, and `x_ref, y_ref, theta_ref` are reconstructed by integrating `v_ff, omega_ff` from the known start pose (no dedicated QRC channels for them).
-   - In QRC, set the default log export folder to `matlab_assign5/data/` so that CSVs can be saved directly with the filenames expected by `assignment5_solution.m`.
+4. **QRC channel map (channels 0-11)**
+   - ch0: `x_ref` (reference x)
+   - ch1: `y_ref` (reference y)
+   - ch2: `theta_ref` (reference θ)
+   - ch3: `xhat` (EKF estimated x)
+   - ch4: `yhat` (EKF estimated y)
+   - ch5: `thetahat` (EKF estimated θ)
+   - ch6: `e'_x` (body-frame error, longitudinal)
+   - ch7: `e'_y` (body-frame error, lateral)
+   - ch8: `e'_theta` (body-frame error, heading)
+   - ch9: `v_applied` (LQR feedback v)
+   - ch10: `omega_applied` (LQR feedback ω)
+   - ch11: `z1` (front IR, for debugging)
+   - In QRC, set the log export folder to `matlab_assign5/data/`.
 
 5. **Buttons and modes (verify behaviour once)**
    - Button 0: toggles the velocity loop + trajectory feedforward (state-feedback is currently disabled).
@@ -136,49 +133,100 @@ Goal: collect four EKF data sets (different Q/R ratios) for the **same feedforwa
 ---
 
 ## 3. LQR Tracking Experiments (Spec 4c)
-Goal: closed-loop tracking of the **same reference trajectory** as in the EKF experiment, with different LQR weightings `Q_\ell, R_\ell`, **without feedforward** for these tests.
+Goal: closed-loop tracking of the **same reference trajectory** as in the EKF experiment, with different LQR weightings `Q_lqr, R_lqr`, **without feedforward** for these tests.
 
-> Current firmware is feedforward-only. To run this section, restore the LQR feedback path (K matrix and body-frame error computation) in `robot.cpp` and reintroduce the feedforward/feedback split before flashing.
+> **FIRMWARE STATUS**: LQR feedback is now fully implemented in `robot.cpp`. All configuration is centralized in `extended_kalman_filter.cpp`.
 
-1. **Compute K for each LQR setting in MATLAB**
-   - In `assignment5_solution.m`, choose a set of diagonal weights for the error states and inputs:
-     - `Q_lqr = diag([q_x, q_y, q_theta])` and `R_lqr = diag([r_v, r_omega])`.
-   - For each of up to four combinations (A-D):
-     1. Set `Q_lqr`, `R_lqr` in the script.
-     2. Run the script to compute `K_lqr = dlqr(Ad, Bd, Q_lqr, R_lqr)`.
-     3. Copy the numerical matrix `K_lqr` into `robot.cpp` by updating the `Kfb` initialization (e.g. `Kfb = {k11, k12, k13, k21, k22, k23};`).
-        - The current default is approximately `[[-3.1127, 0, 0]; [0, 3.1393, -1.4483]]`.
-   - For the **no-feedforward** tests required in Spec 4(c):
-     - In `robot.cpp`, temporarily set the feedforward vector to zero in `control()` (e.g. `uff.Fill(0)`), so the cart is driven only by the LQR feedback.
+### 3.1 Firmware Configuration
 
-2. **Runs and filenames**
-   - Plan up to four runs with different `(Q_\ell, R_\ell)` choices and consistent file naming:
-     - `lqr_A.csv`, `lqr_B.csv`, `lqr_C.csv`, `lqr_D.csv` in `matlab_assign5/data/`.
-   - Ensure each run uses a **different** weighting according to the combinations defined in the MATLAB script.
+The LQR gains are set directly in `arduino_files/CT-EKF-Swivel/robot.cpp` in `resetLqrController()`:
 
-3. **Physical execution for each LQR run (no feedforward)**
-   - Compile and **reflash the firmware** after updating `Kfb` and disabling feedforward.
-   - For each LQR weighting (A-D):
-     1. In QRC, configure the log to export to the corresponding file:
-        - `matlab_assign5/data/lqr_A.csv`, etc.
-     2. Place the cart at the same **start pose** `(-0.30, -0.20)` m, facing `+X`.
-     3. Start logging in QRC.
-     4. Press **Button 1** to enable/reset the EKF (so the controller uses a consistent estimate).
-     5. Press **Button 0** to enable the LQR controller.
-     6. Press **Button 2** to start the trajectory.
-        - The cart now tracks the reference using **state feedback only** (no feedforward contribution).
-     7. Let the full straight-turn-straight profile finish; do not interfere unless safety requires it.
-     8. Stop logging in QRC when the cart has stopped near the expected end region.
-   - After completing all LQR experiments, **restore** the original feedforward behaviour in `robot.cpp` for normal operation (undo the `uff.Fill(0)` change).
+```cpp
+// LQR gain matrix K (2x3) from dlqr(Ad, Bd, Q_lqr, R_lqr)
+_Klqr = {-3.1127f, 0.0f, 0.0f,
+          0.0f, 3.1393f, -1.4483f};
+```
 
-4. **Signals to inspect (for each LQR run)**
-   - In MATLAB, using `assignment5_solution.m`:
-     - World-frame tracking errors `e_x, e_y, e_\theta` over time.
-     - Body-frame tracking errors (after rotation), which are the ones actually penalised by the LQR design.
-     - Control signals `v` and `\omega` (either directly or via the logged feedforward channels as proxies).
-   - Compare across Q/R combinations:
-     - Convergence speed vs. oscillations.
-     - Whether wheel voltages approach saturation.
+The firmware is **feedback-only** (no feedforward). This matches spec 4c requirements.
+
+### 3.2 Compute K Matrix in MATLAB (For Each Q/R Combination)
+
+1. Open `matlab_assign5/assignment5_solution.m`
+2. Set `Q_lqr` and `R_lqr` for the current run:
+   ```matlab
+   % Run A: baseline
+   Q_lqr = diag([4, 4, 0.8]);      % penalize position/heading errors
+   R_lqr = diag([0.4, 0.4]);       % penalize control effort
+   K_lqr = dlqr(Ad, Bd, Q_lqr, R_lqr);
+   disp(K_lqr);  % Copy these values to firmware
+   ```
+3. Copy the resulting K matrix to `extended_kalman_filter.cpp`:
+   - `K_lqr(1,1)` → `kLqrK11`, `K_lqr(1,2)` → `kLqrK12`, `K_lqr(1,3)` → `kLqrK13`
+   - `K_lqr(2,1)` → `kLqrK21`, `K_lqr(2,2)` → `kLqrK22`, `K_lqr(2,3)` → `kLqrK23`
+
+### 3.3 LQR Q/R Sweep Combinations
+
+| Run   | Q_lqr                    | R_lqr              | Expected Behavior                    |
+|-------|--------------------------|--------------------|------------------------------------- |
+| **A** | `diag([4, 4, 0.8])`      | `diag([0.4, 0.4])` | Baseline: balanced tracking          |
+| **B** | `diag([8, 8, 1.6])`      | `diag([0.4, 0.4])` | Higher state penalty → faster conv.  |
+| **C** | `diag([4, 4, 0.8])`      | `diag([0.8, 0.8])` | Higher input penalty → slower/smooth |
+| **D** | `diag([16, 16, 3.2])`    | `diag([0.2, 0.2])` | Aggressive: fast but may overshoot   |
+
+### 3.4 Physical Execution Checklist (Per LQR Run)
+
+For **each** of the four runs (A, B, C, D):
+
+1. **In MATLAB**: compute `K_lqr` for the current Q/R combination
+2. **In firmware** (`robot.cpp` → `resetLqrController()`):
+   - Update `_Klqr = {k11, k12, k13, k21, k22, k23};` with the new K values
+3. **Compile and flash** the firmware to the cart
+4. **In QRC**:
+   - Create a new log, set export filename: `matlab_assign5/data/lqr_A.csv` (or B/C/D)
+   - Configure logging for channels 0-11
+5. **Place the cart** at start pose `(-0.30, -0.20)` m, heading along `+X`
+6. **Start logging** in QRC
+7. **Press Button 1** to reset and enable the EKF
+8. **Press Button 0** to enable the controller
+9. **Press Button 2** to start the trajectory
+10. **Wait** for the trajectory to complete (cart will track: straight → turn → straight)
+11. **Stop logging** in QRC, verify CSV was saved
+12. **Note observations**: overshoot, oscillations, final position error
+
+### 3.5 QRC Channel Map
+
+| Channel | Signal         | Description                          |
+|---------|----------------|--------------------------------------|
+| 0       | `x_ref`        | Reference x from trajectory          |
+| 1       | `y_ref`        | Reference y from trajectory          |
+| 2       | `theta_ref`    | Reference θ from trajectory          |
+| 3       | `xhat`         | EKF estimated x [m]                  |
+| 4       | `yhat`         | EKF estimated y [m]                  |
+| 5       | `thetahat`     | EKF estimated θ [rad]                |
+| 6       | `e'_x`         | Body-frame error (longitudinal)      |
+| 7       | `e'_y`         | Body-frame error (lateral)           |
+| 8       | `e'_theta`     | Body-frame error (heading)           |
+| 9       | `v_applied`    | LQR feedback v [m/s]                 |
+| 10      | `omega_applied`| LQR feedback ω [rad/s]               |
+| 11      | `z1`           | Front IR (debugging)                 |
+
+### 3.6 Expected Output Files
+
+After completing all runs, verify:
+- `matlab_assign5/data/lqr_A.csv`
+- `matlab_assign5/data/lqr_B.csv`
+- `matlab_assign5/data/lqr_C.csv`
+- `matlab_assign5/data/lqr_D.csv`
+
+### 3.7 Signals to Inspect in MATLAB
+
+1. **World-frame tracking errors**: `e_x = x_ref - xhat` (ch0 - ch3), `e_y` (ch1 - ch4), `e_θ` (ch2 - ch5)
+2. **Body-frame tracking errors**: `e'_x` (ch6), `e'_y` (ch7), `e'_θ` (ch8)
+3. **Control signals**: `v_applied` (ch9), `ω_applied` (ch10)
+4. **Comparisons across runs**:
+   - Convergence speed (how fast errors go to zero)
+   - Overshoot and oscillations
+   - Control effort magnitude (saturation risk)
 
 ---
 

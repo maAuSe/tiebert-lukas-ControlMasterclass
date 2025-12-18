@@ -44,6 +44,10 @@ class Robot : public MECOtron {
     // Feedforward velocity commands for the cart
     Matrix<2> desiredVelocityCart;
 
+    // LQR state feedback (spec 4)
+    Matrix<2,3> _Klqr;        // feedback gain matrix from dlqr(Ad, Bd, Q_lqr, R_lqr)
+    Matrix<3> _errorBody;     // tracking error in body frame e' = R(theta_hat) * e_world
+
     // Velocity controller
     PiState piStateA;
     PiState piStateB;
@@ -67,6 +71,12 @@ class Robot : public MECOtron {
     void resetController();
     void resetKalmanFilter();
     void resetVelocityController();
+    void resetLqrController();
+
+    // LQR helper: compute body-frame tracking error
+    void computeBodyFrameError(float x_ref, float y_ref, float theta_ref,
+                               float x_hat, float y_hat, float theta_hat,
+                               Matrix<3> &e_body);
 
     void button0callback();
     void button1callback();

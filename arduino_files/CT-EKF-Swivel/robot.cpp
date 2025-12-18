@@ -22,6 +22,7 @@ bool Robot::init() {
   _Phat.Fill(0);
   _nu.Fill(0);
   _S.Fill(0);
+  _errorBody.Fill(0);
 
   // PI velocity controllers (nominal bandwidth from Assignment 2)
   piCoeffsA = {0.945014f, -0.804389f, 1.0f};
@@ -29,6 +30,7 @@ bool Robot::init() {
   resetVelocityController();
 
   resetKalmanFilter();
+  resetLqrController();
   return true;
 }
 
@@ -59,10 +61,17 @@ void Robot::control() {
     _S.Fill(0);
   }
 
-  // Feedforward-only trajectory playback for spec 3(b)
+  // Reference trajectory
+  const float x_ref     = trajectory.X();
+  const float y_ref     = trajectory.Y();
+  const float theta_ref = trajectory.Theta();
+
+  // Compute body-frame tracking error for LQR (spec 4a)
+  computeBodyFrameError(x_ref, y_ref, theta_ref, _xhat(0), _xhat(1), _xhat(2), _errorBody);
+
+  // LQR state feedback: u = K * e' (spec 4c, feedback-only)
   Matrix<2> uApplied;
-  uApplied(0) = trajectory.v();      // forward velocity [m/s]
-  uApplied(1) = trajectory.omega();  // rotational velocity [rad/s]
+  uApplied = _Klqr * _errorBody;
 
   if(controlEnabled()) {
     // Map cart velocities to wheel angular velocities (rad/s)
@@ -91,20 +100,19 @@ void Robot::control() {
     PredictionUpdate(desiredVelocityCart, _xhat, _Phat);
   }
 
-  // Send useful outputs to QRC
-  // to check functioning of trajectory and feedforward
-  writeValue(0, trajectory.v());
-  writeValue(1, trajectory.omega());
-  writeValue(2, measurements(0));
-  writeValue(3, measurements(1));
-  writeValue(4, _xhat(0));
-  writeValue(5, _xhat(1));
-  writeValue(6, _xhat(2));
-  writeValue(7, _Phat(0,0));
-  writeValue(8, _Phat(1,1));
-  writeValue(9, _Phat(2,2));
-  writeValue(10, uApplied(0));
-  writeValue(11, uApplied(1));
+  // Send outputs to QRC (channels 0-11 for MATLAB postprocessing)
+  writeValue(0, x_ref);            // reference x
+  writeValue(1, y_ref);            // reference y
+  writeValue(2, theta_ref);        // reference theta
+  writeValue(3, _xhat(0));         // EKF estimated x
+  writeValue(4, _xhat(1));         // EKF estimated y
+  writeValue(5, _xhat(2));         // EKF estimated theta
+  writeValue(6, _errorBody(0));    // body-frame error e'_x
+  writeValue(7, _errorBody(1));    // body-frame error e'_y
+  writeValue(8, _errorBody(2));    // body-frame error e'_theta
+  writeValue(9, uApplied(0));      // applied v (LQR feedback)
+  writeValue(10, uApplied(1));     // applied omega (LQR feedback)
+  writeValue(11, measurements(0)); // z1 (front IR, for debugging)
 
   //triggers the trajectory to return the next values during the next cycle
   trajectory.update();
@@ -112,9 +120,44 @@ void Robot::control() {
 
 void Robot::resetController(){
   desiredVelocityCart.Fill(0);
+  _errorBody.Fill(0);
   resetVelocityController();
   setVoltageMotorA(0.0f);
   setVoltageMotorB(0.0f);
+}
+
+void Robot::resetLqrController() {
+  // LQR gain matrix K (2x3) from dlqr(Ad, Bd, Q_lqr, R_lqr)
+  // Computed in MATLAB: Q_lqr = diag([4, 4, 0.8]), R_lqr = diag([0.4, 0.4])
+  // UPDATE THESE VALUES when tuning in MATLAB!
+  _Klqr = {-3.1127f, 0.0f, 0.0f,
+            0.0f, 3.1393f, -1.4483f};
+  _errorBody.Fill(0);
+}
+
+void Robot::computeBodyFrameError(float x_ref, float y_ref, float theta_ref,
+                                   float x_hat, float y_hat, float theta_hat,
+                                   Matrix<3> &e_body) {
+  // World-frame tracking error: e = xi_ref - xi_hat
+  const float ex_world = x_ref - x_hat;
+  const float ey_world = y_ref - y_hat;
+  float etheta = theta_ref - theta_hat;
+
+  // Wrap angle error to [-pi, pi]
+  while(etheta >  3.14159265f) etheta -= 6.28318531f;
+  while(etheta < -3.14159265f) etheta += 6.28318531f;
+
+  // Rotation matrix R(theta_hat) to convert world -> body frame (spec 4a)
+  // e' = R(theta_hat) * e_world
+  // R = [ cos(th)  sin(th)  0 ]
+  //     [-sin(th)  cos(th)  0 ]
+  //     [   0        0      1 ]
+  const float cth = cosf(theta_hat);
+  const float sth = sinf(theta_hat);
+
+  e_body(0) =  cth * ex_world + sth * ey_world;  // e'_x (longitudinal error)
+  e_body(1) = -sth * ex_world + cth * ey_world;  // e'_y (lateral error)
+  e_body(2) = etheta;                            // e'_theta (heading error)
 }
 
 void Robot::resetKalmanFilter() {

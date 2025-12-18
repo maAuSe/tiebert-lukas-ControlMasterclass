@@ -12,7 +12,7 @@ constexpr float kGamma = 0.078f;  // lateral offset of side sensor from cart cen
 // Scalars to quickly sweep Q/R ratios for spec 3(b)
 // Keep these at 1 and apply tuning directly on Q/R entries below.
 constexpr float kQScale = 1.0f;
-constexpr float kRScale = 5.0f;
+constexpr float kRScale = 1.0f;
 
 // Walls: p*x + q*y = r  (default: W1 is y=0, W2 is x=0, robot starts in x<0, y<0 quadrant)
 constexpr float kP1 = 0.0f; constexpr float kQ1 = 1.0f; constexpr float kR1 = 0.0f;  // W1: y = 0
@@ -104,3 +104,4 @@ void CorrectionUpdate(const Matrix<2> &y, Matrix<3> &xhat, Matrix<3,3> &Phat, Ma
   xhat += L * nu;
   Phat -= L * C * Phat;
 }
+

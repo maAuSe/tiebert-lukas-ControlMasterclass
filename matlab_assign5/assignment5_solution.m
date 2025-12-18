@@ -205,16 +205,11 @@ for k = 1:numel(lqrRuns)
     fprintf('>> Missing LQR run: %s\n', lqrRuns(k).file);
     continue;
   end
-  D = parseQrcAssignment5(lqrRuns(k).file);
+  D = parseLqrCsv(lqrRuns(k).file);
   trackingRuns(end+1).label = lqrRuns(k).label; %#ok<SAGROW>
-  trackingRuns(end).t       = D.time;
-  err_world                  = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPiLocal(D.theta_ref - D.thetahat)];
-  err_body                   = zeros(size(err_world));
-  for i = 1:numel(D.time)
-    err_body(i,:) = (rotWorldToBody(D.thetahat(i)) * err_world(i,:).').';
-  end
-  trackingRuns(end).err_world = err_world;
-  trackingRuns(end).err_body  = err_body;
+  trackingRuns(end).t         = D.time;
+  trackingRuns(end).err_world = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPiLocal(D.theta_ref - D.thetahat)];
+  trackingRuns(end).err_body  = [D.ex_body, D.ey_body, D.etheta_body];
   trackingRuns(end).u         = [D.v, D.omega];
 end
 
@@ -342,10 +337,49 @@ function D = parseQrcAssignment5(filename)
 
   D.hasMeas = isfinite(D.z1) & isfinite(D.z2);
 
+  % Reconstruct reference from feedforward for EKF experiments
   x0 = -0.30;
   y0 = -0.20;
   theta0 = 0.0;
   [D.x_ref, D.y_ref, D.theta_ref] = reconstructReferenceFromVOmega(D.time, D.v_ff, D.omega_ff, x0, y0, theta0);
+end
+
+function D = parseLqrCsv(filename)
+% Parse LQR experiment CSV (channels 0-11 from firmware)
+  opts = detectImportOptions(filename);
+  opts.DataLines = [3 inf];
+  opts.VariableNamesLine = 2;
+  T = readtable(filename, opts);
+  N = height(T);
+  getv = @(names, default) pickVar(T, names, default, N);
+
+  tRaw = T.Time;
+  tRaw = tRaw(:);
+  tRel = tRaw - tRaw(1);
+  dtMed = median(diff(tRel), 'omitnan');
+  if ~isfinite(dtMed), dtMed = NaN; end
+  if ~isnan(dtMed) && dtMed > 500
+    D.time = tRel / 1e6;
+  elseif ~isnan(dtMed) && dtMed > 0.5
+    D.time = tRel / 1000;
+  else
+    D.time = tRel;
+  end
+  D.time = D.time(:);
+
+  % LQR channel mapping (0-11)
+  D.x_ref       = getv({'ValueIn0','x_ref'}, zeros(N,1));
+  D.y_ref       = getv({'ValueIn1','y_ref'}, zeros(N,1));
+  D.theta_ref   = getv({'ValueIn2','theta_ref'}, zeros(N,1));
+  D.xhat        = getv({'ValueIn3','xhat'}, zeros(N,1));
+  D.yhat        = getv({'ValueIn4','yhat'}, zeros(N,1));
+  D.thetahat    = getv({'ValueIn5','thetahat'}, zeros(N,1));
+  D.ex_body     = getv({'ValueIn6','ex_body'}, zeros(N,1));
+  D.ey_body     = getv({'ValueIn7','ey_body'}, zeros(N,1));
+  D.etheta_body = getv({'ValueIn8','etheta_body'}, zeros(N,1));
+  D.v           = getv({'ValueIn9','v_applied'}, zeros(N,1));
+  D.omega       = getv({'ValueIn10','omega_applied'}, zeros(N,1));
+  D.z1          = getv({'ValueIn11','z1'}, NaN(N,1));
 end
 
 function [x_ref, y_ref, theta_ref] = reconstructReferenceFromVOmega(t, v, omega, x0, y0, theta0)

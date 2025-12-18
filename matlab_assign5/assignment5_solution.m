@@ -46,7 +46,7 @@ firmware_R_scale = 1.0;
 
 Q_proc_nom = Q_proc_base * firmware_Q_scale;
 R_meas_nom = R_meas_base * firmware_R_scale;
-P0_default = diag([1e-7, 1e-7, 1e-7]); % must match resetKalmanFilter() on Arduino (eq. 16)
+P0_default = diag([1e-3, 1e-3, 7.6e-3]); % must match resetKalmanFilter() on Arduino
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
 R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
 

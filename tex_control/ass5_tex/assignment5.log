@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 02:17
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 02:36
  restricted system commands enabled.
 **assignment5.tex
 (./assignment5.tex
@@ -489,9 +489,36 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
-Package translations Info: No language package found. I am going to use `englis
-h' as default language. on input line 17.
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen197
+\captionmargin=\dimen198
+\caption@leftmargin=\dimen199
+\caption@rightmargin=\dimen256
+\caption@width=\dimen257
+\caption@indent=\dimen258
+\caption@parindent=\dimen259
+\caption@hangindent=\dimen260
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count309
+\c@continuedfloat=\count310
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count311
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count312
+)
+Package translations Info: No language package found. I am going to use `englis
+h' as default language. on input line 18.
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/color.sty
 Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
 
@@ -504,52 +531,52 @@ Package color Info: Driver file: luatex.def on input line 149.
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-lua
 tex.def
 File: l3backend-luatex.def 2024-01-04 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count309
+\l__color_backend_stack_int=\count313
 Inserting `l3color' in `luaotfload.parse_color'.
 \l__pdf_internal_box=\box67
 ) (./assignment5.aux)
 \openout1 = assignment5.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
-7.
+8.
 
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
 
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count310
-\scratchdimen=\dimen197
+\scratchcounter=\count314
+\scratchdimen=\dimen261
 \scratchbox=\box68
-\nofMPsegments=\count311
-\nofMParguments=\count312
+\nofMPsegments=\count315
+\nofMParguments=\count316
 \everyMPshowfont=\toks31
-\MPscratchCnt=\count313
-\MPscratchDim=\dimen198
-\MPnumerator=\count314
-\makeMPintoPDFobject=\count315
+\MPscratchCnt=\count317
+\MPscratchDim=\dimen262
+\MPnumerator=\count318
+\makeMPintoPDFobject=\count319
 \everyMPtoPDFconversion=\toks32
 )
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-b
@@ -562,7 +589,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 17.
+Package hyperref Info: Link coloring OFF on input line 18.
  (./assignment5.out) (./assignment5.out)
 \@outlinefile=\write3
 
@@ -609,28 +636,30 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 17.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 25.
+or `english'. on input line 18.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 26.
 
 
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 25.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 26.
 
 
 (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<sedes.pdf, id=151, 310.15875pt x 521.95pt>
+<sedes.pdf, id=143, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package luatex.def Info: sedes.pdf  used on input line 27.
+Package luatex.def Info: sedes.pdf  used on input line 28.
 (luatex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=153, 341.3553pt x 132.0132pt>
+<logoFirW.jpg, id=145, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
-Package luatex.def Info: logoFirW.jpg  used on input line 33.
+Package luatex.def Info: logoFirW.jpg  used on input line 34.
 (luatex.def)             Requested size: 147.14452pt x 56.9055pt.
 
 [1
@@ -641,456 +670,447 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
 [1] [1]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 189.
+(hyperref)                removing `\begingroup' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 189.
+(hyperref)                removing `\<let>-command' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@nomath' on input line 189.
+(hyperref)                removing `\@nomath' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 189.
+(hyperref)                removing `\begingroup' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\setbox' on input line 189.
+(hyperref)                removing `\setbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\hbox' on input line 189.
+(hyperref)                removing `\hbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\thinmuskip' on input line 189.
+(hyperref)                removing `\thinmuskip' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\medmuskip' on input line 189.
+(hyperref)                removing `\medmuskip' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\m@ne' on input line 189.
+(hyperref)                removing `\m@ne' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\thickmuskip' on input line 189.
+(hyperref)                removing `\thickmuskip' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@ne' on input line 189.
+(hyperref)                removing `\@ne' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\setbox' on input line 189.
+(hyperref)                removing `\setbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\tw@' on input line 189.
+(hyperref)                removing `\tw@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\hbox' on input line 189.
+(hyperref)                removing `\hbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\xi' on input line 189.
+(hyperref)                removing `\xi' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathsurround' on input line 189.
+(hyperref)                removing `\mathsurround' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\xi' on input line 189.
+(hyperref)                removing `\xi' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathsurround' on input line 189.
+(hyperref)                removing `\mathsurround' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 189.
+(hyperref)                removing `\<def>-command' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathchoice' on input line 189.
+(hyperref)                removing `\@tempa' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\hbox' on input line 189.
+(hyperref)                removing `\mathchoice' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\hbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathsurround' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\mathsurround' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\displaystyle' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\xi' on input line 189.
+(hyperref)                removing `\displaystyle' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\xi' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\hbox' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\hbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathsurround' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\mathsurround' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\textstyle' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\xi' on input line 189.
+(hyperref)                removing `\textstyle' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\xi' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\hbox' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\hbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathsurround' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\mathsurround' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\scriptstyle' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\xi' on input line 189.
+(hyperref)                removing `\scriptstyle' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\xi' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\hbox' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\hbox' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathsurround' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 189.
+(hyperref)                removing `\mathsurround' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\scriptscriptstyle' on input line 189.
+(hyperref)                removing `\z@' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\xi' on input line 189.
+(hyperref)                removing `\scriptscriptstyle' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `\xi' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\endgroup' on input line 189.
+(hyperref)                removing `math shift' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 189.
+(hyperref)                removing `\endgroup' on input line 184.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `superscript' on input line 184.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 184.
 
 [2] [3]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 300.
+(hyperref)                removing `math shift' on input line 279.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 300.
+(hyperref)                removing `math shift' on input line 279.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 300.
+(hyperref)                removing `math shift' on input line 279.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 300.
+(hyperref)                removing `math shift' on input line 279.
 
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 311.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 311.
+
+<images/ekf_state1_QR_sweep.pdf, id=231, 560.0925pt x 351.3125pt>
+File: images/ekf_state1_QR_sweep.pdf Graphic file (type pdf)
+<use images/ekf_state1_QR_sweep.pdf>
+Package luatex.def Info: images/ekf_state1_QR_sweep.pdf  used on input line 319
+.
+(luatex.def)             Requested size: 225.4804pt x 141.42844pt.
+<images/ekf_state2_QR_sweep.pdf, id=232, 560.0925pt x 351.3125pt>
+File: images/ekf_state2_QR_sweep.pdf Graphic file (type pdf)
+<use images/ekf_state2_QR_sweep.pdf>
+Package luatex.def Info: images/ekf_state2_QR_sweep.pdf  used on input line 325
+.
+(luatex.def)             Requested size: 225.4804pt x 141.42844pt.
+<images/ekf_state3_QR_sweep.pdf, id=233, 549.05125pt x 351.3125pt>
+File: images/ekf_state3_QR_sweep.pdf Graphic file (type pdf)
+<use images/ekf_state3_QR_sweep.pdf>
+Package luatex.def Info: images/ekf_state3_QR_sweep.pdf  used on input line 332
+.
+(luatex.def)             Requested size: 225.4804pt x 144.27492pt.
 [4]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 332.
+(hyperref)                removing `math shift' on input line 340.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 332.
-
-<images/ekf_state1_QR_sweep.pdf, id=244, 560.0925pt x 351.3125pt>
-File: images/ekf_state1_QR_sweep.pdf Graphic file (type pdf)
-<use images/ekf_state1_QR_sweep.pdf>
-Package luatex.def Info: images/ekf_state1_QR_sweep.pdf  used on input line 346
-.
-(luatex.def)             Requested size: 399.29463pt x 250.46284pt.
-<images/ekf_state2_QR_sweep.pdf, id=245, 560.0925pt x 351.3125pt>
-File: images/ekf_state2_QR_sweep.pdf Graphic file (type pdf)
-<use images/ekf_state2_QR_sweep.pdf>
-Package luatex.def Info: images/ekf_state2_QR_sweep.pdf  used on input line 353
-.
-(luatex.def)             Requested size: 399.29463pt x 250.46284pt.
-[5
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
-<./images/ekf_state1_QR_sweep.pdf>]
-<images/ekf_state3_QR_sweep.pdf, id=285, 549.05125pt x 351.3125pt>
-File: images/ekf_state3_QR_sweep.pdf Graphic file (type pdf)
-<use images/ekf_state3_QR_sweep.pdf>
-Package luatex.def Info: images/ekf_state3_QR_sweep.pdf  used on input line 360
-.
-(luatex.def)             Requested size: 399.29463pt x 255.49643pt.
+(hyperref)                removing `math shift' on input line 340.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 365.
+(hyperref)                removing `math shift' on input line 340.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 365.
+(hyperref)                removing `math shift' on input line 340.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 365.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 365.
-
-[6
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
-
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.3'
-<./images/ekf_state2_QR_sweep.pdf><./images/ekf_state3_QR_sweep.pdf>]
-<images/ekf_state1_95ci_plotstates.pdf, id=351, 518.93875pt x 281.05pt>
+<images/ekf_state1_95ci_plotstates.pdf, id=246, 518.93875pt x 281.05pt>
 File: images/ekf_state1_95ci_plotstates.pdf Graphic file (type pdf)
 <use images/ekf_state1_95ci_plotstates.pdf>
 Package luatex.def Info: images/ekf_state1_95ci_plotstates.pdf  used on input l
-ine 380.
-(luatex.def)             Requested size: 399.29463pt x 216.26335pt.
-<images/ekf_state2_95ci_plotstates.pdf, id=352, 518.93875pt x 281.05pt>
+ine 352.
+(luatex.def)             Requested size: 225.4804pt x 122.11852pt.
+<images/ekf_state2_95ci_plotstates.pdf, id=247, 518.93875pt x 281.05pt>
 File: images/ekf_state2_95ci_plotstates.pdf Graphic file (type pdf)
 <use images/ekf_state2_95ci_plotstates.pdf>
 Package luatex.def Info: images/ekf_state2_95ci_plotstates.pdf  used on input l
-ine 387.
-(luatex.def)             Requested size: 399.29463pt x 216.26335pt.
- [7
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
-<./images/ekf_state1_95ci_plotstates.pdf>]
-<images/ekf_state3_95ci_plotstates.pdf, id=382, 507.8975pt x 281.05pt>
+ine 358.
+(luatex.def)             Requested size: 225.4804pt x 122.11852pt.
+<images/ekf_state3_95ci_plotstates.pdf, id=248, 507.8975pt x 281.05pt>
 File: images/ekf_state3_95ci_plotstates.pdf Graphic file (type pdf)
 <use images/ekf_state3_95ci_plotstates.pdf>
 Package luatex.def Info: images/ekf_state3_95ci_plotstates.pdf  used on input l
-ine 394.
-(luatex.def)             Requested size: 399.29463pt x 220.95923pt.
- [8
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.5'
-
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.6'
-<./images/ekf_state2_95ci_plotstates.pdf><./images/ekf_state3_95ci_plotstates.pd
-f>]
-<images/ekf_measurement1_95ci.pdf, id=438, 509.905pt x 246.9225pt>
+ine 365.
+(luatex.def)             Requested size: 225.4804pt x 124.77309pt.
+[5<./images/ekf_state1_QR_sweep.pdf><./images/ekf_state2_QR_sweep.pdf><./images/
+ekf_state3_QR_sweep.pdf>]
+<images/ekf_measurement1_95ci.pdf, id=345, 509.905pt x 246.9225pt>
 File: images/ekf_measurement1_95ci.pdf Graphic file (type pdf)
 <use images/ekf_measurement1_95ci.pdf>
-Package luatex.def Info: images/ekf_measurement1_95ci.pdf  used on input line 4
-28.
-(luatex.def)             Requested size: 399.29463pt x 193.36737pt.
-<images/ekf_measurement2_95ci.pdf, id=439, 509.905pt x 246.9225pt>
+Package luatex.def Info: images/ekf_measurement1_95ci.pdf  used on input line 3
+93.
+(luatex.def)             Requested size: 225.4804pt x 109.18877pt.
+<images/ekf_measurement2_95ci.pdf, id=346, 509.905pt x 246.9225pt>
 File: images/ekf_measurement2_95ci.pdf Graphic file (type pdf)
 <use images/ekf_measurement2_95ci.pdf>
-Package luatex.def Info: images/ekf_measurement2_95ci.pdf  used on input line 4
-35.
-(luatex.def)             Requested size: 399.29463pt x 193.36737pt.
- [9
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.7'
-<./images/ekf_measurement1_95ci.pdf>] [10
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.8'
-<./images/ekf_measurement2_95ci.pdf>]
+Package luatex.def Info: images/ekf_measurement2_95ci.pdf  used on input line 3
+99.
+(luatex.def)             Requested size: 225.4804pt x 109.18877pt.
+ [6<./images/ekf_state1_95ci_plotstates.pdf><./images/ekf_state2_95ci_plotstates
+.pdf><./images/ekf_state3_95ci_plotstates.pdf>]
+[7<./images/ekf_measurement1_95ci.pdf><./images/ekf_measurement2_95ci.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 504.
+(hyperref)                removing `math shift' on input line 466.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 504.
+(hyperref)                removing `subscript' on input line 466.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 504.
+(hyperref)                removing `math shift' on input line 466.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 504.
+(hyperref)                removing `math shift' on input line 466.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 504.
+(hyperref)                removing `subscript' on input line 466.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 504.
+(hyperref)                removing `math shift' on input line 466.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 518.
+(hyperref)                removing `math shift' on input line 474.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 518.
+(hyperref)                removing `subscript' on input line 474.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 518.
+(hyperref)                removing `math shift' on input line 474.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 518.
+(hyperref)                removing `math shift' on input line 474.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 518.
+(hyperref)                removing `subscript' on input line 474.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 518.
+(hyperref)                removing `math shift' on input line 474.
 
 (./assignment5.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-) [11] (./assignment5.aux)
+) [8] (./assignment5.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `assignment5.out' has not changed.
-(rerunfilecheck)             Checksum: 14B54ACF103CCDC01CC63C619F867BAF;8280.
+(rerunfilecheck)             Checksum: E335F2F02D862D574AF5D1BBABE4F9DB;8083.
 )
 
 Here is how much of LuaTeX's memory you used:
- 16810 strings out of 476497
+ 18241 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 739 words of node memory still in use:
-   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 57 attribute, 58 glue_spec
-, 57 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 1:2,2:732,3:280,4:60,5:495,6:47,7:6624,8:109,9:868,10:11,11:538
- 38435 multiletter control sequences out of 65536+600000
- 57 fonts using 4363335 bytes
- 72i,12n,75p,684b,1001s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 743 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 58 attribute, 58 glue_spec
+, 58 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:814,3:280,4:60,5:552,6:51,7:8105,8:109,9:1155,10:11,11:702
+ 39865 multiletter control sequences out of 65536+600000
+ 72 fonts using 5363551 bytes
+ 83i,12n,128p,1024b,954s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmrom
 an7-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public
 /lm/lmmono10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts
-/opentype/public/lm/lmroman7-regular.otf><C:/Users/campa/AppData/Local/Programs/
-MiKTeX/fonts/opentype/public/lm/lmmono10-italic.otf><C:/Users/campa/AppData/Loca
-l/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-italic.otf><C:/Users/campa/
-AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-bolditalic.otf>
-<//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmrom
-an10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentyp
-e/public/lm/lmroman10-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fon
-ts/opentype/public/lm/lmroman12-bold.otf><C:/Users/campa/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/campa/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/campa/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/campa/
-AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><C:/
-Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.
-pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmmib10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/campa/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/campa/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/campa/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/cam
-pa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Us
-ers/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb
-><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbo
-ls/msbm10.pfb>
-Output written on assignment5.pdf (13 pages, 1844317 bytes).
+/opentype/public/lm/lmroman7-regular.otf><//?/c:/users/campa/appdata/local/progr
+ams/miktex/fonts/opentype/public/lm/lmroman9-regular.otf><C:/Users/campa/AppData
+/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-italic.otf><C:/Users/ca
+mpa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-italic.otf>
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10
+-bolditalic.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype
+/public/lm/lmroman10-regular.otf><//?/c:/users/campa/appdata/local/programs/mikt
+ex/fonts/opentype/public/lm/lmroman10-bold.otf><C:/Users/campa/AppData/Local/Pro
+grams/MiKTeX/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/campa/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/campa
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/User
+s/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextr
+a/cmex7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmmi6.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/campa/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/campa/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/
+campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
+/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.p
+fb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr6.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmr9.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/campa/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on assignment5.pdf (10 pages, 1874750 bytes).
 
-PDF statistics: 610 PDF objects out of 1000 (max. 8388607)
- 94 named destinations out of 1000 (max. 131072)
- 317 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 603 PDF objects out of 1000 (max. 8388607)
+ 80 named destinations out of 1000 (max. 131072)
+ 301 words of extra memory for PDF output out of 10000 (max. 100000000)
 

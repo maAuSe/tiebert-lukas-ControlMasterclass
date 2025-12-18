@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  18 DEC 2025 01:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  18 DEC 2025 14:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -404,18 +404,35 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 (/usr/local/texlive/2025/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lipsum/lipsum.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2025-01-18 L3 programming layer (loader) 
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count309
+\l__pdf_internal_box=\box56
+))
+Package: l3keys2e 2024-08-16 LaTeX2e option processing using LaTeX3 keys
+)
+Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
+\g__lipsum_par_int=\count310
+\l__lipsum_a_int=\count311
+\l__lipsum_b_int=\count312
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex))
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count309
-\lst@gtempboxa=\box56
+\lst@mode=\count313
+\lst@gtempboxa=\box57
 \lst@token=\toks27
-\lst@length=\count310
+\lst@length=\count314
 \lst@currlwidth=\dimen256
-\lst@column=\count311
-\lst@pos=\count312
+\lst@column=\count315
+\lst@pos=\count316
 \lst@lostspace=\dimen257
 \lst@width=\dimen258
-\lst@newlines=\count313
-\lst@lineno=\count314
+\lst@newlines=\count317
+\lst@lineno=\count318
 \lst@maxwidth=\dimen259
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstpatch.sty
@@ -423,9 +440,9 @@ File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count315
-\lst@skipnumbers=\count316
-\lst@framebox=\box57
+\c@lstnumber=\count319
+\lst@skipnumbers=\count320
+\lst@framebox=\box58
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2024/09/23 1.10c listings configuration
@@ -453,17 +470,11 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count317
+\c@float@type=\count321
 \float@exts=\toks28
-\float@box=\box58
+\float@box=\box59
 \@float@everytoks=\toks29
-\@floatcapt=\box59
-)
-\citation{*}
-(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count318
-\l__pdf_internal_box=\box60
+\@floatcapt=\box60
 )
 (./assignment2.aux
 
@@ -496,16 +507,16 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 43.
 LaTeX Font Info:    ... okay on input line 43.
  (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count319
+\scratchcounter=\count322
 \scratchdimen=\dimen260
 \scratchbox=\box61
-\nofMPsegments=\count320
-\nofMParguments=\count321
+\nofMPsegments=\count323
+\nofMParguments=\count324
 \everyMPshowfont=\toks30
-\MPscratchCnt=\count322
+\MPscratchCnt=\count325
 \MPscratchDim=\dimen261
-\MPnumerator=\count323
-\makeMPintoPDFobject=\count324
+\MPnumerator=\count326
+\makeMPintoPDFobject=\count327
 \everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -562,7 +573,7 @@ Package hyperref Info: Link coloring OFF on input line 43.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count325
+\c@lstlisting=\count328
 <sedes.pdf, id=40, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
@@ -606,13 +617,13 @@ de plot for the com-pen-sated open-loop sys-tem $\OML/cmm/m/it/10 L\OT1/cmr/m/n
 
 
 [2]
-<Figures_part_1b/Verification-Open-loop-A.png, id=118, 952.55875pt x 634.37pt>
+<Figures_part_1b/Verification-Open-loop-A.png, id=120, 952.55875pt x 634.37pt>
 File: Figures_part_1b/Verification-Open-loop-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-Open-loop-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Open-loop-A.png  used on 
 input line 264.
 (pdftex.def)             Requested size: 225.4804pt x 150.16109pt.
-<Figures_part_1b/Verification-PI-A.png, id=120, 954.56625pt x 642.4pt>
+<Figures_part_1b/Verification-PI-A.png, id=122, 954.56625pt x 642.4pt>
 File: Figures_part_1b/Verification-PI-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-PI-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-PI-A.png  used on input l
@@ -623,33 +634,33 @@ File: Figures_part_1b/Verification-PI-A.png Graphic file (type png)
 Package pdftex.def Info: Figures_part_1b/Verification-PI-A.png  used on input l
 ine 281.
 (pdftex.def)             Requested size: 225.4804pt x 151.73839pt.
-<Figures_part_1b/Verification-PI-B.png, id=121, 946.53625pt x 641.39626pt>
+<Figures_part_1b/Verification-PI-B.png, id=123, 946.53625pt x 641.39626pt>
 File: Figures_part_1b/Verification-PI-B.png Graphic file (type png)
 <use Figures_part_1b/Verification-PI-B.png>
 Package pdftex.def Info: Figures_part_1b/Verification-PI-B.png  used on input l
 ine 288.
 (pdftex.def)             Requested size: 225.4804pt x 152.78339pt.
-<Figures_part_1b/Verification-Closed-loop-A.png, id=122, 969.6225pt x 644.4075p
+<Figures_part_1b/Verification-Closed-loop-A.png, id=124, 969.6225pt x 644.4075p
 t>
 File: Figures_part_1b/Verification-Closed-loop-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-Closed-loop-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Closed-loop-A.png  used o
 n input line 298.
 (pdftex.def)             Requested size: 225.4804pt x 149.85269pt.
-<Figures_part_1b/Verification-Closed-loop-B.png, id=123, 956.57375pt x 636.3775
+<Figures_part_1b/Verification-Closed-loop-B.png, id=125, 956.57375pt x 636.3775
 pt>
 File: Figures_part_1b/Verification-Closed-loop-B.png Graphic file (type png)
 <use Figures_part_1b/Verification-Closed-loop-B.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Closed-loop-B.png  used o
 n input line 305.
 (pdftex.def)             Requested size: 225.4804pt x 150.00511pt.
-<Figures_part_1b/Verification-Time-A.png, id=126, 1005.7575pt x 647.41875pt>
+<Figures_part_1b/Verification-Time-A.png, id=128, 1005.7575pt x 647.41875pt>
 File: Figures_part_1b/Verification-Time-A.png Graphic file (type png)
 <use Figures_part_1b/Verification-Time-A.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Time-A.png  used on input
  line 328.
 (pdftex.def)             Requested size: 230.18253pt x 148.16226pt.
-<Figures_part_1b/Verification-Time-B.png, id=127, 981.6675pt x 635.37375pt>
+<Figures_part_1b/Verification-Time-B.png, id=129, 981.6675pt x 635.37375pt>
 File: Figures_part_1b/Verification-Time-B.png Graphic file (type png)
 <use Figures_part_1b/Verification-Time-B.png>
 Package pdftex.def Info: Figures_part_1b/Verification-Time-B.png  used on input
@@ -663,7 +674,7 @@ Package pdftex.def Info: Figures_part_1b/Verification-Time-B.png  used on input
 tion-PI-A.png> <./Figures_part_1b/Verification-PI-B.png> <./Figures_part_1b/Ver
 ification-Closed-loop-A.png> <./Figures_part_1b/Verification-Closed-loop-B.png>
 ]
-<Figures_part_2a/step_response_no_disturbance_A.png, id=151, 961.5925pt x 626.3
+<Figures_part_2a/step_response_no_disturbance_A.png, id=153, 961.5925pt x 626.3
 4pt>
 File: Figures_part_2a/step_response_no_disturbance_A.png Graphic file (type png
 )
@@ -671,7 +682,7 @@ File: Figures_part_2a/step_response_no_disturbance_A.png Graphic file (type png
 Package pdftex.def Info: Figures_part_2a/step_response_no_disturbance_A.png  us
 ed on input line 388.
 (pdftex.def)             Requested size: 230.18253pt x 149.93282pt.
-<Figures_part_2a/step_response_no_disturbance_B.png, id=152, 947.54pt x 625.336
+<Figures_part_2a/step_response_no_disturbance_B.png, id=154, 947.54pt x 625.336
 24pt>
 File: Figures_part_2a/step_response_no_disturbance_B.png Graphic file (type png
 )
@@ -679,7 +690,7 @@ File: Figures_part_2a/step_response_no_disturbance_B.png Graphic file (type png
 Package pdftex.def Info: Figures_part_2a/step_response_no_disturbance_B.png  us
 ed on input line 395.
 (pdftex.def)             Requested size: 230.18253pt x 151.90625pt.
-<Figures_part_2a/tracking_error_no_disturbance_A.png, id=154, 974.64125pt x 630
+<Figures_part_2a/tracking_error_no_disturbance_A.png, id=156, 974.64125pt x 630
 .355pt>
 File: Figures_part_2a/tracking_error_no_disturbance_A.png Graphic file (type pn
 g)
@@ -687,7 +698,7 @@ g)
 Package pdftex.def Info: Figures_part_2a/tracking_error_no_disturbance_A.png  u
 sed on input line 412.
 (pdftex.def)             Requested size: 230.18253pt x 148.86444pt.
-<Figures_part_2a/tracking_error_no_disturbance_B.png, id=155, 948.54375pt x 622
+<Figures_part_2a/tracking_error_no_disturbance_B.png, id=157, 948.54375pt x 622
 .325pt>
 File: Figures_part_2a/tracking_error_no_disturbance_B.png Graphic file (type pn
 g)
@@ -703,7 +714,7 @@ Time-B.png>]
 [6 <./Figures_part_2a/step_response_no_disturbance_A.png> <./Figures_part_2a/st
 ep_response_no_disturbance_B.png> <./Figures_part_2a/tracking_error_no_disturba
 nce_A.png> <./Figures_part_2a/tracking_error_no_disturbance_B.png>]
-<Figures_part_2a/control_signal_no_disturbance_A.png, id=179, 948.54375pt x 625
+<Figures_part_2a/control_signal_no_disturbance_A.png, id=181, 948.54375pt x 625
 .33624pt>
 File: Figures_part_2a/control_signal_no_disturbance_A.png Graphic file (type pn
 g)
@@ -711,7 +722,7 @@ g)
 Package pdftex.def Info: Figures_part_2a/control_signal_no_disturbance_A.png  u
 sed on input line 437.
 (pdftex.def)             Requested size: 230.18253pt x 151.74405pt.
-<Figures_part_2a/control_signal_no_disturbance_B.png, id=180, 952.55875pt x 624
+<Figures_part_2a/control_signal_no_disturbance_B.png, id=182, 952.55875pt x 624
 .3325pt>
 File: Figures_part_2a/control_signal_no_disturbance_B.png Graphic file (type pn
 g)
@@ -719,7 +730,7 @@ g)
 Package pdftex.def Info: Figures_part_2a/control_signal_no_disturbance_B.png  u
 sed on input line 444.
 (pdftex.def)             Requested size: 230.18253pt x 150.8622pt.
-<Figures_part_2b/block_diagram_constant_disturbance.png, id=182, 1147.28625pt x
+<Figures_part_2b/block_diagram_constant_disturbance.png, id=184, 1147.28625pt x
  375.4025pt>
 File: Figures_part_2b/block_diagram_constant_disturbance.png Graphic file (type
  png)
@@ -735,7 +746,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [7 <./Figures_part_2a/control_signal_no_disturbance_A.png> <./Figures_part_2a/c
 ontrol_signal_no_disturbance_B.png>]
-<Figures_part_2b/step_response_with_disturbance_A.png, id=198, 952.55875pt x 61
+<Figures_part_2b/step_response_with_disturbance_A.png, id=200, 952.55875pt x 61
 8.31pt>
 File: Figures_part_2b/step_response_with_disturbance_A.png Graphic file (type p
 ng)
@@ -743,7 +754,7 @@ ng)
 Package pdftex.def Info: Figures_part_2b/step_response_with_disturbance_A.png  
 used on input line 493.
 (pdftex.def)             Requested size: 230.18253pt x 149.40694pt.
-<Figures_part_2b/step_response_with_disturbance_B.png, id=199, 956.57375pt x 62
+<Figures_part_2b/step_response_with_disturbance_B.png, id=201, 956.57375pt x 62
 0.3175pt>
 File: Figures_part_2b/step_response_with_disturbance_B.png Graphic file (type p
 ng)
@@ -751,7 +762,7 @@ ng)
 Package pdftex.def Info: Figures_part_2b/step_response_with_disturbance_B.png  
 used on input line 500.
 (pdftex.def)             Requested size: 230.18253pt x 149.26732pt.
-<Figures_part_2b/tracking_error_with_disturbance_A.png, id=201, 964.60374pt x 6
+<Figures_part_2b/tracking_error_with_disturbance_A.png, id=203, 964.60374pt x 6
 28.3475pt>
 File: Figures_part_2b/tracking_error_with_disturbance_A.png Graphic file (type 
 png)
@@ -759,7 +770,7 @@ png)
 Package pdftex.def Info: Figures_part_2b/tracking_error_with_disturbance_A.png 
  used on input line 518.
 (pdftex.def)             Requested size: 230.18253pt x 149.93399pt.
-<Figures_part_2b/tracking_error_with_disturbance_B.png, id=202, 947.54pt x 622.
+<Figures_part_2b/tracking_error_with_disturbance_B.png, id=204, 947.54pt x 622.
 325pt>
 File: Figures_part_2b/tracking_error_with_disturbance_B.png Graphic file (type 
 png)
@@ -767,7 +778,7 @@ png)
 Package pdftex.def Info: Figures_part_2b/tracking_error_with_disturbance_B.png 
  used on input line 525.
 (pdftex.def)             Requested size: 230.18253pt x 151.17476pt.
-<Figures_part_2b/control_signal_with_disturbance_A.png, id=204, 953.5625pt x 61
+<Figures_part_2b/control_signal_with_disturbance_A.png, id=206, 953.5625pt x 61
 9.31375pt>
 File: Figures_part_2b/control_signal_with_disturbance_A.png Graphic file (type 
 png)
@@ -775,7 +786,7 @@ png)
 Package pdftex.def Info: Figures_part_2b/control_signal_with_disturbance_A.png 
  used on input line 545.
 (pdftex.def)             Requested size: 230.18253pt x 149.49828pt.
-<Figures_part_2b/control_signal_with_disturbance_B.png, id=205, 950.55125pt x 6
+<Figures_part_2b/control_signal_with_disturbance_B.png, id=207, 950.55125pt x 6
 21.32124pt>
 File: Figures_part_2b/control_signal_with_disturbance_B.png Graphic file (type 
 png)
@@ -801,7 +812,7 @@ isturbance_B.png>]
 [9 <./Figures_part_2b/tracking_error_with_disturbance_A.png> <./Figures_part_2b
 /tracking_error_with_disturbance_B.png> <./Figures_part_2b/control_signal_with_
 disturbance_A.png> <./Figures_part_2b/control_signal_with_disturbance_B.png>]
-<Figures_part_2c/step_response_high_vs_low_BW_A.png, id=227, 976.64874pt x 628.
+<Figures_part_2c/step_response_high_vs_low_BW_A.png, id=229, 976.64874pt x 628.
 3475pt>
 File: Figures_part_2c/step_response_high_vs_low_BW_A.png Graphic file (type png
 )
@@ -809,7 +820,7 @@ File: Figures_part_2c/step_response_high_vs_low_BW_A.png Graphic file (type png
 Package pdftex.def Info: Figures_part_2c/step_response_high_vs_low_BW_A.png  us
 ed on input line 594.
 (pdftex.def)             Requested size: 230.18253pt x 148.09312pt.
-<Figures_part_2c/step_response_high_vs_low_BW_B.png, id=228, 966.61125pt x 625.
+<Figures_part_2c/step_response_high_vs_low_BW_B.png, id=230, 966.61125pt x 625.
 33624pt>
 File: Figures_part_2c/step_response_high_vs_low_BW_B.png Graphic file (type png
 )
@@ -817,7 +828,7 @@ File: Figures_part_2c/step_response_high_vs_low_BW_B.png Graphic file (type png
 Package pdftex.def Info: Figures_part_2c/step_response_high_vs_low_BW_B.png  us
 ed on input line 601.
 (pdftex.def)             Requested size: 230.18253pt x 148.91011pt.
-<Figures_part_2c/tracking_error_high_vs_low_BW_A.png, id=230, 949.5475pt x 617.
+<Figures_part_2c/tracking_error_high_vs_low_BW_A.png, id=232, 949.5475pt x 617.
 30624pt>
 File: Figures_part_2c/tracking_error_high_vs_low_BW_A.png Graphic file (type pn
 g)
@@ -825,7 +836,7 @@ g)
 Package pdftex.def Info: Figures_part_2c/tracking_error_high_vs_low_BW_A.png  u
 sed on input line 621.
 (pdftex.def)             Requested size: 230.18253pt x 149.64478pt.
-<Figures_part_2c/tracking_error_high_vs_low_BW_B.png, id=231, 968.61874pt x 617
+<Figures_part_2c/tracking_error_high_vs_low_BW_B.png, id=233, 968.61874pt x 617
 .30624pt>
 File: Figures_part_2c/tracking_error_high_vs_low_BW_B.png Graphic file (type pn
 g)
@@ -837,7 +848,7 @@ sed on input line 628.
 
 [10 <./Figures_part_2c/step_response_high_vs_low_BW_A.png> <./Figures_part_2c/s
 tep_response_high_vs_low_BW_B.png>]
-<Figures_part_2c/control_signal_high_vs_low_BW_A.png, id=247, 950.55125pt x 624
+<Figures_part_2c/control_signal_high_vs_low_BW_A.png, id=249, 950.55125pt x 624
 .3325pt>
 File: Figures_part_2c/control_signal_high_vs_low_BW_A.png Graphic file (type pn
 g)
@@ -845,7 +856,7 @@ g)
 Package pdftex.def Info: Figures_part_2c/control_signal_high_vs_low_BW_A.png  u
 sed on input line 648.
 (pdftex.def)             Requested size: 230.18253pt x 151.1861pt.
-<Figures_part_2c/control_signal_high_vs_low_BW_B.png, id=248, 960.58875pt x 623
+<Figures_part_2c/control_signal_high_vs_low_BW_B.png, id=250, 960.58875pt x 623
 .32875pt>
 File: Figures_part_2c/control_signal_high_vs_low_BW_B.png Graphic file (type pn
 g)
@@ -858,51 +869,48 @@ sed on input line 655.
 [11 <./Figures_part_2c/tracking_error_high_vs_low_BW_A.png> <./Figures_part_2c/
 tracking_error_high_vs_low_BW_B.png> <./Figures_part_2c/control_signal_high_vs_
 low_BW_A.png> <./Figures_part_2c/control_signal_high_vs_low_BW_B.png>]
+(./assignment2.bbl)
 
-[12] (./assignment2.bbl
-
-Package natbib Warning: Empty `thebibliography' environment on input line 8.
-
-)
-<Figures_part_1b/Uncompensated-Bode-A.png, id=265, 961.5925pt x 650.43pt>
+[12]
+<Figures_part_1b/Uncompensated-Bode-A.png, id=268, 961.5925pt x 650.43pt>
 File: Figures_part_1b/Uncompensated-Bode-A.png Graphic file (type png)
 <use Figures_part_1b/Uncompensated-Bode-A.png>
 Package pdftex.def Info: Figures_part_1b/Uncompensated-Bode-A.png  used on inpu
-t line 688.
+t line 682.
 (pdftex.def)             Requested size: 230.18253pt x 155.69946pt.
-<Figures_part_1b/Uncompensated-Bode-B.png, id=266, 943.525pt x 647.41875pt>
+<Figures_part_1b/Uncompensated-Bode-B.png, id=269, 943.525pt x 647.41875pt>
 File: Figures_part_1b/Uncompensated-Bode-B.png Graphic file (type png)
 <use Figures_part_1b/Uncompensated-Bode-B.png>
 Package pdftex.def Info: Figures_part_1b/Uncompensated-Bode-B.png  used on inpu
-t line 695.
+t line 689.
 (pdftex.def)             Requested size: 230.18253pt x 157.94228pt.
-<Figures_part_1b/Compensated-Bode-without-K-A.png, id=267, 952.55875pt x 645.41
+<Figures_part_1b/Compensated-Bode-without-K-A.png, id=270, 952.55875pt x 645.41
 125pt>
 File: Figures_part_1b/Compensated-Bode-without-K-A.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-without-K-A.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-without-K-A.png  used
- on input line 712.
+ on input line 706.
 (pdftex.def)             Requested size: 225.4804pt x 152.77466pt.
-<Figures_part_1b/Compensated-Bode-with-K-A.png, id=268, 953.5625pt x 645.41125p
+<Figures_part_1b/Compensated-Bode-with-K-A.png, id=271, 953.5625pt x 645.41125p
 t>
 File: Figures_part_1b/Compensated-Bode-with-K-A.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-with-K-A.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-with-K-A.png  used on
- input line 719.
+ input line 713.
 (pdftex.def)             Requested size: 225.4804pt x 152.60724pt.
-<Figures_part_1b/Compensated-Bode-without-K-B.png, id=269, 962.59625pt x 647.41
+<Figures_part_1b/Compensated-Bode-without-K-B.png, id=272, 962.59625pt x 647.41
 875pt>
 File: Figures_part_1b/Compensated-Bode-without-K-B.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-without-K-B.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-without-K-B.png  used
- on input line 729.
+ on input line 723.
 (pdftex.def)             Requested size: 225.4804pt x 151.64948pt.
-<Figures_part_1b/Compensated-Bode-with-K-B.png, id=270, 946.53625pt x 640.3925p
+<Figures_part_1b/Compensated-Bode-with-K-B.png, id=273, 946.53625pt x 640.3925p
 t>
 File: Figures_part_1b/Compensated-Bode-with-K-B.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-with-K-B.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-with-K-B.png  used on
- input line 736.
+ input line 730.
 (pdftex.def)             Requested size: 225.4804pt x 152.54428pt.
 
 
@@ -924,13 +932,13 @@ Package rerunfilecheck Info: File `assignment2.out' has not changed.
 (rerunfilecheck)             Checksum: 0DEC3A40A6B4EF35675B6BD6B664D47D;3032.
  ) 
 Here is how much of TeX's memory you used:
- 15279 strings out of 473190
- 252279 string characters out of 5715799
- 666011 words of memory out of 5000000
- 38259 multiletter control sequences out of 15000+600000
+ 15709 strings out of 473190
+ 262746 string characters out of 5715799
+ 762028 words of memory out of 5000000
+ 38674 multiletter control sequences out of 15000+600000
  566872 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,691b,674s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 79i,11n,93p,691b,674s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
@@ -948,10 +956,10 @@ ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
 2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
 025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on assignment2.pdf (16 pages, 3369845 bytes).
+Output written on assignment2.pdf (16 pages, 3372254 bytes).
 PDF statistics:
- 380 PDF objects out of 1000 (max. 8388607)
- 256 compressed objects within 3 object streams
- 84 named destinations out of 1000 (max. 500000)
+ 383 PDF objects out of 1000 (max. 8388607)
+ 259 compressed objects within 3 object streams
+ 85 named destinations out of 1000 (max. 500000)
  255 words of extra memory for PDF output out of 10000 (max. 10000000)
 

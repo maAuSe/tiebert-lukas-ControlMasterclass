@@ -1,48 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2025)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: assignment2.aux
-The style file: plainnat.bst
-I found no \citation commands---while reading file assignment2.aux
-Database file #1: references.bib
-You've used 0 entries,
-            2773 wiz_defined-function locations,
-            592 strings with 4844 characters,
-and the built_in function-call counts, 33 in all, are:
-= -- 0
-> -- 0
+The style file: plain.bst
+Database file #1: references-assign-2.bib
+You've used 1 entry,
+            2118 wiz_defined-function locations,
+            503 strings with 4135 characters,
+and the built_in function-call counts, 271 in all, are:
+= -- 22
+> -- 13
 < -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 10
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
++ -- 5
+- -- 4
+* -- 14
+:= -- 53
+add.period$ -- 3
+call.type$ -- 1
+change.case$ -- 4
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
-int.to.chr$ -- 1
+cite$ -- 1
+duplicate$ -- 12
+empty$ -- 23
+format.name$ -- 4
+if$ -- 54
+int.to.chr$ -- 0
 int.to.str$ -- 1
-missing$ -- 0
+missing$ -- 2
 newline$ -- 8
-num.names$ -- 0
-pop$ -- 0
+num.names$ -- 2
+pop$ -- 9
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 4
 quote$ -- 0
-skip$ -- 1
+skip$ -- 7
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
+substring$ -- 5
+swap$ -- 1
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
+type$ -- 2
 warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 7
-(There was 1 error message)
+while$ -- 2
+width$ -- 2
+write$ -- 12

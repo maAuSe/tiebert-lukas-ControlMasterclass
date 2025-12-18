@@ -1,14 +1,12 @@
-This is BibTeX, Version 0.99d
+This is BibTeX, Version 0.99d (TeX Live 2025)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: assignment5.aux
-Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: plainnat.bst
-Reallocating 'name_of_file' (item size: 1) to 11 items.
 I found no \citation commands---while reading file assignment5.aux
-Database file #1: references.bib
+Database file #1: references-assign-5.bib
 You've used 0 entries,
             2773 wiz_defined-function locations,
-            592 strings with 4844 characters,
+            592 strings with 4853 characters,
 and the built_in function-call counts, 33 in all, are:
 = -- 0
 > -- 0

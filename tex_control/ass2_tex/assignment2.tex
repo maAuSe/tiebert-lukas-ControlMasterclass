@@ -17,7 +17,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{float}
-\usepackage{subfig}
+%\usepackage{subfig}
 % Define MATLAB style for listings
 \lstdefinestyle{MatlabStyle}{
 	language=Matlab,
@@ -40,7 +40,6 @@
 	breakatwhitespace=false,
 	escapeinside={\%*}{*)}
 }
-
 \begin{document}
 	
     \begin{titlepage}
@@ -662,11 +661,7 @@ The simulated control signals show the same qualitative difference between both 
 \end{figure}
 
 
-\paragraph{Contribution of the different (PI) controller parts:}
-For the nominal controller, the proportional term (P) dominates the fast reaction to changes, 
-resulting in rapid initial acceleration and stronger overshoot, while the integrator (I) mainly removes the residual steady-state error under disturbance. 
-In the low-bandwidth design, the proportional gain $K$ is reduced and the cross-over frequency $\omega_c$ is lower, so the proportional action (P) reacts more slowly and the integrator (I) builds up more gradually.
-This combination yields smoother, more damped responses with reduced peak control effort, at the cost of a slower convergence to the reference.
+\paragraph{Contribution of the different (PI) controller parts:} For the nominal design, the proportional term (P) drives rapid acceleration and overshoot, while the integrator (I) eliminates residual steady-state error under disturbance. In the low-bandwidth design, reduced gain $K$ and lower $\omega_c$ cause the proportional action to react more slowly, with the integral term building more gradually. This results in smoother, better-damped responses and lower peak control effort, though convergence to the reference is slower.
 
 \newpage
 \bibliographystyle{plain}

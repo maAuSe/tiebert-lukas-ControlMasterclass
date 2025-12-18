@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  17 DEC 2025 22:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  18 DEC 2025 14:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -589,167 +589,153 @@ been already used, duplicate ignored
                    \relax 
 l.106   \newpage
                  [1]
-Underfull \hbox (badness 10000) in paragraph at lines 112--114
+Underfull \hbox (badness 10000) in paragraph at lines 113--115
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 130--132
+Underfull \hbox (badness 10000) in paragraph at lines 131--133
 
  []
 
 
 
-[2{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+[1{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 185.
+(hyperref)                removing `math shift' on input line 186.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 185.
+(hyperref)                removing `math shift' on input line 186.
 
-<images/pole_map_K.pdf, id=92, 452.69125pt x 382.42876pt>
+<images/pole_map_K.pdf, id=94, 452.69125pt x 382.42876pt>
 File: images/pole_map_K.pdf Graphic file (type pdf)
 <use images/pole_map_K.pdf>
-Package pdftex.def Info: images/pole_map_K.pdf  used on input line 234.
+Package pdftex.def Info: images/pole_map_K.pdf  used on input line 235.
 (pdftex.def)             Requested size: 328.82707pt x 277.78767pt.
 
 
-[3]
-<images/step_K_sweep.pdf, id=113, 452.69125pt x 318.18875pt>
+[2]
+<images/step_K_sweep.pdf, id=115, 452.69125pt x 318.18875pt>
 File: images/step_K_sweep.pdf Graphic file (type pdf)
 <use images/step_K_sweep.pdf>
-Package pdftex.def Info: images/step_K_sweep.pdf  used on input line 260.
+Package pdftex.def Info: images/step_K_sweep.pdf  used on input line 261.
 (pdftex.def)             Requested size: 375.80544pt x 264.14513pt.
 
 
-[4 <./images/pole_map_K.pdf>]
+[3 <./images/pole_map_K.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 295.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 295.
-
-
-
-[5 <./images/step_K_sweep.pdf>]
-
-[6]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 389.
+(hyperref)                removing `math shift' on input line 296.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 389.
+(hyperref)                removing `math shift' on input line 296.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 390--393
+
+[4 <./images/step_K_sweep.pdf>]
+
+[5]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 390.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 390.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 391--394
 
  []
 
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 3
-96.
+97.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 396.
-
-Overfull \hbox (0.65985pt too wide) in paragraph at lines 404--405
-\OT1/cmr/m/n/10 Figure []3[] over-lays the mea-sured dis-tance $\OML/cmm/m/it/1
-0 y \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 x$ \OT1/cmr/m/n/10 a
-nd the es-ti-mated dis-tance $\OMS/cmsy/m/n/10 ^^@[]$ \OT1/cmr/m/n/10 for $\OML
-/cmm/m/it/10 L \OMS/cmsy/m/n/10 2 f^^@\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/c
-mr/m/n/10 05\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 0\OML/cmm/m/
-it/10 :\OT1/cmr/m/n/10 18\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10
- 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 35\OMS/cmsy/m/n/10 g$\OT1/cmr/m/n/10 .
- []
-
-<images/estimator_L_sweep.pdf, id=191, 510.90875pt x 349.305pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 397.
+<images/estimator_L_sweep.pdf, id=193, 510.90875pt x 349.305pt>
 File: images/estimator_L_sweep.pdf Graphic file (type pdf)
 <use images/estimator_L_sweep.pdf>
-Package pdftex.def Info: images/estimator_L_sweep.pdf  used on input line 407.
+Package pdftex.def Info: images/estimator_L_sweep.pdf  used on input line 402.
 (pdftex.def)             Requested size: 375.80544pt x 256.93596pt.
 
 
-[7]
-
-[8 <./images/estimator_L_sweep.pdf>]
+[6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 444.
+(hyperref)                removing `math shift' on input line 439.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 444.
+(hyperref)                removing `math shift' on input line 439.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 445--448
+Underfull \hbox (badness 10000) in paragraph at lines 440--443
 
  []
 
-<images/controller_K_response.pdf, id=229, 510.90875pt x 349.305pt>
+
+
+[7 <./images/estimator_L_sweep.pdf>]
+<images/controller_K_response.pdf, id=231, 510.90875pt x 349.305pt>
 File: images/controller_K_response.pdf Graphic file (type pdf)
 <use images/controller_K_response.pdf>
 Package pdftex.def Info: images/controller_K_response.pdf  used on input line 4
-59.
+54.
 (pdftex.def)             Requested size: 375.80544pt x 256.93596pt.
-<images/controller_K_voltage.pdf, id=230, 502.87875pt x 288.07625pt>
+<images/controller_K_voltage.pdf, id=232, 502.87875pt x 288.07625pt>
 File: images/controller_K_voltage.pdf Graphic file (type pdf)
 <use images/controller_K_voltage.pdf>
 Package pdftex.def Info: images/controller_K_voltage.pdf  used on input line 46
-5.
+0.
 (pdftex.def)             Requested size: 375.80544pt x 215.27861pt.
 
 
-[9 <./images/controller_K_response.pdf>]
+[8 <./images/controller_K_response.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 495--498
+
+ []
+
+
+
+[9 <./images/controller_K_voltage.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 500--503
 
  []
 
 
 
-[10 <./images/controller_K_voltage.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 505--508
-
- []
-
-
-
-[11]
+[10]
 <images/est_ctrl_good.pdf, id=301, 450.68375pt x 318.18875pt>
 File: images/est_ctrl_good.pdf Graphic file (type pdf)
 <use images/est_ctrl_good.pdf>
-Package pdftex.def Info: images/est_ctrl_good.pdf  used on input line 576.
+Package pdftex.def Info: images/est_ctrl_good.pdf  used on input line 571.
 (pdftex.def)             Requested size: 375.80544pt x 265.33464pt.
 <images/est_ctrl_bad.pdf, id=302, 450.68375pt x 318.18875pt>
 File: images/est_ctrl_bad.pdf Graphic file (type pdf)
 <use images/est_ctrl_bad.pdf>
-Package pdftex.def Info: images/est_ctrl_bad.pdf  used on input line 582.
+Package pdftex.def Info: images/est_ctrl_bad.pdf  used on input line 577.
 (pdftex.def)             Requested size: 375.80544pt x 265.33464pt.
 
 
-[12 <./images/est_ctrl_good.pdf>]
+[11 <./images/est_ctrl_good.pdf>]
 
-[13 <./images/est_ctrl_bad.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 644--658
+[12 <./images/est_ctrl_bad.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 639--653
 
  []
 
 
 
-[14] (./assignment3.bbl
+[13] (./assignment3.bbl)
 
-Package natbib Warning: Empty `thebibliography' environment on input line 3.
-
-)
-
-[15] (./assignment3.aux)
+[14] (./assignment3.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -758,10 +744,10 @@ Package rerunfilecheck Info: File `assignment3.out' has not changed.
 (rerunfilecheck)             Checksum: 9049E74C34BE8F446E9719F1ED0926CC;3327.
  ) 
 Here is how much of TeX's memory you used:
- 15153 strings out of 473190
- 240858 string characters out of 5715799
- 663143 words of memory out of 5000000
- 38093 multiletter control sequences out of 15000+600000
+ 15157 strings out of 473190
+ 240920 string characters out of 5715799
+ 662149 words of memory out of 5000000
+ 38096 multiletter control sequences out of 15000+600000
  565735 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  85i,12n,133p,511b,571s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -781,10 +767,10 @@ xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
 live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on assignment3.pdf (16 pages, 1210586 bytes).
+Output written on assignment3.pdf (16 pages, 1212754 bytes).
 PDF statistics:
- 473 PDF objects out of 1000 (max. 8388607)
- 364 compressed objects within 4 object streams
- 123 named destinations out of 1000 (max. 500000)
+ 475 PDF objects out of 1000 (max. 8388607)
+ 366 compressed objects within 4 object streams
+ 124 named destinations out of 1000 (max. 500000)
  130 words of extra memory for PDF output out of 10000 (max. 10000000)
 

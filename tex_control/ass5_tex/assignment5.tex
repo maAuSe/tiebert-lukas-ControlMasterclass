@@ -145,15 +145,24 @@ The cart is equipped with two infrared (IR) sensors: a frontal sensor and a late
 \end{equation}
 where subscripts 1 and 2 denote the wall parameters for the front and side sensors, respectively.
 
-\subsubsection{Specific measurement equations for Figure~4}
+\subsubsection{Specific measurement equations for Figure~\ref{fig:figure-assignment-5}}
 
-For the configuration shown in Figure~4, wall~1 (horizontal, bottom) is defined by $y = 0$, corresponding to $(p_1, q_1, r_1) = (0, 1, 0)$. Wall~2 (vertical, left) is defined by $x = 0$, corresponding to $(p_2, q_2, r_2) = (1, 0, 0)$. Substituting into \eqref{eq:signed_distance}:
+For the configuration shown in Figure~\ref{fig:figure-assignment-5}, wall~1 (horizontal, bottom) is defined by $y = 0$, corresponding to $(p_1, q_1, r_1) = (0, 1, 0)$. Wall~2 (vertical, left) is defined by $x = 0$, corresponding to $(p_2, q_2, r_2) = (1, 0, 0)$. Substituting into \eqref{eq:signed_distance}:
 \begin{align}
 	z_1 &= d(x_f, y_f; 0, 1, 0) = -y_f = -(y_c + \alpha\sin\theta), \label{eq:z1_specific} \\
 	z_2 &= d(x_s, y_s; 1, 0, 0) = -x_s = -(x_c + \beta\cos\theta - \gamma\sin\theta). \label{eq:z2_specific}
 \end{align}
 
 \noindent The negative signs indicate that the cart is located in the third quadrant (negative $x$ and $y$), with the sensors measuring positive distances to walls at $x=0$ and $y=0$.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/figure-assignment-5.png}
+	\caption{Schematic overview of the robot moving in the world and measuring the distance to the walls. \cite{figure-assign-5}}
+	\label{fig:figure-assignment-5}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extended Kalman filter (EKF) derivation and discussion}
@@ -172,7 +181,7 @@ The continuous-time state equation \eqref{eq:state_equation} is discretised usin
 	+ \mathbf{w}_k,
 	\label{eq:discrete_state}
 \end{equation}
-where $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, Q)$ represents additive process noise.
+where $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, Q)$ represents additive process noise \cite{CT-slides-C10}.
 
 \noindent The measurement equation, being algebraic rather than differential, requires no discretisation:
 \begin{equation}
@@ -231,7 +240,7 @@ where $n_i = \sqrt{p_i^2 + q_i^2}$ and the partial derivatives are
 	\frac{\partial y_s}{\partial\theta} &= \beta\cos\theta^* - \gamma\sin\theta^*.
 \end{align}
 
-\subsubsection{Measurement Jacobian for Figure~4}
+\subsubsection{Measurement Jacobian for Figure~\ref{fig:figure-assignment-5}}
 
 Substituting $(p_1, q_1) = (0, 1)$ and $(p_2, q_2) = (1, 0)$ into \eqref{eq:jacobian_C_general} yields
 \begin{equation}
@@ -536,7 +545,7 @@ The units of $Q_{\text{lqr}}$ are chosen such that the cost function~\eqref{eq:l
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliographystyle{plainnat}
+\bibliographystyle{plain}
 \bibliography{references-assign-5}
 
 \end{document}

@@ -1,494 +1,541 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  18 DEC 2025 15:50
-entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 16:51
+ restricted system commands enabled.
 **assignment5.tex
 (./assignment5.tex
-LaTeX2e <2024-11-01> patch level 2
-L3 programming layer <2025-01-18>
-(/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
-(/usr/local/texlive/2025/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+Lua module: luaotfload 2023-08-31 3.26 Lua based OpenType font support
+Lua module: lualibs 2023-07-13 2.76 ConTeXt Lua standard libraries.
+Lua module: lualibs-extended 2023-07-13 2.76 ConTeXt Lua libraries -- extended c
+ollection.
+luaotfload | conf : Root cache directory is "C:/Users/campa/AppData/Local/MiKTeX
+/luatex-cache/generic/names".
+luaotfload | init : Loading fontloader "fontloader-2023-08-19.lua" from kpse-res
+olved path "C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/luatex/luaotfload/f
+ontloader-2023-08-19.lua".
+Lua-only attribute luaotfload@noligature = 1
+luaotfload | init : Context OpenType loader version 3.133
+Inserting `luaotfload.node_processor' in `pre_linebreak_filter'.
+Inserting `luaotfload.node_processor' in `hpack_filter'.
+Inserting `luaotfload.glyph_stream' in `glyph_stream_provider'.
+Inserting `luaotfload.define_font' in `define_font'.
+Lua-only attribute luaotfload_color_attribute = 2
+luaotfload | conf : Root cache directory is "C:/Users/campa/AppData/Local/MiKTeX
+/luatex-cache/generic/names".
+Inserting `luaotfload.harf.strip_prefix' in `find_opentype_file'.
+Inserting `luaotfload.harf.strip_prefix' in `find_truetype_file'.
+Removing  `luaotfload.glyph_stream' from `glyph_stream_provider'.
+Inserting `luaotfload.harf.glyphstream' in `glyph_stream_provider'.
+Inserting `luaotfload.harf.finalize_vlist' in `post_linebreak_filter'.
+Inserting `luaotfload.harf.finalize_hlist' in `hpack_filter'.
+Inserting `luaotfload.cleanup_files' in `wrapup_run'.
+Inserting `luaotfload.harf.finalize_unicode' in `finish_pdffile'.
+Inserting `luaotfload.glyphinfo' in `glyph_info'.
+Lua-only attribute luaotfload.letterspace_done = 3
+Inserting `luaotfload.aux.set_sscale_dimens' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_font_index' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.fixup_fontdata' in `luaotfload.patch_font_unsafe'.
+Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'.
+Inserting `tracingstacklevels' in `input_level_string'. (C:/Users/campa/AppData
+/Local/Programs/MiKTeX/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/size10.clo
+File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+luaotfload | db : Font names database loaded from C:/Users/campa/AppData/Local/M
+iKTeX/luatex-cache/generic/names/luaotfload-names.luc.gz)
+\c@part=\count185
+\c@section=\count186
+\c@subsection=\count187
+\c@subsubsection=\count188
+\c@paragraph=\count189
+\c@subparagraph=\count190
+\c@figure=\count191
+\c@table=\count192
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen139
 )
-\c@part=\count196
-\c@section=\count197
-\c@subsection=\count198
-\c@subsubsection=\count199
-\c@paragraph=\count266
-\c@subparagraph=\count267
-\c@figure=\count268
-\c@table=\count269
-\abovecaptionskip=\skip49
-\belowcaptionskip=\skip50
-\bibindent=\dimen141
-)
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/graphics.c
+fg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 106.
+Package graphics Info: Driver file: luatex.def on input line 107.
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics-def/luatex.def
+File: luatex.def 2022/09/22 v1.2d Graphics/color driver for luatex
 ))
-\Gin@req@height=\dimen142
-\Gin@req@width=\dimen143
+\Gin@req@height=\dimen140
+\Gin@req@width=\dimen141
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/adjustbox.sty
 Package: adjustbox 2025/02/26 v1.3c Adjusting TeX boxes (trim, clip, ...)
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-(/usr/local/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkeyval.tex
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkvutils.tex
 \XKV@toks=\toks18
 \XKV@tempa@toks=\toks19
 )
-\XKV@depth=\count270
+\XKV@depth=\count193
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/adjcalc.sty
 Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
 -ends (calc, etex, pgfmath)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/trimclip.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/trimclip.sty
 Package: trimclip 2025/02/21 v1.2a Trim and clip general TeX material
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/collectbox/collectbox.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/collectbox/collectbox.s
+ty
 Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
-\collectedbox=\box52
+\collectedbox=\box51
 )
-\tc@llx=\dimen144
-\tc@lly=\dimen145
-\tc@urx=\dimen146
-\tc@ury=\dimen147
-Package trimclip Info: Using driver 'tc-pdftex.def'.
+\tc@llx=\dimen142
+\tc@lly=\dimen143
+\tc@urx=\dimen144
+\tc@ury=\dimen145
+Package trimclip Info: Using driver 'tc-luatex.def'.
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/tc-luatex.def
+File: tc-luatex.def 2025/02/26 v1.1 Clipping driver for luatex
+
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/tc-pdftex.def
 File: tc-pdftex.def 2025/02/26 v2.3 Clipping driver for pdftex
-))
-\adjbox@Width=\dimen148
-\adjbox@Height=\dimen149
-\adjbox@Depth=\dimen150
-\adjbox@Totalheight=\dimen151
-\adjbox@pwidth=\dimen152
-\adjbox@pheight=\dimen153
-\adjbox@pdepth=\dimen154
-\adjbox@ptotalheight=\dimen155
+)))
+\adjbox@Width=\dimen146
+\adjbox@Height=\dimen147
+\adjbox@Depth=\dimen148
+\adjbox@Totalheight=\dimen149
+\adjbox@pwidth=\dimen150
+\adjbox@pheight=\dimen151
+\adjbox@pdepth=\dimen152
+\adjbox@ptotalheight=\dimen153
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
-\c@checkoddpage=\count271
-)
-(/usr/local/texlive/2025/texmf-dist/tex/latex/varwidth/varwidth.sty
+\c@checkoddpage=\count194
+) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box53
-\sift@deathcycles=\count272
-\@vwid@loff=\dimen156
-\@vwid@roff=\dimen157
-))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty
+\@vwid@box=\box52
+\sift@deathcycles=\count195
+\@vwid@loff=\dimen154
+\@vwid@roff=\dimen155
+)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip51
-\bibsep=\skip52
+\bibhang=\skip50
+\bibsep=\skip51
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count273
+\c@NAT@ctr=\count196
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2023-11-26 v7.01g Hypertext links for LaTeX
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2024/12/12 v1.0g TeX engine tests
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/infwarerr/infwarerr.s
+ty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/kvdefinekeys/kvdefine
+keys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/pdfescape/pdfescape.s
+ty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/pdftexcmds/pdftexcmds
+.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
+\pdftexcmds@toks=\toks20
 ))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/letltxmacro/letltxmacro
+.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
-ty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/gettitlestring/gettit
+lestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (/usr/local/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count274
+\c@section@level=\count197
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count275
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count198
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty
-Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
-)
-)
-\@linkdim=\dimen158
-\Hy@linkcounter=\count276
-\Hy@pagecounter=\count277
+\@linkdim=\dimen156
+\Hy@linkcounter=\count199
+\Hy@pagecounter=\count266
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
-Now handling font encoding PD1 ...
-... no UTF-8 mapping file for font encoding PD1
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2023-11-26 v7.01g Hyperref: PDFDocEncoding definition (HO)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count278
+\Hy@SavedSpaceFactor=\count267
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
-Now handling font encoding PU ...
-... no UTF-8 mapping file for font encoding PU
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/puenc.def
+File: puenc.def 2023-11-26 v7.01g Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Hyper figures OFF on input line 4157.
-Package hyperref Info: Link nesting OFF on input line 4162.
-Package hyperref Info: Hyper index ON on input line 4165.
-Package hyperref Info: Plain pages OFF on input line 4172.
-Package hyperref Info: Backreferencing OFF on input line 4177.
+Package hyperref Info: Hyper figures OFF on input line 4181.
+Package hyperref Info: Link nesting OFF on input line 4186.
+Package hyperref Info: Hyper index ON on input line 4189.
+Package hyperref Info: Plain pages OFF on input line 4196.
+Package hyperref Info: Backreferencing OFF on input line 4201.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count279
+Package hyperref Info: Bookmarks ON on input line 4448.
+\c@Hy@tempcnt=\count268
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/url/url.sty
-\Urlmuskip=\muskip17
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen159
+LaTeX Info: Redefining \url on input line 4786.
+\XeTeXLinkMargin=\dimen157
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/bigintcalc/bigintcalc
+.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count280
-\Field@Width=\dimen160
-\Fld@charsize=\dimen161
-Package hyperref Info: Hyper figures OFF on input line 6042.
-Package hyperref Info: Link nesting OFF on input line 6047.
-Package hyperref Info: Hyper index ON on input line 6050.
-Package hyperref Info: backreferencing OFF on input line 6057.
-Package hyperref Info: Link coloring OFF on input line 6062.
-Package hyperref Info: Link coloring with OCG OFF on input line 6067.
-Package hyperref Info: PDF/A mode OFF on input line 6072.
+\Fld@menulength=\count269
+\Field@Width=\dimen158
+\Fld@charsize=\dimen159
+Package hyperref Info: Hyper figures OFF on input line 6065.
+Package hyperref Info: Link nesting OFF on input line 6070.
+Package hyperref Info: Hyper index ON on input line 6073.
+Package hyperref Info: backreferencing OFF on input line 6080.
+Package hyperref Info: Link coloring OFF on input line 6085.
+Package hyperref Info: Link coloring with OCG OFF on input line 6090.
+Package hyperref Info: PDF/A mode OFF on input line 6095.
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count281
-\c@Item=\count282
-\c@Hfootnote=\count283
+\Hy@abspage=\count270
+\c@Item=\count271
+\c@Hfootnote=\count272
 )
-Package hyperref Info: Driver (autodetected): hpdftex.
+Package hyperref Info: Driver (autodetected): hluatex.
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hluatex.def
+File: hluatex.def 2023-11-26 v7.01g Hyperref driver for luaTeX
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/base/atveryend-ltx.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/stringenc/stringenc.s
+ty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count284
-\c@bookmark@seq@number=\count285
+\Fld@listcount=\count273
+\c@bookmark@seq@number=\count274
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
-Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfil
+echeck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/uniquecounter/uniquec
+ounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-85.
+84.
 )
-\Hy@SectionHShift=\skip53
-) (/usr/local/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty
+\Hy@SectionHShift=\skip52
+)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 
-(/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count286
-\Gm@cntv=\count287
-\c@Gm@tempcnt=\count288
-\Gm@bindingoffset=\dimen162
-\Gm@wd@mp=\dimen163
-\Gm@odd@mp=\dimen164
-\Gm@even@mp=\dimen165
-\Gm@layoutwidth=\dimen166
-\Gm@layoutheight=\dimen167
-\Gm@layouthoffset=\dimen168
-\Gm@layoutvoffset=\dimen169
-\Gm@dimlist=\toks20
-)
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2024/11/05 v2.17t AMS math features
-\@mathmargin=\skip54
+\Gm@cnth=\count275
+\Gm@cntv=\count276
+\c@Gm@tempcnt=\count277
+\Gm@bindingoffset=\dimen160
+\Gm@wd@mp=\dimen161
+\Gm@odd@mp=\dimen162
+\Gm@even@mp=\dimen163
+\Gm@layoutwidth=\dimen164
+\Gm@layoutheight=\dimen165
+\Gm@layouthoffset=\dimen166
+\Gm@layoutvoffset=\dimen167
+\Gm@dimlist=\toks21
+
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.cfg)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2023/05/13 v2.17o AMS math features
+\@mathmargin=\skip53
 
 For additional information on amsmath, use the `?' option.
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks21
-\ex@=\dimen170
+\@emptytoks=\toks22
+\ex@=\dimen168
 ))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen171
+\pmbraise@=\dimen169
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count289
-LaTeX Info: Redefining \frac on input line 233.
-\uproot@=\count290
-\leftroot@=\count291
-LaTeX Info: Redefining \overline on input line 398.
-LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count292
-\DOTSCASE@=\count293
-LaTeX Info: Redefining \ldots on input line 495.
-LaTeX Info: Redefining \dots on input line 498.
-LaTeX Info: Redefining \cdots on input line 619.
-\Mathstrutbox@=\box54
-\strutbox@=\box55
-LaTeX Info: Redefining \big on input line 721.
-LaTeX Info: Redefining \Big on input line 722.
-LaTeX Info: Redefining \bigg on input line 723.
-LaTeX Info: Redefining \Bigg on input line 724.
-\big@size=\dimen172
-LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count294
-LaTeX Info: Redefining \bmod on input line 904.
-LaTeX Info: Redefining \pmod on input line 909.
-LaTeX Info: Redefining \smash on input line 939.
-LaTeX Info: Redefining \relbar on input line 969.
-LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count295
-\dotsspace@=\muskip18
-\c@parentequation=\count296
-\dspbrk@lvl=\count297
-\tag@help=\toks22
-\row@=\count298
-\column@=\count299
-\maxfields@=\count300
-\andhelp@=\toks23
-\eqnshift@=\dimen173
-\alignsep@=\dimen174
-\tagshift@=\dimen175
-\tagwidth@=\dimen176
-\totwidth@=\dimen177
-\lineht@=\dimen178
-\@envbody=\toks24
-\multlinegap=\skip55
-\multlinetaggap=\skip56
-\mathdisplay@stack=\toks25
+\inf@bad=\count278
+LaTeX Info: Redefining \frac on input line 236.
+\uproot@=\count279
+\leftroot@=\count280
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count281
+\DOTSCASE@=\count282
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen170
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count283
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count284
+\dotsspace@=\muskip17
+\c@parentequation=\count285
+\dspbrk@lvl=\count286
+\tag@help=\toks23
+\row@=\count287
+\column@=\count288
+\maxfields@=\count289
+\andhelp@=\toks24
+\eqnshift@=\dimen171
+\alignsep@=\dimen172
+\tagshift@=\dimen173
+\tagwidth@=\dimen174
+\totwidth@=\dimen175
+\lineht@=\dimen176
+\@envbody=\toks25
+\multlinegap=\skip54
+\multlinetaggap=\skip55
+\mathdisplay@stack=\toks26
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
+)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/booktabs/booktabs.st
+y
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen179
-\lightrulewidth=\dimen180
-\cmidrulewidth=\dimen181
-\belowrulesep=\dimen182
-\belowbottomsep=\dimen183
-\aboverulesep=\dimen184
-\abovetopsep=\dimen185
-\cmidrulesep=\dimen186
-\cmidrulekern=\dimen187
-\defaultaddspace=\dimen188
-\@cmidla=\count301
-\@cmidlb=\count302
-\@aboverulesep=\dimen189
-\@belowrulesep=\dimen190
-\@thisruleclass=\count303
-\@lastruleclass=\count304
-\@thisrulewidth=\dimen191
-)
-(/usr/local/texlive/2025/texmf-dist/tex/latex/siunitx/siunitx.sty
-Package: siunitx 2025-02-27 v3.4.6 A comprehensive (SI) units package
-\l__siunitx_number_uncert_offset_int=\count305
-\l__siunitx_number_exponent_fixed_int=\count306
-\l__siunitx_number_min_decimal_int=\count307
-\l__siunitx_number_min_integer_int=\count308
-\l__siunitx_number_round_precision_int=\count309
-\l__siunitx_number_lower_threshold_int=\count310
-\l__siunitx_number_upper_threshold_int=\count311
-\l__siunitx_number_group_first_int=\count312
-\l__siunitx_number_group_size_int=\count313
-\l__siunitx_number_group_minimum_int=\count314
-\l__siunitx_angle_tmp_dim=\dimen192
-\l__siunitx_angle_marker_box=\box56
-\l__siunitx_angle_unit_box=\box57
-\l__siunitx_compound_count_int=\count315
+\heavyrulewidth=\dimen177
+\lightrulewidth=\dimen178
+\cmidrulewidth=\dimen179
+\belowrulesep=\dimen180
+\belowbottomsep=\dimen181
+\aboverulesep=\dimen182
+\abovetopsep=\dimen183
+\cmidrulesep=\dimen184
+\cmidrulekern=\dimen185
+\defaultaddspace=\dimen186
+\@cmidla=\count290
+\@cmidlb=\count291
+\@aboverulesep=\dimen187
+\@belowrulesep=\dimen188
+\@thisruleclass=\count292
+\@lastruleclass=\count293
+\@thisrulewidth=\dimen189
+) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/siunitx/siunitx.sty
+Package: siunitx 2025-07-09 v3.4.14 A comprehensive (SI) units package
+\l__siunitx_number_uncert_offset_int=\count294
+\l__siunitx_number_exponent_fixed_int=\count295
+\l__siunitx_number_min_decimal_int=\count296
+\l__siunitx_number_min_integer_int=\count297
+\l__siunitx_number_round_precision_int=\count298
+\l__siunitx_number_lower_threshold_int=\count299
+\l__siunitx_number_upper_threshold_int=\count300
+\l__siunitx_number_group_first_int=\count301
+\l__siunitx_number_group_size_int=\count302
+\l__siunitx_number_group_minimum_int=\count303
+\l__siunitx_angle_tmp_dim=\dimen190
+\l__siunitx_angle_marker_box=\box55
+\l__siunitx_angle_unit_box=\box56
+\l__siunitx_compound_count_int=\count304
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/translations/translatio
+ns.sty
 Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages
  (CN)
 )
-\l__siunitx_table_tmp_box=\box58
-\l__siunitx_table_tmp_dim=\dimen193
-\l__siunitx_table_column_width_dim=\dimen194
-\l__siunitx_table_integer_box=\box59
-\l__siunitx_table_decimal_box=\box60
-\l__siunitx_table_uncert_box=\box61
-\l__siunitx_table_before_box=\box62
-\l__siunitx_table_after_box=\box63
-\l__siunitx_table_before_dim=\dimen195
-\l__siunitx_table_carry_dim=\dimen196
-\l__siunitx_unit_tmp_int=\count316
-\l__siunitx_unit_position_int=\count317
-\l__siunitx_unit_total_int=\count318
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/tools/array.sty
-Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
-\col@sep=\dimen197
-\ar@mcellbox=\box64
-\extrarowheight=\dimen198
-\NC@list=\toks26
-\extratabsurround=\skip57
-\backup@length=\skip58
-\ar@cellbox=\box65
-))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
+\l__siunitx_table_tmp_box=\box57
+\l__siunitx_table_tmp_dim=\dimen191
+\l__siunitx_table_column_width_dim=\dimen192
+\l__siunitx_table_integer_box=\box58
+\l__siunitx_table_decimal_box=\box59
+\l__siunitx_table_uncert_box=\box60
+\l__siunitx_table_before_box=\box61
+\l__siunitx_table_after_box=\box62
+\l__siunitx_table_before_dim=\dimen193
+\l__siunitx_table_carry_dim=\dimen194
+\l__siunitx_unit_tmp_int=\count305
+\l__siunitx_unit_position_int=\count306
+\l__siunitx_unit_total_int=\count307
+ (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen195
+\ar@mcellbox=\box63
+\extrarowheight=\dimen196
+\NC@list=\toks27
+\extratabsurround=\skip56
+\backup@length=\skip57
+\ar@cellbox=\box64
+)) (C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count319
-\float@exts=\toks27
-\float@box=\box66
-\@float@everytoks=\toks28
-\@floatcapt=\box67
+\c@float@type=\count308
+\float@exts=\toks28
+\float@box=\box65
+\@float@everytoks=\toks29
+\@floatcapt=\box66
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 
-\f@nch@headwidth=\skip59
-\f@nch@offset@elh=\skip60
-\f@nch@offset@erh=\skip61
-\f@nch@offset@olh=\skip62
-\f@nch@offset@orh=\skip63
-\f@nch@offset@elf=\skip64
-\f@nch@offset@erf=\skip65
-\f@nch@offset@olf=\skip66
-\f@nch@offset@orf=\skip67
-\f@nch@height=\skip68
-\f@nch@footalignment=\skip69
-\f@nch@widthL=\skip70
-\f@nch@widthC=\skip71
-\f@nch@widthR=\skip72
-\@temptokenb=\toks29
+\f@nch@headwidth=\skip58
+\f@nch@offset@elh=\skip59
+\f@nch@offset@erh=\skip60
+\f@nch@offset@olh=\skip61
+\f@nch@offset@orh=\skip62
+\f@nch@offset@elf=\skip63
+\f@nch@offset@erf=\skip64
+\f@nch@offset@olf=\skip65
+\f@nch@offset@orf=\skip66
+\f@nch@height=\skip67
+\f@nch@footalignment=\skip68
+\f@nch@widthL=\skip69
+\f@nch@widthC=\skip70
+\f@nch@widthR=\skip71
+\@temptokenb=\toks30
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/setspace/setspace.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen199
-\captionmargin=\dimen256
-\caption@leftmargin=\dimen257
-\caption@rightmargin=\dimen258
-\caption@width=\dimen259
-\caption@indent=\dimen260
-\caption@parindent=\dimen261
-\caption@hangindent=\dimen262
+\caption@tempdima=\dimen197
+\captionmargin=\dimen198
+\caption@leftmargin=\dimen199
+\caption@rightmargin=\dimen256
+\caption@width=\dimen257
+\caption@indent=\dimen258
+\caption@parindent=\dimen259
+\caption@hangindent=\dimen260
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count320
-\c@continuedfloat=\count321
+\c@caption@flags=\count309
+\c@continuedfloat=\count310
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 )
 Package caption Info: New subtype `subfigure' on input line 238.
-\c@subfigure=\count322
+\c@subfigure=\count311
 Package caption Info: New subtype `subtable' on input line 238.
-\c@subtable=\count323
+\c@subtable=\count312
 )
 Package translations Info: No language package found. I am going to use `englis
 h' as default language. on input line 18.
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/color.sty
+Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2024/06/23 v1.3e Standard LaTeX Color (DPC)
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package color Info: Driver file: pdftex.def on input line 149.
+Package color Info: Driver file: luatex.def on input line 149.
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/graphics/mathcolor.ltx))
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx))
-(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count324
-\l__pdf_internal_box=\box68
-)
-(./assignment5.aux)
-\openout1 = `assignment5.aux'.
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-lua
+tex.def
+File: l3backend-luatex.def 2024-01-04 L3 backend support: PDF output (LuaTeX)
+\l__color_backend_stack_int=\count313
+Inserting `l3color' in `luaotfload.parse_color'.
+\l__pdf_internal_box=\box67
+) (./assignment5.aux)
+\openout1 = assignment5.aux
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
@@ -499,6 +546,14 @@ LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
+8.
+
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
@@ -509,39 +564,41 @@ LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
 
-(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mk
+ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count325
-\scratchdimen=\dimen263
-\scratchbox=\box69
-\nofMPsegments=\count326
-\nofMParguments=\count327
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count328
-\MPscratchDim=\dimen264
-\MPnumerator=\count329
-\makeMPintoPDFobject=\count330
-\everyMPtoPDFconversion=\toks31
-) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+\scratchcounter=\count314
+\scratchdimen=\dimen261
+\scratchbox=\box68
+\nofMPsegments=\count315
+\nofMParguments=\count316
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count317
+\MPscratchDim=\dimen262
+\MPnumerator=\count318
+\makeMPintoPDFobject=\count319
+\everyMPtoPDFconversion=\toks32
+)
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-b
+ase.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/00miktex/epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 18.
-
-(./assignment5.out) (./assignment5.out)
+ (./assignment5.out) (./assignment5.out)
 \@outlinefile=\write3
-\openout3 = `assignment5.out'.
 
+\openout3 = assignment5.out
 
 *geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
+*geometry* detected driver: luatex
 *geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
+* driver: luatex
 * paper: <default>
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -573,8 +630,8 @@ Package hyperref Info: Link coloring OFF on input line 18.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations-basic-d
-ictionary-english.trsl
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/translations/dicts/tran
+slations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
@@ -585,41 +642,32 @@ Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 26.
 
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 26.
 
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+(C:/Users/campa/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<sedes.pdf, id=148, 310.15875pt x 521.95pt>
+<sedes.pdf, id=147, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package pdftex.def Info: sedes.pdf  used on input line 28.
-(pdftex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=150, 341.3553pt x 132.0132pt>
+Package luatex.def Info: sedes.pdf  used on input line 28.
+(luatex.def)             Requested size: 33.81467pt x 56.9055pt.
+<logoFirW.jpg, id=149, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
-Package pdftex.def Info: logoFirW.jpg  used on input line 34.
-(pdftex.def)             Requested size: 147.14452pt x 56.9055pt.
-
+Package luatex.def Info: logoFirW.jpg  used on input line 34.
+(luatex.def)             Requested size: 147.14452pt x 56.9055pt.
 
 [1
 
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./sedes
-.pdf> <./logoFirW.jpg>]
-
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.84 \newpage
-              [1]
-
-[1]
+{C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
+/logoFirW.jpg>]
+warning  (pdf backend): ignoring duplicate destination with the name 'page.I'
+[1] [1]
 Underfull \hbox (badness 10000) in paragraph at lines 174--177
 
  []
@@ -1104,14 +1152,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 184.
 
-
-
 [2]
 Underfull \hbox (badness 10000) in paragraph at lines 255--257
 
  []
-
-
 
 [3]
 
@@ -1155,26 +1199,24 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 308.
 
-<images/ekf_state1_QR_sweep.pdf, id=233, 560.0925pt x 351.3125pt>
+<images/ekf_state1_QR_sweep.pdf, id=236, 560.0925pt x 351.3125pt>
 File: images/ekf_state1_QR_sweep.pdf Graphic file (type pdf)
 <use images/ekf_state1_QR_sweep.pdf>
-Package pdftex.def Info: images/ekf_state1_QR_sweep.pdf  used on input line 316
+Package luatex.def Info: images/ekf_state1_QR_sweep.pdf  used on input line 316
 .
-(pdftex.def)             Requested size: 225.4804pt x 141.42844pt.
-<images/ekf_state2_QR_sweep.pdf, id=234, 560.0925pt x 351.3125pt>
+(luatex.def)             Requested size: 225.4804pt x 141.42844pt.
+<images/ekf_state2_QR_sweep.pdf, id=237, 560.0925pt x 351.3125pt>
 File: images/ekf_state2_QR_sweep.pdf Graphic file (type pdf)
 <use images/ekf_state2_QR_sweep.pdf>
-Package pdftex.def Info: images/ekf_state2_QR_sweep.pdf  used on input line 322
+Package luatex.def Info: images/ekf_state2_QR_sweep.pdf  used on input line 322
 .
-(pdftex.def)             Requested size: 225.4804pt x 141.42844pt.
-<images/ekf_state3_QR_sweep.pdf, id=235, 549.05125pt x 351.3125pt>
+(luatex.def)             Requested size: 225.4804pt x 141.42844pt.
+<images/ekf_state3_QR_sweep.pdf, id=238, 549.05125pt x 351.3125pt>
 File: images/ekf_state3_QR_sweep.pdf Graphic file (type pdf)
 <use images/ekf_state3_QR_sweep.pdf>
-Package pdftex.def Info: images/ekf_state3_QR_sweep.pdf  used on input line 329
+Package luatex.def Info: images/ekf_state3_QR_sweep.pdf  used on input line 329
 .
-(pdftex.def)             Requested size: 225.4804pt x 144.27492pt.
-
-
+(luatex.def)             Requested size: 225.4804pt x 144.27492pt.
 [4]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
@@ -1192,46 +1234,41 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 337.
 
-<images/ekf_state1_95ci_plotstates.pdf, id=246, 518.93875pt x 281.05pt>
+<images/ekf_state1_95ci_plotstates.pdf, id=251, 518.93875pt x 281.05pt>
 File: images/ekf_state1_95ci_plotstates.pdf Graphic file (type pdf)
 <use images/ekf_state1_95ci_plotstates.pdf>
-Package pdftex.def Info: images/ekf_state1_95ci_plotstates.pdf  used on input l
+Package luatex.def Info: images/ekf_state1_95ci_plotstates.pdf  used on input l
 ine 349.
-(pdftex.def)             Requested size: 225.4804pt x 122.11852pt.
-<images/ekf_state2_95ci_plotstates.pdf, id=247, 518.93875pt x 281.05pt>
+(luatex.def)             Requested size: 225.4804pt x 122.11852pt.
+<images/ekf_state2_95ci_plotstates.pdf, id=252, 518.93875pt x 281.05pt>
 File: images/ekf_state2_95ci_plotstates.pdf Graphic file (type pdf)
 <use images/ekf_state2_95ci_plotstates.pdf>
-Package pdftex.def Info: images/ekf_state2_95ci_plotstates.pdf  used on input l
+Package luatex.def Info: images/ekf_state2_95ci_plotstates.pdf  used on input l
 ine 355.
-(pdftex.def)             Requested size: 225.4804pt x 122.11852pt.
-<images/ekf_state3_95ci_plotstates.pdf, id=248, 507.8975pt x 281.05pt>
+(luatex.def)             Requested size: 225.4804pt x 122.11852pt.
+<images/ekf_state3_95ci_plotstates.pdf, id=253, 507.8975pt x 281.05pt>
 File: images/ekf_state3_95ci_plotstates.pdf Graphic file (type pdf)
 <use images/ekf_state3_95ci_plotstates.pdf>
-Package pdftex.def Info: images/ekf_state3_95ci_plotstates.pdf  used on input l
+Package luatex.def Info: images/ekf_state3_95ci_plotstates.pdf  used on input l
 ine 362.
-(pdftex.def)             Requested size: 225.4804pt x 124.77309pt.
-
-
-[5 <./images/ekf_state1_QR_sweep.pdf> <./images/ekf_state2_QR_sweep.pdf> <./ima
-ges/ekf_state3_QR_sweep.pdf>]
-<images/ekf_measurement1_95ci.pdf, id=339, 509.905pt x 246.9225pt>
+(luatex.def)             Requested size: 225.4804pt x 124.77309pt.
+[5<./images/ekf_state1_QR_sweep.pdf><./images/ekf_state2_QR_sweep.pdf><./images/
+ekf_state3_QR_sweep.pdf>]
+<images/ekf_measurement1_95ci.pdf, id=340, 509.905pt x 246.9225pt>
 File: images/ekf_measurement1_95ci.pdf Graphic file (type pdf)
 <use images/ekf_measurement1_95ci.pdf>
-Package pdftex.def Info: images/ekf_measurement1_95ci.pdf  used on input line 3
+Package luatex.def Info: images/ekf_measurement1_95ci.pdf  used on input line 3
 90.
-(pdftex.def)             Requested size: 225.4804pt x 109.18877pt.
-<images/ekf_measurement2_95ci.pdf, id=340, 510.90875pt x 246.9225pt>
+(luatex.def)             Requested size: 225.4804pt x 109.18877pt.
+<images/ekf_measurement2_95ci.pdf, id=341, 510.90875pt x 246.9225pt>
 File: images/ekf_measurement2_95ci.pdf Graphic file (type pdf)
 <use images/ekf_measurement2_95ci.pdf>
-Package pdftex.def Info: images/ekf_measurement2_95ci.pdf  used on input line 3
+Package luatex.def Info: images/ekf_measurement2_95ci.pdf  used on input line 3
 96.
-(pdftex.def)             Requested size: 225.4804pt x 108.97401pt.
-
-
-[6 <./images/ekf_state1_95ci_plotstates.pdf> <./images/ekf_state2_95ci_plotstat
-es.pdf> <./images/ekf_state3_95ci_plotstates.pdf>]
-
-[7 <./images/ekf_measurement1_95ci.pdf> <./images/ekf_measurement2_95ci.pdf>]
+(luatex.def)             Requested size: 225.4804pt x 108.97401pt.
+ [6<./images/ekf_state1_95ci_plotstates.pdf><./images/ekf_state2_95ci_plotstates
+.pdf><./images/ekf_state3_95ci_plotstates.pdf>]
+[7<./images/ekf_measurement1_95ci.pdf><./images/ekf_measurement2_95ci.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 461.
@@ -1256,122 +1293,137 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 461.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 467--473
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 467--473
-
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 474.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 474.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 474.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 474.
+<images/lqr_tracking_errors_world.pdf, id=467, 691.58376pt x 470.75874pt>
+File: images/lqr_tracking_errors_world.pdf Graphic file (type pdf)
+<use images/lqr_tracking_errors_world.pdf>
+Package luatex.def Info: images/lqr_tracking_errors_world.pdf  used on input li
+ne 478.
+(luatex.def)             Requested size: 446.26582pt x 303.77713pt.
+[8]
+<images/lqr_tracking_errors_body.pdf, id=477, 691.58376pt x 470.75874pt>
+File: images/lqr_tracking_errors_body.pdf Graphic file (type pdf)
+<use images/lqr_tracking_errors_body.pdf>
+Package luatex.def Info: images/lqr_tracking_errors_body.pdf  used on input lin
+e 485.
+(luatex.def)             Requested size: 446.26582pt x 303.77713pt.
+ [9<./images/lqr_tracking_errors_world.pdf>]
+<images/lqr_control_signals.pdf, id=551, 681.54625pt x 348.30125pt>
+File: images/lqr_control_signals.pdf Graphic file (type pdf)
+<use images/lqr_control_signals.pdf>
+Package luatex.def Info: images/lqr_control_signals.pdf  used on input line 492
+.
+(luatex.def)             Requested size: 446.26582pt x 228.06192pt.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 474.
+(hyperref)                removing `math shift' on input line 497.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 474.
+(hyperref)                removing `subscript' on input line 497.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 479.
+(hyperref)                removing `math shift' on input line 497.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 479.
+(hyperref)                removing `math shift' on input line 497.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 479.
+(hyperref)                removing `subscript' on input line 497.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 479.
+(hyperref)                removing `math shift' on input line 497.
+
+[10<./images/lqr_tracking_errors_body.pdf><./images/lqr_control_signals.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 511.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 479.
+(hyperref)                removing `subscript' on input line 511.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 479.
+(hyperref)                removing `math shift' on input line 511.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 481--485
-
- []
-
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 511.
 
 
-[8] (./assignment5.bbl
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 511.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 511.
+
+[11] (./assignment5.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-)
-
-[9] (./assignment5.aux)
+) [12] (./assignment5.aux)
  ***********
-LaTeX2e <2024-11-01> patch level 2
-L3 programming layer <2025-01-18>
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `assignment5.out' has not changed.
 (rerunfilecheck)             Checksum: 0DA7971181A9567B9F0DCD8EF006B21B;9863.
- ) 
-Here is how much of TeX's memory you used:
- 17824 strings out of 473190
- 344293 string characters out of 5715799
- 717850 words of memory out of 5000000
- 40771 multiletter control sequences out of 15000+600000
- 574812 words of font info for 95 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 83i,12n,131p,1023b,1060s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
-sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loc
-al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
-al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/
-texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf
--dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on assignment5.pdf (11 pages, 1528374 bytes).
-PDF statistics:
- 596 PDF objects out of 1000 (max. 8388607)
- 508 compressed objects within 6 object streams
- 82 named destinations out of 1000 (max. 500000)
- 351 words of extra memory for PDF output out of 10000 (max. 10000000)
+)
+
+Here is how much of LuaTeX's memory you used:
+ 18311 strings out of 476497
+ 125027,1977958 words of node,token memory allocated
+ 747 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 59 attribute, 58 glue_spec
+, 59 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:824,3:280,4:60,5:557,6:51,7:8215,8:109,9:1163,10:10,11:700
+ 39915 multiletter control sequences out of 65536+600000
+ 92 fonts using 6604943 bytes
+ 83i,12n,128p,1024b,954s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmrom
+an7-bold.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public
+/lm/lmmono10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts
+/opentype/public/lm/lmroman7-regular.otf><//?/c:/users/campa/appdata/local/progr
+ams/miktex/fonts/opentype/public/lm/lmroman9-regular.otf><C:/Users/campa/AppData
+/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-italic.otf><C:/Users/ca
+mpa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10-italic.otf>
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman10
+-bolditalic.otf><//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype
+/public/lm/lmroman10-regular.otf><//?/c:/users/campa/appdata/local/programs/mikt
+ex/fonts/opentype/public/lm/lmroman10-bold.otf><C:/Users/campa/AppData/Local/Pro
+grams/MiKTeX/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/campa/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/campa
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/User
+s/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+<C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextr
+a/cmex7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmmi6.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/campa/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/campa/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/
+campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
+/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.p
+fb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr6.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmr9.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/campa/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/campa/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on assignment5.pdf (14 pages, 2095978 bytes).
+
+PDF statistics: 801 PDF objects out of 1000 (max. 8388607)
+ 91 named destinations out of 1000 (max. 131072)
+ 309 words of extra memory for PDF output out of 10000 (max. 100000000)
 

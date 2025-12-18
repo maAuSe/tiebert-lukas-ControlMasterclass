@@ -364,6 +364,11 @@ function D = parseLqrCsv(filename)
   opts.DataLines = [3 inf];
   opts.VariableNamesLine = 2;
   T = readtable(filename, opts);
+  startRow = lqrButton2StartRow(filename); % align on button-2 (trajectory start)
+  if ~isempty(startRow)
+    startRow = min(startRow, height(T));
+    T = T(startRow:end, :);
+  end
   N = height(T);
   getv = @(names, default) pickVar(T, names, default, N);
 
@@ -394,6 +399,19 @@ function D = parseLqrCsv(filename)
   D.v           = getv({'ValueIn9','v_applied'}, zeros(N,1));
   D.omega       = getv({'ValueIn10','omega_applied'}, zeros(N,1));
   D.z1          = getv({'ValueIn11','z1'}, NaN(N,1));
+end
+
+function startRow = lqrButton2StartRow(filename)
+% Manual offsets (1-based table rows) where button 2 was pressed per log.
+  [~, name, ~] = fileparts(filename);
+  switch lower(name)
+    case 'lqr_a',    startRow = 162;
+    case 'lqr_b',    startRow = 219;
+    case 'lqr_c',    startRow = 137;
+    case 'lqr_d',    startRow = 159;
+    case 'test_lqr', startRow = 825;
+    otherwise,       startRow = [];
+  end
 end
 
 function [x_ref, y_ref, theta_ref] = reconstructReferenceFromVOmega(t, v, omega, x0, y0, theta0)
@@ -614,16 +632,25 @@ end
 
 function plotLqrTracking(trackingRuns, imgDir)
 % Plot tracking errors (world + body frames) and control signals for LQR tuning sweep.
-  colors = lines(numel(trackingRuns));
+% Black & white compatible: uses distinct line styles and markers for print clarity.
+  lineStyles = {'-', '--', ':', '-.'};
+  markers    = {'none', 'o', 's', '^'};
+  markerStep = 120;  % sparse markers to avoid clutter
+  nRuns = numel(trackingRuns);
 
   % World-frame errors
   figW = figure('Name','LQR Errors (world frame)','Position',[100 100 1100 700]);
   errNamesW = {'e_x [m]','e_y [m]','e_\theta [rad]'};
   for idx = 1:3
     subplot(3,1,idx); hold on; grid on;
-    for k = 1:numel(trackingRuns)
-      plot(trackingRuns(k).t, trackingRuns(k).err_world(:,idx), 'Color', colors(k,:), 'LineWidth',1.4, ...
-        'DisplayName', trackingRuns(k).label);
+    for k = 1:nRuns
+      styleIdx = mod(k-1, numel(lineStyles)) + 1;
+      markIdx  = mod(k-1, numel(markers)) + 1;
+      t = trackingRuns(k).t;
+      plot(t, trackingRuns(k).err_world(:,idx), ...
+           'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
+           'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
+           'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
     end
     ylabel(errNamesW{idx});
     if idx == 1, title('Tracking errors (world frame)'); end
@@ -636,30 +663,45 @@ function plotLqrTracking(trackingRuns, imgDir)
   errNamesB = {'e_{x''} [m]','e_{y''} [m]','e_\theta [rad]'};
   for idx = 1:3
     subplot(3,1,idx); hold on; grid on;
-    for k = 1:numel(trackingRuns)
-      plot(trackingRuns(k).t, trackingRuns(k).err_body(:,idx), 'Color', colors(k,:), 'LineWidth',1.4, ...
-        'DisplayName', trackingRuns(k).label);
+    for k = 1:nRuns
+      styleIdx = mod(k-1, numel(lineStyles)) + 1;
+      markIdx  = mod(k-1, numel(markers)) + 1;
+      t = trackingRuns(k).t;
+      plot(t, trackingRuns(k).err_body(:,idx), ...
+           'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
+           'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
+           'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
     end
     ylabel(errNamesB{idx});
-    if idx == 1, title('Tracking errors (body frame, spec 4a)'); end
+    if idx == 1, title('Tracking errors (body frame)'); end
     if idx == 3, xlabel('Time [s]'); legend('Location','bestoutside'); end
   end
   exportgraphics(figB, fullfile(imgDir, 'lqr_tracking_errors_body.pdf'), 'ContentType','vector');
 
-  % Control signals (feedforward proxy)
+  % Control signals
   figU = figure('Name','LQR Inputs','Position',[100 100 1100 500]);
   subplot(2,1,1); hold on; grid on;
-  for k = 1:numel(trackingRuns)
-    plot(trackingRuns(k).t, trackingRuns(k).u(:,1), 'Color', colors(k,:), 'LineWidth',1.4, ...
-      'DisplayName', trackingRuns(k).label);
+  for k = 1:nRuns
+    styleIdx = mod(k-1, numel(lineStyles)) + 1;
+    markIdx  = mod(k-1, numel(markers)) + 1;
+    t = trackingRuns(k).t;
+    plot(t, trackingRuns(k).u(:,1), ...
+         'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
+         'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
+         'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
   end
   ylabel('v [m/s]');
-  title('Control signals (feedforward proxy)');
+  title('Control signals');
   legend('Location','bestoutside');
   subplot(2,1,2); hold on; grid on;
-  for k = 1:numel(trackingRuns)
-    plot(trackingRuns(k).t, trackingRuns(k).u(:,2), 'Color', colors(k,:), 'LineWidth',1.4, ...
-      'DisplayName', trackingRuns(k).label);
+  for k = 1:nRuns
+    styleIdx = mod(k-1, numel(lineStyles)) + 1;
+    markIdx  = mod(k-1, numel(markers)) + 1;
+    t = trackingRuns(k).t;
+    plot(t, trackingRuns(k).u(:,2), ...
+         'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
+         'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
+         'MarkerSize', 4, 'LineWidth', 1.3, 'DisplayName', trackingRuns(k).label);
   end
   ylabel('\omega [rad/s]'); xlabel('Time [s]');
   exportgraphics(figU, fullfile(imgDir, 'lqr_control_signals.pdf'), 'ContentType','vector');

@@ -9,16 +9,24 @@ constexpr float kAlpha = 0.075f;  // front sensor offset along X' from cart cent
 constexpr float kBeta  = 0.065f;  // longitudinal offset of side sensor from cart center
 constexpr float kGamma = 0.078f;  // lateral offset of side sensor from cart center (positive to the left)
 
+// Scalars to quickly sweep Q/R ratios for spec 3(b)
+// Keep these at 1 and apply tuning directly on Q/R entries below.
+constexpr float kQScale = 1.0e+2f;  // boosts process noise to 1e-6 range
+constexpr float kRScale = 1.0f;
+
 // Walls: p*x + q*y = r  (default: W1 is y=0, W2 is x=0, robot starts in x<0, y<0 quadrant)
 constexpr float kP1 = 0.0f; constexpr float kQ1 = 1.0f; constexpr float kR1 = 0.0f;  // W1: y = 0
 constexpr float kP2 = 1.0f; constexpr float kQ2 = 0.0f; constexpr float kR2 = 0.0f;  // W2: x = 0
 
 // Noise covariances (tune experimentally; units: m^2 for position, rad^2 for heading)
-constexpr float kQx = 1.0e-5f;
-constexpr float kQy = 1.0e-5f;
-constexpr float kQtheta = 5.0e-6f;
-constexpr float kRz1 = 1.0e-4f;
-constexpr float kRz2 = 1.0e-4f;
+
+constexpr float kQx = kQScale * (1.0e-8f);
+constexpr float kQy = kQScale * (1.0e-8f);
+constexpr float kQtheta = kQScale * (1.0e-8f);
+
+// Empirical IR noise (from logged scatter): z1 ~3.5 cm, z2 ~3.6 mm
+constexpr float kRz1 = kRScale * (1.2e-3f);  // (0.035 m)^2
+constexpr float kRz2 = kRScale * (1.3e-5f);  // (0.0036 m)^2
 
 inline float wallNorm(float p, float q) {
   return sqrtf(p * p + q * q);
@@ -39,20 +47,16 @@ void PredictionUpdate(const Matrix<2> &u, Matrix<3> &xhat, Matrix<3,3> &Phat) {
   xhat(2) += kTs * omega;
 
   // Jacobian of the discretized dynamics: A = I + Ts * df/dx
-  float arrayA[3][3] = {
-    {1.0f, 0.0f, -kTs * v * sth},
-    {0.0f, 1.0f,  kTs * v * cth},
-    {0.0f, 0.0f,  1.0f}
-  };
-  Matrix<3, 3> A = arrayA;
+  Matrix<3, 3> A = {1.0f, 0.0f, -kTs * v * sth,
+                    0.0f, 1.0f,  kTs * v * cth,
+                    0.0f, 0.0f,  1.0f};
 
-  float arrayQ[3][3]{ { kQx,   0.0f,    0.0f},
-                      { 0.0f,  kQy,     0.0f},
-                      { 0.0f,  0.0f, kQtheta}};
-  Matrix<3, 3> Q = arrayQ;
+  Matrix<3, 3> Q = {kQx,   0.0f,    0.0f,
+                    0.0f,  kQy,     0.0f,
+                    0.0f,  0.0f, kQtheta};
 
   // Covariance propagation
-  Phat = A * Phat * A.Transpose() + Q;
+  Phat = A * Phat * ~A + Q;
 }
 
 void CorrectionUpdate(const Matrix<2> &y, Matrix<3> &xhat, Matrix<3,3> &Phat, Matrix<2> &nu, Matrix<2,2> &S) {
@@ -80,23 +84,21 @@ void CorrectionUpdate(const Matrix<2> &y, Matrix<3> &xhat, Matrix<3,3> &Phat, Ma
   const float dx2dtheta = -kBeta * sth - kGamma * cth;
   const float dy2dtheta =  kBeta * cth - kGamma * sth;
 
-  float arrayJh[2][3] = {
-    {-kP1 / n1, -kQ1 / n1, -(kP1 * dx1dtheta + kQ1 * dy1dtheta) / n1},
-    {-kP2 / n2, -kQ2 / n2, -(kP2 * dx2dtheta + kQ2 * dy2dtheta) / n2}
-  };
-  Matrix<2,3> C = arrayJh;
+  Matrix<2,3> C = {-kP1 / n1, -kQ1 / n1, -(kP1 * dx1dtheta + kQ1 * dy1dtheta) / n1,
+                   -kP2 / n2, -kQ2 / n2, -(kP2 * dx2dtheta + kQ2 * dy2dtheta) / n2};
 
   // Measurement noise
-  float arrayR[2][2]{{kRz1, 0.0f},
-                     {0.0f, kRz2}};
-  Matrix<2, 2> R = arrayR;
+  Matrix<2, 2> R = {kRz1, 0.0f,
+                    0.0f, kRz2};
 
   // Innovation and innovation covariance
   nu = y - h;
-  S = C * Phat * C.Transpose() + R;
+  S = C * Phat * ~C + R;
 
   // Kalman gain
-  Matrix<3,2> L = Phat * C.Transpose() * S.Inverse();
+  Matrix<2,2> Sinv = S;
+  Invert(Sinv);
+  Matrix<3,2> L = Phat * ~C * Sinv;
 
   // State and covariance correction
   xhat += L * nu;

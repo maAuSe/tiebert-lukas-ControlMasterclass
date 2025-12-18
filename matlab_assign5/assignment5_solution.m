@@ -36,9 +36,17 @@ geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wal
 %% ========================================================================
 %  NOISE COVARIANCES & INITIAL STATE (PLACEHOLDERS TO TUNE)
 %  ========================================================================
-Q_proc_nom = diag([1e-5, 1e-5, 5e-6]);   % process noise (m^2, m^2, rad^2)
-R_meas_nom = diag([1e-4, 1e-4]);         % measurement noise (m^2)
-P0_default = diag([0.04, 0.04, (deg2rad(10))^2]); % initial covariance
+% Nominal EKF covariances (must match Arduino firmware: arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp)
+% Q scaled up to 1e-6 range to avoid overconfidence; R from empirical sensor scatter.
+Q_proc_base = diag([1e-6, 1e-6, 1e-6]);   % process noise (m^2, m^2, rad^2)
+R_meas_base = diag([1.2e-3, 1.3e-5]);     % measurement noise (m^2)
+
+firmware_Q_scale = 1.0;      % keep unity so MATLAB/Arduino match exactly
+firmware_R_scale = 1.0;
+
+Q_proc_nom = Q_proc_base * firmware_Q_scale;
+R_meas_nom = R_meas_base * firmware_R_scale;
+P0_default = diag([1e-3, 1e-3, 7.6e-3]); % must match resetKalmanFilter() on Arduino
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
 R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
 
@@ -132,6 +140,63 @@ if numel(ekfExps) >= ekfNominalIdx
 end
 
 %% ========================================================================
+%  OPTIONAL: OFFLINE EKF RE-RUN (Q SWEEP TO PICK BEST)
+%  ========================================================================
+% Re-run the EKF in MATLAB using the logged inputs/measurements and a wide
+% sweep of Q scaling values. The "best" run is the one with the smallest
+% summed whitened innovation + log(|S|) score (approx. negative log-lik.).
+doOfflineEkfSweep = true;
+offlineEkfFile = fullfile(dataDir, 'ekf_Q1_R1.csv');
+Q_sweep_scales = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 4, 8]; % wide range
+
+if doOfflineEkfSweep && isfile(offlineEkfFile)
+  Doff = parseQrcAssignment5(offlineEkfFile);
+  colors = lines(numel(Q_sweep_scales));
+  offlineRuns = struct([]);
+
+  for k = 1:numel(Q_sweep_scales)
+    Qk = Q_proc_nom * Q_sweep_scales(k);
+    [xhatOff, diagOff] = rerunEkfOffline(Doff, Ts, geom, x0_default, P0_default, Qk, R_meas_nom);
+    offlineRuns(k).scale = Q_sweep_scales(k); %#ok<SAGROW>
+    offlineRuns(k).xhat  = xhatOff;
+    offlineRuns(k).score = diagOff.negLogLik;
+    offlineRuns(k).scoreInnov = diagOff.whitenedInnovSum;
+  end
+
+  [~, bestIdx] = min([offlineRuns.score]);
+
+  figure('Name', 'Offline EKF (Q sweep): x,y,\theta', 'Position', [140 160 920 460]);
+  tiledlayout(3,1, 'TileSpacing','compact', 'Padding','compact');
+  stateNames = {'\hat{x} [m]', '\hat{y} [m]', '\hat{\theta} [rad]'};
+  for sIdx = 1:3
+    nexttile; hold on; grid on;
+    for k = 1:numel(offlineRuns)
+      lw = 0.8 + 0.8 * (k == bestIdx);
+      plot(Doff.time, offlineRuns(k).xhat(sIdx,:), 'Color', colors(k,:), ...
+        'LineWidth', lw, 'DisplayName', sprintf('Q x%.2g', offlineRuns(k).scale));
+    end
+    ylabel(stateNames{sIdx});
+    if sIdx == 1
+      title(sprintf('Offline EKF Q sweep (best: Q x%.2g)', offlineRuns(bestIdx).scale));
+    end
+    if sIdx == 3
+      xlabel('Time [s]');
+      legend('Location','eastoutside');
+    end
+  end
+
+  figure('Name', 'Offline EKF Q sweep score', 'Position', [180 180 720 320]);
+  hold on; grid on;
+  bar(Q_sweep_scales, [offlineRuns.score]);
+  set(gca, 'XScale','log');
+  xticks(Q_sweep_scales);
+  xticklabels(compose('%.2g', Q_sweep_scales));
+  xlabel('Q scaling factor (diag)');
+  ylabel('0.5 \cdot \Sigma ( \nu^T S^{-1} \nu + \log|S| )');
+  title('Offline EKF Q sweep score (lower is better)');
+end
+
+%% ========================================================================
 %  LQR DATA PROCESSING (TRACKING ERRORS & CONTROL INPUTS)
 %  ========================================================================
 trackingRuns = struct([]);
@@ -143,14 +208,14 @@ for k = 1:numel(lqrRuns)
   D = parseQrcAssignment5(lqrRuns(k).file);
   trackingRuns(end+1).label = lqrRuns(k).label; %#ok<SAGROW>
   trackingRuns(end).t       = D.time;
-  err_world                  = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPi(D.theta_ref - D.thetahat)];
+  err_world                  = [D.x_ref - D.xhat, D.y_ref - D.yhat, wrapToPiLocal(D.theta_ref - D.thetahat)];
   err_body                   = zeros(size(err_world));
   for i = 1:numel(D.time)
     err_body(i,:) = (rotWorldToBody(D.thetahat(i)) * err_world(i,:).').';
   end
   trackingRuns(end).err_world = err_world;
   trackingRuns(end).err_body  = err_body;
-  trackingRuns(end).u         = [D.v_ff, D.omega_ff]; % feedforward proxy (replace with u_total if logged)
+  trackingRuns(end).u         = [D.v, D.omega];
 end
 
 if ~isempty(trackingRuns)
@@ -197,9 +262,12 @@ function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
   N = numel(D.time);
   xhat = [D.xhat, D.yhat, D.thetahat]';
   y    = [D.z1, D.z2]';
-  u    = [D.v_ff, D.omega_ff]';
-  nu   = [D.nu1, D.nu2]';
+  u    = [D.v, D.omega]';
   hasMeas = D.hasMeas ~= 0;
+
+  if ~any(hasMeas)
+    warning('loadEkfRun:NoMeasurements', 'No measurements enabled in %s (hasMeas is always 0). EKF will be effectively open-loop and measurement plots will be empty.', runCfg.file);
+  end
 
   P = zeros(3,3,N);
   for i = 1:N
@@ -207,16 +275,24 @@ function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
   end
 
   Rall = repmat(runCfg.R, [1 1 N]);
-  Rall(:,:,~hasMeas) = runCfg.R * R_off_factor; % mimic sensor drop-out
+  idxNoMeas = find(~hasMeas);
+  if ~isempty(idxNoMeas)
+    Rall(:,:,idxNoMeas) = repmat(runCfg.R * R_off_factor, [1 1 numel(idxNoMeas)]); % mimic sensor drop-out
+  end
   y(:, ~hasMeas) = NaN;                         % show gaps when sensors are disabled
 
   % Innovation covariance for plotting/consistency
   S = zeros(2,2,N);
+  nu = zeros(2,N);
   for i = 1:N
     if hasMeas(i)
-      [~, Ck] = measurementModel(xhat(:,i), geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
+      [zPred, Ck] = measurementModel(xhat(:,i), geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
     else
       Ck = zeros(2,3);
+      zPred = zeros(2,1);
+    end
+    if hasMeas(i)
+      nu(:,i) = y(:,i) - zPred;
     end
     S(:,:,i) = Ck * P(:,:,i) * Ck' + Rall(:,:,i);
   end
@@ -235,27 +311,152 @@ function D = parseQrcAssignment5(filename)
   N = height(T);
   getv = @(names, default) pickVar(T, names, default, N);
 
-  D.time      = (T.Time - T.Time(1)) / 1000; D.time = D.time(:); % s
-  D.v_ff      = getv({'ValueIn0','v_ff','v'}, zeros(N,1));
-  D.omega_ff  = getv({'ValueIn1','omega_ff','omega'}, zeros(N,1));
-  D.x_ref     = getv({'ValueIn2','x_ref','xref'}, zeros(N,1));
-  D.y_ref     = getv({'ValueIn3','y_ref','yref'}, zeros(N,1));
-  D.theta_ref = getv({'ValueIn4','theta_ref','thetaref'}, zeros(N,1));
-  D.hasMeas   = getv({'ValueIn5','hasMeas','hasMeasurements'}, ones(N,1));
-  D.speedA    = getv({'ValueIn6','speedA','wA'}, zeros(N,1));
-  D.speedB    = getv({'ValueIn7','speedB','wB'}, zeros(N,1));
-  D.z1        = getv({'ValueIn8','z1','y1'}, zeros(N,1));
-  D.z2        = getv({'ValueIn9','z2','y2'}, zeros(N,1));
-  D.voltA     = getv({'ValueIn10','voltA','uA'}, zeros(N,1));
-  D.voltB     = getv({'ValueIn11','voltB','uB'}, zeros(N,1));
-  D.xhat      = getv({'ValueIn12','xhat','x1'}, zeros(N,1));
-  D.yhat      = getv({'ValueIn13','yhat','x2'}, zeros(N,1));
-  D.thetahat  = getv({'ValueIn14','thetahat','x3'}, zeros(N,1));
-  D.nu1       = getv({'ValueIn15','nu1','innovation1'}, zeros(N,1));
-  D.nu2       = getv({'ValueIn16','nu2','innovation2'}, zeros(N,1));
-  D.Pxx       = getv({'ValueIn17','Pxx','P11'}, 1e-6 * ones(N,1));
-  D.Pyy       = getv({'ValueIn18','Pyy','P22'}, 1e-6 * ones(N,1));
-  D.Ptt       = getv({'ValueIn19','Ptt','P33'}, 1e-6 * ones(N,1));
+  tRaw = T.Time;
+  tRaw = tRaw(:);
+  tRel = tRaw - tRaw(1);
+  dtMed = median(diff(tRel), 'omitnan');
+  if ~isfinite(dtMed)
+    dtMed = NaN;
+  end
+
+  if ~isnan(dtMed) && dtMed > 500
+    D.time = tRel / 1e6;
+  elseif ~isnan(dtMed) && dtMed > 0.5
+    D.time = tRel / 1000;
+  else
+    D.time = tRel;
+  end
+  D.time = D.time(:);
+  D.v_ff      = getv({'ValueIn0','v_ff'}, zeros(N,1));
+  D.omega_ff  = getv({'ValueIn1','omega_ff'}, zeros(N,1));
+  D.z1        = getv({'ValueIn2','z1','y1'}, NaN(N,1));
+  D.z2        = getv({'ValueIn3','z2','y2'}, NaN(N,1));
+  D.xhat      = getv({'ValueIn4','xhat','x1'}, zeros(N,1));
+  D.yhat      = getv({'ValueIn5','yhat','x2'}, zeros(N,1));
+  D.thetahat  = getv({'ValueIn6','thetahat','x3'}, zeros(N,1));
+  D.Pxx       = getv({'ValueIn7','Pxx','P11'}, 1e-6 * ones(N,1));
+  D.Pyy       = getv({'ValueIn8','Pyy','P22'}, 1e-6 * ones(N,1));
+  D.Ptt       = getv({'ValueIn9','Ptt','P33'}, 1e-6 * ones(N,1));
+  D.v         = getv({'ValueIn10','v','v_applied'}, D.v_ff);
+  D.omega     = getv({'ValueIn11','omega','omega_applied'}, D.omega_ff);
+
+  D.hasMeas = isfinite(D.z1) & isfinite(D.z2);
+
+  x0 = -0.30;
+  y0 = -0.20;
+  theta0 = 0.0;
+  [D.x_ref, D.y_ref, D.theta_ref] = reconstructReferenceFromVOmega(D.time, D.v_ff, D.omega_ff, x0, y0, theta0);
+end
+
+function [x_ref, y_ref, theta_ref] = reconstructReferenceFromVOmega(t, v, omega, x0, y0, theta0)
+  t = t(:);
+  v = v(:);
+  omega = omega(:);
+  N = numel(t);
+
+  x_ref = zeros(N,1);
+  y_ref = zeros(N,1);
+  theta_ref = zeros(N,1);
+
+  x_ref(1) = x0;
+  y_ref(1) = y0;
+  theta_ref(1) = theta0;
+
+  if N < 2
+    return;
+  end
+
+  dt = diff(t);
+  dt(~isfinite(dt)) = 0;
+  dt(dt < 0) = 0;
+  dt = min(dt, 0.1);
+
+  for k = 2:N
+    theta_ref(k) = theta_ref(k-1) + dt(k-1) * omega(k-1);
+    x_ref(k) = x_ref(k-1) + dt(k-1) * v(k-1) * cos(theta_ref(k-1));
+    y_ref(k) = y_ref(k-1) + dt(k-1) * v(k-1) * sin(theta_ref(k-1));
+  end
+
+  theta_ref = wrapToPiLocal(theta_ref);
+end
+
+function th = wrapToPiLocal(th)
+  th = mod(th + pi, 2*pi) - pi;
+end
+
+function [xhat, diagOut] = rerunEkfOffline(D, Ts, geom, x0, P0, Qk, Rk)
+% Re-run the same EKF structure as the Arduino firmware, using logged u/y.
+% Returns xhat as 3xN (x,y,theta).
+
+  N = numel(D.time);
+  xhat = zeros(3, N);
+  x = x0(:);
+  P = P0;
+  innov = NaN(2, N);
+  innovCost = NaN(1, N);
+  logdetS = NaN(1, N);
+
+  for k = 1:N
+    if k > 1
+      u = [D.v(k-1); D.omega(k-1)];
+      [x, P] = ekfPredictEuler(x, P, u, Ts, Qk);
+    end
+
+    if isfinite(D.z1(k)) && isfinite(D.z2(k))
+      y = [D.z1(k); D.z2(k)];
+      [x, P, nu, S] = ekfCorrectWallRanges(x, P, y, geom, Rk);
+      innov(:,k) = nu;
+      innovCost(k) = nu' * (S \ nu);
+      try
+        L = chol(S, 'lower');
+        logdetS(k) = 2 * sum(log(diag(L)));
+      catch
+        logdetS(k) = log(det(S));
+      end
+    end
+
+    x(3) = wrapToPiLocal(x(3));
+    xhat(:,k) = x;
+  end
+
+  measMask = isfinite(innovCost);
+  diagOut = struct();
+  diagOut.innov = innov;
+  diagOut.innovRms = sqrt(nanmean(innov(:).^2));
+  diagOut.whitenedInnovSum = nansum(innovCost);
+  if any(measMask)
+    diagOut.negLogLik = 0.5 * nansum(innovCost(measMask) + logdetS(measMask));
+  else
+    diagOut.negLogLik = Inf;
+  end
+end
+
+function [x, P] = ekfPredictEuler(x, P, u, Ts, Qk)
+  v = u(1);
+  omega = u(2);
+  th = x(3);
+
+  cth = cos(th);
+  sth = sin(th);
+
+  % x_{k+1|k} = x_k + Ts * f(x_k,u_k)
+  x = x + Ts * [v * cth; v * sth; omega];
+
+  % A = I + Ts * df/dx
+  A = [1, 0, -Ts * v * sth;
+       0, 1,  Ts * v * cth;
+       0, 0,  1];
+
+  P = A * P * A' + Qk;
+end
+
+function [x, P, nu, S] = ekfCorrectWallRanges(x, P, y, geom, Rk)
+  [zPred, C] = measurementModel(x, geom.alpha, geom.beta, geom.gamma, geom.wall1, geom.wall2);
+  nu = y - zPred;
+  S = C * P * C' + Rk;
+  K = P * C' / S;
+  x = x + K * nu;
+  P = P - K * C * P;
 end
 
 function out = pickVar(T, names, default, N)

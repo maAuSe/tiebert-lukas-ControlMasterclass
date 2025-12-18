@@ -9,9 +9,9 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
 1. **Geometry (once per cart, already measured)**
    - `a` (half wheelbase) is `WHEELBASE/2 = 0.083 m` in `mecotron.h`.
    - Measured offsets for our cart (must match `assignment5_solution.m`):
-     - `alpha = 0.075 m` — center to front IR along X'.
-     - `beta  = 0.065 m` — center to lateral IR along X'.
-     - `gamma = 0.078 m` — center to lateral IR along Y' (positive to the sensor side).
+     - `alpha = 0.075 m` - center to front IR along X'.
+     - `beta  = 0.065 m` - center to lateral IR along X'.
+     - `gamma = 0.078 m` - center to lateral IR along Y' (positive to the sensor side).
    - Arena geometry: default corner at `x=0`, `y=0` with robot starting in `x<0, y<0`. If the real walls are not exactly at `x=0` or `y=0`, measure and update the wall parameters `(p,q,r)` consistently in MATLAB and firmware.
 
 2. **Mark the world frame on the lab floor**
@@ -24,57 +24,45 @@ Workflow to collect the data requested by `specs_assignment5.md`, process it in 
      - When placing the cart, align the **geometric center** of the axle with this cross and point the cart along `+X` (front sensor facing the `y=0` wall).
    - Optionally mark the **target pose** near `(-0.15, -0.35)` m to visually check end position.
 
-3. **Firmware and QRC project setup (once before experiments)**
-   - Open `arduino_files/ass5_ino/CT-EKF-Swivel.ino` in the Arduino IDE, ensure the correct board/port, and upload once to verify the code runs.
-   - Confirm in the code that:
-     - `TSAMPLE = 0.010 s` (100 Hz) and `WHEELBASE = 0.166 m`.
-     - Geometry `a, alpha, beta, gamma` matches the values in Section 0.1.
-     - Default `Q`/`R` and `Kfb` are consistent with `matlab_assign5/assignment5_solution.m` (can be adjusted later per run).
-   - In QRoboticsCenter (QRC):
-     - Connect to the cart and check that all four buttons are visible and functional.
-     - Create a project for Assignment 5 and ensure the logging sampling time is `0.01 s` (100 Hz).
+3. **Firmware focus (Section 3b only)**
+   - Firmware is currently *feedforward-only* with the EKF (no LQR/state feedback). For the four Q/R sweeps, edit `arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp` and set:
+     - `kQScale` and `kRScale` to `1` or `5` per run (multipliers on the diagonal Q/R values).
+   - If you later need LQR experiments (spec 4c), restore the LQR feedback code before running those tests.
 
 4. **QRC channel map (configure once, log for every run)**
-   - Map the 20 general-purpose outputs as follows (must match `assignment5_solution.m` and the CSV parser):
-     - ch0: `v_ff` (trajectory.v), ch1: `omega_ff`.
-     - ch2–4: `x_ref, y_ref, theta_ref`.
-     - ch5: `hasMeasurements` flag.
-     - ch6–7: wheel speeds A/B (rad/s).
-     - ch8–9: IR measurements `z1` (front), `z2` (side) — these are logged as `NaN` when sensors are off.
-     - ch10–11: motor voltages A/B.
-     - ch12–14: state estimates `xhat, yhat, thetahat`.
-     - ch15–16: innovations `nu1, nu2`.
-     - ch17–19: covariance diagonals `Pxx, Pyy, Ptt`.
+   - Current firmware (`arduino_files/CT-EKF-Swivel/robot.cpp`) streams **12** general-purpose outputs (`ValueIn0`…`ValueIn11`), which is what `matlab_assign5/assignment5_solution.m` parses:
+     - ch0: `v_ff` = `trajectory.v()`
+     - ch1: `omega_ff` = `trajectory.omega()`
+     - ch2: `z1` (front IR distance), `NaN` when sensors are off
+     - ch3: `z2` (side IR distance), `NaN` when sensors are off
+     - ch4: `xhat` (EKF)
+     - ch5: `yhat` (EKF)
+     - ch6: `thetahat` (EKF)
+     - ch7: `Pxx` (EKF covariance diagonal)
+     - ch8: `Pyy` (EKF covariance diagonal)
+     - ch9: `Ptt` (EKF covariance diagonal)
+     - ch10: `v` (applied input), `0` when control is disabled
+     - ch11: `omega` (applied input), `0` when control is disabled
+   - In MATLAB, `hasMeas` is inferred from `isfinite(z1) & isfinite(z2)`, and `x_ref, y_ref, theta_ref` are reconstructed by integrating `v_ff, omega_ff` from the known start pose (no dedicated QRC channels for them).
    - In QRC, set the default log export folder to `matlab_assign5/data/` so that CSVs can be saved directly with the filenames expected by `assignment5_solution.m`.
 
 5. **Buttons and modes (verify behaviour once)**
-   - Button 0: toggles the velocity loop + trajectory feedforward + state-feedback (if `Kfb != 0`).
+   - Button 0: toggles the velocity loop + trajectory feedforward (state-feedback is currently disabled).
    - Button 1: toggles and resets the EKF (reinitialises `_xhat` and `_Phat`).
    - Button 2: starts/stops trajectory playback.
    - Button 3: resets the trajectory pointer to the start.
    - With the cart on a stand or with wheels lifted, briefly press each button and confirm in QRC that the expected messages/behaviour occur before running real experiments.
 
-6. **Safety**
-   - Keep both IR sensors in range (<80 cm) of their walls during the "sensors-on" part of the run.
-   - Verify the turn is obstacle-free and that cables cannot snag.
-   - Wheel-speed references are already clamped to ±12 rad/s in code; still, stay clear of the robot during motion.
-
----
-
 ## 1. EKF Q/R Sweep (Spec 3b)
 Goal: collect four EKF data sets (different Q/R ratios) for the **same feedforward-only trajectory**, then compare convergence and bias.
 
 1. **Choose and program the Q/R combination for this run**
-   - In the firmware (extended Kalman filter file), adjust the process and measurement noise diagonals
-     `kQx, kQy, kQtheta` and `kRz1, kRz2` so that they match one of the four combinations used in
-     `assignment5_solution.m`:
+   - In the firmware (`arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp`), set the scalar multipliers `kQScale` and `kRScale` so they match one of the four combinations used in `assignment5_solution.m`:
      - Run `Q1_R1`:   `Q = Q_proc_nom`,   `R = R_meas_nom` (nominal).
      - Run `Q5_R1`:   `Q = 5 * Q_proc_nom`, `R = R_meas_nom`.
      - Run `Q1_R5`:   `Q = Q_proc_nom`,   `R = 5 * R_meas_nom`.
      - Run `Q5_R5`:   `Q = 5 * Q_proc_nom`, `R = 5 * R_meas_nom`.
-   - Keep `Kfb = 0` (or very small) for these runs so that the cart is driven purely by the built-in
-     feedforward trajectory; the EKF only estimates, it does not influence the motion.
-   - Compile and **reflash the firmware** after setting the desired Q/R for the current run.
+   - Control is already pure feedforward; no K gains are applied. Compile and **reflash the firmware** after setting the desired Q/R for the current run.
 
 2. **Physical execution and logging (repeat once for each of the four Q/R combinations)**
    - Before the first sweep run of the session:
@@ -87,12 +75,12 @@ Goal: collect four EKF data sets (different Q/R ratios) for the **same feedforwa
      2. Physically place the cart at the **start mark** `(-0.30, -0.20)` m, facing exactly along `+X`:
         - Align the axle center with the floor mark made in Section 0.2.
         - Ensure the front IR sensor points straight at the `y = 0` wall and the lateral sensor toward the `x = 0` wall.
-     3. Make sure the area along the straight–turn–straight path is clear and both IR sensors see their walls.
+     3. Make sure the area along the straight-turn-straight path is clear and both IR sensors see their walls.
      4. In QRC, **start logging** (so the entire run is captured, including the button presses).
-     5. On the cart, press **Button 1** once to reset and enable the EKF; wait ~1–2 seconds.
+     5. On the cart, press **Button 1** once to reset and enable the EKF; wait ~1-2 seconds.
      6. Press **Button 0** to enable the velocity loop and controller.
      7. Press **Button 2** to start the trajectory playback.
-        - Do **not** touch the cart during the run; it will execute the built-in straight–turn–straight profile.
+        - Do **not** touch the cart during the run; it will execute the built-in straight-turn-straight profile.
      8. Wait until the cart has completed the turn and comes to a halt near the target region
         (around `(-0.15, -0.35)` m) and QRC shows the trajectory finished.
      9. Press **Button 2** again to stop the trajectory if needed, or **Button 3** to reset the pointer.
@@ -126,9 +114,9 @@ Goal: collect four EKF data sets (different Q/R ratios) for the **same feedforwa
 2. **Record one clean nominal EKF run for uncertainty analysis**
    - Reprogram the firmware with the **chosen** Q/R combination (if it is not the nominal `Q1_R1`).
    - Repeat the exact physical procedure from Section 1.2 for a single run, with the following details:
-     - Use the same **start pose** `(-0.30, -0.20)` m and button sequence (1 → 0 → 2).
+     - Use the same **start pose** `(-0.30, -0.20)` m and button sequence (1 -> 0 -> 2).
      - In QRC, log to the filename that corresponds to the chosen nominal run (e.g. `ekf_Q1_R1.csv`).
-     - Confirm during the run that channels 17–19 (`Pxx, Pyy, Ptt`) are non-zero and evolving.
+     - Confirm during the run that channels 7-9 (`Pxx, Pyy, Ptt`) are non-zero and evolving.
 
 3. **Generate state and measurement plots in MATLAB**
    - In MATLAB, run `assignment5_solution.m` with the updated `ekfExps` and `ekfNominalIdx`.
@@ -150,13 +138,15 @@ Goal: collect four EKF data sets (different Q/R ratios) for the **same feedforwa
 ## 3. LQR Tracking Experiments (Spec 4c)
 Goal: closed-loop tracking of the **same reference trajectory** as in the EKF experiment, with different LQR weightings `Q_\ell, R_\ell`, **without feedforward** for these tests.
 
+> Current firmware is feedforward-only. To run this section, restore the LQR feedback path (K matrix and body-frame error computation) in `robot.cpp` and reintroduce the feedforward/feedback split before flashing.
+
 1. **Compute K for each LQR setting in MATLAB**
    - In `assignment5_solution.m`, choose a set of diagonal weights for the error states and inputs:
      - `Q_lqr = diag([q_x, q_y, q_theta])` and `R_lqr = diag([r_v, r_omega])`.
-   - For each of up to four combinations (A–D):
+   - For each of up to four combinations (A-D):
      1. Set `Q_lqr`, `R_lqr` in the script.
      2. Run the script to compute `K_lqr = dlqr(Ad, Bd, Q_lqr, R_lqr)`.
-     3. Copy the numerical matrix `K_lqr` into `robot.cpp` as `arrayKfbInit`.
+     3. Copy the numerical matrix `K_lqr` into `robot.cpp` by updating the `Kfb` initialization (e.g. `Kfb = {k11, k12, k13, k21, k22, k23};`).
         - The current default is approximately `[[-3.1127, 0, 0]; [0, 3.1393, -1.4483]]`.
    - For the **no-feedforward** tests required in Spec 4(c):
      - In `robot.cpp`, temporarily set the feedforward vector to zero in `control()` (e.g. `uff.Fill(0)`), so the cart is driven only by the LQR feedback.
@@ -168,7 +158,7 @@ Goal: closed-loop tracking of the **same reference trajectory** as in the EKF ex
 
 3. **Physical execution for each LQR run (no feedforward)**
    - Compile and **reflash the firmware** after updating `Kfb` and disabling feedforward.
-   - For each LQR weighting (A–D):
+   - For each LQR weighting (A-D):
      1. In QRC, configure the log to export to the corresponding file:
         - `matlab_assign5/data/lqr_A.csv`, etc.
      2. Place the cart at the same **start pose** `(-0.30, -0.20)` m, facing `+X`.
@@ -177,7 +167,7 @@ Goal: closed-loop tracking of the **same reference trajectory** as in the EKF ex
      5. Press **Button 0** to enable the LQR controller.
      6. Press **Button 2** to start the trajectory.
         - The cart now tracks the reference using **state feedback only** (no feedforward contribution).
-     7. Let the full straight–turn–straight profile finish; do not interfere unless safety requires it.
+     7. Let the full straight-turn-straight profile finish; do not interfere unless safety requires it.
      8. Stop logging in QRC when the cart has stopped near the expected end region.
    - After completing all LQR experiments, **restore** the original feedforward behaviour in `robot.cpp` for normal operation (undo the `uff.Fill(0)` change).
 
@@ -200,7 +190,7 @@ Goal: closed-loop tracking of the **same reference trajectory** as in the EKF ex
 
 2. **Verify filenames in `ekfRuns` and `lqrRuns`**
    - Ensure the `ekfRuns` array lists exactly the four EKF CSV filenames you recorded in Section 1.
-   - Ensure the `lqrRuns` array lists the LQR CSV filenames (`lqr_A.csv`–`lqr_D.csv`) you recorded in Section 3.
+   - Ensure the `lqrRuns` array lists the LQR CSV filenames (`lqr_A.csv`-`lqr_D.csv`) you recorded in Section 3.
 
 3. **Run the script and generate all figures**
    - In MATLAB, run `assignment5_solution.m` from the project root so that paths resolve correctly.
@@ -224,4 +214,3 @@ Goal: closed-loop tracking of the **same reference trajectory** as in the EKF ex
 - Insert exported figures into `tex_control/ass5_tex/assignment5.tex` placeholders.
 - Document chosen `Q`, `R`, `P0`, and qualitative trends (drift during dead-reckoning, effect of higher R, etc.).
 - Summarize the selected `K` matrix from MATLAB and the rationale for final Q/R in LQR.
-

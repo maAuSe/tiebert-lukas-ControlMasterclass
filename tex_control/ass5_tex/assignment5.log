@@ -1,7 +1,5 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  17 DEC 2025 23:12
-entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  11 DEC 2025 10:39
+ restricted system commands enabled.
 **assignment5.tex
 (./assignment5.tex
 LaTeX2e <2024-11-01> patch level 2
@@ -524,12 +522,12 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<sedes.pdf, id=20, 310.15875pt x 521.95pt>
+<sedes.pdf, id=19, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
-Package pdftex.def Info: sedes.pdf  used on input line 21.
-(pdftex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=21, 341.3553pt x 132.0132pt>
+Package luatex.def Info: sedes.pdf  used on input line 21.
+(luatex.def)             Requested size: 33.81467pt x 56.9055pt.
+<logoFirW.jpg, id=20, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
 Package pdftex.def Info: logoFirW.jpg  used on input line 23.
@@ -538,53 +536,54 @@ Package pdftex.def Info: logoFirW.jpg  used on input line 23.
 
 [1
 
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./sedes
-.pdf> <./logoFirW.jpg>]
-
-[1]
-
-[2]
-
-[3]
-
-[4] (./assignment5.aux)
+{C:/Users/campa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}<./sedes.pdf><.
+/logoFirW.jpg>] [1] [2] [3] [4] (./assignment5.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `assignment5.out' has not changed.
 (rerunfilecheck)             Checksum: 97797853181797922F3292550F3D405A;1093.
- ) 
-Here is how much of TeX's memory you used:
- 15367 strings out of 473190
- 298805 string characters out of 5715799
- 677235 words of memory out of 5000000
- 38412 multiletter control sequences out of 15000+600000
- 566867 words of font info for 68 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 75i,16n,79p,1181b,1058s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/
-texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texm
-f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on assignment5.pdf (5 pages, 1041445 bytes).
-PDF statistics:
- 187 PDF objects out of 1000 (max. 8388607)
- 139 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+)
+
+Here is how much of LuaTeX's memory you used:
+ 15778 strings out of 476497
+ 125027,1977958 words of node,token memory allocated
+ 738 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 6 sub_mlist, 1 glyph, 59 attribute,
+ 55 glue_spec, 59 attribute_list, 1 write nodes
+   avail lists: 2:699,3:222,4:36,5:607,6:41,7:7803,8:56,9:1061,10:7,11:520
+ 37512 multiletter control sequences out of 65536+600000
+ 60 fonts using 4136063 bytes
+ 72i,17n,75p,1180b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<//?/c:/users/campa/appdata/local/programs/miktex/fonts/opentype/public/lm/lmrom
+an7-regular.otf><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/pub
+lic/lm/lmmono10-regular.otf><//?/c:/users/campa/appdata/local/programs/miktex/fo
+nts/opentype/public/lm/lmroman10-regular.otf><C:/Users/campa/AppData/Local/Progr
+ams/MiKTeX/fonts/opentype/public/lm/lmroman12-regular.otf><C:/Users/campa/AppDat
+a/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/ca
+mpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/
+Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cm
+ex7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmmi10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmmi12.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmmi5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/campa/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/campa/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/campa/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/campa/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/campa
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users
+/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:
+/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmsy5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmsy7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmsy8.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/symbols/msbm10.pfb>
+Output written on assignment5.pdf (5 pages, 1038537 bytes).
+
+PDF statistics: 192 PDF objects out of 1000 (max. 8388607)
+ 39 named destinations out of 1000 (max. 131072)
+ 33 words of extra memory for PDF output out of 10000 (max. 100000000)
 

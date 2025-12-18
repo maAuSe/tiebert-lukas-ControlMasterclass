@@ -70,10 +70,10 @@ void Robot::control() {
   Matrix<2> uApplied;
   uApplied.Fill(0);
   if(trajectoryEnabled) {
-    // Compute body-frame tracking error for LQR (spec 4a)
+    // Compute body-frame tracking error for LQR 
     computeBodyFrameError(x_ref, y_ref, theta_ref, _xhat(0), _xhat(1), _xhat(2), _errorBody);
 
-    // LQR state feedback: u = K * e' (spec 4c, feedback-only)
+    // LQR state feedback: u = K * e'
     uApplied = _Klqr * _errorBody;
   } else {
     _errorBody.Fill(0);

@@ -16,24 +16,24 @@ bool Robot::init() {
   _nu.Fill(0);
   desiredDistanceMeters = 0.40f;  // initial reference: 0.40 m to wall
 
-  // ========== EXPERIMENT GAIN CONFIGURATION ==========
-  // Uncomment ONE line per section depending on which experiment you are running.
+  // EXPERIMENT GAIN CONFIGURATION 
   //
-  // --- 2(a) Estimator-only: L sweep (controller OFF, estimator ON) ---
+  // --- Section 2(a) Estimator-only: L sweep (controller OFF, estimator ON) ---
   // setEstimatorGain(-0.05f);      // L_slow:  p_est ~= 0.95 (estimator-only sweep)
   // setEstimatorGain(-0.18f);      // L_nom:   p_est ~= 0.82
   // setEstimatorGain(-0.35f);      // L_fast:  p_est ~= 0.65
   //
-  // --- 2(b) Controller-only: K sweep (controller ON, estimator OFF) ---
+  // --- Section 2(b) Controller-only: K sweep (controller ON, estimator OFF) ---
   // kPosGain = 20.0f;              // K_slow: p_cl ~= 0.993
   kPosGain = 40.0f;                 // K_nom:  p_cl ~= 0.987  <-- default
   // kPosGain = 80.0f;              // K_fast: p_cl ~= 0.974
   //
-  // --- 2(c) Estimator + Controller: slow estimator pole (both ON) ---
+  // --- Section 2(c) Estimator + Controller: slow estimator pole (both ON) ---
   // For 2(c), use K_nom and L_slow (10x slower than controller):
   //   kPosGain = 40.0f;
   setEstimatorGain(-0.00132f);      // L_slow: p_est ~= 0.9987 (10x slower than p_cl with K_nom)
-  // =======================================================
+
+  
 resetController();
   return true;
 }

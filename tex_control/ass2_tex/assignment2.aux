@@ -2,18 +2,136 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{*}
 \providecommand \oddpage@label [2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Design of a velocity controller}{II}{section.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Controller choice}{II}{subsection.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Implementation of the Controller}{II}{subsection.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Phase Margin Selection:}{II}{section*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Crossover Frequency:}{II}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Integral Time Constant:}{II}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Proportional Gain:}{II}{section*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Bandwidth Limitations}{III}{subsection.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Experimental Validation}{III}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Step Response Validation}{III}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Disturbance Rejection (Constant Force)}{III}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Design of a velocity controller using the frequency response method}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Controller type choice (1a)}{1}{subsection.1.1}\protected@file@percent }
+\newlabel{eq: CT PI controller}{{1}{1}{Controller type choice (1a)}{equation.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Design process and design parameters choices (1b)}{1}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Choice of cross-over frequency $\omega _c$:}{1}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Integration time T$_i$:}{2}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proportional gain $K$:}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Design trade-offs for controller design parameters ($PM$, $K$, $T_i$, $\omega _c$):}{2}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Frequency-domain verification:}{3}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time-domain verification:}{3}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Theoretical and practical closed-loop bandwidth limitations (1c)}{3}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Theoretical limitation:}{3}{section*.9}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:Verification-Open-loop-A}{{1a}{4}{Wheel A - Bode diagram of compensated open-loop system $L(j\omega )$}{figure.caption.6}{}}
+\newlabel{sub@fig:Verification-Open-loop-A}{{a}{4}{Wheel A - Bode diagram of compensated open-loop system $L(j\omega )$}{figure.caption.6}{}}
+\newlabel{fig:Verification-Open-loop-B}{{1b}{4}{Wheel B - Bode diagram of compensated open-loop system $L(j\omega )$}{figure.caption.6}{}}
+\newlabel{sub@fig:Verification-Open-loop-B}{{b}{4}{Wheel B - Bode diagram of compensated open-loop system $L(j\omega )$}{figure.caption.6}{}}
+\newlabel{fig:Verification-PI-A}{{1c}{4}{Wheel A - Bode diagram of PI compensator $D(j\omega )$}{figure.caption.6}{}}
+\newlabel{sub@fig:Verification-PI-A}{{c}{4}{Wheel A - Bode diagram of PI compensator $D(j\omega )$}{figure.caption.6}{}}
+\newlabel{fig:Verification-PI-B}{{1d}{4}{Wheel B - Bode diagram of PI compensator $D(j\omega )$}{figure.caption.6}{}}
+\newlabel{sub@fig:Verification-PI-B}{{d}{4}{Wheel B - Bode diagram of PI compensator $D(j\omega )$}{figure.caption.6}{}}
+\newlabel{fig:Verification-Closed-loop-A}{{1e}{4}{Wheel A - Bode diagram of compensated closed-loop system $H(j\omega )$}{figure.caption.6}{}}
+\newlabel{sub@fig:Verification-Closed-loop-A}{{e}{4}{Wheel A - Bode diagram of compensated closed-loop system $H(j\omega )$}{figure.caption.6}{}}
+\newlabel{fig:Verification-Closed-loop-B}{{1f}{4}{Wheel B - Bode diagram of compensated closed-loop system $H(j\omega )$}{figure.caption.6}{}}
+\newlabel{sub@fig:Verification-Closed-loop-B}{{f}{4}{Wheel B - Bode diagram of compensated closed-loop system $H(j\omega )$}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Frequency-domain verification of the designed PI controller for wheel A (left column) and wheel B (right column).}}{4}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:Frequency-verification-A-B}{{1}{4}{Frequency-domain verification of the designed PI controller for wheel A (left column) and wheel B (right column)}{figure.caption.6}{}}
+\newlabel{fig:Verification-Time-A}{{2a}{5}{Wheel A - Step response of $H(s)$}{figure.caption.8}{}}
+\newlabel{sub@fig:Verification-Time-A}{{a}{5}{Wheel A - Step response of $H(s)$}{figure.caption.8}{}}
+\newlabel{fig:Verification-Time-B}{{2b}{5}{Wheel B - Step response of $H(s)$}{figure.caption.8}{}}
+\newlabel{sub@fig:Verification-Time-B}{{b}{5}{Wheel B - Step response of $H(s)$}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Step response of the compensated closed-loop system $H(s)$ for wheel A (left) and wheel B (right).}}{5}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:Verification-Time-A-B}{{2}{5}{Step response of the compensated closed-loop system $H(s)$ for wheel A (left) and wheel B (right)}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Practical limitations:}{5}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Experimental validation of the designed controller}{5}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Step response validation (2a)}{5}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment:}{5}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Step response:}{5}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tracking error:}{5}{section*.14}\protected@file@percent }
+\newlabel{fig:step_response_no_disturbance_A}{{3a}{6}{Wheel A - Step response without disturbance}{figure.caption.13}{}}
+\newlabel{sub@fig:step_response_no_disturbance_A}{{a}{6}{Wheel A - Step response without disturbance}{figure.caption.13}{}}
+\newlabel{fig:step_response_no_disturbance_B}{{3b}{6}{Wheel B - Step response without disturbance}{figure.caption.13}{}}
+\newlabel{sub@fig:step_response_no_disturbance_B}{{b}{6}{Wheel B - Step response without disturbance}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Step response on flat ground for wheel A (left) and wheel B (right): reference (dotted line) vs. measured (solid line) vs. simulated (dashed line).}}{6}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:step_response_no_disturbance}{{3}{6}{Step response on flat ground for wheel A (left) and wheel B (right): reference (dotted line) vs. measured (solid line) vs. simulated (dashed line)}{figure.caption.13}{}}
+\newlabel{fig:tracking_error_no_disturbance_A}{{4a}{6}{Wheel A - Tracking error without disturbance}{figure.caption.15}{}}
+\newlabel{sub@fig:tracking_error_no_disturbance_A}{{a}{6}{Wheel A - Tracking error without disturbance}{figure.caption.15}{}}
+\newlabel{fig:tracking_error_no_disturbance_B}{{4b}{6}{Wheel B - Tracking error without disturbance}{figure.caption.15}{}}
+\newlabel{sub@fig:tracking_error_no_disturbance_B}{{b}{6}{Wheel B - Tracking error without disturbance}{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Tracking error on flat ground for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line).}}{6}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:tracking_error_no_disturbance}{{4}{6}{Tracking error on flat ground for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line)}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{Control signal (voltage):}{7}{section*.16}\protected@file@percent }
+\newlabel{fig:control_signal_no_disturbance_A}{{5a}{7}{Wheel A - Control signal without disturbance}{figure.caption.17}{}}
+\newlabel{sub@fig:control_signal_no_disturbance_A}{{a}{7}{Wheel A - Control signal without disturbance}{figure.caption.17}{}}
+\newlabel{fig:control_signal_no_disturbance_B}{{5b}{7}{Wheel B - Control signal without disturbance}{figure.caption.17}{}}
+\newlabel{sub@fig:control_signal_no_disturbance_B}{{b}{7}{Wheel B - Control signal without disturbance}{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Control voltage on flat ground for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line). Saturation at $\approx 12\tmspace  +\thickmuskip {.2777em}V$ is visible.}}{7}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:control_signal_no_disturbance}{{5}{7}{Control voltage on flat ground for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line). Saturation at $\approx 12\;V$ is visible}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{Performance characteristics:}{7}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Steady-state performance under constant force disturbance (2b)}{7}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment:}{7}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Block diagram:}{7}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Step response with constant disturbance:}{7}{section*.22}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Block diagram of the closed-loop system with the constant force disturbance.}}{8}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:block_diagram_constant_disturbance}{{6}{8}{Block diagram of the closed-loop system with the constant force disturbance}{figure.caption.21}{}}
+\newlabel{fig:step_response_with_disturbance_A}{{7a}{8}{Wheel A - Step response with constant disturbance}{figure.caption.23}{}}
+\newlabel{sub@fig:step_response_with_disturbance_A}{{a}{8}{Wheel A - Step response with constant disturbance}{figure.caption.23}{}}
+\newlabel{fig:step_response_with_disturbance_B}{{7b}{8}{Wheel B - Step response with constant disturbance}{figure.caption.23}{}}
+\newlabel{sub@fig:step_response_with_disturbance_B}{{b}{8}{Wheel B - Step response with constant disturbance}{figure.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Step response on the incline for wheel A (left) and wheel B (right): reference (dotted line) vs. measured (solid line) vs. simulated (dashed line).}}{8}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:step_response_with_disturbance}{{7}{8}{Step response on the incline for wheel A (left) and wheel B (right): reference (dotted line) vs. measured (solid line) vs. simulated (dashed line)}{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {paragraph}{Tracking error with constant disturbance:}{8}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Control signal with constant disturbance:}{8}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reference tracking despite disturbance:}{8}{section*.28}\protected@file@percent }
+\newlabel{fig:tracking_error_with_disturbance_A}{{8a}{9}{Wheel A - Tracking error with constant disturbance}{figure.caption.25}{}}
+\newlabel{sub@fig:tracking_error_with_disturbance_A}{{a}{9}{Wheel A - Tracking error with constant disturbance}{figure.caption.25}{}}
+\newlabel{fig:tracking_error_with_disturbance_B}{{8b}{9}{Wheel B - Tracking error with constant disturbance}{figure.caption.25}{}}
+\newlabel{sub@fig:tracking_error_with_disturbance_B}{{b}{9}{Wheel B - Tracking error with constant disturbance}{figure.caption.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Tracking error with constant disturbance for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line).}}{9}{figure.caption.25}\protected@file@percent }
+\newlabel{fig:tracking_error_with_disturbance}{{8}{9}{Tracking error with constant disturbance for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line)}{figure.caption.25}{}}
+\newlabel{fig:control_signal_with_disturbance_A}{{9a}{9}{Wheel A - Control signal with constant disturbance}{figure.caption.27}{}}
+\newlabel{sub@fig:control_signal_with_disturbance_A}{{a}{9}{Wheel A - Control signal with constant disturbance}{figure.caption.27}{}}
+\newlabel{fig:control_signal_with_disturbance_B}{{9b}{9}{Wheel B - Control signal with constant disturbance}{figure.caption.27}{}}
+\newlabel{sub@fig:control_signal_with_disturbance_B}{{b}{9}{Wheel B - Control signal with constant disturbance}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Control voltage with constant disturbance for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line).}}{9}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:control_signal_with_disturbance}{{9}{9}{Control voltage with constant disturbance for wheel A (left) and wheel B (right): measured (solid line) vs. simulated (dashed line)}{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Controller design and validation with cross-over frequency of 0.5 $Hz$, under constant force disturbance (2c)}{10}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment:}{10}{section*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Step response with low-bandwidth (and constant disturbance):}{10}{section*.30}\protected@file@percent }
+\newlabel{fig:step_response_high_vs_low_BW_A}{{10a}{10}{Wheel A - Step response with low-bandwidth (and constant disturbance)}{figure.caption.31}{}}
+\newlabel{sub@fig:step_response_high_vs_low_BW_A}{{a}{10}{Wheel A - Step response with low-bandwidth (and constant disturbance)}{figure.caption.31}{}}
+\newlabel{fig:step_response_high_vs_low_BW_B}{{10b}{10}{Wheel B - Step response with low-bandwidth (and constant disturbance)}{figure.caption.31}{}}
+\newlabel{sub@fig:step_response_high_vs_low_BW_B}{{b}{10}{Wheel B - Step response with low-bandwidth (and constant disturbance)}{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Step response comparison for wheel A (left) and wheel B (right): nominal controller vs. low-bandwidth controller, both on the incline.}}{10}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:step_response_high_vs_low_BW}{{10}{10}{Step response comparison for wheel A (left) and wheel B (right): nominal controller vs. low-bandwidth controller, both on the incline}{figure.caption.31}{}}
+\@writefile{toc}{\contentsline {paragraph}{Tracking error with low-bandwidth (and constant disturbance):}{10}{section*.32}\protected@file@percent }
+\newlabel{fig:tracking_error_high_vs_low_BW_A}{{11a}{11}{Wheel A - Tracking error with low-bandwidth (and constant disturbance)}{figure.caption.33}{}}
+\newlabel{sub@fig:tracking_error_high_vs_low_BW_A}{{a}{11}{Wheel A - Tracking error with low-bandwidth (and constant disturbance)}{figure.caption.33}{}}
+\newlabel{fig:tracking_error_high_vs_low_BW_B}{{11b}{11}{Wheel B - Tracking error with low-bandwidth (and constant disturbance)}{figure.caption.33}{}}
+\newlabel{sub@fig:tracking_error_high_vs_low_BW_B}{{b}{11}{Wheel B - Tracking error with low-bandwidth (and constant disturbance)}{figure.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Tracking error comparison for wheel A (left) and wheel B (right): nominal controller vs. low-bandwidth controller, both on the incline.}}{11}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:tracking_error_high_vs_low_BW}{{11}{11}{Tracking error comparison for wheel A (left) and wheel B (right): nominal controller vs. low-bandwidth controller, both on the incline}{figure.caption.33}{}}
+\@writefile{toc}{\contentsline {paragraph}{Control signal with low-bandwidth (and constant disturbance):}{11}{section*.34}\protected@file@percent }
+\newlabel{fig:control_signal_high_vs_low_BW_A}{{12a}{11}{Wheel A - Control signal with low bandwidth (and constant disturbance)}{figure.caption.35}{}}
+\newlabel{sub@fig:control_signal_high_vs_low_BW_A}{{a}{11}{Wheel A - Control signal with low bandwidth (and constant disturbance)}{figure.caption.35}{}}
+\newlabel{fig:control_signal_high_vs_low_BW_A}{{12b}{11}{Wheel B - Control signal with low-bandwidth (and constant disturbance)}{figure.caption.35}{}}
+\newlabel{sub@fig:control_signal_high_vs_low_BW_A}{{b}{11}{Wheel B - Control signal with low-bandwidth (and constant disturbance)}{figure.caption.35}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Control voltage comparison for wheel A (left) and wheel B (right): nominal controller vs. low-bandwidth controller, both on the incline.}}{11}{figure.caption.35}\protected@file@percent }
+\newlabel{fig:control_signal_high_vs_low_BW}{{12}{11}{Control voltage comparison for wheel A (left) and wheel B (right): nominal controller vs. low-bandwidth controller, both on the incline}{figure.caption.35}{}}
+\@writefile{toc}{\contentsline {paragraph}{Contribution of the different (PI) controller parts:}{11}{section*.36}\protected@file@percent }
 \bibstyle{plainnat}
 \bibdata{references}
-\gdef \@abspage@last{5}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Additional figures}{12}{appendix.A}\protected@file@percent }
+\newlabel{app:figures}{{A}{12}{Additional figures}{appendix.A}{}}
+\newlabel{fig:Uncompensated-Bode-A}{{13a}{12}{Bode diagram of $G_{s,A}(s)$}{figure.caption.38}{}}
+\newlabel{sub@fig:Uncompensated-Bode-A}{{a}{12}{Bode diagram of $G_{s,A}(s)$}{figure.caption.38}{}}
+\newlabel{fig:Uncompensated-Bode-B}{{13b}{12}{Bode diagram of $G_{s,B}(s)$}{figure.caption.38}{}}
+\newlabel{sub@fig:Uncompensated-Bode-B}{{b}{12}{Bode diagram of $G_{s,B}(s)$}{figure.caption.38}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Bode diagram of the uncompensated open-loop system $G_s(s)$ for wheel A (left) and wheel B (right).}}{12}{figure.caption.38}\protected@file@percent }
+\newlabel{fig:Uncompensated-Bode}{{13}{12}{Bode diagram of the uncompensated open-loop system $G_s(s)$ for wheel A (left) and wheel B (right)}{figure.caption.38}{}}
+\newlabel{fig:Compensated-Bode-without-K-A}{{14a}{13}{Wheel A - PI compensator has gain $K_A$ = 1}{figure.caption.39}{}}
+\newlabel{sub@fig:Compensated-Bode-without-K-A}{{a}{13}{Wheel A - PI compensator has gain $K_A$ = 1}{figure.caption.39}{}}
+\newlabel{fig:Compensated-Bode-with-K-A}{{14b}{13}{Wheel A - PI compensator has gain $K_A$ = 0.8904}{figure.caption.39}{}}
+\newlabel{sub@fig:Compensated-Bode-with-K-A}{{b}{13}{Wheel A - PI compensator has gain $K_A$ = 0.8904}{figure.caption.39}{}}
+\newlabel{fig:Compensated-Bode-without-K-B}{{14c}{13}{Wheel B - PI compensator has gain $K_B$ = 1}{figure.caption.39}{}}
+\newlabel{sub@fig:Compensated-Bode-without-K-B}{{c}{13}{Wheel B - PI compensator has gain $K_B$ = 1}{figure.caption.39}{}}
+\newlabel{fig:Compensated-Bode-with-K-B}{{14d}{13}{Wheel B - PI compensator has gain $K_B$ = 0.8663}{figure.caption.39}{}}
+\newlabel{sub@fig:Compensated-Bode-with-K-B}{{d}{13}{Wheel B - PI compensator has gain $K_B$ = 0.8663}{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Bode diagram of the compensated open-loop system $D(j\omega )G_s(j\omega )$ for wheel A (top row) and wheel B (bottom row).}}{13}{figure.caption.39}\protected@file@percent }
+\newlabel{fig:Compensated-Bode-A-B}{{14}{13}{Bode diagram of the compensated open-loop system $D(j\omega )G_s(j\omega )$ for wheel A (top row) and wheel B (bottom row)}{figure.caption.39}{}}
+\gdef \@abspage@last{15}

@@ -264,10 +264,10 @@ The discrete-time step response is simulated for $K \in \{20, 40, 80\}$ rad/(s$\
 
 \paragraph{Relationship between pole location, $K$, and time response:}
 \begin{itemize}
-    \item small $K$ ($z_\text{cl} \approx 1$): slow exponential decay, long settling time, smooth but sluggish response
-    \item moderate $K$ ($0 < z_\text{cl} < 1$): faster convergence, monotonic response without oscillation
-    \item large $K$ ($z_\text{cl} < 0$): sign-alternating (oscillatory) discrete-time response; if $|z_\text{cl}| < 1$, still stable but with overshoot
-    \item $K > K_\text{max}$ ($|z_\text{cl}| > 1$): unstable, diverging oscillations
+    \item for \textbf{small $K$}, e.g. $K_{slow} = 20$ rad/(s$\cdot$m) ($z_\text{cl} \approx 1$): slow exponential decay, long settling time, smooth but sluggish response
+    \item for \textbf{moderate $K$}, e.g. $K_{mod} = 40$ rad/(s$\cdot$m) ($0 < z_\text{cl} < 1$): faster convergence, monotonic response without oscillation
+    \item for \textbf{large $K$}, e.g. $K_{fast} = 80$ rad/(s$\cdot$m) ($z_\text{cl} < 0$): sign-alternating (oscillatory) discrete-time response; if $|z_\text{cl}| < 1$, still stable but with overshoot
+    \item for $K > K_\text{max} \approx 6060$ rad/(s$\cdot$m) ($|z_\text{cl}| > 1$): unstable, diverging oscillations
 \end{itemize}
 
 \paragraph{Choice of $K$:}
@@ -280,7 +280,7 @@ The theoretical stability limit is $K_\text{max} \approx 6060$ rad/(s$\cdot$m), 
   
 \paragraph{Selected value:}
 \begin{equation}
-    \boxed{K = 40\ \text{rad/(s$\cdot$m)}.}
+    \boxed{K_{nom} = 40\ \text{rad/(s$\cdot$m)}.}
 \end{equation}
 This gives $z_\text{cl} = 1 - 0.01 \times 0.033 \times 40 = 0.9868$, providing:
 \begin{itemize}
@@ -368,30 +368,18 @@ This means the estimator can become unstable:
   
 \paragraph{Design guideline:} The estimator pole should typically be 2--6 times faster than the controller pole, ensuring the estimation error decays before significantly affecting control performance.
 
-\paragraph{Pole placement calculation:}
-With the chosen controller gain $K = 40$ rad/(s$\cdot$m), the controller pole is:
-\begin{equation}
-    z_\text{cl} = 1 - T_s r K = 1 - 0.01 \times 0.033 \times 40 = 0.9868.
-\end{equation}
-To make the estimator 4 times faster (in continuous-time sense), we use:
-\begin{equation}
-    z_\text{est} = z_\text{cl}^4 = 0.9868^4 \approx 0.948.
-\end{equation}
-Solving for $L$:
-\begin{equation}
-    L = z_\text{est} - 1 = 0.948 - 1 = -0.052.
-\end{equation}
-\paragraph{Selected value:}
-\begin{equation}
-    \boxed{L = -0.05\; \text{[$-$]}.}
-\end{equation}
-dimensionless, because $y[k]$ and $x[k]$ both have units of meters [m].
-This value lies in the range $-2<L<0$, gives a faster pole than the controller, and forms a reasonable compromise between speed and noise sensitivity.
+\paragraph{Pole placement and trade-offs:} The state estimator gain $L$ is selected such that the estimator is $3$--$5$ times faster than the controller for tasks in Section~2.1--2.2, then set it 10 times slower than the controller for Section~2.3 per the specification. \\
+The practical limits are set by sensor noise and discretization: $|1+L|<1\Rightarrow -2<L<0$.
 
-
-\paragraph{Pole placement and trade-offs:} The state estimator gain $L$ is selected such that the estimator is $3$--$5$ times faster than the controller for tasks in Section~2.1--2.2, then set it ten times slower than the controller for Section~2.3 per the specification. The practical limits are set by sensor noise and discretization: $|1+L|<1\Rightarrow -2<L<0$.
-
-\paragraph{Chosen gain:} A nominal value $L_\text{nom}=-0.18$ gives $p_\text{est}=0.82$ (fast but noise-aware). Alternative gains $L\in\{-0.05,-0.18,-0.35\}$ are swept in the experiments below.
+\paragraph{Chosen gain:} A nominal value:
+\begin{equation}
+    \boxed{L_{nom}=-0.18}
+\end{equation}
+gives 
+\begin{equation}
+  z_\text{est}= 1 + L_{nom} = 0.82  
+\end{equation}
+which is fast but noise-aware. Alternative gains $L\in\{-0.05,-0.18,-0.35\}$ are swept in the experiments below.
 
 
 
@@ -405,7 +393,7 @@ Configuration:
 \begin{itemize}
     \item estimator active, controller off; the cart is moved manually, or driven with a known, simple input signal
     \item the state estimator is initialized with a wrong position estimate $\hat{x}[0]$ (e.g. 10 cm closer to the wall than reality).
-    \item different values of $L$ are tested (e.g. $L \in$ \{-0.05, -0.18, -0.35\}).
+    \item different values of $L$ are tested (e.g. $L \in$ \{$-0.05, -0.18, -0.35$\}).
 \end{itemize}
 For each L:
 \begin{itemize}
@@ -422,18 +410,22 @@ For each L:
 \end{figure}
 
 \paragraph{Interpretation and link to design of state estimator gain $L$:}
-For small $|L|$ (e.g. $L \approx -0.02$, so $z_\text{est} \approx 0.98$):
+As shown analytically, the closed-loop pole is
+\begin{equation}
+    z_\text{est}(L) = 1 + L.
+\end{equation}
+For \textbf{small $|L|$} (e.g. $L \approx -0.05$, so $z_\text{est} \approx 0.95$):
 \begin{itemize}
     \item the estimator reacts slowly to the discrepancy between measurement and prediction
     \item the estimate converges slowly to the measurement, a substantial transient remains for a long time
     \item this matches the formula $z_{est} = 1 + L$: pole close to 1 leads to slow dynamics
 \end{itemize}
-For moderate $|L|$ (e.g. the designed $L \approx -0.05$, giving $z_{est} \approx 0.95$):
+For \textbf{moderate $|L|$} (e.g. the designed $L_{nom} \approx -0.18$, giving $z_{est} \approx 0.82$):
 \begin{itemize}
     \item the estimate converges significantly faster to the measurement
     \item noise on the measurement is visible but not overly amplified
 \end{itemize}
-For large $|L|$ close to -2 (e.g. $L$ = -1.5, so $z_\text{est}$ = -0.5):
+For \textbf{large $|L|$} closer to $-2$ (e.g. $L = -0.35$, so $z_\text{est}$ = $0.65$):
 \begin{itemize}
     \item convergence is very fast, but the estimate closely follows measurement noise, becoming noisy and irregular
     \item this shows the trade-off: faster convergence vs. noise sensitivity
@@ -444,13 +436,13 @@ Summarized:
     \item noise on $\hat{x}$ and the innovation $\nu$ grows with $|L|$, illustrating the trade-off from Section 1.4 (1d)
     \item the chosen $L_\text{nom}$ balances settling time $t_s$ and noise
   \end{itemize}
-From the plots, one concludes that larger negative $L$ values (closer to -2) give faster convergence of the estimates to the measurements, 
+From the plots, one concludes that larger negative $L$ values (closer to $-2$) give faster convergence of the estimates to the measurements, 
 consistent with the expression $z_\text{est} = 1 + L$ and the trade-offs discussed in Section 1.4 (design of state estimator gain $L$).
 
 
 
 \subsection{Controller only: proportional feedback for different $K$ (2b)} % Section 2(b)
-The estimator is disabled, feedback uses the raw distance $y[k] = -x[k]$. A 0.25 m step reference is applied for $K\in\{K_{slow}, K_{nominal}, K_{fast}\}$ = \{20, 40, 80\} rad/(s $\cdot m)$. 
+The estimator is disabled, feedback uses the raw distance $y[k] = -x[k]$. For different values of $K\in\{K_{slow}, K_{nom}, K_{fast}\}$ = \{20, 40, 80\} rad/(s $\cdot m)$, a 0.25 m step reference is applied.
 \\ \\
 Configuration:
 \begin{itemize}
@@ -480,18 +472,18 @@ As shown analytically, the closed-loop pole is
 \begin{equation}
     z_\text{cl}(K) = 1 - T_s r K.
 \end{equation}
-For small $K$ (e.g. $K_{slow}$ = 20 rad/(s$\cdot$m)):
+For \textbf{small $K$} (e.g. $K_{slow}$ = 20 rad/(s$\cdot$m)):
 \begin{itemize}
     \item pole $z_{cl}$ close to 1: slow rise, long settling time, very smooth control signal
     \item this matches time-responses with slow approach to the reference
 \end{itemize}
-For moderate $K$ (e.g. the designed $K_{nominal}$ = 40 rad/(s$\cdot$m)):
+For \textbf{moderate $K$} (e.g. the designed $K_{nom}$ = 40 rad/(s$\cdot$m)):
   \begin{itemize}
     \item pole closer to zero: faster response, reduced settling time
     \item acceptable overshoot and control signals well within approximately 11--12 V
     \item good tracking performance
 \end{itemize}
-For large $K$ close to the theoretical maximum $\frac{2}{T_s r}$ (e.g. $K_{fast}$ = 80 rad/(s$\cdot$m)):
+For \textbf{large $K$} closer to the theoretical maximum $\frac{2}{T_s r}$ (e.g. $K_{fast}$ = 80 rad/(s$\cdot$m)):
 \begin{itemize}
     \item pole approaches -1: discrete-time oscillatory response and possibly overshoot
     \item the control signals reach or exceed saturation ($\approx$ 11--12 V), so the inner velocity loop cannot follow the demanded angular velocity
@@ -520,7 +512,7 @@ Practical limits:
 \end{itemize}
 In light of these constraints, a value around
 \begin{equation}
-    K = 40\; \text{rad/(s$\cdot$m)}
+    \boxed{K_{nom} = 40\; \text{rad/(s$\cdot$m)}}
 \end{equation}
 offers a good compromise between tracking performance and actuator/sensor limitations, and is therefore used in the remainder of the assignment.
 

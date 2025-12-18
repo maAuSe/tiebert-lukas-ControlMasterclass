@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 02:36
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 10:48
  restricted system commands enabled.
 **assignment5.tex
 (./assignment5.tex
@@ -988,13 +988,13 @@ ine 365.
 (luatex.def)             Requested size: 225.4804pt x 124.77309pt.
 [5<./images/ekf_state1_QR_sweep.pdf><./images/ekf_state2_QR_sweep.pdf><./images/
 ekf_state3_QR_sweep.pdf>]
-<images/ekf_measurement1_95ci.pdf, id=345, 509.905pt x 246.9225pt>
+<images/ekf_measurement1_95ci.pdf, id=335, 509.905pt x 246.9225pt>
 File: images/ekf_measurement1_95ci.pdf Graphic file (type pdf)
 <use images/ekf_measurement1_95ci.pdf>
 Package luatex.def Info: images/ekf_measurement1_95ci.pdf  used on input line 3
 93.
 (luatex.def)             Requested size: 225.4804pt x 109.18877pt.
-<images/ekf_measurement2_95ci.pdf, id=346, 509.905pt x 246.9225pt>
+<images/ekf_measurement2_95ci.pdf, id=336, 509.905pt x 246.9225pt>
 File: images/ekf_measurement2_95ci.pdf Graphic file (type pdf)
 <use images/ekf_measurement2_95ci.pdf>
 Package luatex.def Info: images/ekf_measurement2_95ci.pdf  used on input line 3
@@ -1108,9 +1108,9 @@ ublic/amsfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/campa/AppData/Local/Program
 s/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on assignment5.pdf (10 pages, 1874750 bytes).
+Output written on assignment5.pdf (10 pages, 1523513 bytes).
 
-PDF statistics: 603 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 588 PDF objects out of 1000 (max. 8388607)
  80 named destinations out of 1000 (max. 131072)
  301 words of extra memory for PDF output out of 10000 (max. 100000000)
 

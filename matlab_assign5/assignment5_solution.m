@@ -103,7 +103,15 @@ Bd      = [-Ts, 0;
 
 Q_lqr = diag([4, 4, 0.8]);            % placeholder state penalty
 R_lqr = diag([0.4, 0.4]);             % placeholder input penalty
-K_lqr = dlqr(Ad, Bd, Q_lqr, R_lqr);   % 2x3 feedback matrix
+K_dlqr = dlqr(Ad, Bd, Q_lqr, R_lqr);  % dlqr returns K for u = -K*x convention
+
+% IMPORTANT: Firmware uses u = K*e', so negate K_dlqr for Arduino!
+K_firmware = -K_dlqr;                 % Copy these values to robot.cpp
+fprintf('K_firmware (copy to Arduino):\n');
+fprintf('  _Klqr = {%.4ff, %.4ff, %.4ff,\n', K_firmware(1,1), K_firmware(1,2), K_firmware(1,3));
+fprintf('           %.4ff, %.4ff, %.4ff};\n', K_firmware(2,1), K_firmware(2,2), K_firmware(2,3));
+
+K_lqr = K_dlqr;  % Keep original for MATLAB analysis (uses standard convention)
 
 lqrRuns = [ ...
   struct('label','LQR-A','Q',Q_lqr,          'R',R_lqr,            'file',fullfile(dataDir,'lqr_A.csv')); ...
@@ -513,19 +521,27 @@ function out = pickVar(T, names, default, N)
   end
 end
 
-function plotEkfStateSweep(ekfExps, imgDir, confidence)
-% Per-state overlay of EKF estimates for different Q/R choices using plotstates.
-  if nargin < 3, confidence = 0.95; end
-  colors = lines(numel(ekfExps));
+function plotEkfStateSweep(ekfExps, imgDir, ~)
+% Per-state overlay of EKF estimates for different Q/R choices.
+% Color-agnostic: uses distinct line styles and markers for B/W printing.
+% No error bands are drawn for comparison clarity.
+  lineStyles = {'-', '--', ':', '-.'};
+  markers    = {'none', 'o', 's', 'd'};
+  markerStep = 80;  % plot a marker every N samples to avoid clutter
   stateNames = {'x_c [m]', 'y_c [m]', '\theta [rad]'};
+  nExp = numel(ekfExps);
   for idx = 1:3
     fig = figure('Name', sprintf('EKF state %d sweep', idx), 'Position', [100 100 850 500]);
     hold on; grid on;
-    for k = 1:numel(ekfExps)
-      plotstates(ekfExps(k).ke, idx, confidence);
-      hLine = findobj(gca, 'Type','line', 'DisplayName', sprintf('state %d (%.0f%% interval)', idx, confidence*100));
-      hLine(1).Color = colors(k,:);
-      hLine(1).DisplayName = ekfExps(k).label;
+    for k = 1:nExp
+      ke = ekfExps(k).ke;
+      t  = ke.t(:);
+      xk = ke.x(idx, :);
+      styleIdx = mod(k-1, numel(lineStyles)) + 1;
+      markIdx  = mod(k-1, numel(markers)) + 1;
+      plot(t, xk, 'LineStyle', lineStyles{styleIdx}, 'Color', 'k', ...
+           'Marker', markers{markIdx}, 'MarkerIndices', 1:markerStep:numel(t), ...
+           'MarkerSize', 4, 'LineWidth', 1.2, 'DisplayName', ekfExps(k).label);
     end
     ylabel(stateNames{idx});
     xlabel('Time [s]');
@@ -551,14 +567,38 @@ function plotEkfNominalBands(keNom, imgDir, confidence)
 end
 
 function plotEkfMeasurements(keNom, imgDir, confidence)
-% Save 95% confidence plots for the measurements.
+% Save 95% confidence plots for measurements (color-agnostic).
+% Uses solid line for measurement, dashed for prediction, and dotted for bounds.
+% Confidence bounds based on R (measurement noise), not S (innovation cov).
   if nargin < 3, confidence = 0.95; end
-  measNames = {'z_1 [m]', 'z_2 [m]'};
+  measNames = {'Front sensor z_1 [m]', 'Side sensor z_2 [m]'};
   ny = size(keNom.y, 1);
+  z_alpha = norminv(1 - (1-confidence)/2);
   for idx = 1:ny
     fig = figure('Name', sprintf('EKF measurement %d CI', idx), 'Position', [140 140 800 350]);
     hold on; grid on;
-    plotmeasurements(keNom, idx, confidence);
+    t = keNom.t(:);
+    yMeas = keNom.y(idx, :);
+    % Predicted measurement = y - innovation
+    yPred = yMeas(:) - keNom.nu(idx, :)';
+    % Use R (measurement noise) for confidence bounds, clamped to avoid inflated values
+    Rdiag = squeeze(keNom.R(idx, idx, :));
+    Rdiag = min(Rdiag, 1);  % clamp inflated R values (sensor-off periods)
+    sigma = sqrt(Rdiag(:));
+    upper = yPred + z_alpha * sigma;
+    lower = yPred - z_alpha * sigma;
+    % Only plot where measurements are valid (not NaN)
+    validMask = isfinite(yMeas);
+    tValid = t(validMask);
+    yMeasValid = yMeas(validMask);
+    yPredValid = yPred(validMask);
+    upperValid = upper(validMask);
+    lowerValid = lower(validMask);
+    % Plot bounds as dotted, prediction as dashed, measurement as solid
+    plot(tValid, upperValid, ':k', 'LineWidth', 1.0, 'HandleVisibility','off');
+    plot(tValid, lowerValid, ':k', 'LineWidth', 1.0, 'DisplayName', sprintf('%.0f%% bounds', confidence*100));
+    plot(tValid, yPredValid, '--k', 'LineWidth', 1.2, 'DisplayName', 'Predicted');
+    plot(tValid, yMeasValid, '-k', 'LineWidth', 1.4, 'DisplayName', 'Measured');
     ylabel(measNames{min(idx, numel(measNames))});
     xlabel('Time [s]');
     legend('Location','best');

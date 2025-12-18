@@ -152,8 +152,17 @@ making it highly suitable for motor velocity control.
 \subsection{Design process and design parameters choices (1b)} % Section 1(b)
 
 The controller parameters were obtained using the frequency-response method, 
-based on the identified motor model $G_s(s)$ from Assignment 1, both for motor A and motor B.
-The \textbf{unfiltered simplified continuous-time models} are:
+based on the identified motor models from Assignment 1, both for motor A and motor B.
+The \textbf{unfiltered simplified discrete-time models} are:
+
+
+\begin{equation}
+	H_A(z) = \frac{0.6309}{z^2 - 0.6819 z}, 
+\end{equation}
+\begin{equation}
+	H_B(z) = \frac{0.6488}{z^2 - 0.6806 z}.
+\end{equation}
+Transforming these discrete-time models to continuous-time (with \textit{MATLAB}'s \textit{d2c} command) yields:
 \begin{equation}
     G_{s,A}(s) = \frac{0.3677s^2 - 147.1s + 1.471e04}{s^2 + 237.1s + 7413},
 \end{equation}

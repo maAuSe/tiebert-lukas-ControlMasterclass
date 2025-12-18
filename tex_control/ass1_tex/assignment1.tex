@@ -77,7 +77,7 @@
 				\end{center}
 				\vspace{1cm}
 				\begin{center}
-					\Huge\textbf{Assignment 1: Identification of the Cart}
+					\Huge\textbf{Assignment 1: Identification of the cart}
 				\end{center}
 				\vspace{1cm}
 				\begin{center}
@@ -108,7 +108,9 @@
 	\end{enumerate}
 	
 	\newpage
-	
+    
+\setcounter{page}{1}
+\pagenumbering{arabic}
 	\section{Discrete-time model structure selection (1a)}
 	
 	We assume that (i) the same voltage is applied to both motors, (ii) no wheel slip occurs, (iii) only longitudinal motion (no turning) is considered, and (iv) the cart mass and ground friction are lumped into the wheel inertia and viscous friction, respectively. Under these assumptions, the lumped-parameter model follows from the balance of angular momentum of the rotor and the conservation of electric charge in the armature circuit. \newline
@@ -202,7 +204,7 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	
 	\subsection{Recursion expression and error criterion}
 	
-	The difference equation for the third-order model is:
+	The difference equation for the third-order model is \cite{CT-slides-C4}:
 	\begin{equation}
 		\dot{\theta}[k] = -a_1\dot{\theta}[k-1] - a_2\dot{\theta}[k-2] + b_1 v[k-2] + b_2 v[k-3]
 		\label{eq: difference eq ARX}
@@ -375,7 +377,7 @@ Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair} collec
 \noindent RMS error (motor A, simplified model): 0.3723~rad/s \newline
 \noindent RMS error (motor B, simplified model): 0.3758~rad/s \newline
 
-\noindent The two motors therefore behave almost identically: the RMS prediction errors differ by less than 0.004~rad/s (below 1\%) for both model structures, and the identified parameters vary by less than 2\% across motors. The model-measurement errors in Figure~\ref{fig:model_error_pair} overlap as well, showing that the remaining discrepancies stem from shared effects such as sensor resolution/quantization limitations and mechanical eccentricities. Because the validation metrics and visual inspections point to equivalent dynamics, subsequent sections \& assignments display detailed plots for motor~A only; whenever performance numbers are quoted, both motors are still reported to document their similarity.
+\noindent The two motors therefore behave almost identically: the RMS prediction errors differ by less than 0.004~rad/s (below 1\%) for both model structures, and the identified parameters vary by less than 2\% across motors. The model-measurement errors in Figure~\ref{fig:model_error_pair} overlap as well, showing that the remaining discrepancies stem from shared effects such as sensor resolution/quantization limitations and mechanical eccentricities. Because the validation metrics and visual inspections point to equivalent dynamics, subsequent sections display detailed plots for motor~A only; whenever performance numbers are quoted, both motors are still reported to document their similarity.
 
 	
 	\subsubsection{Transient and steady-state characteristics}
@@ -416,7 +418,7 @@ Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair} collec
   \centering
   \includegraphics[width=\linewidth]{images/measured_vs_modeled_filtered_simplifiedA.png}
  \end{minipage}
- \caption{Left: full third-order model Right: the same comparison for the simplified model}
+ \caption{Left: full third-order model; Right: the same comparison for the simplified model}
  \label{fig:measured_vs_modeled_filtered}
 \end{figure}
 	
@@ -463,11 +465,13 @@ After applying the Butterworth filter to both input and output signals using \te
 \noindent Considering the simpler structure (reduced overfitting risk) and the better RMS error performance, we select the \textbf{unfiltered simplified second-order model} for all subsequent analysis. \newline
 
 \noindent The filtering exercise confirms that the measurement noise is secondary relative to structural mismatch; a model on unfiltered data best captures the true system dynamics under the given experimental conditions.
-	
-	\bibliographystyle{plainnat}
-	\bibliography{references}
 
-	\appendix
+\newpage
+\bibliographystyle{plain}
+\bibliography{references-assign-1}
+
+\newpage
+\appendix
 
 	\section{Simplified second-order model (armature inductance neglected)}\label{app:simplified_model}
 	

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 17:08
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  18 DEC 2025 17:28
  restricted system commands enabled.
 **assignment3.tex
 (./assignment3.tex
@@ -750,15 +750,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 639--653
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-Package rerunfilecheck Warning: File `assignment3.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `assignment3.out':
-(rerunfilecheck)             Before: 424E98A7FD6D140B72B2F9127F83BC31;3336
-(rerunfilecheck)             After:  9049E74C34BE8F446E9719F1ED0926CC;3327.
+Package rerunfilecheck Info: File `assignment3.out' has not changed.
+(rerunfilecheck)             Checksum: 9049E74C34BE8F446E9719F1ED0926CC;3327.
 )
 
 Here is how much of LuaTeX's memory you used:

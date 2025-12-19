@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  19 DEC 2025 15:01
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  19 DEC 2025 15:20
  restricted system commands enabled.
 **assignment3.tex
 (./assignment3.tex
@@ -708,32 +708,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 365--368
  []
 
 [6<./images/estimator_L_sweep.pdf>]
-<images/controller_K_response.pdf, id=222, 510.90875pt x 349.305pt>
+<images/controller_K_response.pdf, id=220, 510.90875pt x 349.305pt>
 File: images/controller_K_response.pdf Graphic file (type pdf)
 <use images/controller_K_response.pdf>
 Package luatex.def Info: images/controller_K_response.pdf  used on input line 3
-79.
-(luatex.def)             Requested size: 375.80544pt x 256.93596pt.
-<images/controller_K_voltage.pdf, id=223, 502.87875pt x 288.07625pt>
+78.
+(luatex.def)             Requested size: 225.4804pt x 154.15837pt.
+<images/controller_K_voltage.pdf, id=221, 502.87875pt x 288.07625pt>
 File: images/controller_K_voltage.pdf Graphic file (type pdf)
 <use images/controller_K_voltage.pdf>
 Package luatex.def Info: images/controller_K_voltage.pdf  used on input line 38
-5.
-(luatex.def)             Requested size: 375.80544pt x 215.27861pt.
- [7<./images/controller_K_response.pdf>]
-[8<./images/controller_K_voltage.pdf>]
-<images/est_ctrl_good.pdf, id=283, 450.68375pt x 318.18875pt>
+4.
+(luatex.def)             Requested size: 225.4804pt x 129.16716pt.
+ [7<./images/controller_K_response.pdf><./images/controller_K_voltage.pdf>]
+<images/est_ctrl_good.pdf, id=274, 450.68375pt x 318.18875pt>
 File: images/est_ctrl_good.pdf Graphic file (type pdf)
 <use images/est_ctrl_good.pdf>
-Package luatex.def Info: images/est_ctrl_good.pdf  used on input line 444.
+Package luatex.def Info: images/est_ctrl_good.pdf  used on input line 437.
 (luatex.def)             Requested size: 216.09045pt x 152.56378pt.
-<images/est_ctrl_bad.pdf, id=284, 450.68375pt x 318.18875pt>
+<images/est_ctrl_bad.pdf, id=275, 450.68375pt x 318.18875pt>
 File: images/est_ctrl_bad.pdf Graphic file (type pdf)
 <use images/est_ctrl_bad.pdf>
-Package luatex.def Info: images/est_ctrl_bad.pdf  used on input line 448.
+Package luatex.def Info: images/est_ctrl_bad.pdf  used on input line 441.
 (luatex.def)             Requested size: 216.09045pt x 152.56378pt.
- [9<./images/est_ctrl_good.pdf><./images/est_ctrl_bad.pdf>] [10] (./assignment3
-.bbl) [11] (./assignment3.aux)
+ [8<./images/est_ctrl_good.pdf><./images/est_ctrl_bad.pdf>] [9] (./assignment3.
+bbl) [10] (./assignment3.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -743,7 +742,7 @@ Package rerunfilecheck Info: File `assignment3.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 15473 strings out of 476497
+ 15470 strings out of 476497
  125027,1977958 words of node,token memory allocated
  834 words of node memory still in use:
    7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 77 attribute, 61 glue_spec
@@ -772,9 +771,9 @@ campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
 fb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmsy7.pfb>
-Output written on assignment3.pdf (13 pages, 1181142 bytes).
+Output written on assignment3.pdf (12 pages, 1178796 bytes).
 
-PDF statistics: 438 PDF objects out of 1000 (max. 8388607)
- 109 named destinations out of 1000 (max. 131072)
+PDF statistics: 429 PDF objects out of 1000 (max. 8388607)
+ 106 named destinations out of 1000 (max. 131072)
  93 words of extra memory for PDF output out of 10000 (max. 100000000)
 

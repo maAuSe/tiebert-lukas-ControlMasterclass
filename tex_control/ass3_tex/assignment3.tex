@@ -372,27 +372,20 @@ Configuration:
 \end{itemize}
 This experiment is repeated for several values of $K$ (for $K\in\{20,40,80\}$ rad/(s $\cdot m)$).
 
-
-\noindent Figure~\ref{fig:controller_K_response} shows the step reference (dashed line) and position responses for different values of $K$. Figure~\ref{fig:controller_K_voltage} shows the corresponding motor voltages, for the same three values of $K$.
-
 \begin{figure}[H]\centering
-    \includegraphics[width=0.8\textwidth]{images/controller_K_response.pdf}
-    \caption{Measured position step responses for different $K$ (estimator disabled).}
-    \label{fig:controller_K_response}
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controller_K_response.pdf}
+        \caption{Measured position step responses for different $K$ (estimator disabled).}
+        \label{fig:controller_K_response}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controller_K_voltage.pdf}
+        \caption{Motor voltage commands for the responses in Figure~\ref{fig:controller_K_response}.}
+        \label{fig:controller_K_voltage}
+    \end{minipage}
 \end{figure}
-
-\begin{figure}[H]\centering
-    \includegraphics[width=0.8\textwidth]{images/controller_K_voltage.pdf}
-    \caption{Motor voltage commands for the responses in Figure~\ref{fig:controller_K_response}.}
-    \label{fig:controller_K_voltage}
-\end{figure}
-
-\paragraph{Interpretation:}
-The experimental step responses confirm the theoretical predictions from Section~1.3: higher $K$ yields faster settling but increases peak voltage. For $K_\text{fast} = 80$ rad/(s$\cdot$m), the voltage briefly saturates, causing mild overshoot. The selected $K_\text{nom} = 40$ rad/(s$\cdot$m) avoids saturation while achieving $t_s \approx 3$~s.
-
-  
-
-
 
 \subsection{Combined estimator and controller: influence of estimator pole choice (2c)} % Section 2(c)
 In this experiment, both the state feedback controller and the state estimator are active. The controller uses the estimated position $\hat{x}[k]$ instead of the true position:
@@ -486,7 +479,7 @@ In both cases, the measured signal $y[k] = -x[k]$ and the estimated output $\hat
 The combined system has eigenvalues $\lambda_1 = z_\text{cl}$ and $\lambda_2 = z_\text{est}$, confirming the separation principle: controller and estimator poles appear independently in the closed-loop system. However, although the poles are decoupled, the controller acts on $\hat{x}[k]$ rather than $x[k]$. A slow estimator with wrong initialization causes $\hat{x}[k]$ to lag behind $x[k]$, degrading transient performance despite unchanged pole locations. The closed-loop transfer function describes only asymptotic behavior; it does not capture the effect of initial estimation error $e[0]$.
 
 \paragraph{Conclusion:}
-Choosing $z_\text{est}$ much slower than $z_\text{cl}$ severely degrades transient performance and introduces long settling times when $\hat{x}[0]$ is wrong---demonstrating why \textbf{estimators are typically placed faster than controllers}, not slower.
+Choosing $z_\text{est}$ much slower than $z_\text{cl}$ severely degrades transient performance and introduces long settling times when $\hat{x}[0]$ is wrong, demonstrating why estimators are typically placed faster than controllers, not slower.
 
 
 

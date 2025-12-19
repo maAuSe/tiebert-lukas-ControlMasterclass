@@ -257,10 +257,10 @@ The discrete-time step response is simulated for $K \in \{20, 40, 80\}$ rad/(s$\
     \label{fig:step_K_sweep}
 \end{figure}
 
-Table~\ref{tab:K_poles} and Figure~\ref{fig:step_K_sweep} confirm that larger $K$ moves $z_\text{cl}$ toward zero, yielding faster settling but higher control effort. For $K > K_\text{max}$, the pole exits the unit circle and the system becomes unstable.
+\noindent Table~\ref{tab:K_poles} and Figure~\ref{fig:step_K_sweep} confirm that larger $K$ moves $z_\text{cl}$ toward zero, yielding faster settling but higher control effort. For $K > K_\text{max}$, the pole exits the unit circle and the system becomes unstable.
 
 \paragraph{Choice of $K$:}
-Beyond the theoretical limit $K_\text{max} \approx 6060$ rad/(s$\cdot$m), practical constraints---actuator saturation ($\approx$11--12~V), sensor noise amplification, and IR range (5--30~cm)---are more restrictive. The selected value
+Beyond the theoretical limit $K_\text{max} \approx 6060$ rad/(s$\cdot$m), practical constraints -actuator saturation ($\approx$11--12~V), sensor noise amplification, and IR range (5--30~cm)- are more restrictive. The selected value
 \begin{equation}
     \boxed{K_{nom} = 40\ \text{rad/(s$\cdot$m)}}
 \end{equation}
@@ -342,11 +342,11 @@ which is fast but noise-aware. Alternative gains $L\in\{-0.05,-0.18,-0.35\}$ are
 \section{Implementation and testing of state estimator and state feedback controller}
   
 \subsection{Estimator only: wrong initial estimate, different $L$ (2a)} % Section 2(a)
-The controller is disabled; the estimator starts from a wrong initial position $\hat{x}[0]$.
+The controller is disabled, the estimator starts from a wrong initial position $\hat{x}[0]$.
 \\ \\
 Configuration:
 \begin{itemize}
-    \item estimator active, controller off; the cart is moved manually, or driven with a known, simple input signal
+    \item estimator active, controller off
     \item the state estimator is initialized with a wrong position estimate $\hat{x}[0]$ (e.g. 10 cm closer to the wall than reality).
     \item different values of $L$ are tested (e.g. $L \in$ \{$-0.05, -0.18, -0.35$\}).
 \end{itemize}

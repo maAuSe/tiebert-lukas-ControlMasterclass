@@ -118,7 +118,7 @@ The two-wheel driven (2WD) cart has two independently controlled wheels with ang
 	\label{eq:state_equation}
 \end{equation}
 
-\noindent This model assumes ideal velocity control (the velocity control loop is closed internally) and no wheel slip, as specified in the assignment.
+\noindent This model assumes ideal velocity control (the velocity control loop is closed internally) and no wheel slip.
 
 \subsection{Measurement equation for both IR sensors (1b)}
 
@@ -147,7 +147,7 @@ where subscripts 1 and 2 denote the wall parameters for the front and side senso
 
 \subsubsection{Specific measurement equations for Figure~\ref{fig:figure-assignment-5}}
 
-For the configuration shown in Figure~\ref{fig:figure-assignment-5}, wall~1 (horizontal, bottom) is defined by $y = 0$, corresponding to $(p_1, q_1, r_1) = (0, 1, 0)$. Wall~2 (vertical, left) is defined by $x = 0$, corresponding to $(p_2, q_2, r_2) = (1, 0, 0)$. Substituting into \eqref{eq:signed_distance}:
+For the configuration shown in Figure~\ref{fig:figure-assignment-5}, wall~1 (horizontal, top) is defined by $y = 0$, corresponding to $(p_1, q_1, r_1) = (0, 1, 0)$. Wall~2 (vertical, left) is defined by $x = 0$, corresponding to $(p_2, q_2, r_2) = (1, 0, 0)$. Substituting into \eqref{eq:signed_distance}:
 \begin{align}
 	z_1 &= d(x_f, y_f; 0, 1, 0) = -y_f = -(y_c + \alpha\sin\theta), \label{eq:z1_specific} \\
 	z_2 &= d(x_s, y_s; 1, 0, 0) = -x_s = -(x_c + \beta\cos\theta - \gamma\sin\theta). \label{eq:z2_specific}
@@ -193,9 +193,9 @@ where $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, Q)$ represents additive process
 
 \subsubsection{Choice of linearization point $\boldsymbol{\xi}^*$}
 
-The extended Kalman filter (EKF) linearises the nonlinear model around the current state estimate at each time step. For the prediction step, linearisation is performed around $\boldsymbol{\xi}^* = \hat{\boldsymbol{\xi}}_{k|k}$ (the a posteriori estimate from the previous step). For the correction step, linearisation is performed around $\boldsymbol{\xi}^* = \hat{\boldsymbol{\xi}}_{k|k-1}$ (the a priori prediction).
+The extended Kalman filter (EKF) linearises the nonlinear model around the current state estimate at each time step. For the prediction step, linearisation is performed around $\boldsymbol{\xi}^* = \hat{\boldsymbol{\xi}}_{k|k}$ (the a posteriori estimate from the previous step). For the correction step, linearisation is performed around $\boldsymbol{\xi}^* = \hat{\boldsymbol{\xi}}_{k|k-1}$ (the a priori prediction). \newline
 
-\noindent In contrast, a standard linear Kalman filter (KF) would use a fixed linearisation point, typically chosen as the initial state or a nominal operating point. This distinction is critical: the EKF adapts its linear approximation as the state evolves, whereas the linear KF maintains constant system matrices. For trajectories involving significant heading changes (such as the $90^\circ$ turn in this assignment), the fixed-linearisation approach introduces substantial model mismatch, degrading filter performance.
+\noindent In contrast, a standard linear Kalman filter (KF) would use a fixed linearisation point, typically chosen as the initial state or a nominal operating point. The EKF adapts its linear approximation as the state evolves, whereas the linear KF maintains constant system matrices. For trajectories involving significant heading changes (such as the $90^\circ$ turn in this assignment), the fixed-linearisation approach introduces massive model mismatch, intensely degrading filter performance.
 
 \subsubsection{State Jacobian}
 
@@ -262,7 +262,7 @@ Substituting $(p_1, q_1) = (0, 1)$ and $(p_2, q_2) = (1, 0)$ into \eqref{eq:jaco
 
 \subsubsection{Fundamental differences}
 
-The \textbf{linear Kalman filter} assumes that both the process model and measurement model are linear (or have been linearised about a fixed operating point). All prediction and correction steps use constant matrices $A$, $B$, and $C$. This approach is optimal (in the minimum mean-squared error sense) when the underlying system is truly linear and the noise distributions are Gaussian.
+The \textbf{linear Kalman filter} assumes that both the process model and measurement model are linear (or have been linearised about a fixed operating point). All prediction and correction steps use constant matrices $A$, $B$, and $C$. This approach is optimal (in the minimum mean-squared error sense) when the underlying system is truly linear and the noise distributions are Gaussian. \newline
 
 \noindent The \textbf{extended Kalman filter} applies to nonlinear systems by linearising the process and measurement models at each time step around the current state estimate. The Jacobians $A_k$, $B_k$, and $C_k$ are recomputed at every iteration. The prediction step uses the full nonlinear model $f(\cdot)$ to propagate the state estimate, while the covariance propagation uses the linearised Jacobian $A_k$.
 
@@ -282,13 +282,13 @@ The linear KF is appropriate when the system dynamics are linear or when the sta
 
 The process noise covariance $Q$ accounts for discrepancies between the assumed kinematic model and the actual cart dynamics. Wheel slip constitutes a primary source, as the no-slip assumption is violated under acceleration, deceleration, or on low-friction surfaces. Velocity command tracking error also contributes, since the internal velocity control loop does not achieve perfect tracking and transient errors between commanded and realised wheel speeds propagate to pose estimation. Furthermore, the passive swivel wheel introduces unmodelled lateral forces and yaw disturbances, particularly during turns. Finally, geometric uncertainties arising from imprecise knowledge of wheel radius $r$ and wheelbase $2a$ cause systematic drift that manifests as process noise.
 \\ \\
-The measurement noise covariance $R$ accounts for uncertainty in the IR range measurements. Electronic noise in the IR sensor circuitry and quantisation in the ADC represent inherent sensor noise. Wall reflectivity variation poses an additional challenge, as IR sensors are sensitive to surface properties and non-uniform reflectivity causes range-dependent bias. Sensor mounting uncertainty, specifically errors in the measured offsets $\alpha$, $\beta$, and $\gamma$, directly biases the measurement equations. At oblique incidence angles, multipath and specular reflections can also cause erroneous range readings.
+The measurement noise covariance $R$ accounts for uncertainty in the IR range measurements. Electronic noise in the IR sensor circuitry and quantisation in the ADC represent inherent sensor noise. Wall reflectivity variation poses an additional challenge, as IR sensors are sensitive to surface properties and non-uniform reflectivity causes range-dependent bias. Sensor mounting uncertainty, specifically errors in the measured offsets $\alpha$, $\beta$, and $\gamma$, directly biases the measurement equations. At oblique incidence angles, multipath and specular reflections can also cause erroneous range readings. Finally, deviations from an ideal planar wall (local curvature) introduce additional non-repeatable bias that is best captured by an increased effective measurement variance.
 
 \subsection{Extended Kalman filter design and tuning (3b)}
 
 \subsubsection{Interpretation of $Q$ and $R$}
 
-The process noise covariance $Q = \operatorname{diag}(q_x, q_y, q_\theta)$ quantifies the expected variance of the state perturbation per time step. Larger values of $Q$ indicate lower confidence in the model prediction, causing the filter to weight measurements more heavily. The measurement noise covariance $R = \operatorname{diag}(r_1, r_2)$ quantifies the expected variance of the sensor readings. Larger values of $R$ indicate lower confidence in the measurements, causing the filter to rely more on the model prediction.
+The process noise covariance $Q = \operatorname{diag}(q_x, q_y, q_\theta)$ quantifies the expected variance of the state perturbation per time step. Larger values of $Q$ indicate lower confidence in the model prediction, causing the filter to weight measurements more heavily. The measurement noise covariance $R = \operatorname{diag}(r_1, r_2)$ quantifies the expected variance of the sensor readings. Larger values of $R$ indicate lower confidence in the measurements, causing the filter to rely more on the model prediction.\newline
 
 \noindent The ratio $Q/R$ governs the filter bandwidth: a high ratio yields fast convergence to measurements but amplifies sensor noise; a low ratio yields smooth estimates but slow response to actual state changes.
 
@@ -390,7 +390,7 @@ When both sensors are switched off, the measurement update is skipped entirely. 
 
 If the sensors were not deactivated during the turn, the measurement equations would change in a non-trivial manner. The front sensor would transition from measuring the distance to wall~1 ($y = 0$) to measuring the distance to wall~2 ($x = 0$) as the cart rotates, and the side sensor would similarly change the wall it observes. Consequently, the wall parameters $(p_i, q_i, r_i)$ in the measurement model would need to be updated dynamically based on the cart's orientation and position, requiring prior knowledge of the environment geometry. While this approach would maintain observability throughout the turn, it necessitates additional logic to determine which wall each sensor is measuring at any given time.
 
-\subsubsection{Measurement Predictions and Confidence Intervals}
+\subsubsection{Measurement predictions and confidence intervals}
 
 Figures~\ref{fig:meas1_ci} and~\ref{fig:meas2_ci} show the measurement predictions with 95\% confidence intervals for the baseline tuned run.
 
@@ -411,7 +411,7 @@ Figures~\ref{fig:meas1_ci} and~\ref{fig:meas2_ci} show the measurement predictio
 	\caption{Measurement predictions with 95\% confidence intervals for the baseline $(Q,R)$ tuning: (a) front sensor, (b) side sensor.}
 	\label{fig:meas_ci_all}
 \end{figure}
-\noindent The 95\% bands reflect the tuned $R$ values. The bands widen during the turn when measurements are disabled and the filter relies solely on prediction. After the turn, only $z_1$ contributes to the correction, leaving residual uncertainty in states not directly observed by the front sensor.
+\noindent The 95\% bands reflect the tuned $R$ values. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{State feedback controller design and implementation}
@@ -473,7 +473,7 @@ The zero entries arise from the decoupled structure of $B_d$: the forward veloci
 
 In the LQR design objective~\eqref{eq:lqr_cost}, the weighting matrix $Q_{\text{lqr}}$ penalises deviation from the reference trajectory, with larger diagonal entries resulting in tighter tracking of the corresponding state at the expense of higher control effort. Conversely, $R_{\text{lqr}}$ penalises control effort, and larger diagonal entries yield smoother, smaller control inputs at the expense of slower convergence. The trade-off is analogous to the $Q/R$ ratio in the EKF: a high $Q_{\text{lqr}}/R_{\text{lqr}}$ ratio yields aggressive tracking with large control signals, while a low ratio yields conservative control with larger tracking errors.
 
-\subsubsection{Experimental Results}
+\subsubsection{Experimental results}
 
 Four LQR tuning configurations were tested experimentally, differing in their $Q_{\text{lqr}}/R_{\text{lqr}}$ ratios:
 \begin{itemize}
@@ -482,7 +482,7 @@ Four LQR tuning configurations were tested experimentally, differing in their $Q
 	\item \textbf{LQR-C} (doubled input penalty): $Q_{\text{lqr}} = \operatorname{diag}(16, 16, 4)$, $R_{\text{lqr}} = \operatorname{diag}(0.2, 0.2)$
 	\item \textbf{LQR-D} (aggressive): $Q_{\text{lqr}} = \operatorname{diag}(64, 64, 16)$, $R_{\text{lqr}} = \operatorname{diag}(0.05, 0.05)$
 \end{itemize}
-No feedforward signals were applied; the closed-loop system relied exclusively on state feedback. The resulting tracking errors in the world frame and body frame are shown in Figure~\ref{fig:lqr_errors}, and the corresponding control signals are shown in Figure~\ref{fig:lqr_control}.
+No feedforward signals were applied, the closed-loop system relied exclusively on state feedback. The resulting tracking errors in the world frame and body frame are shown in Figure~\ref{fig:lqr_errors}, and the corresponding control signals are shown in Figure~\ref{fig:lqr_control}.
 
 \begin{figure}[H]
 	\centering

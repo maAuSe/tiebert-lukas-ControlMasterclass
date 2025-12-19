@@ -314,10 +314,9 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 \end{equation}
 
 \noindent The resulting discrete-time transfer functions are
-\begin{align}
-\hat{H}^{\text{simp}}_A(z) &= \frac{0.6309}{z^2 - 0.6819 z}, &
-\hat{H}^{\text{simp}}_B(z) &= \frac{0.6488}{z^2 - 0.6806 z}.
-\end{align}
+\begin{equation}
+	\boxed{\hat{H}^{\text{simp}}_A(z) = \frac{0.6309}{z^2 - 0.6819 z}, \qquad \hat{H}^{\text{simp}}_B(z) = \frac{0.6488}{z^2 - 0.6806 z}.}
+\end{equation}
 
 \noindent The full model estimated parameter vectors are
 \begin{equation}
@@ -327,10 +326,12 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 
 
 \noindent Including the microOS delay yields the corresponding third-order models:
-\begin{align}
-\hat{H}_A(z) &= z^{-1} \hat{H}_{0,A}(z) = \frac{0.007672 z + 0.6589}{z^{3} - 0.5671 z^{2} - 0.09698 z},\\
-\hat{H}_B(z) &= z^{-1} \hat{H}_{0,B}(z) = \frac{0.008073 z + 0.6741}{z^{3} - 0.5762 z^{2} - 0.08815 z}.
-\end{align}
+\begin{equation}
+	\boxed{\hat{H}_A(z) = z^{-1} \hat{H}_{0,A}(z) = \frac{0.007672 z + 0.6589}{z^{3} - 0.5671 z^{2} - 0.09698 z},}
+\end{equation}
+\begin{equation}
+	\boxed{\hat{H}_B(z) = z^{-1} \hat{H}_{0,B}(z) = \frac{0.008073 z + 0.6741}{z^{3} - 0.5762 z^{2} - 0.08815 z}.}
+\end{equation}
 	
 	\subsubsection{Measured vs simulated response and model error}
 
@@ -452,19 +453,20 @@ After applying the Butterworth filter to both input and output signals using \te
 \end{equation}
 
 \noindent with corresponding transfer functions
-\begin{align}
-\hat{H}^{\text{simp,filt,20}}_A(z) &= \frac{0.5940}{z^2 - 0.7007 z}, &
-\hat{H}^{\text{simp,filt,35}}_A(z) &= \frac{0.6204}{z^2 - 0.6873 z}.
-\end{align}
+\begin{equation}
+	\boxed{\hat{H}^{\text{simp,filt,20}}_A(z) = \frac{0.5940}{z^2 - 0.7007 z}, \qquad \hat{H}^{\text{simp,filt,35}}_A(z) = \frac{0.6204}{z^2 - 0.6873 z}.}
+\end{equation}
 
 
 
 \noindent The explicit transfer functions are:
 
-\begin{align}
-\hat{H}_{A}^{\text{filt,20}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,20}}(z) = \frac{0.3416 z - 0.07297}{z^{3} - 1.338 z^{2} + 0.4738 z},\\
-\hat{H}_{A}^{\text{filt,35}}(z) &= z^{-1} \hat{H}_{0,A}^{\text{filt,35}}(z) = \frac{-0.01271 z + 0.5937}{z^{3} - 0.7993 z^{2} + 0.09234 z}.
-\end{align}
+\begin{equation}
+	\boxed{\hat{H}_{A}^{\text{filt,20}}(z) = z^{-1} \hat{H}_{0,A}^{\text{filt,20}}(z) = \frac{0.3416 z - 0.07297}{z^{3} - 1.338 z^{2} + 0.4738 z},}
+\end{equation}
+\begin{equation}
+	\boxed{\hat{H}_{A}^{\text{filt,35}}(z) = z^{-1} \hat{H}_{0,A}^{\text{filt,35}}(z) = \frac{-0.01271 z + 0.5937}{z^{3} - 0.7993 z^{2} + 0.09234 z}.}
+\end{equation}
 	
 	\subsubsection{Comparison and model selection}
 	

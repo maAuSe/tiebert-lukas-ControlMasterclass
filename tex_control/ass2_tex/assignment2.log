@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  19 DEC 2025 14:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  19 DEC 2025 14:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -827,108 +827,108 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 576.
 
-<Figures_part_2c/step_response_high_vs_low_BW_A.png, id=226, 976.64874pt x 628.
+
+
+[9 <./Figures_part_2b/control_signal_with_disturbance_A.png> <./Figures_part_2b
+/control_signal_with_disturbance_B.png>]
+<Figures_part_2c/step_response_high_vs_low_BW_A.png, id=240, 976.64874pt x 628.
 3475pt>
 File: Figures_part_2c/step_response_high_vs_low_BW_A.png Graphic file (type png
 )
 <use Figures_part_2c/step_response_high_vs_low_BW_A.png>
 Package pdftex.def Info: Figures_part_2c/step_response_high_vs_low_BW_A.png  us
-ed on input line 603.
+ed on input line 614.
 (pdftex.def)             Requested size: 230.18253pt x 148.09312pt.
-<Figures_part_2c/step_response_high_vs_low_BW_B.png, id=227, 966.61125pt x 625.
+<Figures_part_2c/step_response_high_vs_low_BW_B.png, id=241, 966.61125pt x 625.
 33624pt>
 File: Figures_part_2c/step_response_high_vs_low_BW_B.png Graphic file (type png
 )
 <use Figures_part_2c/step_response_high_vs_low_BW_B.png>
 Package pdftex.def Info: Figures_part_2c/step_response_high_vs_low_BW_B.png  us
-ed on input line 610.
+ed on input line 621.
 (pdftex.def)             Requested size: 230.18253pt x 148.91011pt.
-
-
-[9 <./Figures_part_2b/control_signal_with_disturbance_A.png> <./Figures_part_2b
-/control_signal_with_disturbance_B.png>]
-<Figures_part_2c/tracking_error_high_vs_low_BW_A.png, id=242, 949.5475pt x 617.
+<Figures_part_2c/tracking_error_high_vs_low_BW_A.png, id=243, 949.5475pt x 617.
 30624pt>
 File: Figures_part_2c/tracking_error_high_vs_low_BW_A.png Graphic file (type pn
 g)
 <use Figures_part_2c/tracking_error_high_vs_low_BW_A.png>
 Package pdftex.def Info: Figures_part_2c/tracking_error_high_vs_low_BW_A.png  u
-sed on input line 630.
+sed on input line 641.
 (pdftex.def)             Requested size: 230.18253pt x 149.64478pt.
-<Figures_part_2c/tracking_error_high_vs_low_BW_B.png, id=243, 968.61874pt x 617
+<Figures_part_2c/tracking_error_high_vs_low_BW_B.png, id=244, 968.61874pt x 617
 .30624pt>
 File: Figures_part_2c/tracking_error_high_vs_low_BW_B.png Graphic file (type pn
 g)
 <use Figures_part_2c/tracking_error_high_vs_low_BW_B.png>
 Package pdftex.def Info: Figures_part_2c/tracking_error_high_vs_low_BW_B.png  u
-sed on input line 637.
+sed on input line 648.
 (pdftex.def)             Requested size: 230.18253pt x 146.69652pt.
-
-
-[10 <./Figures_part_2c/step_response_high_vs_low_BW_A.png> <./Figures_part_2c/s
-tep_response_high_vs_low_BW_B.png> <./Figures_part_2c/tracking_error_high_vs_lo
-w_BW_A.png> <./Figures_part_2c/tracking_error_high_vs_low_BW_B.png>]
-<Figures_part_2c/control_signal_high_vs_low_BW_A.png, id=257, 950.55125pt x 624
+<Figures_part_2c/control_signal_high_vs_low_BW_A.png, id=246, 950.55125pt x 624
 .3325pt>
 File: Figures_part_2c/control_signal_high_vs_low_BW_A.png Graphic file (type pn
 g)
 <use Figures_part_2c/control_signal_high_vs_low_BW_A.png>
 Package pdftex.def Info: Figures_part_2c/control_signal_high_vs_low_BW_A.png  u
-sed on input line 656.
+sed on input line 667.
 (pdftex.def)             Requested size: 230.18253pt x 151.1861pt.
-<Figures_part_2c/control_signal_high_vs_low_BW_B.png, id=258, 960.58875pt x 623
+<Figures_part_2c/control_signal_high_vs_low_BW_B.png, id=247, 960.58875pt x 623
 .32875pt>
 File: Figures_part_2c/control_signal_high_vs_low_BW_B.png Graphic file (type pn
 g)
 <use Figures_part_2c/control_signal_high_vs_low_BW_B.png>
 Package pdftex.def Info: Figures_part_2c/control_signal_high_vs_low_BW_B.png  u
-sed on input line 663.
+sed on input line 674.
 (pdftex.def)             Requested size: 230.18253pt x 149.36417pt.
 
 
-[11 <./Figures_part_2c/control_signal_high_vs_low_BW_A.png> <./Figures_part_2c/
-control_signal_high_vs_low_BW_B.png>] (./assignment2.bbl)
+[10 <./Figures_part_2c/step_response_high_vs_low_BW_A.png> <./Figures_part_2c/s
+tep_response_high_vs_low_BW_B.png>]
+
+[11 <./Figures_part_2c/tracking_error_high_vs_low_BW_A.png> <./Figures_part_2c/
+tracking_error_high_vs_low_BW_B.png> <./Figures_part_2c/control_signal_high_vs_
+low_BW_A.png> <./Figures_part_2c/control_signal_high_vs_low_BW_B.png>]
+(./assignment2.bbl)
 
 [12]
-<Figures_part_1b/Uncompensated-Bode-A.png, id=272, 961.5925pt x 650.43pt>
+<Figures_part_1b/Uncompensated-Bode-A.png, id=275, 961.5925pt x 650.43pt>
 File: Figures_part_1b/Uncompensated-Bode-A.png Graphic file (type png)
 <use Figures_part_1b/Uncompensated-Bode-A.png>
 Package pdftex.def Info: Figures_part_1b/Uncompensated-Bode-A.png  used on inpu
-t line 690.
+t line 701.
 (pdftex.def)             Requested size: 230.18253pt x 155.69946pt.
-<Figures_part_1b/Uncompensated-Bode-B.png, id=273, 943.525pt x 647.41875pt>
+<Figures_part_1b/Uncompensated-Bode-B.png, id=276, 943.525pt x 647.41875pt>
 File: Figures_part_1b/Uncompensated-Bode-B.png Graphic file (type png)
 <use Figures_part_1b/Uncompensated-Bode-B.png>
 Package pdftex.def Info: Figures_part_1b/Uncompensated-Bode-B.png  used on inpu
-t line 697.
+t line 708.
 (pdftex.def)             Requested size: 230.18253pt x 157.94228pt.
-<Figures_part_1b/Compensated-Bode-without-K-A.png, id=274, 952.55875pt x 645.41
+<Figures_part_1b/Compensated-Bode-without-K-A.png, id=277, 952.55875pt x 645.41
 125pt>
 File: Figures_part_1b/Compensated-Bode-without-K-A.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-without-K-A.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-without-K-A.png  used
- on input line 714.
+ on input line 725.
 (pdftex.def)             Requested size: 225.4804pt x 152.77466pt.
-<Figures_part_1b/Compensated-Bode-with-K-A.png, id=275, 953.5625pt x 645.41125p
+<Figures_part_1b/Compensated-Bode-with-K-A.png, id=278, 953.5625pt x 645.41125p
 t>
 File: Figures_part_1b/Compensated-Bode-with-K-A.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-with-K-A.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-with-K-A.png  used on
- input line 721.
+ input line 732.
 (pdftex.def)             Requested size: 225.4804pt x 152.60724pt.
-<Figures_part_1b/Compensated-Bode-without-K-B.png, id=276, 962.59625pt x 647.41
+<Figures_part_1b/Compensated-Bode-without-K-B.png, id=279, 962.59625pt x 647.41
 875pt>
 File: Figures_part_1b/Compensated-Bode-without-K-B.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-without-K-B.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-without-K-B.png  used
- on input line 731.
+ on input line 742.
 (pdftex.def)             Requested size: 225.4804pt x 151.64948pt.
-<Figures_part_1b/Compensated-Bode-with-K-B.png, id=277, 946.53625pt x 640.3925p
+<Figures_part_1b/Compensated-Bode-with-K-B.png, id=280, 946.53625pt x 640.3925p
 t>
 File: Figures_part_1b/Compensated-Bode-with-K-B.png Graphic file (type png)
 <use Figures_part_1b/Compensated-Bode-with-K-B.png>
 Package pdftex.def Info: Figures_part_1b/Compensated-Bode-with-K-B.png  used on
- input line 738.
+ input line 749.
 (pdftex.def)             Requested size: 225.4804pt x 152.54428pt.
 
 
@@ -950,8 +950,8 @@ Package rerunfilecheck Info: File `assignment2.out' has not changed.
 (rerunfilecheck)             Checksum: 1DC8B2A738DF3FC3C9868C5F26A481A9;3001.
  ) 
 Here is how much of TeX's memory you used:
- 15718 strings out of 473190
- 263124 string characters out of 5715799
+ 15721 strings out of 473190
+ 263157 string characters out of 5715799
  763064 words of memory out of 5000000
  38681 multiletter control sequences out of 15000+600000
  566872 words of font info for 64 fonts, out of 8000000 for 9000
@@ -974,10 +974,10 @@ ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
 2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
 025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on assignment2.pdf (16 pages, 3447476 bytes).
+Output written on assignment2.pdf (16 pages, 3447898 bytes).
 PDF statistics:
- 387 PDF objects out of 1000 (max. 8388607)
- 261 compressed objects within 3 object streams
- 87 named destinations out of 1000 (max. 500000)
+ 390 PDF objects out of 1000 (max. 8388607)
+ 264 compressed objects within 3 object streams
+ 90 named destinations out of 1000 (max. 500000)
  260 words of extra memory for PDF output out of 10000 (max. 10000000)
 

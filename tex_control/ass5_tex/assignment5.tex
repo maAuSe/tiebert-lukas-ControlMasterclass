@@ -310,10 +310,14 @@ The cart is initialised at the prescribed starting pose:
 \subsubsection{Tuned covariance values}
 
 Systematic tuning was performed by varying the diagonal entries of $Q$ and $R$ while monitoring the state estimate trajectories and 95\% confidence intervals. The selected values are
-\begin{align}
-	Q &= \operatorname{diag}(8 \times 10^{-9}, \, 9 \times 10^{-8}, \, 9 \times 10^{-7}) \; [\text{m}^2, \text{m}^2, \text{rad}^2], \label{eq:tuned_Q} \\
-	R &= \operatorname{diag}(0.0198, \, 0.09) \; [\text{m}^2]. \label{eq:tuned_R}
-\end{align}
+\begin{equation}
+	\boxed{Q = \operatorname{diag}(8 \times 10^{-9}, \, 9 \times 10^{-8}, \, 9 \times 10^{-7}) \; [\text{m}^2, \text{m}^2, \text{rad}^2],} 
+	\label{eq:tuned_Q} 
+\end{equation}
+\begin{equation}
+	\boxed{R = \operatorname{diag}(0.0198, \, 0.09) \; [\text{m}^2].}
+	 \label{eq:tuned_R}
+\end{equation}
 The relatively large $R$ values reflect the non-Gaussian characteristics of the IR sensors at oblique incidence and when only one wall is visible. The small $Q$ values were chosen to maintain bounded dead-reckoning drift during the sensor blackout phase while ensuring the filter remains responsive to measurements during the observation phases.
 
 \subsubsection{$Q/R$ sweep results}
@@ -526,10 +530,14 @@ The experimental results reveal the characteristic trade-offs in LQR tuning:
 \subsubsection{Chosen values for $Q_{\text{lqr}}$ and $R_{\text{lqr}}$}
 
 Based on the experimental evaluation, the selected tuning is \textbf{LQR-D}:
-\begin{align}
-	Q_{\text{lqr}} &= \operatorname{diag}(64, 64, 16) \; [\text{m}^{-2}, \text{m}^{-2}, \text{rad}^{-2}], \label{eq:chosen_Qlqr} \\
-	R_{\text{lqr}} &= \operatorname{diag}(0.05, 0.05) \; [\text{s}^2/\text{m}^2, \text{s}^2/\text{rad}^2]. \label{eq:chosen_Rlqr}
-\end{align}
+\begin{equation}
+	\boxed{Q_{\text{lqr}} = \operatorname{diag}(64, 64, 16) \; [\text{m}^{-2}, \text{m}^{-2}, \text{rad}^{-2}],} 
+	\label{eq:chosen_Qlqr} 
+\end{equation}
+\begin{equation}
+	\boxed{R_{\text{lqr}} = \operatorname{diag}(0.05, 0.05) \; [\text{s}^2/\text{m}^2, \text{s}^2/\text{rad}^2].}
+	\label{eq:chosen_Rlqr}
+\end{equation}
 This configuration provides the fastest convergence to the reference trajectory while maintaining acceptable control signal magnitudes. The MATLAB \texttt{dlqr} command yields the feedback gain matrix
 \begin{equation}
 	K = \begin{bmatrix}

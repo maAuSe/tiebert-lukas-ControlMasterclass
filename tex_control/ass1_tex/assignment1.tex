@@ -145,7 +145,6 @@
 	\begin{equation}
 		H(s) = \frac{\dot{\Theta}_m(s)}{V_a(s)} = \frac{a}{bs^2+cs+d} 
 	\end{equation}
-	\noindent The generic coefficients keep a direct link to the physical parameters (with units): $a=K$ [V\,s/rad], $b=J_m L_a$ [kg\,m$^2$H], $c=J_m R_a + b L_a$ [kg\,m$^2\Omega$ + N\,m\,s\,H/rad], and $d=bR_a+K^2$ [N\,m\,s\,\Omega/rad + V$^2$\,s$^2$/rad$^2$]. Under ZOH with sampling time $T_s$, the discrete second-order core model in~\eqref{eq:discrete_base_model} has coefficients $a_0 = e^{-\omega_n T_s}$, $a_1 = -2 e^{-\zeta \omega_n T_s}\cos(\omega_d T_s)$, and $b_0,b_1$ given by the standard ZOH bilinear mapping $B_d = \int_0^{T_s} e^{A\tau}B\,d\tau$, so $a_1,a_2,b_1,b_2$ in~\eqref{eq:discrete_full_model} are uniquely determined by $(J_m,b,K,L_a,R_a,T_s)$ and the one-sample microOS delay $z^{-1}$.
 	
 
 	
@@ -189,7 +188,7 @@ x((k+1)T_s) = e^{A T_s} x(kT_s) + \int_{0}^{T_s} e^{A\tau} B \, d\tau \, u(kT_s)
 H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 \end{equation}
 
-\noindent During identification these four parameters are estimated directly from the measured input-output data, so no explicit mapping back to the continuous-time coefficients is required.
+	\noindent During identification these four parameters are estimated directly from the measured input-output data, so no explicit mapping back to the continuous-time coefficients is required.
 	
 	\subsubsection{Model structure motivation}
 	
@@ -198,6 +197,15 @@ H(z) = z^{-1} H_0(z) = \frac{b_1 z + b_2}{z^{3} + a_1 z^{2} + a_2 z},
 	H(z) = \frac{b_1}{z^2 + a_1 z},
 	\]
 	\noindent with only two parameters.
+
+	\subsubsection{Link between continuous and discrete coefficients}
+	
+	The generic coefficients $(a,b,c,d)$ in~\eqref{eq:CT_transfer_function_DC} relate to the physical parameters via
+	\begin{equation}
+		a = K, \quad b = J_m L_a, \quad c = J_m R_a + b L_a, \quad d = b R_a + K^2.
+		\label{eq:generic_to_physical}
+	\end{equation}
+	Both this mapping and the ZOH discretization are bijective for fixed $T_s$; hence the identified discrete-time coefficients can be inverted to recover the underlying motor constants whenever physical interpretation is required.
 	
 	
 	\subsection{Model parameters estimation (1b)}

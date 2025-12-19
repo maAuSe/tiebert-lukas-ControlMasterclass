@@ -10,20 +10,18 @@
  *
  */
 
-#include "mecotron.h" // Include MECOTRON header
-#include <BasicLinearAlgebra.h> // Include BasicLinearAlgebra to make matrix manipulations easier
-#include "extended_kalman_filter.h" // Include template to make extended Kalman filter implementation easier
+#include "mecotron.h" 
+#include <BasicLinearAlgebra.h> 
+#include "extended_kalman_filter.h" 
 using namespace BLA;
 
 #define SWIVEL
-#include <trajectory.h> // Include trajectory, for assignment 5
+#include <trajectory.h> 
 
 class Robot : public MECOtron {
   private:
 
-    // Class variables
-    Trajectory trajectory; // define the reference trajectory object
-
+    Trajectory trajectory; 
     struct PiCoeffs {
       float b0;
       float b1;
@@ -41,29 +39,25 @@ class Robot : public MECOtron {
     Matrix<2> _nu;         // innovation vector
     Matrix<2,2> _S;        // innovation covariance
 
-    // Feedforward velocity commands for the cart
+    // feedforward velocity commands for the cart
     Matrix<2> desiredVelocityCart;
 
-    // LQR state feedback 
-    Matrix<2,3> _Klqr;        // feedback gain matrix from dlqr(Ad, Bd, Q_lqr, R_lqr)
-    Matrix<3> _errorBody;     // tracking error in body frame e' = R(theta_hat) * e_world
+    Matrix<2,3> _Klqr;        
+    Matrix<3> _errorBody;     
 
-    // Velocity controller
     PiState piStateA;
     PiState piStateB;
     PiCoeffs piCoeffsA;
     PiCoeffs piCoeffsB;
     float kVoltageLimit = 11.0f;
-    float kVelRefLimit = 12.0f;  // rad/s limit for wheel speed commands
+    float kVelRefLimit = 12.0f;  
 
   public:
-    // Constructor
     Robot() { }
 
     void control();
 
-    // General functions
-    bool init();  // Set up the robot
+    bool init();  
 
     bool controlEnabled();
     bool KalmanFilterEnabled();
@@ -73,7 +67,6 @@ class Robot : public MECOtron {
     void resetVelocityController();
     void resetLqrController();
 
-    // LQR helper: compute body-frame tracking error
     void computeBodyFrameError(float x_ref, float y_ref, float theta_ref,
                                float x_hat, float y_hat, float theta_hat,
                                Matrix<3> &e_body);

@@ -140,7 +140,6 @@ for i = 1:length(ax)
     end
 end
 title('Compensated open-loop system D(s)*G_s(s) with gain K = 1 - Wheel B');
-%title('Compensated open-loop system D(s)*G_s(s) with gain K = 0.8663 - Wheel B');
 grid on;
 save_plot(fig, texImageDir, 'bode_compensated_nominal_motorB');
 %close(fig);

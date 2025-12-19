@@ -14,7 +14,7 @@ clc
 N = length(timeVector);
 fs = 100; % sampling frequency [Hz]
 Ts = 1/fs; % sampling period [s]
-timePeriod = 14; % time period of cycle [s]
+timePeriod = 14; % 
 
 points_per_period = timePeriod/Ts;
 num_periods = N/points_per_period;

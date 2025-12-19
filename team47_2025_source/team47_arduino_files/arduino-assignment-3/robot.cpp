@@ -9,29 +9,29 @@
 #include "robot.h"
 
 bool Robot::init() {
-  MECOtron::init(); // Initialize the MECOtron
+  MECOtron::init(); 
 
   xref.Fill(0);
   _xhat.Fill(0);
   _nu.Fill(0);
-  desiredDistanceMeters = 0.40f;  // initial reference: 0.40 m to wall
+  desiredDistanceMeters = 0.40f;  
 
   // EXPERIMENT GAIN CONFIGURATION 
   //
-  // --- Section 2(a) Estimator-only: L sweep (controller OFF, estimator ON) ---
+  // Section 2(a) Estimator-only: L sweep (controller OFF, estimator ON) 
   // setEstimatorGain(-0.05f);      // L_slow:  p_est ~= 0.95 (estimator-only sweep)
   // setEstimatorGain(-0.18f);      // L_nom:   p_est ~= 0.82
   // setEstimatorGain(-0.35f);      // L_fast:  p_est ~= 0.65
   //
-  // --- Section 2(b) Controller-only: K sweep (controller ON, estimator OFF) ---
+  // Section 2(b) Controller-only: K sweep (controller ON, estimator OFF) 
   // kPosGain = 20.0f;              // K_slow: p_cl ~= 0.993
   kPosGain = 40.0f;                 // K_nom:  p_cl ~= 0.987  <-- default
   // kPosGain = 80.0f;              // K_fast: p_cl ~= 0.974
   //
-  // --- Section 2(c) Estimator + Controller: slow estimator pole (both ON) ---
+  // Section 2(c) Estimator + Controller: slow estimator pole (both ON) 
   // For 2(c), use K_nom and L_slow (10x slower than controller):
   //   kPosGain = 40.0f;
-  setEstimatorGain(-0.00132f);      // L_slow: p_est ~= 0.9987 (10x slower than p_cl with K_nom)
+  setEstimatorGain(-0.00132f);      // L_slow: p_est ~= 0.9987 
 
   
 resetController();
@@ -42,45 +42,37 @@ void Robot::control() {
 
   float volt_A = 0.0f;
   float volt_B = 0.0f;
-  Matrix<1> desired_velocity;           // control signal (rad/s)
+  Matrix<1> desired_velocity;           
   desired_velocity.Fill(0);
 
   const float speedA = getSpeedMotorA();
   const float speedB = getSpeedMotorB();
   const float avgSpeed = 0.5f * (speedA + speedB);
-  const float frontDistance = getFrontDistance(); // m, positive
+  const float frontDistance = getFrontDistance(); 
 
-  // State estimation
-  if(StateEstimationEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 1' in QRoboticsCenter)
-    // Correction step
-    Matrix<1> distance_measurement;                   // define a vector of length 1
-    distance_measurement(0) = frontDistance;          // front distance (m)
-    CorrectionUpdate(distance_measurement, _xhat, _nu);   // do the correction step -> update _xhat, _nu
+  if(StateEstimationEnabled()) {   
+    
+    Matrix<1> distance_measurement;                  
+    distance_measurement(0) = frontDistance;         
+    CorrectionUpdate(distance_measurement, _xhat, _nu);   
   }
-  if(controlEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 0' in QRoboticsCenter)
+  if(controlEnabled()) {   
 
-    // Read position reference as distance to wall [m]; convert to cart position [m] (negative in front of wall)
-    // Desired distance is now button-controlled: start at 0.40 m, button 1 sets 0.15 m
     xref(0) = -desiredDistanceMeters;
 
-    // Gains are now hardcoded in init(); runtime override removed for reproducibility.
-    // To change K or L, edit the values in init() and re-flash.
     K(0) = kPosGain;
 
-    // State feedback to desired velocity (rad/s)
-    // Use estimator output if enabled, else use direct measurement (spec 2b)
     float feedbackPos;
     if (StateEstimationEnabled()) {
-      feedbackPos = _xhat(0);            // use estimator output
+      feedbackPos = _xhat(0);          
     } else {
-      feedbackPos = -frontDistance;      // use direct measurement (x = -distance)
+      feedbackPos = -frontDistance;      
     }
     const float positionError = xref(0) - feedbackPos;
     float v_ref = kPosGain * positionError;
-    v_ref = saturate(v_ref, kVelRefLimit); // avoid excessive speed commands
+    v_ref = saturate(v_ref, kVelRefLimit); 
     desired_velocity(0) = v_ref;
 
-    // Velocity controller (PI from Assignment 2)
     const float eA = v_ref - speedA;
     const float eB = v_ref - speedB;
     const float uA = applyPi(eA, piStateA, coeffA);
@@ -89,11 +81,10 @@ void Robot::control() {
     volt_A = saturate(uA, kVoltageLimit);
     volt_B = saturate(uB, kVoltageLimit);
 
-    // Send wheel speed command
     setVoltageMotorA(volt_A);
     setVoltageMotorB(volt_B);
   }
-  else                      // do nothing since control is disabled
+  else                      
   {
     desired_velocity(0) = 0.0;
     setVoltageMotorA(0.0);
@@ -101,16 +92,12 @@ void Robot::control() {
     resetController();
   }
 
-  // Sate estimation
-  if(StateEstimationEnabled()) {   // only do this if controller is enabled (triggered by pushing 'Button 1' in QRoboticsCenter)
-    // Prediction step
+  if(StateEstimationEnabled()) {   
     Matrix<1> velocity_input;
-    velocity_input(0) = avgSpeed; // use measured speed for prediction
-    PredictionUpdate(velocity_input, _xhat);                    // do the prediction step -> update _xhat
+    velocity_input(0) = avgSpeed; 
+    PredictionUpdate(velocity_input, _xhat);                    
   }
-  // writeValue(8, _xhat(0)); // a priori state estimate
   
-  // Send useful outputs to QRC
   writeValue(1, frontDistance);
   writeValue(2, _xhat(0));
   writeValue(3, desired_velocity(0));
@@ -128,7 +115,6 @@ void Robot::control() {
 }
 
 void Robot::resetController(){
-  // Reset PI states and set voltages to zero
   piStateA.errorPrev = 0.0f;
   piStateA.controlPrev = 0.0f;
   piStateB.errorPrev = 0.0f;
@@ -139,8 +125,7 @@ void Robot::resetController(){
 
 void Robot::resetStateEstimator() {
   _nu.Fill(0);
-  // Hardcoded initial estimate (used for estimator-only and combined runs)
-  // Set to +0.15 m for upcoming combined experiment
+  
   constexpr float kWrongInitialEstimate = -0.00f;
   _xhat(0) = kWrongInitialEstimate;
 }
@@ -160,7 +145,7 @@ float Robot::saturate(float value, float limit) const {
 }
 
 bool Robot::controlEnabled() {
-  return _button_states[0];       // The control is enabled if the state of button 0 is true
+  return _button_states[0];       
 }
 
 bool Robot::StateEstimationEnabled() {
@@ -168,13 +153,12 @@ bool Robot::StateEstimationEnabled() {
 }
 
 void Robot::button0callback() {
-  // Toggle controller AND estimator together
-  if(toggleButton(0)) {           // Switches the state of button 0 and checks if the new state is true
-    _button_states[1] = 1;        // estimator follows controller state
+  if(toggleButton(0)) {           
+    _button_states[1] = 1;        
     resetController();
     resetStateEstimator();
     desiredDistanceMeters = 0.30f;
-    message("Controller + estimator enabled (Button 0).");    // Display a message in the status bar of QRoboticsCenter
+    message("Controller + estimator enabled (Button 0).");    
   }
   else {
     _button_states[1] = 0;
@@ -183,16 +167,16 @@ void Robot::button0callback() {
 }
 
 void Robot::button1callback() {
-  // Update desired reference from 0.15 m to 0.30 m (no estimator reset)
+  
   desiredDistanceMeters = 0.30f;
   message("Desired distance set to 0.30 m (Button 1).");
 }
 
 void Robot::button2callback() {
-    init();                         // Reset the MECOtron and reinitialize the Robot object
-    resetController();              // Reset the Controller
+    init();                         
+    resetController();              
     _button_states[0] = 0;
-    resetStateEstimator();            // Reset the state estimator
+    resetStateEstimator();            
     _button_states[1] = 0;
     message("MECOtron reinitialized.");
 }

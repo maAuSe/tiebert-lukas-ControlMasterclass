@@ -10,16 +10,15 @@
  *
  */
 
-#include "mecotron.h" // Include MECOTRON header
-#include <BasicLinearAlgebra.h> // Include BasicLinearAlgebra to make matrix manipulations easier
-#include "state_estimator.h" // Include template to make state estimation implementation easier
+#include "mecotron.h" 
+#include <BasicLinearAlgebra.h> 
+#include "state_estimator.h" 
 
 using namespace BLA;
 
 class Robot : public MECOtron {
   private:
 
-    // Class variables
 
     struct PiCoeffs {
       float b0;
@@ -35,33 +34,30 @@ class Robot : public MECOtron {
     static constexpr float kTs = 0.01f;
     static constexpr float kWheelRadius = 0.033f;
     static constexpr float kVoltageLimit = 11.0f;
-    static constexpr float kVelRefLimit = 25.0f;   // rad/s cap on commanded wheel speed
-    static constexpr float kDefaultKpos = 40.0f;   // rad/(s*m)
-    static constexpr float kDefaultX0 = -0.40f;    // m, used when no init value is provided
+    static constexpr float kVelRefLimit = 25.0f;   
+    static constexpr float kDefaultKpos = 40.0f;   
+    static constexpr float kDefaultX0 = -0.40f;    
 
-    PiCoeffs coeffA{0.945014f, -0.804389f, 1.0f}; // PI (assignment 2) - wheel A
-    PiCoeffs coeffB{0.919504f, -0.782675f, 1.0f}; // PI (assignment 2) - wheel B
+    PiCoeffs coeffA{0.945014f, -0.804389f, 1.0f}; 
+    PiCoeffs coeffB{0.919504f, -0.782675f, 1.0f}; 
     PiState piStateA{0.0f, 0.0f};
     PiState piStateB{0.0f, 0.0f};
     float kPosGain = kDefaultKpos;
-    float desiredDistanceMeters = 0.40f;  // positive distance to wall
+    float desiredDistanceMeters = 0.40f;  
 
-    // State estimation
-    Matrix<1> _xhat;      // state estimate vector
-    Matrix<1> _nu;        // innovation vector
+    Matrix<1> _xhat;      
+    Matrix<1> _nu;       
 
-    // Position controller
-    Matrix<1> xref;       // reference state
-    Matrix<1,1> K;        // state feedback gain
+    Matrix<1> xref;    
+    Matrix<1,1> K;      
 
   public:
-    // Constructor
+    
     Robot() { }
 
     void control();
 
-    // General functions
-    bool init();  // Set up the robot
+    bool init();  
 
     bool controlEnabled();
     bool StateEstimationEnabled();

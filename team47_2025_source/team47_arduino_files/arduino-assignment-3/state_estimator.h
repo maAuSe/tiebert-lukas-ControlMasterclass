@@ -2,7 +2,7 @@
 #define SE_SF_H
 
 #include <BasicLinearAlgebra.h>
-#include "mecotron.h" // Include MECOTRON header
+#include "mecotron.h" 
 
 using namespace BLA;
 
@@ -11,4 +11,4 @@ void CorrectionUpdate(const Matrix<1> &y, Matrix<1> &xhat, Matrix<1> &nu);
 void setEstimatorGain(float gain);
 float getEstimatorGain();
 
-#endif // SE_SF_H
+#endif 

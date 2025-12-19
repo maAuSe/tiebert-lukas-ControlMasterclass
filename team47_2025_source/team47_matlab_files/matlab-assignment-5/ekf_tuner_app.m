@@ -1,10 +1,6 @@
 function ekf_tuner_app
-% Simple UI to tune Q, R, and P0 on the offline EKF using ekf_Q1_R1.csv.
-% Shows xhat, yhat, thetahat with 95% confidence bands.
 
-  % -----------------------------------------------------------------------
-  % Fixed geometry and nominal values (keep in sync with assignment5_solution)
-  % -----------------------------------------------------------------------
+
   Ts     = 0.010;
   alpha  = 0.075;
   beta   = 0.065;
@@ -23,9 +19,6 @@ function ekf_tuner_app
   end
   D = parseQrcAssignment5(dataFile);
 
-  % -----------------------------------------------------------------------
-  % UI layout
-  % -----------------------------------------------------------------------
   fig = uifigure('Name','EKF Q/R/P0 tuner','Position',[100 100 1150 620]);
   gl = uigridlayout(fig, [1 2]);
   gl.ColumnWidth = {260, '1x'};
@@ -58,29 +51,22 @@ function ekf_tuner_app
   axY = uiaxes(plots); ylabel(axY, '\hat{y} [m]'); grid(axY,'on');
   axT = uiaxes(plots); ylabel(axT, '\hat{\theta} [rad]'); xlabel(axT,'Time [s]'); grid(axT,'on');
 
-  % -----------------------------------------------------------------------
-  % Callback
-  % -----------------------------------------------------------------------
   function runEkfAndPlot
     Qk = diag([qxField.Value, qyField.Value, qtField.Value]);
     Rk = diag([r1Field.Value, r2Field.Value]);
     P0 = diag([p1Field.Value, p2Field.Value, p3Field.Value]);
 
     [xhat, Pdiag] = rerunEkfOffline(D, Ts, alpha, beta, gamma, wall1, wall2, x0, P0, Qk, Rk);
-    ci = 1.96 * sqrt(Pdiag); % 95% CI
+    ci = 1.96 * sqrt(Pdiag);
 
     plotState(axX, D.time, xhat(1,:), ci(:,1), 'x');
     plotState(axY, D.time, xhat(2,:), ci(:,2), 'y');
     plotState(axT, D.time, xhat(3,:), ci(:,3), '\theta');
   end
 
-  % Initial run
   runEkfAndPlot();
 end
 
-% -------------------------------------------------------------------------
-% Helpers
-% -------------------------------------------------------------------------
 function lbl = addLabel(parent, txt, row)
   lbl = uilabel(parent, 'Text', txt, 'FontWeight','bold');
   lbl.Layout.Row = row;

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  19 DEC 2025 10:57
+This is LuaHBTeX, Version 1.17.1 (MiKTeX 24.1) (format=lualatex 2025.7.4)  19 DEC 2025 11:25
  restricted system commands enabled.
 **assignment1.tex
 (./assignment1.tex
@@ -592,12 +592,12 @@ Package hyperref Info: Link coloring OFF on input line 41.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \c@lstlisting=\count313
-<sedes.pdf, id=91, 310.15875pt x 521.95pt>
+<sedes.pdf, id=95, 310.15875pt x 521.95pt>
 File: sedes.pdf Graphic file (type pdf)
 <use sedes.pdf>
 Package luatex.def Info: sedes.pdf  used on input line 52.
 (luatex.def)             Requested size: 33.81467pt x 56.9055pt.
-<logoFirW.jpg, id=93, 341.3553pt x 132.0132pt>
+<logoFirW.jpg, id=97, 341.3553pt x 132.0132pt>
 File: logoFirW.jpg Graphic file (type jpg)
 <use logoFirW.jpg>
 Package luatex.def Info: logoFirW.jpg  used on input line 60.
@@ -618,7 +618,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 181--183
  []
 
 [1] [2]
-Overfull \hbox (7.85834pt too wide) detected at line 285
+Overfull \hbox (7.85834pt too wide) detected at line 294
 \OT1/cmr/m/n/10 +6 V (0[]2 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 0 V (2[]3 s)\O
 ML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 +5 V (3[]5 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n
 /10 0 V (5[]7 s)\OML/cmm/m/it/10 ;  \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 6 V (7[
@@ -627,139 +627,140 @@ cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 5 V (10[]12 s)\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/1
 0 0 V (12[]14 s)\OML/cmm/m/it/10 :
  []
 
-<images/excitation_ass1.png, id=160, 357.4956pt x 295.8252pt>
+<images/excitation_ass1.png, id=163, 357.4956pt x 295.8252pt>
 File: images/excitation_ass1.png Graphic file (type png)
 <use images/excitation_ass1.png>
-Package luatex.def Info: images/excitation_ass1.png  used on input line 291.
+Package luatex.def Info: images/excitation_ass1.png  used on input line 300.
 (luatex.def)             Requested size: 140.92793pt x 116.61719pt.
-[3
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
-<./images/excitation_ass1.png>]
-<images/measured_vs_modeled_nofilterA.png, id=172, 362.3136pt x 135.3858pt>
+[3]
+<images/measured_vs_modeled_nofilterA.png, id=178, 362.3136pt x 135.3858pt>
 File: images/measured_vs_modeled_nofilterA.png Graphic file (type png)
 <use images/measured_vs_modeled_nofilterA.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilterA.png  used on inpu
-t line 334.
+t line 343.
 (luatex.def)             Requested size: 225.4804pt x 84.2544pt.
-<images/measured_vs_modeled_nofilterB.png, id=173, 362.3136pt x 135.8676pt>
+<images/measured_vs_modeled_nofilterB.png, id=179, 362.3136pt x 135.8676pt>
 File: images/measured_vs_modeled_nofilterB.png Graphic file (type png)
 <use images/measured_vs_modeled_nofilterB.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilterB.png  used on inpu
-t line 338.
+t line 347.
 (luatex.def)             Requested size: 225.4804pt x 84.55421pt.
-<images/measured_vs_modeled_nofilter_simplifiedA.png, id=174, 362.3136pt x 135.
+<images/measured_vs_modeled_nofilter_simplifiedA.png, id=180, 362.3136pt x 135.
 3858pt>
 File: images/measured_vs_modeled_nofilter_simplifiedA.png Graphic file (type pn
 g)
 <use images/measured_vs_modeled_nofilter_simplifiedA.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter_simplifiedA.png  u
-sed on input line 343.
+sed on input line 352.
 (luatex.def)             Requested size: 225.4804pt x 84.2544pt.
-<images/measured_vs_modeled_nofilter_simplifiedB.png, id=175, 362.3136pt x 135.
+<images/measured_vs_modeled_nofilter_simplifiedB.png, id=181, 362.3136pt x 135.
 3858pt>
 File: images/measured_vs_modeled_nofilter_simplifiedB.png Graphic file (type pn
 g)
 <use images/measured_vs_modeled_nofilter_simplifiedB.png>
 Package luatex.def Info: images/measured_vs_modeled_nofilter_simplifiedB.png  u
-sed on input line 347.
+sed on input line 356.
 (luatex.def)             Requested size: 225.4804pt x 84.2544pt.
-<images/model_vs_meas_error_nofilterA.png, id=176, 350.2686pt x 135.3858pt>
+ [4
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.1'
+<./images/excitation_ass1.png>]
+<images/model_vs_meas_error_nofilterA.png, id=194, 350.2686pt x 135.3858pt>
 File: images/model_vs_meas_error_nofilterA.png Graphic file (type png)
 <use images/model_vs_meas_error_nofilterA.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilterA.png  used on inpu
-t line 357.
+t line 366.
 (luatex.def)             Requested size: 225.4804pt x 87.15274pt.
-<images/model_vs_meas_error_nofilterB.png, id=177, 353.1594pt x 135.3858pt>
+<images/model_vs_meas_error_nofilterB.png, id=195, 353.1594pt x 135.3858pt>
 File: images/model_vs_meas_error_nofilterB.png Graphic file (type png)
 <use images/model_vs_meas_error_nofilterB.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilterB.png  used on inpu
-t line 361.
+t line 370.
 (luatex.def)             Requested size: 225.4804pt x 86.43796pt.
-<images/model_vs_meas_error_nofilter_simplifiedA.png, id=178, 352.6776pt x 135.
+<images/model_vs_meas_error_nofilter_simplifiedA.png, id=196, 352.6776pt x 135.
 3858pt>
 File: images/model_vs_meas_error_nofilter_simplifiedA.png Graphic file (type pn
 g)
 <use images/model_vs_meas_error_nofilter_simplifiedA.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter_simplifiedA.png  u
-sed on input line 366.
+sed on input line 375.
 (luatex.def)             Requested size: 225.4804pt x 86.55779pt.
-<images/model_vs_meas_error_nofilter_simplifiedB.png, id=179, 352.6776pt x 135.
+<images/model_vs_meas_error_nofilter_simplifiedB.png, id=197, 352.6776pt x 135.
 3858pt>
 File: images/model_vs_meas_error_nofilter_simplifiedB.png Graphic file (type pn
 g)
 <use images/model_vs_meas_error_nofilter_simplifiedB.png>
 Package luatex.def Info: images/model_vs_meas_error_nofilter_simplifiedB.png  u
-sed on input line 370.
+sed on input line 379.
 (luatex.def)             Requested size: 225.4804pt x 86.55779pt.
- [4
-warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
-<./images/measured_vs_modeled_nofilterA.png><./images/measured_vs_modeled_nofilt
-erB.png><./images/measured_vs_modeled_nofilter_simplifiedA.png><./images/measure
-d_vs_modeled_nofilter_simplifiedB.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 376--380
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--389
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 386--388
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 402--403
+Underfull \hbox (badness 10000) in paragraph at lines 395--397
 
  []
 
 [5
+warning  (pdf backend): ignoring duplicate destination with the name 'figure.2'
+
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.3'
-<./images/model_vs_meas_error_nofilterA.png><./images/model_vs_meas_error_nofilt
-erB.png><./images/model_vs_meas_error_nofilter_simplifiedA.png><./images/model_v
-s_meas_error_nofilter_simplifiedB.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 408--409
+<./images/measured_vs_modeled_nofilterA.png><./images/measured_vs_modeled_nofilt
+erB.png><./images/measured_vs_modeled_nofilter_simplifiedA.png><./images/measure
+d_vs_modeled_nofilter_simplifiedB.png><./images/model_vs_meas_error_nofilterA.pn
+g><./images/model_vs_meas_error_nofilterB.png><./images/model_vs_meas_error_nofi
+lter_simplifiedA.png><./images/model_vs_meas_error_nofilter_simplifiedB.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 411--412
 
  []
 
-<images/measured_vs_modeled_filteredA.png, id=198, 362.7954pt x 135.8676pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 417--418
+
+ []
+
+<images/measured_vs_modeled_filteredA.png, id=204, 362.7954pt x 135.8676pt>
 File: images/measured_vs_modeled_filteredA.png Graphic file (type png)
 <use images/measured_vs_modeled_filteredA.png>
 Package luatex.def Info: images/measured_vs_modeled_filteredA.png  used on inpu
-t line 416.
+t line 425.
 (luatex.def)             Requested size: 225.4804pt x 84.44434pt.
-<images/measured_vs_modeled_filtered_simplifiedA.png, id=199, 362.7954pt x 135.
+<images/measured_vs_modeled_filtered_simplifiedA.png, id=205, 362.7954pt x 135.
 8676pt>
 File: images/measured_vs_modeled_filtered_simplifiedA.png Graphic file (type pn
 g)
 <use images/measured_vs_modeled_filtered_simplifiedA.png>
 Package luatex.def Info: images/measured_vs_modeled_filtered_simplifiedA.png  u
-sed on input line 420.
+sed on input line 429.
 (luatex.def)             Requested size: 225.4804pt x 84.44434pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 462--463
-
- []
-
 [6
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.4'
 <./images/measured_vs_modeled_filteredA.png><./images/measured_vs_modeled_filter
 ed_simplifiedA.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 464--465
+Underfull \hbox (badness 10000) in paragraph at lines 471--472
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 466--467
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 475--476
 
  []
 
 [7] (./assignment1.bbl) [8]
-Underfull \hbox (badness 10000) in paragraph at lines 484--485
+Underfull \hbox (badness 10000) in paragraph at lines 493--494
 
  []
 
-<images/linear_circuit_DC.png, id=224, 464.937pt x 203.5605pt>
+<images/linear_circuit_DC.png, id=230, 464.937pt x 203.5605pt>
 File: images/linear_circuit_DC.png Graphic file (type png)
 <use images/linear_circuit_DC.png>
-Package luatex.def Info: images/linear_circuit_DC.png  used on input line 512.
+Package luatex.def Info: images/linear_circuit_DC.png  used on input line 521.
 (luatex.def)             Requested size: 328.82707pt x 143.97607pt.
 [9
 warning  (pdf backend): ignoring duplicate destination with the name 'figure.5'
@@ -769,17 +770,17 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `assignment1.out' has not changed.
-(rerunfilecheck)             Checksum: 27211BC55633E7DB0FC700B08A0AB254;5706.
+(rerunfilecheck)             Checksum: A75924F3F2998CD412203DD19AE49ABB;6034.
 )
 
 Here is how much of LuaTeX's memory you used:
- 14475 strings out of 476497
+ 14479 strings out of 476497
  125027,1977958 words of node,token memory allocated
- 739 words of node memory still in use:
-   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 57 attribute, 58 glue_spec
-, 57 attribute_list, 1 write, 2 pdf_action nodes
-   avail lists: 2:729,3:280,4:63,5:416,6:39,7:6330,8:113,9:805,10:11,11:577
- 36115 multiletter control sequences out of 65536+600000
+ 747 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 59 attribute, 58 glue_spec
+, 59 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:656,3:280,4:63,5:371,6:40,7:6831,8:113,9:733,10:11,11:619
+ 36117 multiletter control sequences out of 65536+600000
  49 fonts using 3729047 bytes
  79i,12n,89p,827b,397s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm/lmmono10-
@@ -804,9 +805,9 @@ mr5.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
 s/cm/cmr7.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb><C:/Users/campa/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb>
-Output written on assignment1.pdf (11 pages, 1257138 bytes).
+Output written on assignment1.pdf (11 pages, 1259215 bytes).
 
-PDF statistics: 326 PDF objects out of 1000 (max. 8388607)
- 72 named destinations out of 1000 (max. 131072)
- 197 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 332 PDF objects out of 1000 (max. 8388607)
+ 74 named destinations out of 1000 (max. 131072)
+ 205 words of extra memory for PDF output out of 10000 (max. 100000000)
 

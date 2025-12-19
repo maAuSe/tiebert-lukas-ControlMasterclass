@@ -145,6 +145,7 @@
 	\begin{equation}
 		H(s) = \frac{\dot{\Theta}_m(s)}{V_a(s)} = \frac{a}{bs^2+cs+d} 
 	\end{equation}
+	\noindent The generic coefficients keep a direct link to the physical parameters (with units): $a=K$ [V\,s/rad], $b=J_m L_a$ [kg\,m$^2$H], $c=J_m R_a + b L_a$ [kg\,m$^2\Omega$ + N\,m\,s\,H/rad], and $d=bR_a+K^2$ [N\,m\,s\,\Omega/rad + V$^2$\,s$^2$/rad$^2$]. Under ZOH with sampling time $T_s$, the discrete second-order core model in~\eqref{eq:discrete_base_model} has coefficients $a_0 = e^{-\omega_n T_s}$, $a_1 = -2 e^{-\zeta \omega_n T_s}\cos(\omega_d T_s)$, and $b_0,b_1$ given by the standard ZOH bilinear mapping $B_d = \int_0^{T_s} e^{A\tau}B\,d\tau$, so $a_1,a_2,b_1,b_2$ in~\eqref{eq:discrete_full_model} are uniquely determined by $(J_m,b,K,L_a,R_a,T_s)$ and the one-sample microOS delay $z^{-1}$.
 	
 
 	
@@ -378,7 +379,7 @@ Figures~\ref{fig:measured_vs_modeled_pair} and \ref{fig:model_error_pair} collec
 \noindent RMS error (motor A, simplified model): 0.3723~rad/s \newline
 \noindent RMS error (motor B, simplified model): 0.3758~rad/s \newline
 
-\noindent The two motors therefore behave almost identically: the RMS prediction errors differ by less than 0.004~rad/s (below 1\%) for both model structures, and the identified parameters vary by less than 2\% across motors. The model-measurement errors in Figure~\ref{fig:model_error_pair} overlap as well, showing that the remaining discrepancies stem from shared effects such as sensor resolution/quantization limitations and mechanical eccentricities. Because the validation metrics and visual inspections point to equivalent dynamics, subsequent sections display detailed plots for motor~A only; whenever performance numbers are quoted, both motors are still reported to document their similarity.
+\noindent The two motors therefore behave almost identically: the RMS prediction errors differ by less than 0.004~rad/s (below 1\%) for both model structures, and the identified parameters vary by less than 2\% across motors. The model-measurement errors in Figure~\ref{fig:model_error_pair} overlap as well, showing that the remaining discrepancies stem from shared effects such as sensor resolution/quantization limitations. Because the validation metrics and visual inspections point to equivalent dynamics, subsequent sections display detailed plots for motor~A only; whenever performance numbers are quoted, both motors are still reported to document their similarity.
 
 	
 	\subsubsection{Transient and steady-state characteristics}
@@ -481,9 +482,9 @@ After applying the Butterworth filter to both input and output signals using \te
 		H(z) = \frac{b_1}{z^2 + a_1 z}
 	\end{equation}
 	
-	This model has two parameters ($a_1, b_1$) compared to four in the full model.
+	\noindent This model has two parameters ($a_1, b_1$) compared to four in the full model.\newline
 	
-	The recursion expression for the simplified model is given in the main text by \eqref{eq: difference eq simple}, with the associated regression vector and least-squares criterion \eqref{eq: LS criterion}. For completeness, we retain the matrix formulation below.
+	\noindent The recursion expression for the simplified model is given in the main text by \eqref{eq: difference eq simple}, with the associated regression vector and least-squares criterion \eqref{eq: LS criterion}. For completeness, we retain the matrix formulation below.
 \subsection*{Matrix formulation}
 	
 	For $N$ measurements with maximum delay of 2 samples (starting from $k=3$):

@@ -2,7 +2,7 @@
 
 Robot::Robot() : activeMode(MODE_NOMINAL) {
   // PI controller coefficients from MATLAB (assignment2_solution.m)
-  // Plant model: H(z) = b1 / (z^2 + a1*z) from Assignment 1
+  // Motor model: H(z) = b1 / (z^2 + a1*z) from Assignment 1
   //   Wheel A: H(z) = 0.6309 / (z^2 - 0.6819*z)
   //   Wheel B: H(z) = 0.6488 / (z^2 - 0.6806*z)
   // Controller: C(z) = [b0, b1] / [1, -1] (Tustin discretization)

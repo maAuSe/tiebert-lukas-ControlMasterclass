@@ -1,29 +1,24 @@
 %% Assignment 5 - EKF + LQR for the 2WD Swivel Cart
-% High-level script to (1) restate the continuous/discrete models,
-% (2) run EKF tuning plots (Q/R sweeps + uncertainty), and
-% (3) design/tune the LQR tracker on the discrete error model.
-% Data are imported from QRoboticsCenter CSV logs; placeholders are kept
-% for runs not yet recorded.
 
 clear; close all; clc;
 
-%% ========================================================================
-%  PATHS & DIRECTORIES
-%  ========================================================================
+
+%%  PATHS & DIRECTORIES
+  
 projRoot = 'C:\Users\campa\Documents\Arduino';
 dataDir = fullfile(projRoot, 'matlab_assign5', 'data');
 imgDir  = fullfile(projRoot, 'tex_control', 'ass5_tex', 'images');
 if ~exist(imgDir, 'dir'), mkdir(imgDir); end
 
-%% ========================================================================
-%  PHYSICAL & GEOMETRIC PARAMETERS (MEASURE ON THE CART)
-%  ========================================================================
+
+%%  PHYSICAL & GEOMETRIC PARAMETERS
+
 Ts     = 0.010;     % s (sampling time)
-r      = 0.0330;    % m (wheel radius, R_WHEEL, per Assignment 3 measurement)
-Lwheel = 0.1660;    % m (wheelbase, WHEELBASE)
+r      = 0.0330;    % m (wheel radius)
+Lwheel = 0.1660;    % m (wheelbase)
 a      = Lwheel/2;  % m, half wheelbase (0.083 m)
 
-% Sensor offsets in body frame (X' forward, Y' left); UPDATE after measuring
+% Sensor offsets in body frame (X' forward, Y' left)
 alpha = 0.075;      % m, front IR along X' from cart center to sensor
 beta  = 0.065;      % m, side IR longitudinal offset from center
 gamma = 0.078;      % m, side IR lateral offset from center (positive to left)
@@ -35,15 +30,14 @@ wall1 = [1, 0, 0];  % x = 0 (front wall W1)
 wall2 = [0, 1, 0];  % y = 0 (side wall W2)
 geom  = struct('alpha',alpha,'beta',beta,'gamma',gamma,'wall1',wall1,'wall2',wall2);
 
-%% ========================================================================
-%  NOISE COVARIANCES & INITIAL STATE (PLACEHOLDERS TO TUNE)
-%  ========================================================================
-% Nominal EKF covariances (must match Arduino firmware: arduino_files/CT-EKF-Swivel/extended_kalman_filter.cpp)
-% Tuned values from assignment5.tex eq. (14)-(15)
+ 
+%%  NOISE COVARIANCES & INITIAL STATE
+ 
+
 Q_proc_base = diag([8e-9, 9e-8, 9e-7]);   % process noise (m^2, m^2, rad^2)
 R_meas_base = diag([0.0198, 0.09]);       % measurement noise (m^2)
 
-firmware_Q_scale = 1.0;      % keep unity so MATLAB/Arduino match exactly
+firmware_Q_scale = 1.0;     
 firmware_R_scale = 1.0;
 
 Q_proc_nom = Q_proc_base * firmware_Q_scale;
@@ -52,10 +46,11 @@ P0_default = diag([1e-3, 1e-3, 7.6e-3]); % must match resetKalmanFilter() on Ard
 x0_default = [-0.30; -0.20; 0.0];        % starting pose (-30,-20) cm
 R_meas_off_factor = 1e6;                 % inflate R when sensors are disabled
 
-%% ========================================================================
-%  MODEL DEFINITIONS
-%  ========================================================================
-% Motor-side relation (spec 1a): v = r/2*(wR + wL), omega = r/L*(wR - wL)
+ 
+%%  MODEL DEFINITIONS
+ 
+
+% Motor-side relation : v = r/2*(wR + wL), omega = r/L*(wR - wL)
 wheelSpeedsFromVOmega = @(v, omega) [v/r + (Lwheel/(2*r)) * omega;   % right wheel speed [rad/s]
                                      v/r - (Lwheel/(2*r)) * omega];  % left  wheel speed [rad/s]
 
@@ -75,14 +70,14 @@ jac_f = @(x,u) [1, 0, -Ts * u(1) * sin(x(3));
 % Measurement model and Jacobian
 measFun = @(x) measurementModel(x, alpha, beta, gamma, wall1, wall2);
 
-% Rotation matrix for world -> body error conversion (spec 4a)
+% Rotation matrix for world -> body error conversion
 rotWorldToBody = @(theta) [ cos(theta),  sin(theta), 0;
                            -sin(theta),  cos(theta), 0;
                             0,           0,          1];
 
-%% ========================================================================
-%  EKF Q/R SWEEP PLACEHOLDERS
-%  ========================================================================
+ 
+%%  EKF Q/R SWEEP  
+
 ekfRuns = [ ...
   struct('label','Q1_R1','Q',Q_proc_nom,          'R',R_meas_nom,          'file',fullfile(dataDir,'ekf_Q1_R1.csv')); ...
   struct('label','Q5_R1','Q',Q_proc_nom*5,        'R',R_meas_nom,          'file',fullfile(dataDir,'ekf_Q5_R1.csv')); ...
@@ -90,11 +85,11 @@ ekfRuns = [ ...
   struct('label','Q5_R5','Q',Q_proc_nom*5,        'R',R_meas_nom*5,        'file',fullfile(dataDir,'ekf_Q5_R5.csv'))  ...
 ];
 
-ekfNominalIdx = 1;  % choose run to use for uncertainty plots (update after data exist)
+ekfNominalIdx = 1;  
 
-%% ========================================================================
-%  LQR TRACKER (ERROR DYNAMICS IN CART FRAME)
-%  ========================================================================
+ 
+%%  LQR TRACKER (ERROR DYNAMICS IN CART FRAME)
+ 
 v_ref   = 0.02;                       % m/s (2 cm/s)
 Ad      = [1, 0, 0;
            0, 1, -Ts * v_ref;
@@ -119,25 +114,21 @@ R_lqr = lqrRuns(lqrActiveIdx).R;
 K_dlqr = dlqr(Ad, Bd, Q_lqr, R_lqr);
 
 K_firmware = -K_dlqr;
-fprintf('Active LQR run: %s\n', lqrRuns(lqrActiveIdx).label);
-fprintf('K_firmware (copy to Arduino):\n');
-fprintf('  _Klqr = {%.4ff, %.4ff, %.4ff,\n', K_firmware(1,1), K_firmware(1,2), K_firmware(1,3));
-fprintf('           %.4ff, %.4ff, %.4ff};\n', K_firmware(2,1), K_firmware(2,2), K_firmware(2,3));
 
 K_lqr = K_dlqr;
 
-%% ========================================================================
-%  EKF DATA PROCESSING (IF FILES AVAILABLE)
-%  ========================================================================
+
+%%  EKF DATA PROCESSING
+
 ekfExps = struct([]);
-% Tip (spec 3b): for manual imports you can also call KalmanExperiment.createfromQRC45().
+
 for k = 1:numel(ekfRuns)
   if ~isfile(ekfRuns(k).file)
     fprintf('>> Missing EKF run: %s\n', ekfRuns(k).file);
     continue;
   end
   [ke, raw] = loadEkfRun(ekfRuns(k), geom, R_meas_off_factor);
-  ekfExps(end+1).label = ekfRuns(k).label; %#ok<SAGROW>
+  ekfExps(end+1).label = ekfRuns(k).label; 
   ekfExps(end).ke      = ke;
   ekfExps(end).raw     = raw;
 end
@@ -153,15 +144,12 @@ if numel(ekfExps) >= ekfNominalIdx
   plotEkfMeasurements(keNom, imgDir, 0.95);
 end
 
-%% ========================================================================
-%  OPTIONAL: OFFLINE EKF RE-RUN (Q SWEEP TO PICK BEST)
-%  ========================================================================
-% Re-run the EKF in MATLAB using the logged inputs/measurements and a wide
-% sweep of Q scaling values. The "best" run is the one with the smallest
-% summed whitened innovation + log(|S|) score (approx. negative log-lik.).
+
+%%  OPTIONAL: OFFLINE EKF RE-RUN (Q SWEEP TO PICK BEST)
+
 doOfflineEkfSweep = true;
 offlineEkfFile = fullfile(dataDir, 'ekf_Q1_R1.csv');
-Q_sweep_scales = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 4, 8]; % wide range
+Q_sweep_scales = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 4, 8]; 
 
 if doOfflineEkfSweep && isfile(offlineEkfFile)
   Doff = parseQrcAssignment5(offlineEkfFile);
@@ -171,7 +159,7 @@ if doOfflineEkfSweep && isfile(offlineEkfFile)
   for k = 1:numel(Q_sweep_scales)
     Qk = Q_proc_nom * Q_sweep_scales(k);
     [xhatOff, diagOff] = rerunEkfOffline(Doff, Ts, geom, x0_default, P0_default, Qk, R_meas_nom);
-    offlineRuns(k).scale = Q_sweep_scales(k); %#ok<SAGROW>
+    offlineRuns(k).scale = Q_sweep_scales(k);
     offlineRuns(k).xhat  = xhatOff;
     offlineRuns(k).score = diagOff.negLogLik;
     offlineRuns(k).scoreInnov = diagOff.whitenedInnovSum;
@@ -210,9 +198,9 @@ if doOfflineEkfSweep && isfile(offlineEkfFile)
   title('Offline EKF Q sweep score (lower is better)');
 end
 
-%% ========================================================================
-%  LQR DATA PROCESSING (TRACKING ERRORS & CONTROL INPUTS)
-%  ========================================================================
+
+%%  LQR DATA PROCESSING (TRACKING ERRORS & CONTROL INPUTS)
+
 trackingRuns = struct([]);
 for k = 1:numel(lqrRuns)
   if ~isfile(lqrRuns(k).file)
@@ -231,9 +219,9 @@ if ~isempty(trackingRuns)
   plotLqrTracking(trackingRuns, imgDir);
 end
 
-%% ========================================================================
-%  FUNCTIONS
-%  ========================================================================
+
+%%  FUNCTIONS
+
 function [z, C] = measurementModel(x, alpha, beta, gamma, w1, w2)
 % Returns measurement prediction z = h(x) and Jacobian C = dh/dx.
 % w = [p q r] line parameters with px + qy = r.
@@ -266,7 +254,6 @@ function [z, C] = measurementModel(x, alpha, beta, gamma, w1, w2)
 end
 
 function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
-% Build a KalmanExperiment from a QRC CSV (assignment 5 mapping).
   D = parseQrcAssignment5(runCfg.file);
   N = numel(D.time);
   xhat = [D.xhat, D.yhat, D.thetahat]';
@@ -288,7 +275,7 @@ function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
   if ~isempty(idxNoMeas)
     Rall(:,:,idxNoMeas) = repmat(runCfg.R * R_off_factor, [1 1 numel(idxNoMeas)]); % mimic sensor drop-out
   end
-  y(:, ~hasMeas) = NaN;                         % show gaps when sensors are disabled
+  y(:, ~hasMeas) = NaN; % show gaps when sensors are disabled
 
   % Innovation covariance for plotting/consistency
   S = zeros(2,2,N);
@@ -312,7 +299,6 @@ function [ke, raw] = loadEkfRun(runCfg, geom, R_off_factor)
 end
 
 function D = parseQrcAssignment5(filename)
-% Parse a QRoboticsCenter CSV exported for assignment 5.
   opts = detectImportOptions(filename);
   opts.DataLines = [3 inf];
   opts.VariableNamesLine = 2;
@@ -359,12 +345,11 @@ function D = parseQrcAssignment5(filename)
 end
 
 function D = parseLqrCsv(filename)
-% Parse LQR experiment CSV (channels 0-11 from firmware)
   opts = detectImportOptions(filename);
   opts.DataLines = [3 inf];
   opts.VariableNamesLine = 2;
   T = readtable(filename, opts);
-  startRow = lqrButton2StartRow(filename); % align on button-2 (trajectory start)
+  startRow = lqrButton2StartRow(filename); 
   if ~isempty(startRow)
     startRow = min(startRow, height(T));
     T = T(startRow:end, :);
@@ -386,7 +371,6 @@ function D = parseLqrCsv(filename)
   end
   D.time = D.time(:);
 
-  % LQR channel mapping (0-11)
   D.x_ref       = getv({'ValueIn0','x_ref'}, zeros(N,1));
   D.y_ref       = getv({'ValueIn1','y_ref'}, zeros(N,1));
   D.theta_ref   = getv({'ValueIn2','theta_ref'}, zeros(N,1));
@@ -402,7 +386,6 @@ function D = parseLqrCsv(filename)
 end
 
 function startRow = lqrButton2StartRow(filename)
-% Manual offsets (1-based table rows) where button 2 was pressed per log.
   [~, name, ~] = fileparts(filename);
   switch lower(name)
     case 'lqr_a',    startRow = 162;
@@ -451,8 +434,6 @@ function th = wrapToPiLocal(th)
 end
 
 function [xhat, diagOut] = rerunEkfOffline(D, Ts, geom, x0, P0, Qk, Rk)
-% Re-run the same EKF structure as the Arduino firmware, using logged u/y.
-% Returns xhat as 3xN (x,y,theta).
 
   N = numel(D.time);
   xhat = zeros(3, N);
@@ -526,7 +507,6 @@ function [x, P, nu, S] = ekfCorrectWallRanges(x, P, y, geom, Rk)
 end
 
 function out = pickVar(T, names, default, N)
-% Return first matching column in table T for given candidate names.
   if ~iscell(names); names = {names}; end
   out = [];
   for i = 1:numel(names)
@@ -546,12 +526,9 @@ function out = pickVar(T, names, default, N)
 end
 
 function plotEkfStateSweep(ekfExps, imgDir, ~)
-% Per-state overlay of EKF estimates for different Q/R choices.
-% Color-agnostic: uses distinct line styles and markers for B/W printing.
-% No error bands are drawn for comparison clarity.
   lineStyles = {'-', '--', ':', '-.'};
   markers    = {'none', 'o', 's', 'd'};
-  markerStep = 80;  % plot a marker every N samples to avoid clutter
+  markerStep = 80; 
   stateNames = {'x_c [m]', 'y_c [m]', '\theta [rad]'};
   nExp = numel(ekfExps);
   for idx = 1:3
@@ -591,7 +568,6 @@ function plotEkfNominalBands(keNom, imgDir, confidence)
 end
 
 function plotEkfMeasurements(keNom, imgDir, confidence)
-% Save 95% confidence plots for measurements (color-agnostic).
 % Uses solid line for measurement, dashed for prediction, and dotted for bounds.
 % Confidence bounds based on R (measurement noise), not S (innovation cov).
   if nargin < 3, confidence = 0.95; end
@@ -605,9 +581,9 @@ function plotEkfMeasurements(keNom, imgDir, confidence)
     yMeas = keNom.y(idx, :);
     % Predicted measurement = y - innovation
     yPred = yMeas(:) - keNom.nu(idx, :)';
-    % Use R (measurement noise) for confidence bounds, clamped to avoid inflated values
+    % Use R (measurement noise) for confidence bounds
     Rdiag = squeeze(keNom.R(idx, idx, :));
-    Rdiag = min(Rdiag, 1);  % clamp inflated R values (sensor-off periods)
+    Rdiag = min(Rdiag, 1);  
     sigma = sqrt(Rdiag(:));
     upper = yPred + z_alpha * sigma;
     lower = yPred - z_alpha * sigma;
@@ -632,11 +608,9 @@ end
 
 function plotLqrTracking(trackingRuns, imgDir)
 % Plot tracking errors (world + body frames) and control signals for LQR tuning sweep.
-% Black & white compatible: uses distinct line styles and markers for print clarity.
-% Square aspect ratio figures for side-by-side LaTeX layout.
   lineStyles = {'-', '--', ':', '-.'};
   markers    = {'none', 'o', 's', '^'};
-  markerStep = 100;  % sparse markers to avoid clutter
+  markerStep = 100;  
   nRuns = numel(trackingRuns);
 
   % World-frame errors (square figure)

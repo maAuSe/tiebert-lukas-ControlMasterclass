@@ -44,7 +44,7 @@ class Robot : public MECOtron {
     // Feedforward velocity commands for the cart
     Matrix<2> desiredVelocityCart;
 
-    // LQR state feedback (spec 4)
+    // LQR state feedback 
     Matrix<2,3> _Klqr;        // feedback gain matrix from dlqr(Ad, Bd, Q_lqr, R_lqr)
     Matrix<3> _errorBody;     // tracking error in body frame e' = R(theta_hat) * e_world
 

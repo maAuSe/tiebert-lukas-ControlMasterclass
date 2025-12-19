@@ -1,18 +1,13 @@
 %% Assignment 3 - State feedback and state estimation
-% Pole-placement design, simulation, and experimental data plotting.
-% Data files use QRC format with columns:
-%   Time, ValueIn0 (ref), ValueIn1 (distance), ValueIn2 (xhat),
-%   ValueIn3 (v_ref), ValueIn4 (speedA), ValueIn5 (speedB),
-%   ValueIn6 (voltA), ValueIn7 (voltB), ValueIn8 (nu), ValueIn9 (xref)
 
 clear; close all; clc;
 
-%% ========================================================================
-%  CONFIGURATION
-%  ========================================================================
-Ts = 0.01;                    % s (scheduler period)
+ 
+%%  CONFIGURATION
+  
+Ts = 0.01;                    % s 
 r = 0.033;                    % m (wheel radius)
-Ad = 1;                       % discrete-time state matrix (scalar)
+Ad = 1;                       % discrete-time state matrix 
 Bd = Ts * r;                  % discrete-time input matrix (m/rad)
 Cd = -1; Dd = 0;              % measurement: y = -x (distance is positive)
 
@@ -44,25 +39,28 @@ estOnlyFiles = {
     fullfile(dataDir, 'est_only_L-035.csv'), -0.35, 200, 400;
 };
 
-% Controller-only files (to be recorded)
-% Format: {filename, K, startRow, endRow}
+% Controller-only files 
 ctrlOnlyFiles = {
     fullfile(dataDir, 'ctrl_only_K20.csv'),  20, 181, 581;
     fullfile(dataDir, 'ctrl_only_K40.csv'),  40, 235, 635;
     fullfile(dataDir, 'ctrl_only_K80.csv'),  80, 154, 554;
 };
 
-% Estimator + Controller files (to be recorded)
-% Format: {filename, label, startRow, endRow}
+% Estimator + Controller files 
 estCtrlFiles = {
     fullfile(dataDir, 'est_ctrl_good_init.csv'), 'Good initial estimate', 1450, 2250;
     fullfile(dataDir, 'est_ctrl_bad_init.csv'),  'Wrong initial estimate', 203, 1003;
 };
 
-%% ========================================================================
-%  1(c) CLOSED-LOOP POLE MAP VS K
-%  ========================================================================
-% Closed-loop pole: p_cl = A - B*K = 1 - Ts*r*K
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 1(c) - DESIGN OF STATE FEEDBACK CONTROLLER GAIN K
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% CLOSED-LOOP POLE MAP VS K
+
+% Closed-loop pole: z_cl = A - B*K = 1 - Ts*r*K
 % Wide K sweep to show full pole trajectory from z=1 toward z=-1
 K_pole_sweep = [0, 500, 1000, 1500, 2000, 2500, 3030, 4000, 5000, 6060];
 p_cl_pole = 1 - Bd * K_pole_sweep;
@@ -74,15 +72,12 @@ plot(cos(theta), sin(theta), 'k--', 'LineWidth', 1.2); % unit circle
 xline(0, ':k', 'HandleVisibility','off');
 yline(0, ':k', 'HandleVisibility','off');
 
-% Show pole trajectory as continuous line
 K_range = linspace(0, 6500, 200);
 p_cl_range = 1 - Bd * K_range;
 plot(p_cl_range, zeros(size(p_cl_range)), 'b-', 'LineWidth', 2, 'DisplayName', 'Pole trajectory');
 
-% Mark specific K values with distinct markers
 scatter(real(p_cl_pole), imag(p_cl_pole), 120, 'ko', 'filled', 'DisplayName', 'Poles for K values');
 
-% Add labels for key K values
 for i = 1:length(K_pole_sweep)
     if K_pole_sweep(i) == 0
         text(real(p_cl_pole(i))+0.05, 0.08, 'K=0', 'FontSize', 9, 'FontWeight', 'bold');
@@ -112,12 +107,11 @@ axis equal;
 legend('Unit circle', 'Pole trajectory', 'Poles for K values', 'Location', 'northwest');
 exportgraphics(gcf, fullfile(imgDir, 'pole_map_K.pdf'), 'ContentType', 'vector');
 
-%% ========================================================================
-%  1(c) SIMULATED STEP RESPONSES FOR K SWEEP
-%  ========================================================================
+
+%% SIMULATED STEP RESPONSES FOR K SWEEP
+
 figure('Name','Simulated Step Response vs K','Position',[100 100 700 450]);
 hold on; grid on;
-% Black-white friendly: use line styles and markers
 lineStyles = {'-', '--', ':'};
 markers = {'o', 's', '^'};
 markerInterval = 40;  % plot marker every N points
@@ -141,9 +135,15 @@ title('Simulated step response vs K (ideal velocity loop)');
 legend('Location','best');
 exportgraphics(gcf, fullfile(imgDir, 'step_K_sweep.pdf'), 'ContentType', 'vector');
 
-%% ========================================================================
-%  1(d) ESTIMATOR POLE MAP VS L
-%  ========================================================================
+
+
+%%*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 1(d) - DESIGN OF STATE ESTIMATOR GAIN L
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% ESTIMATOR POLE MAP VS L
+
 % Estimator pole: p_est = A - L*C = 1 - L*(-1) = 1 + L
 p_est = 1 + L_sweep;
 
@@ -168,12 +168,11 @@ plot(p_est_range, zeros(size(p_est_range)), 'r-', 'LineWidth', 1.5, 'DisplayName
 legend('Poles for L sweep', 'Pole trajectory', 'Location', 'northwest');
 exportgraphics(gcf, fullfile(imgDir, 'estimator_pole_map_L.pdf'), 'ContentType', 'vector');
 
-%% ========================================================================
-%  1(d) SIMULATED ESTIMATOR CONVERGENCE VS L
-%  ========================================================================
+
+%% SIMULATED ESTIMATOR CONVERGENCE VS L
+
 figure('Name','Simulated Estimator Convergence','Position',[100 100 700 450]);
 hold on; grid on;
-% Black-white friendly: use line styles and markers
 lineStyles = {'-', '--', ':'};
 markers = {'o', 's', '^'};
 markerInterval = 40;
@@ -205,14 +204,18 @@ title('Simulated estimator convergence vs L (cart stationary)');
 legend('Location','best');
 exportgraphics(gcf, fullfile(imgDir, 'simulated_estimator_L.pdf'), 'ContentType', 'vector');
 
-%% ========================================================================
-%  2(a) EXPERIMENTAL: ESTIMATOR-ONLY CONVERGENCE
-%  ========================================================================
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%  SECTION 2(a) - ESTIMATOR ONLY WITH WRONG INITIAL ESTIMATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% EXPERIMENTAL: ESTIMATOR-ONLY CONVERGENCE
+
 if ~isempty(estOnlyFiles)
     figure('Name','Experimental Estimator Convergence','Position',[100 100 800 500]);
     hold on; grid on;
-    % Black-white friendly: grayscale + line styles + markers
-    grayLevels = [0.0, 0.4, 0.7];  % dark to light gray
+    grayLevels = [0.0, 0.4, 0.7];  
     lineStyles = {'-', '--', ':'};
     markers = {'o', 's', '^'};
     markerInterval = 20;
@@ -252,13 +255,12 @@ if ~isempty(estOnlyFiles)
     exportgraphics(gcf, fullfile(imgDir, 'estimator_L_sweep.pdf'), 'ContentType', 'vector');
 end
 
-%% ========================================================================
-%  2(a) EXPERIMENTAL: INNOVATION SIGNAL
-%  ========================================================================
+
+%% EXPERIMENTAL: INNOVATION SIGNAL
+
 if ~isempty(estOnlyFiles)
     figure('Name','Innovation Signal','Position',[100 100 800 400]);
     hold on; grid on;
-    % Black-white friendly
     grayLevels = [0.0, 0.4, 0.7];
     lineStyles = {'-', '--', ':'};
     markers = {'o', 's', '^'};
@@ -292,14 +294,17 @@ if ~isempty(estOnlyFiles)
     exportgraphics(gcf, fullfile(imgDir, 'innovation_L_sweep.pdf'), 'ContentType', 'vector');
 end
 
-%% ========================================================================
-%  2(b) EXPERIMENTAL: CONTROLLER-ONLY STEP RESPONSES
-%  ========================================================================
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 2(b) - CONTROLLER ONLY, POSITION FEEDBACK
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%  EXPERIMENTAL: CONTROLLER-ONLY STEP RESPONSES
+
 if ~isempty(ctrlOnlyFiles)
-    % Position response plot
     figure('Name','Controller-Only Position Response','Position',[100 100 800 500]);
     hold on; grid on;
-    % Black-white friendly
     grayLevels = [0.0, 0.35, 0.6];
     lineStyles = {'-', '--', ':'};
     markers = {'o', 's', '^'};
@@ -372,14 +377,17 @@ if ~isempty(ctrlOnlyFiles)
     exportgraphics(gcf, fullfile(imgDir, 'controller_K_voltage.pdf'), 'ContentType', 'vector');
 end
 
-%% ========================================================================
-%  2(c) EXPERIMENTAL: ESTIMATOR + CONTROLLER
-%  ========================================================================
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECTION 2(c) - COMBINED ESTIMATOR + CONTROLLER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% EXPERIMENTAL: ESTIMATOR + CONTROLLER
+
 if ~isempty(estCtrlFiles)
-    % Combined plot
     figure('Name','Estimator + Controller','Position',[100 100 800 500]);
     hold on; grid on;
-    % Black-white friendly: distinct grayscale + line styles + markers
     grayLevels = [0.0, 0.5];
     lineStylesMeas = {':', '--'};  % measured: dotted/dashed (thin)
     lineStylesEst = {'-', '-.'};   % estimated: solid/dash-dot (thick)
@@ -446,52 +454,18 @@ if ~isempty(estCtrlFiles)
     end
 end
 
-%% ========================================================================
-%  THEORETICAL ANALYSIS: FULL CLOSED-LOOP POLES
-%  ========================================================================
-fprintf('\n========== THEORETICAL ANALYSIS ==========\n\n');
 
-fprintf('1(c) Closed-loop pole (state feedback, no estimator):\n');
-fprintf('     p_cl = 1 - Ts*r*K = 1 - %.4f*K\n', Bd);
-for i = 1:length(K_sweep)
-    fprintf('     K = %3d rad/(s*m) -> p_cl = %.4f\n', K_sweep(i), 1 - Bd*K_sweep(i));
-end
-fprintf('     Stability: |p_cl| < 1 requires K < %.1f rad/(s*m)\n', 2/Bd);
-
-fprintf('\n1(d) Estimator pole:\n');
-fprintf('     p_est = 1 + L\n');
-for i = 1:length(L_sweep)
-    fprintf('     L = %.2f -> p_est = %.2f\n', L_sweep(i), 1 + L_sweep(i));
-end
-fprintf('     Stability: |p_est| < 1 requires -2 < L < 0\n');
-
-fprintf('\n2(c) Full closed-loop poles (estimator + controller):\n');
-fprintf('     Controller pole: p_cl = %.4f (K = %d)\n', p_cl_nom, K_nom);
-fprintf('     Estimator pole (10x slower): p_est = %.4f (L = %.5f)\n', p_est_slow, L_slow);
-fprintf('     Separation principle: poles are {%.4f, %.4f}\n', p_cl_nom, p_est_slow);
-
-% Time constants
-tau_cl = -Ts / log(p_cl_nom);
-tau_est_slow = -Ts / log(p_est_slow);
-fprintf('\n     Time constants:\n');
-fprintf('       Controller: tau_cl = %.3f s\n', tau_cl);
-fprintf('       Slow estimator: tau_est = %.3f s (ratio = %.1f)\n', tau_est_slow, tau_est_slow/tau_cl);
-
-%% ========================================================================
-%  HELPER FUNCTION: READ QRC DATA
-%  ========================================================================
+ 
+%%  HELPER FUNCTION: READ QRC DATA
+ 
 function T = readQRCData(filename)
-% Read QRC CSV file and return table with named columns
-% QRC format: header line, column names, then data
     
-    % Read raw data, skipping header
     opts = detectImportOptions(filename);
-    opts.DataLines = [3 Inf];  % Skip first 2 lines (header + column names)
+    opts.DataLines = [3 Inf];  
     opts.VariableNamesLine = 2;
     
     rawData = readtable(filename, opts);
     
-    % Map to meaningful names
     T = table();
     T.Time = rawData.Time;
     T.reference = rawData.ValueIn0;

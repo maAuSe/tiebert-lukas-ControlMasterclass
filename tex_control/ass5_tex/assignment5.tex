@@ -45,7 +45,7 @@
 			\end{center}
 			\vspace{1cm}
 			\begin{center}
-				\textbf{Team members:}\\[2mm]
+				\textbf{Team 47:}\\[2mm]
 				Lefebure Tiebert (r0887630)\\
 				Campaert Lukas (r0885501)\\
 			\end{center}
@@ -281,7 +281,7 @@ The linear KF is appropriate when the system dynamics are linear or when the sta
 \subsection{Noise sources: measurement noise and process noise (3a)}
 
 The process noise covariance $Q$ accounts for discrepancies between the assumed kinematic model and the actual cart dynamics. Wheel slip constitutes a primary source, as the no-slip assumption is violated under acceleration, deceleration, or on low-friction surfaces. Velocity command tracking error also contributes, since the internal velocity control loop does not achieve perfect tracking and transient errors between commanded and realised wheel speeds propagate to pose estimation. Furthermore, the passive swivel wheel introduces unmodelled lateral forces and yaw disturbances, particularly during turns. Finally, geometric uncertainties arising from imprecise knowledge of wheel radius $r$ and wheelbase $2a$ cause systematic drift that manifests as process noise.
-
+\\ \\
 The measurement noise covariance $R$ accounts for uncertainty in the IR range measurements. Electronic noise in the IR sensor circuitry and quantisation in the ADC represent inherent sensor noise. Wall reflectivity variation poses an additional challenge, as IR sensors are sensitive to surface properties and non-uniform reflectivity causes range-dependent bias. Sensor mounting uncertainty, specifically errors in the measured offsets $\alpha$, $\beta$, and $\gamma$, directly biases the measurement equations. At oblique incidence angles, multipath and specular reflections can also cause erroneous range readings.
 
 \subsection{Extended Kalman filter design and tuning (3b)}
@@ -512,17 +512,17 @@ No feedforward signals were applied; the closed-loop system relied exclusively o
 \subsubsection{Effect of different choices of $Q_{\text{lqr}}$ and $R_{\text{lqr}}$}
 
 The experimental results reveal the characteristic trade-offs in LQR tuning:
+\begin{itemize}
+	\item \textbf{Convergence speed:} Higher $Q_{\text{lqr}}/R_{\text{lqr}}$ ratios (LQR-B, LQR-D) yield faster initial convergence. During the startup transient ($t < 1$~s), LQR-D reduces the longitudinal error $e'_x$ most rapidly. However, this aggressive tuning also amplifies the response to measurement noise, visible as increased high-frequency content in the control signals and slight oscillations in the heading error $e_\theta$.
 
-\textbf{Convergence speed.} Higher $Q_{\text{lqr}}/R_{\text{lqr}}$ ratios (LQR-B, LQR-D) yield faster initial convergence. During the startup transient ($t < 1$~s), LQR-D reduces the longitudinal error $e'_x$ most rapidly. However, this aggressive tuning also amplifies the response to measurement noise, visible as increased high-frequency content in the control signals and slight oscillations in the heading error $e_\theta$.
+	\item \textbf{Steady-state tracking:} All configurations converge to comparable steady-state errors during the straight-line phases, indicating that the integrator-free LQR does not eliminate static offsets. The residual $e_x \approx 1.5$--$2$~cm and $e_\theta \approx 0.02$--$0.04$~rad observed after $t = 14$~s reflect unmodelled disturbances (swivel wheel friction, wheel slip) rather than tuning deficiencies.
 
-\textbf{Steady-state tracking.} All configurations converge to comparable steady-state errors during the straight-line phases, indicating that the integrator-free LQR does not eliminate static offsets. The residual $e_x \approx 1.5$--$2$~cm and $e_\theta \approx 0.02$--$0.04$~rad observed after $t = 14$~s reflect unmodelled disturbances (swivel wheel friction, wheel slip) rather than tuning deficiencies.
+	\item \textbf{Turn behaviour:} During the $90^\circ$ turn ($5 < t < 9$~s), all controllers exhibit a characteristic dip in $e_\theta$ as the heading lags behind the reference. LQR-D recovers most rapidly post-turn, while LQR-C (conservative tuning) shows the slowest recovery. The lateral error $e'_y$ increases substantially during the turn due to the nonlinear coupling between heading and lateral position; the linearised error model~\eqref{eq:error_dynamics} captures this coupling only to first order.
 
-\textbf{Turn behaviour.} During the $90^\circ$ turn ($5 < t < 9$~s), all controllers exhibit a characteristic dip in $e_\theta$ as the heading lags behind the reference. LQR-D recovers most rapidly post-turn, while LQR-C (conservative tuning) shows the slowest recovery. The lateral error $e'_y$ increases substantially during the turn due to the nonlinear coupling between heading and lateral position; the linearised error model~\eqref{eq:error_dynamics} captures this coupling only to first order.
+	\item \textbf{Control effort:} Figure~\ref{fig:lqr_control} shows that aggressive tunings (LQR-D) demand larger rotational velocity commands $\omega$ during transients. The peak $|\omega|$ during the turn is comparable across configurations, as the reference trajectory itself prescribes a constant $\omega_{\text{ref}} = 0.44$~rad/s. The forward velocity $v$ is dominated by the $2$~cm/s reference; feedback corrections are small relative to this baseline.
 
-\textbf{Control effort.} Figure~\ref{fig:lqr_control} shows that aggressive tunings (LQR-D) demand larger rotational velocity commands $\omega$ during transients. The peak $|\omega|$ during the turn is comparable across configurations, as the reference trajectory itself prescribes a constant $\omega_{\text{ref}} = 0.44$~rad/s. The forward velocity $v$ is dominated by the $2$~cm/s reference; feedback corrections are small relative to this baseline.
-
-\textbf{Limitations.} Excessively high $Q_{\text{lqr}}/R_{\text{lqr}}$ ratios risk actuator saturation and excitation of unmodelled dynamics (e.g., wheel slip at high $\omega$). Additionally, the LQR design assumes perfect state knowledge; in practice, the EKF estimate $\hat{\boldsymbol{\xi}}$ is used, introducing additional uncertainty that aggressive tunings may amplify.
-
+	\item \textbf{Limitations:} Excessively high $Q_{\text{lqr}}/R_{\text{lqr}}$ ratios risk actuator saturation and excitation of unmodelled dynamics (e.g., wheel slip at high $\omega$). Additionally, the LQR design assumes perfect state knowledge; in practice, the EKF estimate $\hat{\boldsymbol{\xi}}$ is used, introducing additional uncertainty that aggressive tunings may amplify.
+\end{itemize}
 \subsubsection{Chosen values for $Q_{\text{lqr}}$ and $R_{\text{lqr}}$}
 
 Based on the experimental evaluation, the selected tuning is \textbf{LQR-D}:
@@ -539,7 +539,7 @@ This configuration provides the fastest convergence to the reference trajectory 
 	\label{eq:K_numerical}
 \end{equation}
 where the control law is $\mathbf{u} = -K \hat{\mathbf{e}}'$. The structure confirms the decoupling discussed in Section~4b: the forward velocity correction depends only on the longitudinal error $e'_x$, while the rotational velocity correction depends on both the lateral error $e'_y$ and the heading error $e'_\theta$. The gain $k_{11} = 29.95$ ensures rapid longitudinal error rejection. The opposite signs $k_{22} < 0$ and $k_{23} > 0$ arise because positive lateral error $e'_y$ requires negative $\omega$ correction (turn left), whereas positive heading error $e'_\theta$ requires positive $\omega$ correction (turn right to catch up).
-
+\\ \\
 The units of $Q_{\text{lqr}}$ are chosen such that the cost function~\eqref{eq:lqr_cost} is dimensionally consistent: since the state errors have units $[\text{m}, \text{m}, \text{rad}]$ and the inputs have units $[\text{m/s}, \text{rad/s}]$, the diagonal entries of $Q_{\text{lqr}}$ carry inverse squared units of the respective states, and those of $R_{\text{lqr}}$ carry squared time per squared input units. In practice, one tunes the dimensionless ratios $Q_{\text{lqr},ii}/R_{\text{lqr},jj}$ to achieve the desired transient behaviour.
 
 

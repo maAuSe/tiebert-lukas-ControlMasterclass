@@ -164,10 +164,10 @@ The \textbf{unfiltered simplified discrete-time models} are:
 \end{equation}
 Transforming these discrete-time models to continuous-time (with \textit{MATLAB}'s \textit{d2c} command) yields:
 \begin{equation}
-    G_{s,A}(s) = \frac{0.3677s^2 - 147.1s + 1.471e04}{s^2 + 237.1s + 7413},
+    \boxed{G_{s,A}(s) = \frac{0.3677s^2 - 147.1s + 1.471e04}{s^2 + 237.1s + 7413},}
 \end{equation}
 \begin{equation}
-    G_{s,B}(s) = \frac{0.3763s^2 - 150.5s + 1.505e04}{s^2 + 237s + 7408}.
+    \boxed{G_{s,B}(s) = \frac{0.3763s^2 - 150.5s + 1.505e04}{s^2 + 237s + 7408}.}
 \end{equation}
 
 
@@ -189,7 +189,7 @@ This yields the following requirement:
 \noindent Figure \ref{fig:Uncompensated-Bode} (\textit{Appendix A}) shows the Bode diagram of the uncompensated open-loop system $G_s(s)$, both for motor A and motor B. 
 The cross-over frequency $\omega_c$ where the phase of the uncompensated open-loop system equals -110° (or where the phase equals $-110°$ + 360° = 250°) is the same for both motors, and fixed directly by the specification:
 \begin{equation}
-    \omega_{c,A} = \omega_{c,B} = 61.7\; \text{rad/s}.
+    \boxed{\omega_{c,A} = \omega_{c,B} = 61.7\; \text{rad/s}.}
     %\omega_{c,\text{low}} = 2\pi \cdot 0.5~\text{rad/s}~(0.50~\text{Hz})
 \end{equation}
 
@@ -203,7 +203,7 @@ This design rule is mathematically expressed as:
 \end{equation}
 using a margin of $\phi_{PI}(\omega_c)$ = 15°, leading to:
 \begin{equation}
-    T_{i,A} = T_{i,B} = 0.0605\; \text{s}.
+    \boxed{T_{i,A} = T_{i,B} = 0.0605\; \text{s}.}
 	%T_{i,\text{low}} = 1.19~\text{s}
 \end{equation}
 
@@ -220,7 +220,7 @@ Figure \ref{fig:Compensated-Bode-without-K-A} shows the compensated open-loop sy
 Figures \ref{fig:Compensated-Bode-without-K-B} and \ref{fig:Compensated-Bode-with-K-B} show the same iterative process, but for motor B.
 The identified wheel models yield the following proportional gains:
 \begin{equation}
-    K_A = 0.8904, \quad K_B = 0.8663.
+    \boxed{K_A = 0.8904, \quad K_B = 0.8663.}
     %K_A^{\text{low}} = 0.489, \quad K_B^{\text{low}} = 0.477
 \end{equation}
 
@@ -576,9 +576,20 @@ Although the transient response is slowed down by the opposing force/torque, the
 \subsection{Controller design and validation with cross-over frequency of 0.5 $Hz$, under constant force disturbance (2c)} % Section 2(c)
 
 \paragraph{Experiment:} 
-With the redesigned PI controller, the cross-over frequency $\omega_c$ is reduced to about $0.5\;Hz$ ($\approx 3.14\;rad/s$), 
+With the redesigned PI controller, the cross-over frequency $\omega_c$ is reduced to about $0.5\;Hz$ or
+\begin{equation}
+	\boxed{\omega_c^{low-BW} \approx 3.14\;rad/s,}
+\end{equation}
 which lowers the closed-loop bandwidth $\omega_{BW}$ and yields a more conservative controller. The complete design procedure described in Section 1.2 is repeated for the low-bandwidth controller.
-Using the identified values of the proportional gain $K$ ($K_A = 0.4886, \;K_B = 0.4771$) and integration time $T_i$ ($T_{i,A} = T_{i,B} = 1.1879\;s$), the resulting low-bandwidth PI controllers for motor A and motor B are given by:
+Using the identified values of the proportional gain $K$ 
+\begin{equation}
+	\boxed{K_A^{low-BW} = 0.4886, \quad K_B^{low-BW} = 0.4771,}
+\end{equation}
+and integration time 
+\begin{equation}
+	\boxed{T_{i,A}^{low-BW} = T_{i,B}^{low-BW} = 1.1879\;s,}
+\end{equation}
+the resulting low-bandwidth PI controllers for motor A and motor B are given by:
 \begin{equation}
     D_A^{low-BW}(s) = \frac{0.4886}{s}(s + \frac{1}{1.1879}),
 \end{equation}
